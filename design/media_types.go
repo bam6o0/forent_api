@@ -5,6 +5,73 @@ import (
 	. "github.com/goadesign/goa/design/apidsl"
 )
 
+// UserMedia defines the media type used to render users.
+var UserMedia = MediaType("application/vnd.user+json", func() {
+	Description("user")
+	Attributes(func() { // Attributes define the media type shape.
+		Attribute("id", Integer, "Unique user ID")
+		Attribute("first_name", String, "first name")
+		Attribute("last_name", String, "last_name")
+		Attribute("email", String, "email")
+		Attribute("password", String, "password")
+
+		Required("id", "first_name", "last_name", "email", "password")
+	})
+	View("default", func() { // View defines a rendering of the media type.
+		Attribute("id") // Media types may have multiple views and must have a "default" view.
+		Attribute("first_name")
+		Attribute("last_name")
+		Attribute("email")
+		Attribute("password")
+	})
+})
+
+// ProfileMedia defines the media type used to render profoles.
+var ProfileMedia = MediaType("application/vnd.profile+json", func() {
+	Description("profile")
+	Attributes(func() { // Attributes define the media type shape.
+		Attribute("id", Integer, "Unique profile ID")
+		Attribute("user_id", Integer, "user id")
+		Attribute("introduction", String, "user introduciton")
+		Attribute("address", String, "address")
+		Attribute("phone", Integer, "phone number")
+		Attribute("avatar_image", String, "avatar image url")
+		Attribute("cover_image", String, "cover image url")
+
+		Required("id", "user_id", "introduction", "email", "password", "avatar_image", "cover_image")
+	})
+	View("default", func() { // View defines a rendering of the media type.
+		Attribute("id") // Media types may have multiple views and must have a "default" view.
+		Attribute("user_id")
+		Attribute("introduction")
+		Attribute("address")
+		Attribute("phone")
+		Attribute("avatar_image")
+		Attribute("cover_image")
+	})
+})
+
+// AuthenticationMedia defines the media type used to render Authentications.
+var AuthenticationMedia = MediaType("application/vnd.authentication+json", func() {
+	Description("Authentication")
+	Attributes(func() { // Attributes define the media type shape.
+		Attribute("id", Integer, "Unique auth ID")
+		Attribute("user_id", Integer, "user id")
+		Attribute("identification", Boolean, "identification flag")
+		Attribute("email", Boolean, "address flag")
+		Attribute("phone", Boolean, "phone flag")
+
+		Required("id", "user_id", "identification", "email", "phone")
+	})
+	View("default", func() { // View defines a rendering of the media type.
+		Attribute("id") // Media types may have multiple views and must have a "default" view.
+		Attribute("user_id")
+		Attribute("identification")
+		Attribute("email")
+		Attribute("phone")
+	})
+})
+
 // ItemMedia defines the media type used to render items.
 var ItemMedia = MediaType("application/vnd.item+json", func() {
 	Description("A item of user")
@@ -37,5 +104,283 @@ var ItemMedia = MediaType("application/vnd.item+json", func() {
 		Attribute("image2")
 		Attribute("image3")
 		Attribute("image4")
+	})
+})
+
+// ArticleMedia defines the media type used to render Article.
+var ArticleMedia = MediaType("application/vnd.article+json", func() {
+	Description("article")
+	Attributes(func() { // Attributes define the media type shape.
+		Attribute("id", Integer, "Unique article ID")
+		Attribute("user_id", Integer, "user ID")
+		Attribute("item_id", Integer, "item ID")
+		Attribute("category_id", Integer, "category ID")
+
+		Attribute("title1", String, "title 1")
+		Attribute("title2", String, "title 2")
+		Attribute("title3", String, "title 3")
+		Attribute("title4", String, "title 4")
+		Attribute("title5", String, "title 5")
+
+		Attribute("body1", String, "body 1")
+		Attribute("body2", String, "body 2")
+		Attribute("body3", String, "body 3")
+		Attribute("body4", String, "body 4")
+		Attribute("body5", String, "body 5")
+
+		Attribute("introduction", String, "introduction")
+
+		Attribute("image1", String, "item image 1")
+		Attribute("image2", String, "item image 2")
+		Attribute("image3", String, "item image 3")
+		Attribute("image4", String, "item image 4")
+		Attribute("image5", String, "item image 5")
+
+		Attribute("item_description", String, "item description")
+
+		Required(
+			"id",
+			"user_id",
+			"category_id",
+			"item_id",
+			"title1",
+			"title2",
+			"title3",
+			"title4",
+			"title5",
+			"body1",
+			"body2",
+			"body3",
+			"body4",
+			"body5",
+			"introduction",
+			"item_description",
+			"image1",
+			"image2",
+			"image3",
+			"image4",
+			"image5",
+		)
+	})
+	View("default", func() { // View defines a rendering of the media type.
+		Attribute("id") // Media types may have multiple views and must have a "default" view.
+		Attribute("user_id")
+		Attribute("item_id")
+		Attribute("category_id")
+		Attribute("title1")
+		Attribute("title2")
+		Attribute("title3")
+		Attribute("title4")
+		Attribute("title5")
+		Attribute("body1")
+		Attribute("body2")
+		Attribute("body3")
+		Attribute("body4")
+		Attribute("body5")
+		Attribute("introduction")
+		Attribute("image1")
+		Attribute("image2")
+		Attribute("image3")
+		Attribute("image4")
+		Attribute("image5")
+		Attribute("item_description")
+
+	})
+})
+
+// OfferMedia defines the media type used to render Offer.
+var OfferMedia = MediaType("application/vnd.offer+json", func() {
+	Description("Offer")
+	Attributes(func() { // Attributes define the media type shape.
+		Attribute("id", Integer, "Unique offer ID")
+		Attribute("user_id", Integer, "offer user id")
+		Attribute("item_id", Integer, "item id")
+		Attribute("price", Integer, "offer price")
+		Attribute("start_datatime", DateTime, "rental start at")
+		Attribute("end_datatime", DateTime, "rental end at")
+		Attribute("accepted", Boolean, "offer accept")
+
+		Required("id", "user_id", "item_id", "price", "start_datatime", "end_datatime", "accepted")
+	})
+	View("default", func() { // View defines a rendering of the media type.
+		Attribute("id") // Media types may have multiple views and must have a "default" view.
+		Attribute("user_id")
+		Attribute("item_id")
+		Attribute("price")
+		Attribute("start_datatime")
+		Attribute("end_datatime")
+		Attribute("accepted")
+	})
+})
+
+// RentalMedia defines the media type used to render Rental.
+var RentalMedia = MediaType("application/vnd.rental+json", func() {
+	Description("Offer")
+	Attributes(func() { // Attributes define the media type shape.
+		Attribute("id", Integer, "Unique rental ID")
+		Attribute("user_id", Integer, "user id")
+		Attribute("item_id", Integer, "item id")
+		Attribute("offer_id", Integer, "offer id")
+		Attribute("delivered_at", DateTime, "delivered at")
+		Attribute("returned_at", DateTime, "returned at")
+
+		Required("id", "user_id", "item_id", "offer_id", "delivered_at", "returned_at")
+	})
+	View("default", func() { // View defines a rendering of the media type.
+		Attribute("id") // Media types may have multiple views and must have a "default" view.
+		Attribute("user_id")
+		Attribute("item_id")
+		Attribute("offer_id")
+		Attribute("delivered_at")
+		Attribute("returned_at")
+	})
+})
+
+// CommentMedia defines the media type used to render Comment.
+var CommentMedia = MediaType("application/vnd.comment+json", func() {
+	Description("Comment")
+	Attributes(func() { // Attributes define the media type shape.
+		Attribute("id", Integer, "Unique comment ID")
+		Attribute("user_id", Integer, "comment user id")
+		Attribute("item_id", Integer, "item id")
+		Attribute("text", String, "comment text")
+		Attribute("reply_to", Integer, "comment_id or null")
+
+		Required("id", "user_id", "item_id", "text", "reply_to")
+	})
+	View("default", func() { // View defines a rendering of the media type.
+		Attribute("id") // Media types may have multiple views and must have a "default" view.
+		Attribute("user_id")
+		Attribute("item_id")
+		Attribute("text")
+		Attribute("reply_to")
+	})
+})
+
+// ReviewMedia defines the media type used to render Review.
+var ReviewMedia = MediaType("application/vnd.review+json", func() {
+	Description("Review")
+	Attributes(func() { // Attributes define the media type shape.
+		Attribute("id", Integer, "Unique review ID")
+		Attribute("user_id", Integer, "review user id")
+		Attribute("item_id", Integer, "item id")
+		Attribute("text", String, "review text")
+		Attribute("score", Integer, "score")
+		Attribute("image", String, "image")
+
+		Required("id", "user_id", "item_id", "text", "score", "image")
+	})
+	View("default", func() { // View defines a rendering of the media type.
+		Attribute("id") // Media types may have multiple views and must have a "default" view.
+		Attribute("user_id")
+		Attribute("item_id")
+		Attribute("text")
+		Attribute("score")
+		Attribute("image")
+	})
+})
+
+// ImpressionMedia defines the media type used to render Impression.
+var ImpressionMedia = MediaType("application/vnd.impression+json", func() {
+	Description("Impression")
+	Attributes(func() { // Attributes define the media type shape.
+		Attribute("id", Integer, "Unique impression ID")
+		Attribute("reviewer_id", Integer, "reviewer user id")
+		Attribute("reviewee_id", Integer, "reviewee user id")
+		Attribute("text", String, "impression text")
+		Attribute("score", Integer, "impression score")
+
+		Required("id", "reviewer_id", "reviewee_id", "text", "score")
+	})
+	View("default", func() { // View defines a rendering of the media type.
+		Attribute("id") // Media types may have multiple views and must have a "default" view.
+		Attribute("reviewer_id")
+		Attribute("reviewee_id")
+		Attribute("text")
+		Attribute("score")
+	})
+})
+
+// CategoryMedia defines the media type used to render Category.
+var CategoryMedia = MediaType("application/vnd.category+json", func() {
+	Description("Category")
+	Attributes(func() { // Attributes define the media type shape.
+		Attribute("id", Integer, "Unique category ID")
+		Attribute("middle_category_id", Integer, "middle_category_id")
+		Attribute("name", String, "category name")
+		Attribute("name_base", String, "category kana name")
+		Attribute("name_en", String, "category english name")
+
+		Required("id", "middle_category_id", "name", "name_base", "name_en")
+	})
+	View("default", func() { // View defines a rendering of the media type.
+		Attribute("id") // Media types may have multiple views and must have a "default" view.
+		Attribute("middle_category_id")
+		Attribute("name")
+		Attribute("name_base")
+		Attribute("name_en")
+	})
+})
+
+// MiddleCategoryMedia defines the media type used to render MiddleCategory.
+var MiddleCategoryMedia = MediaType("application/vnd.middlecategory+json", func() {
+	Description("Middle Category")
+	Attributes(func() { // Attributes define the media type shape.
+		Attribute("id", Integer, "Unique middle category ID")
+		Attribute("large_category_id", Integer, "large category id")
+		Attribute("name", String, "category name")
+		Attribute("name_base", String, "category kana name")
+		Attribute("name_en", String, "category english name")
+
+		Required("id", "large_category_id", "name", "name_base", "name_en")
+	})
+	View("default", func() { // View defines a rendering of the media type.
+		Attribute("id") // Media types may have multiple views and must have a "default" view.
+		Attribute("large_category_id")
+		Attribute("name")
+		Attribute("name_base")
+		Attribute("name_en")
+	})
+})
+
+// LargeCategoryMedia defines the media type used to render LargeCategory.
+var LargeCategoryMedia = MediaType("application/vnd.largecategory+json", func() {
+	Description("Large Category")
+	Attributes(func() { // Attributes define the media type shape.
+		Attribute("id", Integer, "Unique large category ID")
+		Attribute("name", String, "category name")
+		Attribute("name_base", String, "category kana name")
+		Attribute("name_en", String, "category english name")
+
+		Required("id", "name", "name_base", "name_en")
+	})
+	View("default", func() { // View defines a rendering of the media type.
+		Attribute("id") // Media types may have multiple views and must have a "default" view.
+		Attribute("name")
+		Attribute("name_base")
+		Attribute("name_en")
+	})
+})
+
+// PlaceMedia defines the media type used to render Place.
+var PlaceMedia = MediaType("application/vnd.place+json", func() {
+	Description("Place")
+	Attributes(func() { // Attributes define the media type shape.
+		Attribute("id", Integer, "Unique place ID")
+		Attribute("name", String, "place name")
+		Attribute("latitude", Number, "place latitude")
+		Attribute("longitude", Number, "place longitude")
+		Attribute("google_place_id", String, "google place id")
+		Attribute("type", Integer, "receive type")
+
+		Required("id", "name", "latitude", "longitude", "google_place_id", "name_base", "type")
+	})
+	View("default", func() { // View defines a rendering of the media type.
+		Attribute("id") // Media types may have multiple views and must have a "default" view.
+		Attribute("name")
+		Attribute("latitude")
+		Attribute("longitude")
+		Attribute("google_place_id")
+		Attribute("type")
 	})
 })
