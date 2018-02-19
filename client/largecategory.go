@@ -15,7 +15,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"strconv"
 )
 
 // ListLargecategoryPath computes a request path to the list action of largecategory.
@@ -35,36 +34,6 @@ func (c *Client) ListLargecategory(ctx context.Context, path string) (*http.Resp
 
 // NewListLargecategoryRequest create the request corresponding to the list action endpoint of the largecategory resource.
 func (c *Client) NewListLargecategoryRequest(ctx context.Context, path string) (*http.Request, error) {
-	scheme := c.Scheme
-	if scheme == "" {
-		scheme = "http"
-	}
-	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-	return req, nil
-}
-
-// ShowLargecategoryPath computes a request path to the show action of largecategory.
-func ShowLargecategoryPath(largecategoryID int) string {
-	param0 := strconv.Itoa(largecategoryID)
-
-	return fmt.Sprintf("/largecategories/%s", param0)
-}
-
-// Get largecategory by id
-func (c *Client) ShowLargecategory(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewShowLargecategoryRequest(ctx, path)
-	if err != nil {
-		return nil, err
-	}
-	return c.Client.Do(ctx, req)
-}
-
-// NewShowLargecategoryRequest create the request corresponding to the show action endpoint of the largecategory resource.
-func (c *Client) NewShowLargecategoryRequest(ctx context.Context, path string) (*http.Request, error) {
 	scheme := c.Scheme
 	if scheme == "" {
 		scheme = "http"

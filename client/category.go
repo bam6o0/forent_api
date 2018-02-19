@@ -11,22 +11,29 @@
 package client
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"net/http"
 	"net/url"
-	"strconv"
 )
 
-// ListCategoryPath computes a request path to the list action of category.
-func ListCategoryPath() string {
+// ListCategoryPayload is the category list action payload.
+type ListCategoryPayload struct {
+	// middlecategory id
+	MiddlecategoryID *int `form:"middlecategory_id,omitempty" json:"middlecategory_id,omitempty" xml:"middlecategory_id,omitempty"`
+}
 
-	return fmt.Sprintf("/categories")
+// ListCategoryPath computes a request path to the list action of category.
+func ListCategoryPath(middlecategoryID string) string {
+	param0 := middlecategoryID
+
+	return fmt.Sprintf("/categories/%s", param0)
 }
 
 // Retrieve all categories.
-func (c *Client) ListCategory(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewListCategoryRequest(ctx, path)
+func (c *Client) ListCategory(ctx context.Context, path string, payload *ListCategoryPayload, contentType string) (*http.Response, error) {
+	req, err := c.NewListCategoryRequest(ctx, path, payload, contentType)
 	if err != nil {
 		return nil, err
 	}
@@ -34,45 +41,29 @@ func (c *Client) ListCategory(ctx context.Context, path string) (*http.Response,
 }
 
 // NewListCategoryRequest create the request corresponding to the list action endpoint of the category resource.
-func (c *Client) NewListCategoryRequest(ctx context.Context, path string) (*http.Request, error) {
+func (c *Client) NewListCategoryRequest(ctx context.Context, path string, payload *ListCategoryPayload, contentType string) (*http.Request, error) {
+	var body bytes.Buffer
+	if contentType == "" {
+		contentType = "*/*" // Use default encoder
+	}
+	err := c.Encoder.Encode(payload, &body, contentType)
+	if err != nil {
+		return nil, fmt.Errorf("failed to encode body: %s", err)
+	}
 	scheme := c.Scheme
 	if scheme == "" {
 		scheme = "http"
 	}
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
+	req, err := http.NewRequest("GET", u.String(), &body)
 	if err != nil {
 		return nil, err
 	}
-	return req, nil
-}
-
-// ShowCategoryPath computes a request path to the show action of category.
-func ShowCategoryPath(categoryID int) string {
-	param0 := strconv.Itoa(categoryID)
-
-	return fmt.Sprintf("/categories/%s", param0)
-}
-
-// Get category by id
-func (c *Client) ShowCategory(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewShowCategoryRequest(ctx, path)
-	if err != nil {
-		return nil, err
-	}
-	return c.Client.Do(ctx, req)
-}
-
-// NewShowCategoryRequest create the request corresponding to the show action endpoint of the category resource.
-func (c *Client) NewShowCategoryRequest(ctx context.Context, path string) (*http.Request, error) {
-	scheme := c.Scheme
-	if scheme == "" {
-		scheme = "http"
-	}
-	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
-	if err != nil {
-		return nil, err
+	header := req.Header
+	if contentType == "*/*" {
+		header.Set("Content-Type", "application/json")
+	} else {
+		header.Set("Content-Type", contentType)
 	}
 	return req, nil
 }

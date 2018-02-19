@@ -387,6 +387,8 @@ type ListCategoryContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
+	MiddlecategoryID string
+	Payload          *ListCategoryPayload
 }
 
 // NewListCategoryContext parses the incoming request URL and body, performs validations and creates the
@@ -398,7 +400,33 @@ func NewListCategoryContext(ctx context.Context, r *http.Request, service *goa.S
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := ListCategoryContext{Context: ctx, ResponseData: resp, RequestData: req}
+	paramMiddlecategoryID := req.Params["middlecategoryID"]
+	if len(paramMiddlecategoryID) > 0 {
+		rawMiddlecategoryID := paramMiddlecategoryID[0]
+		rctx.MiddlecategoryID = rawMiddlecategoryID
+	}
 	return &rctx, err
+}
+
+// listCategoryPayload is the category list action payload.
+type listCategoryPayload struct {
+	// middlecategory id
+	MiddlecategoryID *int `form:"middlecategory_id,omitempty" json:"middlecategory_id,omitempty" xml:"middlecategory_id,omitempty"`
+}
+
+// Publicize creates ListCategoryPayload from listCategoryPayload
+func (payload *listCategoryPayload) Publicize() *ListCategoryPayload {
+	var pub ListCategoryPayload
+	if payload.MiddlecategoryID != nil {
+		pub.MiddlecategoryID = payload.MiddlecategoryID
+	}
+	return &pub
+}
+
+// ListCategoryPayload is the category list action payload.
+type ListCategoryPayload struct {
+	// middlecategory id
+	MiddlecategoryID *int `form:"middlecategory_id,omitempty" json:"middlecategory_id,omitempty" xml:"middlecategory_id,omitempty"`
 }
 
 // OK sends a HTTP response with status code 200.
@@ -410,49 +438,6 @@ func (ctx *ListCategoryContext) OK(r CategoryCollection) error {
 		r = CategoryCollection{}
 	}
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// ShowCategoryContext provides the category show action context.
-type ShowCategoryContext struct {
-	context.Context
-	*goa.ResponseData
-	*goa.RequestData
-	CategoryID int
-}
-
-// NewShowCategoryContext parses the incoming request URL and body, performs validations and creates the
-// context used by the category controller show action.
-func NewShowCategoryContext(ctx context.Context, r *http.Request, service *goa.Service) (*ShowCategoryContext, error) {
-	var err error
-	resp := goa.ContextResponse(ctx)
-	resp.Service = service
-	req := goa.ContextRequest(ctx)
-	req.Request = r
-	rctx := ShowCategoryContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramCategoryID := req.Params["categoryID"]
-	if len(paramCategoryID) > 0 {
-		rawCategoryID := paramCategoryID[0]
-		if categoryID, err2 := strconv.Atoi(rawCategoryID); err2 == nil {
-			rctx.CategoryID = categoryID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("categoryID", rawCategoryID, "integer"))
-		}
-	}
-	return &rctx, err
-}
-
-// OK sends a HTTP response with status code 200.
-func (ctx *ShowCategoryContext) OK(r *Category) error {
-	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.category+json")
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ShowCategoryContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
 }
 
 // CreateCommentContext provides the comment create action context.
@@ -1108,54 +1093,13 @@ func (ctx *ListLargecategoryContext) OK(r LargecategoryCollection) error {
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
 }
 
-// ShowLargecategoryContext provides the largecategory show action context.
-type ShowLargecategoryContext struct {
-	context.Context
-	*goa.ResponseData
-	*goa.RequestData
-	LargecategoryID int
-}
-
-// NewShowLargecategoryContext parses the incoming request URL and body, performs validations and creates the
-// context used by the largecategory controller show action.
-func NewShowLargecategoryContext(ctx context.Context, r *http.Request, service *goa.Service) (*ShowLargecategoryContext, error) {
-	var err error
-	resp := goa.ContextResponse(ctx)
-	resp.Service = service
-	req := goa.ContextRequest(ctx)
-	req.Request = r
-	rctx := ShowLargecategoryContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramLargecategoryID := req.Params["largecategoryID"]
-	if len(paramLargecategoryID) > 0 {
-		rawLargecategoryID := paramLargecategoryID[0]
-		if largecategoryID, err2 := strconv.Atoi(rawLargecategoryID); err2 == nil {
-			rctx.LargecategoryID = largecategoryID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("largecategoryID", rawLargecategoryID, "integer"))
-		}
-	}
-	return &rctx, err
-}
-
-// OK sends a HTTP response with status code 200.
-func (ctx *ShowLargecategoryContext) OK(r *Largecategory) error {
-	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.largecategory+json")
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ShowLargecategoryContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
-}
-
 // ListMiddlecategoryContext provides the middlecategory list action context.
 type ListMiddlecategoryContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
+	LargecategoryID string
+	Payload         *ListMiddlecategoryPayload
 }
 
 // NewListMiddlecategoryContext parses the incoming request URL and body, performs validations and creates the
@@ -1167,7 +1111,33 @@ func NewListMiddlecategoryContext(ctx context.Context, r *http.Request, service 
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := ListMiddlecategoryContext{Context: ctx, ResponseData: resp, RequestData: req}
+	paramLargecategoryID := req.Params["largecategoryID"]
+	if len(paramLargecategoryID) > 0 {
+		rawLargecategoryID := paramLargecategoryID[0]
+		rctx.LargecategoryID = rawLargecategoryID
+	}
 	return &rctx, err
+}
+
+// listMiddlecategoryPayload is the middlecategory list action payload.
+type listMiddlecategoryPayload struct {
+	// largecategory id
+	LargecategoryID *int `form:"largecategory_id,omitempty" json:"largecategory_id,omitempty" xml:"largecategory_id,omitempty"`
+}
+
+// Publicize creates ListMiddlecategoryPayload from listMiddlecategoryPayload
+func (payload *listMiddlecategoryPayload) Publicize() *ListMiddlecategoryPayload {
+	var pub ListMiddlecategoryPayload
+	if payload.LargecategoryID != nil {
+		pub.LargecategoryID = payload.LargecategoryID
+	}
+	return &pub
+}
+
+// ListMiddlecategoryPayload is the middlecategory list action payload.
+type ListMiddlecategoryPayload struct {
+	// largecategory id
+	LargecategoryID *int `form:"largecategory_id,omitempty" json:"largecategory_id,omitempty" xml:"largecategory_id,omitempty"`
 }
 
 // OK sends a HTTP response with status code 200.
@@ -1179,49 +1149,6 @@ func (ctx *ListMiddlecategoryContext) OK(r MiddlecategoryCollection) error {
 		r = MiddlecategoryCollection{}
 	}
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// ShowMiddlecategoryContext provides the middlecategory show action context.
-type ShowMiddlecategoryContext struct {
-	context.Context
-	*goa.ResponseData
-	*goa.RequestData
-	MiddlecategoryID int
-}
-
-// NewShowMiddlecategoryContext parses the incoming request URL and body, performs validations and creates the
-// context used by the middlecategory controller show action.
-func NewShowMiddlecategoryContext(ctx context.Context, r *http.Request, service *goa.Service) (*ShowMiddlecategoryContext, error) {
-	var err error
-	resp := goa.ContextResponse(ctx)
-	resp.Service = service
-	req := goa.ContextRequest(ctx)
-	req.Request = r
-	rctx := ShowMiddlecategoryContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramMiddlecategoryID := req.Params["middlecategoryID"]
-	if len(paramMiddlecategoryID) > 0 {
-		rawMiddlecategoryID := paramMiddlecategoryID[0]
-		if middlecategoryID, err2 := strconv.Atoi(rawMiddlecategoryID); err2 == nil {
-			rctx.MiddlecategoryID = middlecategoryID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("middlecategoryID", rawMiddlecategoryID, "integer"))
-		}
-	}
-	return &rctx, err
-}
-
-// OK sends a HTTP response with status code 200.
-func (ctx *ShowMiddlecategoryContext) OK(r *Middlecategory) error {
-	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.middlecategory+json")
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ShowMiddlecategoryContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
 }
 
 // CreateOfferContext provides the offer create action context.

@@ -27,12 +27,6 @@ func AuthenticationHref(userID interface{}) string {
 	return fmt.Sprintf("/authentications/%v", paramuserID)
 }
 
-// CategoryHref returns the resource href.
-func CategoryHref(categoryID interface{}) string {
-	paramcategoryID := strings.TrimLeftFunc(fmt.Sprintf("%v", categoryID), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/categories/%v", paramcategoryID)
-}
-
 // CommentHref returns the resource href.
 func CommentHref(itemID interface{}) string {
 	paramitemID := strings.TrimLeftFunc(fmt.Sprintf("%v", itemID), func(r rune) bool { return r == '/' })
@@ -43,18 +37,6 @@ func CommentHref(itemID interface{}) string {
 func ItemHref(itemID interface{}) string {
 	paramitemID := strings.TrimLeftFunc(fmt.Sprintf("%v", itemID), func(r rune) bool { return r == '/' })
 	return fmt.Sprintf("/items/%v", paramitemID)
-}
-
-// LargecategoryHref returns the resource href.
-func LargecategoryHref(largecategoryID interface{}) string {
-	paramlargecategoryID := strings.TrimLeftFunc(fmt.Sprintf("%v", largecategoryID), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/largecategories/%v", paramlargecategoryID)
-}
-
-// MiddlecategoryHref returns the resource href.
-func MiddlecategoryHref(middlecategoryID interface{}) string {
-	parammiddlecategoryID := strings.TrimLeftFunc(fmt.Sprintf("%v", middlecategoryID), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/middlecategories/%v", parammiddlecategoryID)
 }
 
 // OfferHref returns the resource href.

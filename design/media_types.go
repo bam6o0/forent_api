@@ -304,7 +304,7 @@ var Category = MediaType("application/vnd.category+json", func() {
 	Description("Category")
 	Attributes(func() { // Attributes define the media type shape.
 		Attribute("id", Integer, "Unique category ID")
-		Attribute("middle_category_id", Integer, "middle_category_id")
+		Attribute("middle_category_id", Integer, "middle category id")
 		Attribute("name", String, "category name")
 		Attribute("name_base", String, "category kana name")
 		Attribute("name_en", String, "category english name")

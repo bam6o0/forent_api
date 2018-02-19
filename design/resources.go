@@ -410,20 +410,13 @@ var _ = Resource("category", func() { // Resources group related API endpoints
 
 	Action("list", func() {
 		Routing(
-			GET(""),
+			GET("/:middlecategoryID"),
 		)
+		Payload(func() {
+			Param("middlecategory_id", Integer, "middlecategory id")
+		})
 		Description("Retrieve all categories.")
 		Response(OK, CollectionOf(Category))
-	})
-
-	Action("show", func() { // Actions define a single API endpoint together
-		Description("Get category by id") // with its path, parameters (both path
-		Routing(GET("/:categoryID"))      // parameters and querystring values) and payload
-		Params(func() {                   // (shape of the request body).
-			Param("categoryID", Integer, "category ID")
-		})
-		Response(OK)       // Responses define the shape and status code
-		Response(NotFound) // of HTTP responses.
 	})
 
 })
@@ -435,22 +428,14 @@ var _ = Resource("middlecategory", func() { // Resources group related API endpo
 
 	Action("list", func() {
 		Routing(
-			GET(""),
+			GET("/:largecategoryID"),
 		)
+		Payload(func() {
+			Param("largecategory_id", Integer, "largecategory id")
+		})
 		Description("Retrieve all middlecategories.")
 		Response(OK, CollectionOf(MiddleCategory))
 	})
-
-	Action("show", func() { // Actions define a single API endpoint together
-		Description("Get middlecategory by id") // with its path, parameters (both path
-		Routing(GET("/:middlecategoryID"))      // parameters and querystring values) and payload
-		Params(func() {                         // (shape of the request body).
-			Param("middlecategoryID", Integer, "middlecategory ID")
-		})
-		Response(OK)       // Responses define the shape and status code
-		Response(NotFound) // of HTTP responses.
-	})
-
 })
 
 // LargeCategory
@@ -464,16 +449,6 @@ var _ = Resource("largecategory", func() { // Resources group related API endpoi
 		)
 		Description("Retrieve all largecategories.")
 		Response(OK, CollectionOf(LargeCategory))
-	})
-
-	Action("show", func() { // Actions define a single API endpoint together
-		Description("Get largecategory by id") // with its path, parameters (both path
-		Routing(GET("/:largecategoryID"))      // parameters and querystring values) and payload
-		Params(func() {                        // (shape of the request body).
-			Param("largecategoryID", Integer, "largecategory ID")
-		})
-		Response(OK)       // Responses define the shape and status code
-		Response(NotFound) // of HTTP responses.
 	})
 
 })

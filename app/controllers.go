@@ -258,15 +258,13 @@ func unmarshalUpdateAuthenticationPayload(ctx context.Context, service *goa.Serv
 type CategoryController interface {
 	goa.Muxer
 	List(*ListCategoryContext) error
-	Show(*ShowCategoryContext) error
 }
 
 // MountCategoryController "mounts" a Category resource controller on the given service.
 func MountCategoryController(service *goa.Service, ctrl CategoryController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/categories", ctrl.MuxHandler("preflight", handleCategoryOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/categories/:categoryID", ctrl.MuxHandler("preflight", handleCategoryOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/categories/:middlecategoryID", ctrl.MuxHandler("preflight", handleCategoryOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -278,27 +276,17 @@ func MountCategoryController(service *goa.Service, ctrl CategoryController) {
 		if err != nil {
 			return err
 		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*ListCategoryPayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
 		return ctrl.List(rctx)
 	}
 	h = handleCategoryOrigin(h)
-	service.Mux.Handle("GET", "/categories", ctrl.MuxHandler("list", h, nil))
-	service.LogInfo("mount", "ctrl", "Category", "action", "List", "route", "GET /categories")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewShowCategoryContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		return ctrl.Show(rctx)
-	}
-	h = handleCategoryOrigin(h)
-	service.Mux.Handle("GET", "/categories/:categoryID", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Category", "action", "Show", "route", "GET /categories/:categoryID")
+	service.Mux.Handle("GET", "/categories/:middlecategoryID", ctrl.MuxHandler("list", h, unmarshalListCategoryPayload))
+	service.LogInfo("mount", "ctrl", "Category", "action", "List", "route", "GET /categories/:middlecategoryID")
 }
 
 // handleCategoryOrigin applies the CORS response headers corresponding to the origin.
@@ -325,6 +313,16 @@ func handleCategoryOrigin(h goa.Handler) goa.Handler {
 
 		return h(ctx, rw, req)
 	}
+}
+
+// unmarshalListCategoryPayload unmarshals the request body into the context request data Payload field.
+func unmarshalListCategoryPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &listCategoryPayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
 }
 
 // CommentController is the controller interface for the Comment actions.
@@ -608,7 +606,6 @@ func unmarshalUpdateItemPayload(ctx context.Context, service *goa.Service, req *
 type LargecategoryController interface {
 	goa.Muxer
 	List(*ListLargecategoryContext) error
-	Show(*ShowLargecategoryContext) error
 }
 
 // MountLargecategoryController "mounts" a Largecategory resource controller on the given service.
@@ -616,7 +613,6 @@ func MountLargecategoryController(service *goa.Service, ctrl LargecategoryContro
 	initService(service)
 	var h goa.Handler
 	service.Mux.Handle("OPTIONS", "/largecategories", ctrl.MuxHandler("preflight", handleLargecategoryOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/largecategories/:largecategoryID", ctrl.MuxHandler("preflight", handleLargecategoryOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -633,22 +629,6 @@ func MountLargecategoryController(service *goa.Service, ctrl LargecategoryContro
 	h = handleLargecategoryOrigin(h)
 	service.Mux.Handle("GET", "/largecategories", ctrl.MuxHandler("list", h, nil))
 	service.LogInfo("mount", "ctrl", "Largecategory", "action", "List", "route", "GET /largecategories")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewShowLargecategoryContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		return ctrl.Show(rctx)
-	}
-	h = handleLargecategoryOrigin(h)
-	service.Mux.Handle("GET", "/largecategories/:largecategoryID", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Largecategory", "action", "Show", "route", "GET /largecategories/:largecategoryID")
 }
 
 // handleLargecategoryOrigin applies the CORS response headers corresponding to the origin.
@@ -681,15 +661,13 @@ func handleLargecategoryOrigin(h goa.Handler) goa.Handler {
 type MiddlecategoryController interface {
 	goa.Muxer
 	List(*ListMiddlecategoryContext) error
-	Show(*ShowMiddlecategoryContext) error
 }
 
 // MountMiddlecategoryController "mounts" a Middlecategory resource controller on the given service.
 func MountMiddlecategoryController(service *goa.Service, ctrl MiddlecategoryController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/middlecategories", ctrl.MuxHandler("preflight", handleMiddlecategoryOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/middlecategories/:middlecategoryID", ctrl.MuxHandler("preflight", handleMiddlecategoryOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/middlecategories/:largecategoryID", ctrl.MuxHandler("preflight", handleMiddlecategoryOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -701,27 +679,17 @@ func MountMiddlecategoryController(service *goa.Service, ctrl MiddlecategoryCont
 		if err != nil {
 			return err
 		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*ListMiddlecategoryPayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
 		return ctrl.List(rctx)
 	}
 	h = handleMiddlecategoryOrigin(h)
-	service.Mux.Handle("GET", "/middlecategories", ctrl.MuxHandler("list", h, nil))
-	service.LogInfo("mount", "ctrl", "Middlecategory", "action", "List", "route", "GET /middlecategories")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewShowMiddlecategoryContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		return ctrl.Show(rctx)
-	}
-	h = handleMiddlecategoryOrigin(h)
-	service.Mux.Handle("GET", "/middlecategories/:middlecategoryID", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Middlecategory", "action", "Show", "route", "GET /middlecategories/:middlecategoryID")
+	service.Mux.Handle("GET", "/middlecategories/:largecategoryID", ctrl.MuxHandler("list", h, unmarshalListMiddlecategoryPayload))
+	service.LogInfo("mount", "ctrl", "Middlecategory", "action", "List", "route", "GET /middlecategories/:largecategoryID")
 }
 
 // handleMiddlecategoryOrigin applies the CORS response headers corresponding to the origin.
@@ -748,6 +716,16 @@ func handleMiddlecategoryOrigin(h goa.Handler) goa.Handler {
 
 		return h(ctx, rw, req)
 	}
+}
+
+// unmarshalListMiddlecategoryPayload unmarshals the request body into the context request data Payload field.
+func unmarshalListMiddlecategoryPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &listMiddlecategoryPayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
 }
 
 // OfferController is the controller interface for the Offer actions.

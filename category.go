@@ -2,7 +2,6 @@ package main
 
 import (
 	"forent_api/app"
-
 	"github.com/goadesign/goa"
 )
 
@@ -25,15 +24,4 @@ func (c *CategoryController) List(ctx *app.ListCategoryContext) error {
 	res := app.CategoryCollection{}
 	return ctx.OK(res)
 	// CategoryController_List: end_implement
-}
-
-// Show runs the show action.
-func (c *CategoryController) Show(ctx *app.ShowCategoryContext) error {
-	// CategoryController_Show: start_implement
-
-	// Put your logic here
-
-	res := &app.Category{}
-	return ctx.OK(res)
-	// CategoryController_Show: end_implement
 }
