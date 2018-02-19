@@ -4,9 +4,19 @@ package main
 
 import (
 	"forent_api/app"
+	"forent_api/models"
+
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/middleware"
+	"github.com/inconshreveable/log15"
+	"github.com/jinzhu/gorm"
 )
+
+var db *gorm.DB
+var logger log15.Logger
+
+// ItemDB is Item model
+var ItemDB *models.ItemDB
 
 func main() {
 	// Create service

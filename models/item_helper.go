@@ -64,7 +64,7 @@ func (m *ItemDB) OneItem(ctx context.Context, id int, categoryID int, placeID in
 	defer goa.MeasureSince([]string{"goa", "db", "item", "oneitem"}, time.Now())
 
 	var native Item
-	err := m.Db.Scopes(ItemFilterByCategory(categoryID, m.Db), ItemFilterByPlace(placeID, m.Db), ItemFilterByUser(userID, m.Db)).Table(m.TableName()).Preload("Articles").Preload("Comments").Preload("Offers").Preload("Reviews").Preload("Category").Preload("Place").Preload("User").Where("id = ?", id).Find(&native).Error
+	err := m.Db.Scopes(ItemFilterByCategory(categoryID, m.Db), ItemFilterByPlace(placeID, m.Db), ItemFilterByUser(userID, m.Db)).Table(m.TableName()).Preload("Category").Preload("Place").Preload("User").Where("id = ?", id).Find(&native).Error
 
 	if err != nil && err != gorm.ErrRecordNotFound {
 		goa.LogError(ctx, "error getting Item", "error", err.Error())

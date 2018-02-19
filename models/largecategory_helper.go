@@ -56,7 +56,7 @@ func (m *LargeCategoryDB) OneLargecategory(ctx context.Context, id int) (*app.La
 	defer goa.MeasureSince([]string{"goa", "db", "largecategory", "onelargecategory"}, time.Now())
 
 	var native LargeCategory
-	err := m.Db.Scopes().Table(m.TableName()).Preload("MiddleCategories").Where("id = ?", id).Find(&native).Error
+	err := m.Db.Scopes().Table(m.TableName()).Where("id = ?", id).Find(&native).Error
 
 	if err != nil && err != gorm.ErrRecordNotFound {
 		goa.LogError(ctx, "error getting LargeCategory", "error", err.Error())

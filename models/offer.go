@@ -23,10 +23,9 @@ type Offer struct {
 	ID        int `gorm:"primary_key"` // This is the offer Model PK field
 	Accepted  bool
 	ItemID    int // Belongs To Item
-	OnwerID   int
+	OwnerID   int
 	Price     int
-	Rental    Rental     // has one Rental
-	UserID    int        // has many Offer
+	UserID    int        // Belongs To User
 	CreatedAt time.Time  // timestamp
 	DeletedAt *time.Time // nullable timestamp (soft delete)
 	EndAt     time.Time  // timestamp

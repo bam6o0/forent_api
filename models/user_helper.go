@@ -57,7 +57,7 @@ func (m *UserDB) OneUser(ctx context.Context, id int) (*app.User, error) {
 	defer goa.MeasureSince([]string{"goa", "db", "user", "oneuser"}, time.Now())
 
 	var native User
-	err := m.Db.Scopes().Table(m.TableName()).Preload("Aricles").Preload("Comments").Preload("Impressions").Preload("Items").Preload("Offers").Preload("Reviews").Where("id = ?", id).Find(&native).Error
+	err := m.Db.Scopes().Table(m.TableName()).Where("id = ?", id).Find(&native).Error
 
 	if err != nil && err != gorm.ErrRecordNotFound {
 		goa.LogError(ctx, "error getting User", "error", err.Error())

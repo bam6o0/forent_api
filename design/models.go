@@ -25,15 +25,6 @@ var _ = StorageGroup("forent", func() {
 			Field("created_at", gorma.Timestamp, func() {})
 			Field("updated_at", gorma.Timestamp, func() {})
 			Field("deleted_at", gorma.NullableTimestamp, func() {})
-
-			HasOne("Profil")
-			HasOne("Authentication")
-			HasMany("Items", "Item")
-			HasMany("Articles", "Aricle")
-			HasMany("Offers", "Offer")
-			HasMany("Comments", "Comment")
-			HasMany("Reviews", "Review")
-			HasMany("Impressions", "Impression")
 		})
 
 		// Profile Model
@@ -47,9 +38,26 @@ var _ = StorageGroup("forent", func() {
 			BelongsTo("User")
 			Field("introduction", gorma.String, func() {})
 			Field("address", gorma.String, func() {})
-			Field("phone", gorma.String, func() {})
+			Field("phone", gorma.Integer, func() {})
 			Field("avatar_image", gorma.String, func() {})
 			Field("cover_image", gorma.String, func() {})
+			Field("created_at", gorma.Timestamp, func() {})
+			Field("updated_at", gorma.Timestamp, func() {})
+			Field("deleted_at", gorma.NullableTimestamp, func() {})
+		})
+
+		// Authentication Model
+		Model("Authentication", func() {
+			RendersTo(Authentication)
+			Description("Authentication Model")
+			Field("id", gorma.Integer, func() {
+				PrimaryKey()
+				Description("This is the authentication Model PK field")
+			})
+			BelongsTo("User")
+			Field("identification", gorma.Boolean, func() {})
+			Field("email", gorma.Boolean, func() {})
+			Field("phone", gorma.Boolean, func() {})
 			Field("created_at", gorma.Timestamp, func() {})
 			Field("updated_at", gorma.Timestamp, func() {})
 			Field("deleted_at", gorma.NullableTimestamp, func() {})
@@ -77,11 +85,6 @@ var _ = StorageGroup("forent", func() {
 			Field("created_at", gorma.Timestamp, func() {})
 			Field("updated_at", gorma.Timestamp, func() {})
 			Field("deleted_at", gorma.NullableTimestamp, func() {})
-
-			HasMany("Articles", "Article")
-			HasMany("Offers", "Offer")
-			HasMany("Comments", "Comment")
-			HasMany("Reviews", "Review")
 		})
 
 		// Article Model
@@ -127,7 +130,7 @@ var _ = StorageGroup("forent", func() {
 			})
 			BelongsTo("User")
 			BelongsTo("Item")
-			Field("onwer_id", gorma.Integer, func() {})
+			Field("owner_id", gorma.Integer, func() {})
 			Field("price", gorma.Integer, func() {})
 			Field("start_at", gorma.Timestamp, func() {})
 			Field("end_at", gorma.Timestamp, func() {})
@@ -135,7 +138,6 @@ var _ = StorageGroup("forent", func() {
 			Field("created_at", gorma.Timestamp, func() {})
 			Field("updated_at", gorma.Timestamp, func() {})
 			Field("deleted_at", gorma.NullableTimestamp, func() {})
-			HasOne("Rental")
 		})
 
 		// Rental Model
@@ -152,7 +154,6 @@ var _ = StorageGroup("forent", func() {
 			Field("created_at", gorma.Timestamp, func() {})
 			Field("updated_at", gorma.Timestamp, func() {})
 			Field("deleted_at", gorma.NullableTimestamp, func() {})
-			HasOne("Rental")
 		})
 
 		// Comment Model
@@ -222,8 +223,6 @@ var _ = StorageGroup("forent", func() {
 			Field("created_at", gorma.Timestamp, func() {})
 			Field("updated_at", gorma.Timestamp, func() {})
 			Field("deleted_at", gorma.NullableTimestamp, func() {})
-			HasMany("Items", "Item")
-			HasMany("Articles", "Article")
 		})
 
 		// MiddleCategory Model
@@ -241,7 +240,6 @@ var _ = StorageGroup("forent", func() {
 			Field("created_at", gorma.Timestamp, func() {})
 			Field("updated_at", gorma.Timestamp, func() {})
 			Field("deleted_at", gorma.NullableTimestamp, func() {})
-			HasMany("Categorys", "Category")
 		})
 
 		// LargeCategory Model
@@ -258,7 +256,6 @@ var _ = StorageGroup("forent", func() {
 			Field("created_at", gorma.Timestamp, func() {})
 			Field("updated_at", gorma.Timestamp, func() {})
 			Field("deleted_at", gorma.NullableTimestamp, func() {})
-			HasMany("MiddleCategorys", "MiddleCategory")
 		})
 
 		// Place Model
@@ -270,14 +267,13 @@ var _ = StorageGroup("forent", func() {
 				Description("This is the place Model PK field")
 			})
 			Field("name", gorma.String, func() {})
-			Field("latitude", gorma.Decimal, func() {})
-			Field("longitude", gorma.Decimal, func() {})
+			Field("latitude", gorma.BigDecimal, func() {})
+			Field("longitude", gorma.BigDecimal, func() {})
 			Field("google_place_id", gorma.String, func() {})
 			Field("type", gorma.Integer, func() {})
 			Field("created_at", gorma.Timestamp, func() {})
 			Field("updated_at", gorma.Timestamp, func() {})
 			Field("deleted_at", gorma.NullableTimestamp, func() {})
-			HasOne("Item")
 		})
 
 	})

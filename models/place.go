@@ -22,9 +22,8 @@ import (
 type Place struct {
 	ID            int `gorm:"primary_key"` // This is the place Model PK field
 	GooglePlaceID string
-	Item          Item // has one Item
-	Latitude      float32
-	Longitude     float32
+	Latitude      float64
+	Longitude     float64
 	Name          string
 	Type          int
 	CreatedAt     time.Time  // timestamp

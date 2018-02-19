@@ -20,9 +20,8 @@ import (
 
 // MiddleCategory Model
 type MiddleCategory struct {
-	ID              int        `gorm:"primary_key"` // This is the  middle category Model PK field
-	Categorys       []Category // has many Categories
-	LargeCategoryID int        // Belongs To LargeCategory
+	ID              int `gorm:"primary_key"` // This is the  middle category Model PK field
+	LargeCategoryID int // Belongs To LargeCategory
 	Name            string
 	NameBase        string
 	NameEn          string

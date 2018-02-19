@@ -26,7 +26,7 @@ type Article struct {
 	Body3           string
 	Body4           string
 	Body5           string
-	CategoryID      int // has many Article
+	CategoryID      int // Belongs To Category
 	Image1          string
 	Image2          string
 	Image3          string
@@ -34,7 +34,7 @@ type Article struct {
 	Image5          string
 	Introduction    string
 	ItemDescription string
-	ItemID          int // has many Article
+	ItemID          int // Belongs To Item
 	Title1          string
 	Title2          string
 	Title3          string

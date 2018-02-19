@@ -47,6 +47,7 @@ func (m *Offer) OfferToOffer() *app.Offer {
 	offer.EndAt = m.EndAt
 	offer.ID = m.ID
 	offer.ItemID = m.ItemID
+	offer.OwnerID = m.OwnerID
 	offer.Price = m.Price
 	offer.StartAt = m.StartAt
 	offer.UserID = m.UserID

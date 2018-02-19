@@ -57,7 +57,7 @@ func (m *CategoryDB) OneCategory(ctx context.Context, id int, middleCategoryID i
 	defer goa.MeasureSince([]string{"goa", "db", "category", "onecategory"}, time.Now())
 
 	var native Category
-	err := m.Db.Scopes(CategoryFilterByMiddleCategory(middleCategoryID, m.Db)).Table(m.TableName()).Preload("Articles").Preload("Items").Preload("MiddleCategory").Where("id = ?", id).Find(&native).Error
+	err := m.Db.Scopes(CategoryFilterByMiddleCategory(middleCategoryID, m.Db)).Table(m.TableName()).Preload("MiddleCategory").Where("id = ?", id).Find(&native).Error
 
 	if err != nil && err != gorm.ErrRecordNotFound {
 		goa.LogError(ctx, "error getting Category", "error", err.Error())

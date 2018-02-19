@@ -25,7 +25,7 @@ type Review struct {
 	ItemID    int // Belongs To Item
 	Score     int
 	Text      string
-	UserID    int        // has many Review
+	UserID    int        // Belongs To User
 	CreatedAt time.Time  // timestamp
 	DeletedAt *time.Time // nullable timestamp (soft delete)
 	UpdatedAt time.Time  // timestamp

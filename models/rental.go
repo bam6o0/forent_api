@@ -22,8 +22,6 @@ import (
 type Rental struct {
 	ID          int        `gorm:"primary_key"` // This is the rental Model PK field
 	OfferID     int        // Belongs To Offer
-	Rental      Rental     // has one Rental
-	RentalID    int        // has one Rental
 	CreatedAt   time.Time  // timestamp
 	DeletedAt   *time.Time // nullable timestamp (soft delete)
 	DeliveredAt time.Time  // timestamp

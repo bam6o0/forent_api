@@ -20,10 +20,8 @@ import (
 
 // Item Model
 type Item struct {
-	ID           int       `gorm:"primary_key"` // This is the item Model PK field
-	Articles     []Article // has many Articles
-	CategoryID   int       // Belongs To Category
-	Comments     []Comment // has many Comments
+	ID           int `gorm:"primary_key"` // This is the item Model PK field
+	CategoryID   int // Belongs To Category
 	Compensation int
 	Description  string
 	Image1       string
@@ -31,11 +29,9 @@ type Item struct {
 	Image3       string
 	Image4       string
 	Name         string
-	Offers       []Offer // has many Offers
-	PlaceID      int     // has one Item
+	PlaceID      int // Belongs To Place
 	Price        int
-	Reviews      []Review   // has many Reviews
-	UserID       int        // has many Item
+	UserID       int        // Belongs To User
 	CreatedAt    time.Time  // timestamp
 	DeletedAt    *time.Time // nullable timestamp (soft delete)
 	UpdatedAt    time.Time  // timestamp

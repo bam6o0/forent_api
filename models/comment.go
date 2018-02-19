@@ -21,10 +21,10 @@ import (
 // Comment Model
 type Comment struct {
 	ID        int `gorm:"primary_key"` // This is the comment Model PK field
-	ItemID    int // has many Comment
+	ItemID    int // Belongs To Item
 	ReplyTo   int
 	Text      string
-	UserID    int        // has many Comment
+	UserID    int        // Belongs To User
 	CreatedAt time.Time  // timestamp
 	DeletedAt *time.Time // nullable timestamp (soft delete)
 	UpdatedAt time.Time  // timestamp

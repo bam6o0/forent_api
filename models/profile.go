@@ -25,7 +25,7 @@ type Profile struct {
 	AvatarImage  string
 	CoverImage   string
 	Introduction string
-	Phone        string
+	Phone        int
 	UserID       int        // Belongs To User
 	CreatedAt    time.Time  // timestamp
 	DeletedAt    *time.Time // nullable timestamp (soft delete)

@@ -20,14 +20,13 @@ import (
 
 // LargeCategory Model
 type LargeCategory struct {
-	ID              int              `gorm:"primary_key"` // This is the large category Model PK field
-	MiddleCategorys []MiddleCategory // has many MiddleCategories
-	Name            string
-	NameBase        string
-	NameEn          string
-	CreatedAt       time.Time  // timestamp
-	DeletedAt       *time.Time // nullable timestamp (soft delete)
-	UpdatedAt       time.Time  // timestamp
+	ID        int `gorm:"primary_key"` // This is the large category Model PK field
+	Name      string
+	NameBase  string
+	NameEn    string
+	CreatedAt time.Time  // timestamp
+	DeletedAt *time.Time // nullable timestamp (soft delete)
+	UpdatedAt time.Time  // timestamp
 }
 
 // TableName overrides the table name settings in Gorm to force a specific table name
