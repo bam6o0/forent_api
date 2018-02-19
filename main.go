@@ -10,15 +10,96 @@ import (
 	"github.com/goadesign/goa/middleware"
 	"github.com/inconshreveable/log15"
 	"github.com/jinzhu/gorm"
+	_ "github.com/lib/pq"
 )
 
 var db *gorm.DB
 var logger log15.Logger
 
+// UserDB is User model
+var UserDB *models.UserDB
+
+// ProfileDB is Profile model
+var ProfileDB *models.ProfileDB
+
+// AuthenticationDB is Authentication model
+var AuthenticationDB *models.AuthenticationDB
+
 // ItemDB is Item model
 var ItemDB *models.ItemDB
 
+// ArticleDB is Article model
+var ArticleDB *models.ArticleDB
+
+// CommentDB is Comment model
+var CommentDB *models.CommentDB
+
+// ImpressionDB is Impression model
+var ImpressionDB *models.ImpressionDB
+
+// ReviewDB is Review model
+var ReviewDB *models.ReviewDB
+
+// OfferDB is Offer model
+var OfferDB *models.OfferDB
+
+// PlaceDB is Place model
+var PlaceDB *models.PlaceDB
+
+// RentalDB is Rental model
+var RentalDB *models.RentalDB
+
+// CategoryDB is Category model
+var CategoryDB *models.CategoryDB
+
+// MiddleCategoryDB is MiddleCategory model
+var MiddleCategoryDB *models.MiddleCategoryDB
+
+// LargeCategoryDB is LargeCategory model
+var LargeCategoryDB *models.LargeCategoryDB
+
 func main() {
+
+	var err error
+	db, err = gorm.Open("postgres", "host=localhost user=bam6o0 dbname=forent_api sslmode=disable password=")
+	if err != nil {
+		panic(err)
+	}
+	db.LogMode(true)
+
+	//db.DropTable(&models.Item{})
+	db.AutoMigrate(&models.User{})
+	db.AutoMigrate(&models.Profile{})
+	db.AutoMigrate(&models.Authentication{})
+	db.AutoMigrate(&models.Item{})
+	db.AutoMigrate(&models.Article{})
+	db.AutoMigrate(&models.Comment{})
+	db.AutoMigrate(&models.Impression{})
+	db.AutoMigrate(&models.Offer{})
+	db.AutoMigrate(&models.Rental{})
+	db.AutoMigrate(&models.Review{})
+	db.AutoMigrate(&models.Place{})
+	db.AutoMigrate(&models.Category{})
+	db.AutoMigrate(&models.MiddleCategory{})
+	db.AutoMigrate(&models.LargeCategory{})
+
+	UserDB = models.NewUserDB(db)
+	ProfileDB = models.NewProfileDB(db)
+	AuthenticationDB = models.NewAuthenticationDB(db)
+	ItemDB = models.NewItemDB(db)
+	ArticleDB = models.NewArticleDB(db)
+	CommentDB = models.NewCommentDB(db)
+	ImpressionDB = models.NewImpressionDB(db)
+	OfferDB = models.NewOfferDB(db)
+	RentalDB = models.NewRentalDB(db)
+	ReviewDB = models.NewReviewDB(db)
+	PlaceDB = models.NewPlaceDB(db)
+	CategoryDB = models.NewCategoryDB(db)
+	MiddleCategoryDB = models.NewMiddleCategoryDB(db)
+	LargeCategoryDB = models.NewLargeCategoryDB(db)
+
+	db.DB().SetMaxOpenConns(50)
+
 	// Create service
 	service := goa.New("forent")
 
