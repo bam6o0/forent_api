@@ -245,7 +245,7 @@ definitions:
         format: int64
         type: integer
       middle_category_id:
-        description: middle_category_id
+        description: middle category id
         example: 7.9010196e+18
         format: int64
         type: integer
@@ -774,9 +774,9 @@ definitions:
     type: array
   ListCategoryPayload:
     example:
-      middlecategory_id: 6.302416e+18
+      middlecategoryID: 6.302416e+18
     properties:
-      middlecategory_id:
+      middlecategoryID:
         description: middlecategory id
         example: 6.302416e+18
         format: int64
@@ -785,9 +785,9 @@ definitions:
     type: object
   ListMiddlecategoryPayload:
     example:
-      largecategory_id: 8.1779454e+18
+      largecategoryID: 8.1779454e+18
     properties:
-      largecategory_id:
+      largecategoryID:
         description: largecategory id
         example: 8.1779454e+18
         format: int64
@@ -1300,15 +1300,11 @@ paths:
       summary: update authentication
       tags:
       - authentication
-  /categories/{middlecategoryID}:
+  /categories:
     get:
       description: Retrieve all categories.
       operationId: category#list
       parameters:
-      - in: path
-        name: middlecategoryID
-        required: true
-        type: string
       - in: body
         name: payload
         required: true
@@ -1532,15 +1528,11 @@ paths:
       summary: list largecategory
       tags:
       - largecategory
-  /middlecategories/{largecategoryID}:
+  /middlecategories:
     get:
       description: Retrieve all middlecategories.
       operationId: middlecategory#list
       parameters:
-      - in: path
-        name: largecategoryID
-        required: true
-        type: string
       - in: body
         name: payload
         required: true

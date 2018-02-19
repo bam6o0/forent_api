@@ -28,7 +28,7 @@ import (
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ListCategoryOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.CategoryController, middlecategoryID string, payload *app.ListCategoryPayload) (http.ResponseWriter, app.CategoryCollection) {
+func ListCategoryOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.CategoryController, payload *app.ListCategoryPayload) (http.ResponseWriter, app.CategoryCollection) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -49,14 +49,13 @@ func ListCategoryOK(t goatest.TInterface, ctx context.Context, service *goa.Serv
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/categories/%v", middlecategoryID),
+		Path: fmt.Sprintf("/categories"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["middlecategoryID"] = []string{fmt.Sprintf("%v", middlecategoryID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}

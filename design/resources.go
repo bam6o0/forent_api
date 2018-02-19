@@ -410,10 +410,10 @@ var _ = Resource("category", func() { // Resources group related API endpoints
 
 	Action("list", func() {
 		Routing(
-			GET("/:middlecategoryID"),
+			GET(""),
 		)
 		Payload(func() {
-			Param("middlecategory_id", Integer, "middlecategory id")
+			Param("middlecategoryID", Integer, "middlecategory id")
 		})
 		Description("Retrieve all categories.")
 		Response(OK, CollectionOf(Category))
@@ -428,10 +428,10 @@ var _ = Resource("middlecategory", func() { // Resources group related API endpo
 
 	Action("list", func() {
 		Routing(
-			GET("/:largecategoryID"),
+			GET(""),
 		)
 		Payload(func() {
-			Param("largecategory_id", Integer, "largecategory id")
+			Param("largecategoryID", Integer, "largecategory id")
 		})
 		Description("Retrieve all middlecategories.")
 		Response(OK, CollectionOf(MiddleCategory))

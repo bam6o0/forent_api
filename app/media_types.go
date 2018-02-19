@@ -165,7 +165,7 @@ func (mt *Authentication) Validate() (err error) {
 type Category struct {
 	// Unique category ID
 	ID int `form:"id" json:"id" xml:"id"`
-	// middle_category_id
+	// middle category id
 	MiddleCategoryID int `form:"middle_category_id" json:"middle_category_id" xml:"middle_category_id"`
 	// category name
 	Name string `form:"name" json:"name" xml:"name"`

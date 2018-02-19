@@ -387,8 +387,7 @@ type ListCategoryContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	MiddlecategoryID string
-	Payload          *ListCategoryPayload
+	Payload *ListCategoryPayload
 }
 
 // NewListCategoryContext parses the incoming request URL and body, performs validations and creates the
@@ -400,18 +399,13 @@ func NewListCategoryContext(ctx context.Context, r *http.Request, service *goa.S
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := ListCategoryContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramMiddlecategoryID := req.Params["middlecategoryID"]
-	if len(paramMiddlecategoryID) > 0 {
-		rawMiddlecategoryID := paramMiddlecategoryID[0]
-		rctx.MiddlecategoryID = rawMiddlecategoryID
-	}
 	return &rctx, err
 }
 
 // listCategoryPayload is the category list action payload.
 type listCategoryPayload struct {
 	// middlecategory id
-	MiddlecategoryID *int `form:"middlecategory_id,omitempty" json:"middlecategory_id,omitempty" xml:"middlecategory_id,omitempty"`
+	MiddlecategoryID *int `form:"middlecategoryID,omitempty" json:"middlecategoryID,omitempty" xml:"middlecategoryID,omitempty"`
 }
 
 // Publicize creates ListCategoryPayload from listCategoryPayload
@@ -426,7 +420,7 @@ func (payload *listCategoryPayload) Publicize() *ListCategoryPayload {
 // ListCategoryPayload is the category list action payload.
 type ListCategoryPayload struct {
 	// middlecategory id
-	MiddlecategoryID *int `form:"middlecategory_id,omitempty" json:"middlecategory_id,omitempty" xml:"middlecategory_id,omitempty"`
+	MiddlecategoryID *int `form:"middlecategoryID,omitempty" json:"middlecategoryID,omitempty" xml:"middlecategoryID,omitempty"`
 }
 
 // OK sends a HTTP response with status code 200.
@@ -1098,8 +1092,7 @@ type ListMiddlecategoryContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	LargecategoryID string
-	Payload         *ListMiddlecategoryPayload
+	Payload *ListMiddlecategoryPayload
 }
 
 // NewListMiddlecategoryContext parses the incoming request URL and body, performs validations and creates the
@@ -1111,18 +1104,13 @@ func NewListMiddlecategoryContext(ctx context.Context, r *http.Request, service 
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := ListMiddlecategoryContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramLargecategoryID := req.Params["largecategoryID"]
-	if len(paramLargecategoryID) > 0 {
-		rawLargecategoryID := paramLargecategoryID[0]
-		rctx.LargecategoryID = rawLargecategoryID
-	}
 	return &rctx, err
 }
 
 // listMiddlecategoryPayload is the middlecategory list action payload.
 type listMiddlecategoryPayload struct {
 	// largecategory id
-	LargecategoryID *int `form:"largecategory_id,omitempty" json:"largecategory_id,omitempty" xml:"largecategory_id,omitempty"`
+	LargecategoryID *int `form:"largecategoryID,omitempty" json:"largecategoryID,omitempty" xml:"largecategoryID,omitempty"`
 }
 
 // Publicize creates ListMiddlecategoryPayload from listMiddlecategoryPayload
@@ -1137,7 +1125,7 @@ func (payload *listMiddlecategoryPayload) Publicize() *ListMiddlecategoryPayload
 // ListMiddlecategoryPayload is the middlecategory list action payload.
 type ListMiddlecategoryPayload struct {
 	// largecategory id
-	LargecategoryID *int `form:"largecategory_id,omitempty" json:"largecategory_id,omitempty" xml:"largecategory_id,omitempty"`
+	LargecategoryID *int `form:"largecategoryID,omitempty" json:"largecategoryID,omitempty" xml:"largecategoryID,omitempty"`
 }
 
 // OK sends a HTTP response with status code 200.

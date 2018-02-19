@@ -264,7 +264,7 @@ type CategoryController interface {
 func MountCategoryController(service *goa.Service, ctrl CategoryController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/categories/:middlecategoryID", ctrl.MuxHandler("preflight", handleCategoryOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/categories", ctrl.MuxHandler("preflight", handleCategoryOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -285,8 +285,8 @@ func MountCategoryController(service *goa.Service, ctrl CategoryController) {
 		return ctrl.List(rctx)
 	}
 	h = handleCategoryOrigin(h)
-	service.Mux.Handle("GET", "/categories/:middlecategoryID", ctrl.MuxHandler("list", h, unmarshalListCategoryPayload))
-	service.LogInfo("mount", "ctrl", "Category", "action", "List", "route", "GET /categories/:middlecategoryID")
+	service.Mux.Handle("GET", "/categories", ctrl.MuxHandler("list", h, unmarshalListCategoryPayload))
+	service.LogInfo("mount", "ctrl", "Category", "action", "List", "route", "GET /categories")
 }
 
 // handleCategoryOrigin applies the CORS response headers corresponding to the origin.
@@ -667,7 +667,7 @@ type MiddlecategoryController interface {
 func MountMiddlecategoryController(service *goa.Service, ctrl MiddlecategoryController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/middlecategories/:largecategoryID", ctrl.MuxHandler("preflight", handleMiddlecategoryOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/middlecategories", ctrl.MuxHandler("preflight", handleMiddlecategoryOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -688,8 +688,8 @@ func MountMiddlecategoryController(service *goa.Service, ctrl MiddlecategoryCont
 		return ctrl.List(rctx)
 	}
 	h = handleMiddlecategoryOrigin(h)
-	service.Mux.Handle("GET", "/middlecategories/:largecategoryID", ctrl.MuxHandler("list", h, unmarshalListMiddlecategoryPayload))
-	service.LogInfo("mount", "ctrl", "Middlecategory", "action", "List", "route", "GET /middlecategories/:largecategoryID")
+	service.Mux.Handle("GET", "/middlecategories", ctrl.MuxHandler("list", h, unmarshalListMiddlecategoryPayload))
+	service.LogInfo("mount", "ctrl", "Middlecategory", "action", "List", "route", "GET /middlecategories")
 }
 
 // handleMiddlecategoryOrigin applies the CORS response headers corresponding to the origin.

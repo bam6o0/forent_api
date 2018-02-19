@@ -20,7 +20,6 @@ import (
 	uuid "github.com/goadesign/goa/uuid"
 	"github.com/spf13/cobra"
 	"log"
-	"net/url"
 	"os"
 	"strconv"
 	"strings"
@@ -72,10 +71,9 @@ type (
 
 	// ListCategoryCommand is the command line data structure for the list action of category
 	ListCategoryCommand struct {
-		Payload          string
-		ContentType      string
-		MiddlecategoryID string
-		PrettyPrint      bool
+		Payload     string
+		ContentType string
+		PrettyPrint bool
 	}
 
 	// CreateCommentCommand is the command line data structure for the create action of comment
@@ -139,10 +137,9 @@ type (
 
 	// ListMiddlecategoryCommand is the command line data structure for the list action of middlecategory
 	ListMiddlecategoryCommand struct {
-		Payload         string
-		ContentType     string
-		LargecategoryID string
-		PrettyPrint     bool
+		Payload     string
+		ContentType string
+		PrettyPrint bool
 	}
 
 	// CreateOfferCommand is the command line data structure for the create action of offer
@@ -409,14 +406,14 @@ Payload example:
 	command.AddCommand(sub)
 	tmp12 := new(ListCategoryCommand)
 	sub = &cobra.Command{
-		Use:   `category ["/categories/MIDDLECATEGORYID"]`,
+		Use:   `category ["/categories"]`,
 		Short: ``,
 		Long: `
 
 Payload example:
 
 {
-   "middlecategory_id": 6302415908907190566
+   "middlecategoryID": 6302415908907190566
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp12.Run(c, args) },
 	}
@@ -452,14 +449,14 @@ Payload example:
 	command.AddCommand(sub)
 	tmp16 := new(ListMiddlecategoryCommand)
 	sub = &cobra.Command{
-		Use:   `middlecategory ["/middlecategories/LARGECATEGORYID"]`,
+		Use:   `middlecategory ["/middlecategories"]`,
 		Short: ``,
 		Long: `
 
 Payload example:
 
 {
-   "largecategory_id": 8177945555275027707
+   "largecategoryID": 8177945555275027707
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp16.Run(c, args) },
 	}
@@ -958,7 +955,7 @@ func (cmd *ListCategoryCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/categories/%v", url.QueryEscape(cmd.MiddlecategoryID))
+		path = "/categories"
 	}
 	var payload client.ListCategoryPayload
 	if cmd.Payload != "" {
@@ -983,8 +980,6 @@ func (cmd *ListCategoryCommand) Run(c *client.Client, args []string) error {
 func (cmd *ListCategoryCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
 	cc.Flags().StringVar(&cmd.Payload, "payload", "", "Request body encoded in JSON")
 	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
-	var middlecategoryID string
-	cc.Flags().StringVar(&cmd.MiddlecategoryID, "middlecategoryID", middlecategoryID, ``)
 }
 
 // Run makes the HTTP request corresponding to the CreateCommentCommand command.
@@ -1244,7 +1239,7 @@ func (cmd *ListMiddlecategoryCommand) Run(c *client.Client, args []string) error
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/middlecategories/%v", url.QueryEscape(cmd.LargecategoryID))
+		path = "/middlecategories"
 	}
 	var payload client.ListMiddlecategoryPayload
 	if cmd.Payload != "" {
@@ -1269,8 +1264,6 @@ func (cmd *ListMiddlecategoryCommand) Run(c *client.Client, args []string) error
 func (cmd *ListMiddlecategoryCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
 	cc.Flags().StringVar(&cmd.Payload, "payload", "", "Request body encoded in JSON")
 	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
-	var largecategoryID string
-	cc.Flags().StringVar(&cmd.LargecategoryID, "largecategoryID", largecategoryID, ``)
 }
 
 // Run makes the HTTP request corresponding to the CreateOfferCommand command.

@@ -21,14 +21,13 @@ import (
 // ListMiddlecategoryPayload is the middlecategory list action payload.
 type ListMiddlecategoryPayload struct {
 	// largecategory id
-	LargecategoryID *int `form:"largecategory_id,omitempty" json:"largecategory_id,omitempty" xml:"largecategory_id,omitempty"`
+	LargecategoryID *int `form:"largecategoryID,omitempty" json:"largecategoryID,omitempty" xml:"largecategoryID,omitempty"`
 }
 
 // ListMiddlecategoryPath computes a request path to the list action of middlecategory.
-func ListMiddlecategoryPath(largecategoryID string) string {
-	param0 := largecategoryID
+func ListMiddlecategoryPath() string {
 
-	return fmt.Sprintf("/middlecategories/%s", param0)
+	return fmt.Sprintf("/middlecategories")
 }
 
 // Retrieve all middlecategories.

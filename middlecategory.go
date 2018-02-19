@@ -18,6 +18,7 @@ func NewMiddlecategoryController(service *goa.Service) *MiddlecategoryController
 
 // List runs the list action.
 func (c *MiddlecategoryController) List(ctx *app.ListMiddlecategoryContext) error {
-	middlecategories := MiddleCategoryDB.ListMiddlecategory(ctx.Context, ctx.LargecategoryID)
+	pay := *ctx.Payload
+	middlecategories := MiddleCategoryDB.ListMiddlecategory(ctx.Context, *pay.LargecategoryID)
 	return ctx.OK(middlecategories)
 }
