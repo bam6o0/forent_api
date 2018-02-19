@@ -1,7 +1,8 @@
-package main
+package controller
 
 import (
 	"forent_api/app"
+
 	"github.com/goadesign/goa"
 )
 

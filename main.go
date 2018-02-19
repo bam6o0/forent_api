@@ -4,6 +4,7 @@ package main
 
 import (
 	"forent_api/app"
+	"forent_api/controller"
 	"forent_api/models"
 
 	"github.com/goadesign/goa"
@@ -110,34 +111,34 @@ func main() {
 	service.Use(middleware.Recover())
 
 	// Mount "article" controller
-	c := NewArticleController(service)
+	c := controller.NewArticleController(service)
 	app.MountArticleController(service, c)
 	// Mount "authentication" controller
-	c2 := NewAuthenticationController(service)
+	c2 := controller.NewAuthenticationController(service)
 	app.MountAuthenticationController(service, c2)
 	// Mount "category" controller
-	c3 := NewCategoryController(service)
+	c3 := controller.NewCategoryController(service)
 	app.MountCategoryController(service, c3)
 	// Mount "comment" controller
-	c4 := NewCommentController(service)
+	c4 := controller.NewCommentController(service)
 	app.MountCommentController(service, c4)
 	// Mount "item" controller
-	c5 := NewItemController(service)
+	c5 := controller.NewItemController(service)
 	app.MountItemController(service, c5)
 	// Mount "largecategory" controller
-	c6 := NewLargecategoryController(service)
+	c6 := controller.NewLargecategoryController(service)
 	app.MountLargecategoryController(service, c6)
 	// Mount "middlecategory" controller
-	c7 := NewMiddlecategoryController(service)
+	c7 := controller.NewMiddlecategoryController(service)
 	app.MountMiddlecategoryController(service, c7)
 	// Mount "offer" controller
-	c8 := NewOfferController(service)
+	c8 := controller.NewOfferController(service)
 	app.MountOfferController(service, c8)
 	// Mount "profile" controller
-	c9 := NewProfileController(service)
+	c9 := controller.NewProfileController(service)
 	app.MountProfileController(service, c9)
 	// Mount "user" controller
-	c10 := NewUserController(service)
+	c10 := controller.NewUserController(service)
 	app.MountUserController(service, c10)
 
 	// Start service
