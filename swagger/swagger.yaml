@@ -1,0 +1,1888 @@
+consumes:
+- application/json
+- application/xml
+- application/gob
+- application/x-gob
+definitions:
+  Article:
+    description: article (default view)
+    example:
+      body1: Veniam magnam.
+      body2: Cum eius.
+      body3: Officia sunt ut sequi saepe.
+      body4: At accusantium repudiandae.
+      body5: Temporibus et culpa voluptate voluptas omnis.
+      category_id: 8.2652296e+18
+      id: 8.2080077e+18
+      image1: Pariatur ut id explicabo velit.
+      image2: Consequatur reiciendis eius ipsum.
+      image3: Facere id consequuntur ipsum reprehenderit.
+      image4: Sequi voluptas sed harum vel ut.
+      image5: Dolorum labore nulla.
+      introduction: Incidunt aut et fugiat.
+      item_description: Autem non.
+      item_id: 7.160447e+18
+      title1: Numquam incidunt qui aut excepturi doloremque optio.
+      title2: Eum qui.
+      title3: Et sed impedit enim enim aliquam culpa.
+      title4: Accusamus modi qui debitis temporibus.
+      title5: Corrupti iure dolores voluptatem.
+      user_id: 4.723771e+18
+    properties:
+      body1:
+        description: body 1
+        example: Veniam magnam.
+        type: string
+      body2:
+        description: body 2
+        example: Cum eius.
+        type: string
+      body3:
+        description: body 3
+        example: Officia sunt ut sequi saepe.
+        type: string
+      body4:
+        description: body 4
+        example: At accusantium repudiandae.
+        type: string
+      body5:
+        description: body 5
+        example: Temporibus et culpa voluptate voluptas omnis.
+        type: string
+      category_id:
+        description: category ID
+        example: 8.2652296e+18
+        format: int64
+        type: integer
+      id:
+        description: Unique article ID
+        example: 8.2080077e+18
+        format: int64
+        type: integer
+      image1:
+        description: item image 1
+        example: Pariatur ut id explicabo velit.
+        type: string
+      image2:
+        description: item image 2
+        example: Consequatur reiciendis eius ipsum.
+        type: string
+      image3:
+        description: item image 3
+        example: Facere id consequuntur ipsum reprehenderit.
+        type: string
+      image4:
+        description: item image 4
+        example: Sequi voluptas sed harum vel ut.
+        type: string
+      image5:
+        description: item image 5
+        example: Dolorum labore nulla.
+        type: string
+      introduction:
+        description: introduction
+        example: Incidunt aut et fugiat.
+        type: string
+      item_description:
+        description: item description
+        example: Autem non.
+        type: string
+      item_id:
+        description: item ID
+        example: 7.160447e+18
+        format: int64
+        type: integer
+      title1:
+        description: title 1
+        example: Numquam incidunt qui aut excepturi doloremque optio.
+        type: string
+      title2:
+        description: title 2
+        example: Eum qui.
+        type: string
+      title3:
+        description: title 3
+        example: Et sed impedit enim enim aliquam culpa.
+        type: string
+      title4:
+        description: title 4
+        example: Accusamus modi qui debitis temporibus.
+        type: string
+      title5:
+        description: title 5
+        example: Corrupti iure dolores voluptatem.
+        type: string
+      user_id:
+        description: user ID
+        example: 4.723771e+18
+        format: int64
+        type: integer
+    required:
+    - id
+    - user_id
+    - category_id
+    - item_id
+    - title1
+    - title2
+    - title3
+    - title4
+    - title5
+    - body1
+    - body2
+    - body3
+    - body4
+    - body5
+    - introduction
+    - item_description
+    - image1
+    - image2
+    - image3
+    - image4
+    - image5
+    title: 'Mediatype identifier: application/vnd.article+json; view=default'
+    type: object
+  ArticleCollection:
+    description: ArticleCollection is the media type for an array of Article (default
+      view)
+    example:
+    - body1: Veniam magnam.
+      body2: Cum eius.
+      body3: Officia sunt ut sequi saepe.
+      body4: At accusantium repudiandae.
+      body5: Temporibus et culpa voluptate voluptas omnis.
+      category_id: 8.2652296e+18
+      id: 8.2080077e+18
+      image1: Pariatur ut id explicabo velit.
+      image2: Consequatur reiciendis eius ipsum.
+      image3: Facere id consequuntur ipsum reprehenderit.
+      image4: Sequi voluptas sed harum vel ut.
+      image5: Dolorum labore nulla.
+      introduction: Incidunt aut et fugiat.
+      item_description: Autem non.
+      item_id: 7.160447e+18
+      title1: Numquam incidunt qui aut excepturi doloremque optio.
+      title2: Eum qui.
+      title3: Et sed impedit enim enim aliquam culpa.
+      title4: Accusamus modi qui debitis temporibus.
+      title5: Corrupti iure dolores voluptatem.
+      user_id: 4.723771e+18
+    - body1: Veniam magnam.
+      body2: Cum eius.
+      body3: Officia sunt ut sequi saepe.
+      body4: At accusantium repudiandae.
+      body5: Temporibus et culpa voluptate voluptas omnis.
+      category_id: 8.2652296e+18
+      id: 8.2080077e+18
+      image1: Pariatur ut id explicabo velit.
+      image2: Consequatur reiciendis eius ipsum.
+      image3: Facere id consequuntur ipsum reprehenderit.
+      image4: Sequi voluptas sed harum vel ut.
+      image5: Dolorum labore nulla.
+      introduction: Incidunt aut et fugiat.
+      item_description: Autem non.
+      item_id: 7.160447e+18
+      title1: Numquam incidunt qui aut excepturi doloremque optio.
+      title2: Eum qui.
+      title3: Et sed impedit enim enim aliquam culpa.
+      title4: Accusamus modi qui debitis temporibus.
+      title5: Corrupti iure dolores voluptatem.
+      user_id: 4.723771e+18
+    items:
+      $ref: '#/definitions/Article'
+    title: 'Mediatype identifier: application/vnd.article+json; type=collection; view=default'
+    type: array
+  Authentication:
+    description: Authentication (default view)
+    example:
+      email: false
+      id: 1.4066062e+18
+      identification: false
+      phone: true
+      user_id: 3.0124645e+18
+    properties:
+      email:
+        description: address flag
+        example: false
+        type: boolean
+      id:
+        description: Unique auth ID
+        example: 1.4066062e+18
+        format: int64
+        type: integer
+      identification:
+        description: identification flag
+        example: false
+        type: boolean
+      phone:
+        description: phone flag
+        example: true
+        type: boolean
+      user_id:
+        description: user id
+        example: 3.0124645e+18
+        format: int64
+        type: integer
+    required:
+    - id
+    - user_id
+    - identification
+    - email
+    - phone
+    title: 'Mediatype identifier: application/vnd.authentication+json; view=default'
+    type: object
+  Category:
+    description: Category (default view)
+    example:
+      id: 6.821723e+18
+      middle_category_id: 7.9010196e+18
+      name: Tenetur eaque dolorem eius consequuntur iure eaque.
+      name_base: Alias quia.
+      name_en: Minima voluptas accusamus accusantium id repellendus.
+    properties:
+      id:
+        description: Unique category ID
+        example: 6.821723e+18
+        format: int64
+        type: integer
+      middle_category_id:
+        description: middle_category_id
+        example: 7.9010196e+18
+        format: int64
+        type: integer
+      name:
+        description: category name
+        example: Tenetur eaque dolorem eius consequuntur iure eaque.
+        type: string
+      name_base:
+        description: category kana name
+        example: Alias quia.
+        type: string
+      name_en:
+        description: category english name
+        example: Minima voluptas accusamus accusantium id repellendus.
+        type: string
+    required:
+    - id
+    - middle_category_id
+    - name
+    - name_base
+    - name_en
+    title: 'Mediatype identifier: application/vnd.category+json; view=default'
+    type: object
+  CategoryCollection:
+    description: CategoryCollection is the media type for an array of Category (default
+      view)
+    example:
+    - id: 6.821723e+18
+      middle_category_id: 7.9010196e+18
+      name: Tenetur eaque dolorem eius consequuntur iure eaque.
+      name_base: Alias quia.
+      name_en: Minima voluptas accusamus accusantium id repellendus.
+    - id: 6.821723e+18
+      middle_category_id: 7.9010196e+18
+      name: Tenetur eaque dolorem eius consequuntur iure eaque.
+      name_base: Alias quia.
+      name_en: Minima voluptas accusamus accusantium id repellendus.
+    - id: 6.821723e+18
+      middle_category_id: 7.9010196e+18
+      name: Tenetur eaque dolorem eius consequuntur iure eaque.
+      name_base: Alias quia.
+      name_en: Minima voluptas accusamus accusantium id repellendus.
+    items:
+      $ref: '#/definitions/Category'
+    title: 'Mediatype identifier: application/vnd.category+json; type=collection;
+      view=default'
+    type: array
+  Comment:
+    description: Comment (default view)
+    example:
+      id: 3.6300376e+18
+      item_id: 4.7428473e+18
+      reply_to: 5.648653e+18
+      text: Qui deserunt consequatur.
+      user_id: 8.1879333e+18
+    properties:
+      id:
+        description: Unique comment ID
+        example: 3.6300376e+18
+        format: int64
+        type: integer
+      item_id:
+        description: item id
+        example: 4.7428473e+18
+        format: int64
+        type: integer
+      reply_to:
+        description: comment_id or null
+        example: 5.648653e+18
+        format: int64
+        type: integer
+      text:
+        description: comment text
+        example: Qui deserunt consequatur.
+        type: string
+      user_id:
+        description: comment user id
+        example: 8.1879333e+18
+        format: int64
+        type: integer
+    required:
+    - id
+    - user_id
+    - item_id
+    - text
+    - reply_to
+    title: 'Mediatype identifier: application/vnd.comment+json; view=default'
+    type: object
+  CommentCollection:
+    description: CommentCollection is the media type for an array of Comment (default
+      view)
+    example:
+    - id: 3.6300376e+18
+      item_id: 4.7428473e+18
+      reply_to: 5.648653e+18
+      text: Qui deserunt consequatur.
+      user_id: 8.1879333e+18
+    - id: 3.6300376e+18
+      item_id: 4.7428473e+18
+      reply_to: 5.648653e+18
+      text: Qui deserunt consequatur.
+      user_id: 8.1879333e+18
+    items:
+      $ref: '#/definitions/Comment'
+    title: 'Mediatype identifier: application/vnd.comment+json; type=collection; view=default'
+    type: array
+  CreateAuthenticationPayload:
+    example:
+      email: false
+      identification: true
+      phone: true
+      user_id: 2.1072108e+17
+    properties:
+      email:
+        description: address flag
+        example: false
+        type: boolean
+      identification:
+        description: identification flag
+        example: true
+        type: boolean
+      phone:
+        description: phone flag
+        example: true
+        type: boolean
+      user_id:
+        description: user id
+        example: 2.1072108e+17
+        format: int64
+        type: integer
+    required:
+    - user_id
+    - identification
+    - email
+    - phone
+    title: CreateAuthenticationPayload
+    type: object
+  CreateCommentPayload:
+    example:
+      item_id: 6.302416e+18
+      reply_to: 1.9035357e+18
+      text: Dolorem iusto recusandae blanditiis eum est commodi.
+      user_id: 1.3839458e+18
+    properties:
+      item_id:
+        description: item id
+        example: 6.302416e+18
+        format: int64
+        type: integer
+      reply_to:
+        description: comment_id or null
+        example: 1.9035357e+18
+        format: int64
+        type: integer
+      text:
+        description: comment text
+        example: Dolorem iusto recusandae blanditiis eum est commodi.
+        type: string
+      user_id:
+        description: comment user id
+        example: 1.3839458e+18
+        format: int64
+        type: integer
+    required:
+    - user_id
+    - item_id
+    - text
+    - reply_to
+    title: CreateCommentPayload
+    type: object
+  CreateItemPayload:
+    example:
+      category_id: 1.5844427e+18
+      compensation: 7.866712e+18
+      description: Placeat ratione aut sed facilis voluptatem.
+      image1: Nemo aut eaque quia.
+      image2: In dolorem sit dolorem beatae expedita.
+      image3: Numquam corrupti et ab delectus est.
+      image4: Deserunt eum ex dolores et voluptatem.
+      name: In animi numquam.
+      place_id: 3.964662e+18
+      price: 5.325612e+18
+      user_id: 3.4502078e+18
+    properties:
+      category_id:
+        description: category ID
+        example: 1.5844427e+18
+        format: int64
+        type: integer
+      compensation:
+        description: compensation of item
+        example: 7.866712e+18
+        format: int64
+        type: integer
+      description:
+        description: description of item
+        example: Placeat ratione aut sed facilis voluptatem.
+        type: string
+      image1:
+        description: item image 1
+        example: Nemo aut eaque quia.
+        type: string
+      image2:
+        description: item image 2
+        example: In dolorem sit dolorem beatae expedita.
+        type: string
+      image3:
+        description: item image 3
+        example: Numquam corrupti et ab delectus est.
+        type: string
+      image4:
+        description: item image 4
+        example: Deserunt eum ex dolores et voluptatem.
+        type: string
+      name:
+        description: item name
+        example: In animi numquam.
+        type: string
+      place_id:
+        description: category ID
+        example: 3.964662e+18
+        format: int64
+        type: integer
+      price:
+        description: price of item
+        example: 5.325612e+18
+        format: int64
+        type: integer
+      user_id:
+        description: user ID
+        example: 3.4502078e+18
+        format: int64
+        type: integer
+    required:
+    - name
+    - description
+    - price
+    - compensation
+    - user_id
+    - category_id
+    - place_id
+    - image1
+    title: CreateItemPayload
+    type: object
+  CreateOfferPayload:
+    example:
+      end_at: 1993-05-28T20:08:27Z
+      item_id: 4.49006e+18
+      owner_id: 8.9788483e+18
+      price: 6.612698e+18
+      start_at: 1990-05-29T06:23:21Z
+      user_id: 8.2285015e+18
+    properties:
+      end_at:
+        description: rental end at
+        example: 1993-05-28T20:08:27Z
+        format: date-time
+        type: string
+      item_id:
+        description: item id
+        example: 4.49006e+18
+        format: int64
+        type: integer
+      owner_id:
+        description: item id
+        example: 8.9788483e+18
+        format: int64
+        type: integer
+      price:
+        description: offer price
+        example: 6.612698e+18
+        format: int64
+        type: integer
+      start_at:
+        description: rental start at
+        example: 1990-05-29T06:23:21Z
+        format: date-time
+        type: string
+      user_id:
+        description: offer user id
+        example: 8.2285015e+18
+        format: int64
+        type: integer
+    required:
+    - user_id
+    - item_id
+    - price
+    - start_at
+    - end_at
+    title: CreateOfferPayload
+    type: object
+  CreateProfilePayload:
+    example:
+      address: Reiciendis doloribus mollitia iure.
+      avatar_image: Id doloribus velit.
+      cover_image: Adipisci aut sit.
+      introduction: Dolore repudiandae odio.
+      phone: 4.9728124e+18
+      user_id: 3.8495826e+18
+    properties:
+      address:
+        description: address
+        example: Reiciendis doloribus mollitia iure.
+        type: string
+      avatar_image:
+        description: avatar image url
+        example: Id doloribus velit.
+        type: string
+      cover_image:
+        description: cover image url
+        example: Adipisci aut sit.
+        type: string
+      introduction:
+        description: user introduciton
+        example: Dolore repudiandae odio.
+        type: string
+      phone:
+        description: phone number
+        example: 4.9728124e+18
+        format: int64
+        type: integer
+      user_id:
+        description: user id
+        example: 3.8495826e+18
+        format: int64
+        type: integer
+    required:
+    - user_id
+    - introduction
+    - address
+    - phone
+    - avatar_image
+    - cover_image
+    title: CreateProfilePayload
+    type: object
+  CreateUserPayload:
+    example:
+      email: Quo ad dolor ipsa temporibus totam.
+      first_name: Et perferendis placeat ut magni distinctio et.
+      last_name: Aliquam quia.
+      password: Ipsum non.
+    properties:
+      email:
+        description: email
+        example: Quo ad dolor ipsa temporibus totam.
+        type: string
+      first_name:
+        description: first name
+        example: Et perferendis placeat ut magni distinctio et.
+        type: string
+      last_name:
+        description: last_name
+        example: Aliquam quia.
+        type: string
+      password:
+        description: password
+        example: Ipsum non.
+        type: string
+    required:
+    - first_name
+    - last_name
+    - email
+    - password
+    title: CreateUserPayload
+    type: object
+  Item:
+    description: A item of user (default view)
+    example:
+      category_id: 7.3371455e+18
+      compensation: 7.73646e+18
+      description: Perferendis minus est atque.
+      id: 1.2280707e+18
+      image1: Quo fugit a.
+      image2: Modi ex.
+      image3: Dolore rem et.
+      image4: Non nihil minus sed earum repudiandae.
+      name: Animi nulla iusto voluptate ratione.
+      place_id: 4.826041e+18
+      price: 8.227928e+17
+      user_id: 9.0968523e+18
+    properties:
+      category_id:
+        description: Category ID
+        example: 7.3371455e+18
+        format: int64
+        type: integer
+      compensation:
+        description: compensation of item
+        example: 7.73646e+18
+        format: int64
+        type: integer
+      description:
+        description: description of item
+        example: Perferendis minus est atque.
+        type: string
+      id:
+        description: Unique item ID
+        example: 1.2280707e+18
+        format: int64
+        type: integer
+      image1:
+        description: item image 1
+        example: Quo fugit a.
+        type: string
+      image2:
+        description: item image 2
+        example: Modi ex.
+        type: string
+      image3:
+        description: item image 3
+        example: Dolore rem et.
+        type: string
+      image4:
+        description: item image 4
+        example: Non nihil minus sed earum repudiandae.
+        type: string
+      name:
+        description: Name of item
+        example: Animi nulla iusto voluptate ratione.
+        type: string
+      place_id:
+        description: Place ID
+        example: 4.826041e+18
+        format: int64
+        type: integer
+      price:
+        description: price of item
+        example: 8.227928e+17
+        format: int64
+        type: integer
+      user_id:
+        description: user ID
+        example: 9.0968523e+18
+        format: int64
+        type: integer
+    required:
+    - id
+    - user_id
+    - name
+    - description
+    - price
+    - compensation
+    - category_id
+    - place_id
+    - image1
+    - image2
+    - image3
+    - image4
+    title: 'Mediatype identifier: application/vnd.item+json; view=default'
+    type: object
+  ItemCollection:
+    description: ItemCollection is the media type for an array of Item (default view)
+    example:
+    - category_id: 7.3371455e+18
+      compensation: 7.73646e+18
+      description: Perferendis minus est atque.
+      id: 1.2280707e+18
+      image1: Quo fugit a.
+      image2: Modi ex.
+      image3: Dolore rem et.
+      image4: Non nihil minus sed earum repudiandae.
+      name: Animi nulla iusto voluptate ratione.
+      place_id: 4.826041e+18
+      price: 8.227928e+17
+      user_id: 9.0968523e+18
+    - category_id: 7.3371455e+18
+      compensation: 7.73646e+18
+      description: Perferendis minus est atque.
+      id: 1.2280707e+18
+      image1: Quo fugit a.
+      image2: Modi ex.
+      image3: Dolore rem et.
+      image4: Non nihil minus sed earum repudiandae.
+      name: Animi nulla iusto voluptate ratione.
+      place_id: 4.826041e+18
+      price: 8.227928e+17
+      user_id: 9.0968523e+18
+    items:
+      $ref: '#/definitions/Item'
+    title: 'Mediatype identifier: application/vnd.item+json; type=collection; view=default'
+    type: array
+  Largecategory:
+    description: Large Category (default view)
+    example:
+      id: 1.8140176e+18
+      name: Odio voluptatem.
+      name_base: Ut magnam.
+      name_en: Ab ea dolorem ut error enim.
+    properties:
+      id:
+        description: Unique large category ID
+        example: 1.8140176e+18
+        format: int64
+        type: integer
+      name:
+        description: category name
+        example: Odio voluptatem.
+        type: string
+      name_base:
+        description: category kana name
+        example: Ut magnam.
+        type: string
+      name_en:
+        description: category english name
+        example: Ab ea dolorem ut error enim.
+        type: string
+    required:
+    - id
+    - name
+    - name_base
+    - name_en
+    title: 'Mediatype identifier: application/vnd.largecategory+json; view=default'
+    type: object
+  LargecategoryCollection:
+    description: LargecategoryCollection is the media type for an array of Largecategory
+      (default view)
+    example:
+    - id: 1.8140176e+18
+      name: Odio voluptatem.
+      name_base: Ut magnam.
+      name_en: Ab ea dolorem ut error enim.
+    - id: 1.8140176e+18
+      name: Odio voluptatem.
+      name_base: Ut magnam.
+      name_en: Ab ea dolorem ut error enim.
+    items:
+      $ref: '#/definitions/Largecategory'
+    title: 'Mediatype identifier: application/vnd.largecategory+json; type=collection;
+      view=default'
+    type: array
+  Middlecategory:
+    description: Middle Category (default view)
+    example:
+      id: 1.0651655e+18
+      large_category_id: 5.11954e+18
+      name: Et in temporibus aut facere omnis labore.
+      name_base: Iure omnis quo rem.
+      name_en: Suscipit consequatur doloribus aspernatur.
+    properties:
+      id:
+        description: Unique middle category ID
+        example: 1.0651655e+18
+        format: int64
+        type: integer
+      large_category_id:
+        description: large category id
+        example: 5.11954e+18
+        format: int64
+        type: integer
+      name:
+        description: category name
+        example: Et in temporibus aut facere omnis labore.
+        type: string
+      name_base:
+        description: category kana name
+        example: Iure omnis quo rem.
+        type: string
+      name_en:
+        description: category english name
+        example: Suscipit consequatur doloribus aspernatur.
+        type: string
+    required:
+    - id
+    - large_category_id
+    - name
+    - name_base
+    - name_en
+    title: 'Mediatype identifier: application/vnd.middlecategory+json; view=default'
+    type: object
+  MiddlecategoryCollection:
+    description: MiddlecategoryCollection is the media type for an array of Middlecategory
+      (default view)
+    example:
+    - id: 1.0651655e+18
+      large_category_id: 5.11954e+18
+      name: Et in temporibus aut facere omnis labore.
+      name_base: Iure omnis quo rem.
+      name_en: Suscipit consequatur doloribus aspernatur.
+    - id: 1.0651655e+18
+      large_category_id: 5.11954e+18
+      name: Et in temporibus aut facere omnis labore.
+      name_base: Iure omnis quo rem.
+      name_en: Suscipit consequatur doloribus aspernatur.
+    - id: 1.0651655e+18
+      large_category_id: 5.11954e+18
+      name: Et in temporibus aut facere omnis labore.
+      name_base: Iure omnis quo rem.
+      name_en: Suscipit consequatur doloribus aspernatur.
+    items:
+      $ref: '#/definitions/Middlecategory'
+    title: 'Mediatype identifier: application/vnd.middlecategory+json; type=collection;
+      view=default'
+    type: array
+  Profile:
+    description: profile (default view)
+    example:
+      address: Qui non nemo nostrum alias illo.
+      avatar_image: Officia architecto sunt.
+      cover_image: Et rem facere ut sed ullam.
+      id: 6.06008e+18
+      introduction: Quisquam assumenda quis vel iste.
+      phone: 4.4740085e+18
+      user_id: 1.930066e+18
+    properties:
+      address:
+        description: address
+        example: Qui non nemo nostrum alias illo.
+        type: string
+      avatar_image:
+        description: avatar image url
+        example: Officia architecto sunt.
+        type: string
+      cover_image:
+        description: cover image url
+        example: Et rem facere ut sed ullam.
+        type: string
+      id:
+        description: Unique profile ID
+        example: 6.06008e+18
+        format: int64
+        type: integer
+      introduction:
+        description: user introduciton
+        example: Quisquam assumenda quis vel iste.
+        type: string
+      phone:
+        description: phone number
+        example: 4.4740085e+18
+        format: int64
+        type: integer
+      user_id:
+        description: user id
+        example: 1.930066e+18
+        format: int64
+        type: integer
+    required:
+    - id
+    - user_id
+    - introduction
+    - address
+    - phone
+    - avatar_image
+    - cover_image
+    title: 'Mediatype identifier: application/vnd.profile+json; view=default'
+    type: object
+  UpdateAuthenticationPayload:
+    example:
+      email: true
+      identification: false
+      phone: false
+      user_id: 8.026846e+18
+    properties:
+      email:
+        description: address flag
+        example: true
+        type: boolean
+      identification:
+        description: identification flag
+        example: false
+        type: boolean
+      phone:
+        description: phone flag
+        example: false
+        type: boolean
+      user_id:
+        description: user id
+        example: 8.026846e+18
+        format: int64
+        type: integer
+    required:
+    - user_id
+    title: UpdateAuthenticationPayload
+    type: object
+  UpdateItemPayload:
+    example:
+      category_id: 7.4594635e+18
+      compensation: 8.9543375e+18
+      description: Sit corporis sint accusantium eos.
+      id: 8.035949e+18
+      image1: Non vel qui cum accusamus.
+      image2: Velit itaque qui quo voluptatem molestiae.
+      image3: Voluptate voluptatum veniam qui sit velit.
+      image4: Voluptatem culpa officia perferendis quia sed.
+      name: Sit vero architecto non sapiente numquam doloribus.
+      place_id: 2.1202419e+18
+      price: 7.749618e+18
+      user_id: 6.4038955e+18
+    properties:
+      category_id:
+        description: Category ID
+        example: 7.4594635e+18
+        format: int64
+        type: integer
+      compensation:
+        description: compensation of item
+        example: 8.9543375e+18
+        format: int64
+        type: integer
+      description:
+        description: description of item
+        example: Sit corporis sint accusantium eos.
+        type: string
+      id:
+        description: Unique item ID
+        example: 8.035949e+18
+        format: int64
+        type: integer
+      image1:
+        description: item image 1
+        example: Non vel qui cum accusamus.
+        type: string
+      image2:
+        description: item image 2
+        example: Velit itaque qui quo voluptatem molestiae.
+        type: string
+      image3:
+        description: item image 3
+        example: Voluptate voluptatum veniam qui sit velit.
+        type: string
+      image4:
+        description: item image 4
+        example: Voluptatem culpa officia perferendis quia sed.
+        type: string
+      name:
+        description: Name of item
+        example: Sit vero architecto non sapiente numquam doloribus.
+        type: string
+      place_id:
+        description: Place ID
+        example: 2.1202419e+18
+        format: int64
+        type: integer
+      price:
+        description: price of item
+        example: 7.749618e+18
+        format: int64
+        type: integer
+      user_id:
+        description: user ID
+        example: 6.4038955e+18
+        format: int64
+        type: integer
+    required:
+    - id
+    title: UpdateItemPayload
+    type: object
+  UpdateProfilePayload:
+    example:
+      address: Est porro voluptas ut odit ut est.
+      avatar_image: Provident dolores expedita.
+      cover_image: Repellat aut perspiciatis.
+      introduction: Quis atque.
+      phone: 3.723526e+18
+      user_id: 5.357064e+17
+    properties:
+      address:
+        description: address
+        example: Est porro voluptas ut odit ut est.
+        type: string
+      avatar_image:
+        description: avatar image url
+        example: Provident dolores expedita.
+        type: string
+      cover_image:
+        description: cover image url
+        example: Repellat aut perspiciatis.
+        type: string
+      introduction:
+        description: user introduciton
+        example: Quis atque.
+        type: string
+      phone:
+        description: phone number
+        example: 3.723526e+18
+        format: int64
+        type: integer
+      user_id:
+        description: user id
+        example: 5.357064e+17
+        format: int64
+        type: integer
+    required:
+    - user_id
+    title: UpdateProfilePayload
+    type: object
+  UpdateUserPayload:
+    example:
+      email: Est suscipit rerum officia.
+      first_name: Debitis dolorem laborum ratione aliquid et sapiente.
+      id: 7.702247e+18
+      last_name: Doloremque perspiciatis eaque.
+      password: Dolor exercitationem qui dignissimos excepturi est facilis.
+    properties:
+      email:
+        description: email
+        example: Est suscipit rerum officia.
+        type: string
+      first_name:
+        description: first name
+        example: Debitis dolorem laborum ratione aliquid et sapiente.
+        type: string
+      id:
+        description: Unique user ID
+        example: 7.702247e+18
+        format: int64
+        type: integer
+      last_name:
+        description: last_name
+        example: Doloremque perspiciatis eaque.
+        type: string
+      password:
+        description: password
+        example: Dolor exercitationem qui dignissimos excepturi est facilis.
+        type: string
+    required:
+    - id
+    title: UpdateUserPayload
+    type: object
+  User:
+    description: user (default view)
+    example:
+      email: Dignissimos et qui sunt voluptas.
+      first_name: Culpa adipisci alias aliquid alias doloremque quidem.
+      id: 2.6171584e+17
+      last_name: Possimus porro omnis quis rerum.
+      password: Voluptatem quae eaque dignissimos incidunt nesciunt autem.
+    properties:
+      email:
+        description: email
+        example: Dignissimos et qui sunt voluptas.
+        type: string
+      first_name:
+        description: first name
+        example: Culpa adipisci alias aliquid alias doloremque quidem.
+        type: string
+      id:
+        description: Unique user ID
+        example: 2.6171584e+17
+        format: int64
+        type: integer
+      last_name:
+        description: last_name
+        example: Possimus porro omnis quis rerum.
+        type: string
+      password:
+        description: password
+        example: Voluptatem quae eaque dignissimos incidunt nesciunt autem.
+        type: string
+    required:
+    - id
+    - first_name
+    - last_name
+    - email
+    - password
+    title: 'Mediatype identifier: application/vnd.user+json; view=default'
+    type: object
+  error:
+    description: Error response media type (default view)
+    example:
+      code: invalid_value
+      detail: Value of ID must be an integer
+      id: 3F1FKVRR
+      meta:
+        timestamp: 1.458609e+09
+      status: "400"
+    properties:
+      code:
+        description: an application-specific error code, expressed as a string value.
+        example: invalid_value
+        type: string
+      detail:
+        description: a human-readable explanation specific to this occurrence of the
+          problem.
+        example: Value of ID must be an integer
+        type: string
+      id:
+        description: a unique identifier for this particular occurrence of the problem.
+        example: 3F1FKVRR
+        type: string
+      meta:
+        additionalProperties: true
+        description: a meta object containing non-standard meta-information about
+          the error.
+        example:
+          timestamp: 1.458609e+09
+        type: object
+      status:
+        description: the HTTP status code applicable to this problem, expressed as
+          a string value.
+        example: "400"
+        type: string
+    title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+    type: object
+host: localhost:8080
+info:
+  description: rental service
+  title: The rental market place
+  version: ""
+paths:
+  /articles:
+    get:
+      description: Retrieve all items.
+      operationId: article#list
+      produces:
+      - application/vnd.article+json; type=collection
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ArticleCollection'
+      schemes:
+      - http
+      summary: list article
+      tags:
+      - article
+  /articles/{articleID}:
+    get:
+      description: Get article by id
+      operationId: article#show
+      parameters:
+      - description: article ID
+        in: path
+        name: articleID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.article+json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Article'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: show article
+      tags:
+      - article
+  /authentications:
+    post:
+      description: Create new authentication
+      operationId: authentication#create
+      parameters:
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/CreateAuthenticationPayload'
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "201":
+          description: Resource created
+          headers:
+            Location:
+              description: href to created resource
+              pattern: /authentications/[0-9]+
+              type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+      schemes:
+      - http
+      summary: create authentication
+      tags:
+      - authentication
+  /authentications/{userID}:
+    delete:
+      operationId: authentication#delete
+      parameters:
+      - description: user ID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: delete authentication
+      tags:
+      - authentication
+    get:
+      description: Get authentication by id
+      operationId: authentication#show
+      parameters:
+      - description: user ID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.authentication+json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Authentication'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: show authentication
+      tags:
+      - authentication
+    put:
+      description: Change authentication data
+      operationId: authentication#update
+      parameters:
+      - description: user ID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateAuthenticationPayload'
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: update authentication
+      tags:
+      - authentication
+  /categories:
+    get:
+      description: Retrieve all categories.
+      operationId: category#list
+      produces:
+      - application/vnd.category+json; type=collection
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/CategoryCollection'
+      schemes:
+      - http
+      summary: list category
+      tags:
+      - category
+  /categories/{categoryID}:
+    get:
+      description: Get category by id
+      operationId: category#show
+      parameters:
+      - description: category ID
+        in: path
+        name: categoryID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.category+json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Category'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: show category
+      tags:
+      - category
+  /comments:
+    get:
+      description: Retrieve all comments.
+      operationId: comment#list
+      produces:
+      - application/vnd.comment+json; type=collection
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/CommentCollection'
+      schemes:
+      - http
+      summary: list comment
+      tags:
+      - comment
+    post:
+      description: Create new comment
+      operationId: comment#create
+      parameters:
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/CreateCommentPayload'
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "201":
+          description: Resource created
+          headers:
+            Location:
+              description: href to created resource
+              pattern: /items/[0-9]+
+              type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+      schemes:
+      - http
+      summary: create comment
+      tags:
+      - comment
+  /comments/{itemID}:
+    get:
+      description: Get comment by id
+      operationId: comment#show
+      parameters:
+      - description: item ID
+        in: path
+        name: itemID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.comment+json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Comment'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: show comment
+      tags:
+      - comment
+  /items:
+    get:
+      description: Retrieve all items.
+      operationId: item#list
+      produces:
+      - application/vnd.item+json; type=collection
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ItemCollection'
+      schemes:
+      - http
+      summary: list item
+      tags:
+      - item
+    post:
+      description: Create new item
+      operationId: item#create
+      parameters:
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/CreateItemPayload'
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "201":
+          description: Resource created
+          headers:
+            Location:
+              description: href to created resource
+              pattern: /items/[0-9]+
+              type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+      schemes:
+      - http
+      summary: create item
+      tags:
+      - item
+  /items/{itemID}:
+    delete:
+      operationId: item#delete
+      parameters:
+      - description: item ID
+        in: path
+        name: itemID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: delete item
+      tags:
+      - item
+    get:
+      description: Get item by id
+      operationId: item#show
+      parameters:
+      - description: item ID
+        in: path
+        name: itemID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.item+json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Item'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: show item
+      tags:
+      - item
+    put:
+      description: Change item data
+      operationId: item#update
+      parameters:
+      - description: item ID
+        in: path
+        name: itemID
+        required: true
+        type: integer
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateItemPayload'
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: update item
+      tags:
+      - item
+  /largecategories:
+    get:
+      description: Retrieve all largecategories.
+      operationId: largecategory#list
+      produces:
+      - application/vnd.largecategory+json; type=collection
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/LargecategoryCollection'
+      schemes:
+      - http
+      summary: list largecategory
+      tags:
+      - largecategory
+  /largecategories/{largecategoryID}:
+    get:
+      description: Get largecategory by id
+      operationId: largecategory#show
+      parameters:
+      - description: largecategory ID
+        in: path
+        name: largecategoryID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.largecategory+json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Largecategory'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: show largecategory
+      tags:
+      - largecategory
+  /middlecategories:
+    get:
+      description: Retrieve all middlecategories.
+      operationId: middlecategory#list
+      produces:
+      - application/vnd.middlecategory+json; type=collection
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/MiddlecategoryCollection'
+      schemes:
+      - http
+      summary: list middlecategory
+      tags:
+      - middlecategory
+  /middlecategories/{middlecategoryID}:
+    get:
+      description: Get middlecategory by id
+      operationId: middlecategory#show
+      parameters:
+      - description: middlecategory ID
+        in: path
+        name: middlecategoryID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.middlecategory+json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Middlecategory'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: show middlecategory
+      tags:
+      - middlecategory
+  /offers:
+    post:
+      description: Create new offer
+      operationId: offer#create
+      parameters:
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/CreateOfferPayload'
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "201":
+          description: Resource created
+          headers:
+            Location:
+              description: href to created resource
+              pattern: /offers/[0-9]+
+              type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+      schemes:
+      - http
+      summary: create offer
+      tags:
+      - offer
+  /offers/{ownerID}:
+    get:
+      description: Get owner by id
+      operationId: offer#show
+      parameters:
+      - description: owner ID
+        in: path
+        name: ownerID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.profile+json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Profile'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: show offer
+      tags:
+      - offer
+  /profiles:
+    post:
+      description: Create new profile
+      operationId: profile#create
+      parameters:
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/CreateProfilePayload'
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "201":
+          description: Resource created
+          headers:
+            Location:
+              description: href to created resource
+              pattern: /profiles/[0-9]+
+              type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+      schemes:
+      - http
+      summary: create profile
+      tags:
+      - profile
+  /profiles/{userID}:
+    delete:
+      operationId: profile#delete
+      parameters:
+      - description: user ID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: delete profile
+      tags:
+      - profile
+    get:
+      description: Get profile by id
+      operationId: profile#show
+      parameters:
+      - description: user ID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.profile+json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Profile'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: show profile
+      tags:
+      - profile
+    put:
+      description: Change profile data
+      operationId: profile#update
+      parameters:
+      - description: user ID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateProfilePayload'
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: update profile
+      tags:
+      - profile
+  /users:
+    post:
+      description: Create new user
+      operationId: user#create
+      parameters:
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/CreateUserPayload'
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "201":
+          description: Resource created
+          headers:
+            Location:
+              description: href to created resource
+              pattern: /users/[0-9]+
+              type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+      schemes:
+      - http
+      summary: create user
+      tags:
+      - user
+  /users/{userID}:
+    delete:
+      operationId: user#delete
+      parameters:
+      - description: user ID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: delete user
+      tags:
+      - user
+    get:
+      description: Get user by id
+      operationId: user#show
+      parameters:
+      - description: user ID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.user+json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: show user
+      tags:
+      - user
+    put:
+      description: Change user data
+      operationId: user#update
+      parameters:
+      - description: user ID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateUserPayload'
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: update user
+      tags:
+      - user
+produces:
+- application/json
+- application/xml
+- application/gob
+- application/x-gob
+responses:
+  NoContent:
+    description: No Content
+  NotFound:
+    description: Not Found
+  OK:
+    description: OK
+    schema:
+      $ref: '#/definitions/Article'
+schemes:
+- http
+swagger: "2.0"
