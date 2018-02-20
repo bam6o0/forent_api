@@ -173,36 +173,6 @@ func (c *Client) NewListItemRequest(ctx context.Context, path string, payload *L
 	return req, nil
 }
 
-// ShowItemPath computes a request path to the show action of item.
-func ShowItemPath(itemID int) string {
-	param0 := strconv.Itoa(itemID)
-
-	return fmt.Sprintf("/items/%s", param0)
-}
-
-// Get item by id
-func (c *Client) ShowItem(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewShowItemRequest(ctx, path)
-	if err != nil {
-		return nil, err
-	}
-	return c.Client.Do(ctx, req)
-}
-
-// NewShowItemRequest create the request corresponding to the show action endpoint of the item resource.
-func (c *Client) NewShowItemRequest(ctx context.Context, path string) (*http.Request, error) {
-	scheme := c.Scheme
-	if scheme == "" {
-		scheme = "http"
-	}
-	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-	return req, nil
-}
-
 // UpdateItemPayload is the item update action payload.
 type UpdateItemPayload struct {
 	// Category ID

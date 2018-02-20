@@ -60,22 +60,11 @@ func (c *ItemController) List(ctx *app.ListItemContext) error {
 		item, _ := ItemDB.OneItem(ctx.Context, *pay.ItemID, 0, 0, 0)
 		objs = append(objs, item)
 		return ctx.OK(objs)
-	} else {
-		pay := *ctx.Payload
-		items := ItemDB.ListItem(ctx.Context, *pay.CategoryID, *pay.PlaceID, *pay.UserID)
-		return ctx.OK(items)
 	}
-}
+	pay := *ctx.Payload
+	items := ItemDB.ListItem(ctx.Context, *pay.CategoryID, *pay.PlaceID, *pay.UserID)
+	return ctx.OK(items)
 
-// Show runs the show action.
-func (c *ItemController) Show(ctx *app.ShowItemContext) error {
-	// ItemController_Show: start_implement
-
-	// Put your logic here
-
-	res := &app.Item{}
-	return ctx.OK(res)
-	// ItemController_Show: end_implement
 }
 
 // Update runs the update action.

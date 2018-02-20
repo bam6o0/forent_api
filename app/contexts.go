@@ -901,49 +901,6 @@ func (ctx *ListItemContext) OK(r ItemCollection) error {
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
 }
 
-// ShowItemContext provides the item show action context.
-type ShowItemContext struct {
-	context.Context
-	*goa.ResponseData
-	*goa.RequestData
-	ItemID int
-}
-
-// NewShowItemContext parses the incoming request URL and body, performs validations and creates the
-// context used by the item controller show action.
-func NewShowItemContext(ctx context.Context, r *http.Request, service *goa.Service) (*ShowItemContext, error) {
-	var err error
-	resp := goa.ContextResponse(ctx)
-	resp.Service = service
-	req := goa.ContextRequest(ctx)
-	req.Request = r
-	rctx := ShowItemContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramItemID := req.Params["itemID"]
-	if len(paramItemID) > 0 {
-		rawItemID := paramItemID[0]
-		if itemID, err2 := strconv.Atoi(rawItemID); err2 == nil {
-			rctx.ItemID = itemID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("itemID", rawItemID, "integer"))
-		}
-	}
-	return &rctx, err
-}
-
-// OK sends a HTTP response with status code 200.
-func (ctx *ShowItemContext) OK(r *Item) error {
-	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.item+json")
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ShowItemContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
-}
-
 // UpdateItemContext provides the item update action context.
 type UpdateItemContext struct {
 	context.Context

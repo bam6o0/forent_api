@@ -116,13 +116,6 @@ type (
 		PrettyPrint bool
 	}
 
-	// ShowItemCommand is the command line data structure for the show action of item
-	ShowItemCommand struct {
-		// item ID
-		ItemID      int
-		PrettyPrint bool
-	}
-
 	// UpdateItemCommand is the command line data structure for the update action of item
 	UpdateItemCommand struct {
 		Payload     string
@@ -509,48 +502,39 @@ Payload example:
 	tmp19.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp19.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp20 := new(ShowItemCommand)
+	tmp20 := new(ShowOfferCommand)
 	sub = &cobra.Command{
-		Use:   `item ["/items/ITEMID"]`,
+		Use:   `offer ["/offers/OWNERID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp20.Run(c, args) },
 	}
 	tmp20.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp20.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp21 := new(ShowOfferCommand)
+	tmp21 := new(ShowProfileCommand)
 	sub = &cobra.Command{
-		Use:   `offer ["/offers/OWNERID"]`,
+		Use:   `profile ["/profiles/PROFILEID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp21.Run(c, args) },
 	}
 	tmp21.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp21.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp22 := new(ShowProfileCommand)
+	tmp22 := new(ShowUserCommand)
 	sub = &cobra.Command{
-		Use:   `profile ["/profiles/PROFILEID"]`,
+		Use:   `user ["/users/USERID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp22.Run(c, args) },
 	}
 	tmp22.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp22.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp23 := new(ShowUserCommand)
-	sub = &cobra.Command{
-		Use:   `user ["/users/USERID"]`,
-		Short: ``,
-		RunE:  func(cmd *cobra.Command, args []string) error { return tmp23.Run(c, args) },
-	}
-	tmp23.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp23.PrettyPrint, "pp", false, "Pretty print response body")
-	command.AddCommand(sub)
 	app.AddCommand(command)
 	command = &cobra.Command{
 		Use:   "update",
 		Short: `update action`,
 	}
-	tmp24 := new(UpdateAuthenticationCommand)
+	tmp23 := new(UpdateAuthenticationCommand)
 	sub = &cobra.Command{
 		Use:   `authentication ["/authentications/AUTHENTICATIONID"]`,
 		Short: ``,
@@ -564,12 +548,12 @@ Payload example:
    "phone": false,
    "user_id": 5936237511368153743
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp24.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp23.Run(c, args) },
 	}
-	tmp24.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp24.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp23.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp23.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp25 := new(UpdateItemCommand)
+	tmp24 := new(UpdateItemCommand)
 	sub = &cobra.Command{
 		Use:   `item ["/items/ITEMID"]`,
 		Short: ``,
@@ -591,12 +575,12 @@ Payload example:
    "price": 8886196792732442789,
    "user_id": 7519376908200432516
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp25.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp24.Run(c, args) },
 	}
-	tmp25.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp25.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp24.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp24.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp26 := new(UpdateProfileCommand)
+	tmp25 := new(UpdateProfileCommand)
 	sub = &cobra.Command{
 		Use:   `profile ["/profiles/PROFILEID"]`,
 		Short: ``,
@@ -612,12 +596,12 @@ Payload example:
    "phone": 8103770447231538962,
    "user_id": 7563239026287761999
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp26.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp25.Run(c, args) },
 	}
-	tmp26.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp26.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp25.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp25.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp27 := new(UpdateUserCommand)
+	tmp26 := new(UpdateUserCommand)
 	sub = &cobra.Command{
 		Use:   `user ["/users/USERID"]`,
 		Short: ``,
@@ -632,10 +616,10 @@ Payload example:
    "last_name": "Aliquid et.",
    "password": "Dicta ut doloremque perspiciatis."
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp27.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp26.Run(c, args) },
 	}
-	tmp27.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp27.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp26.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp26.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
 	app.AddCommand(command)
 }
@@ -1169,32 +1153,6 @@ func (cmd *ListItemCommand) Run(c *client.Client, args []string) error {
 func (cmd *ListItemCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
 	cc.Flags().StringVar(&cmd.Payload, "payload", "", "Request body encoded in JSON")
 	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
-}
-
-// Run makes the HTTP request corresponding to the ShowItemCommand command.
-func (cmd *ShowItemCommand) Run(c *client.Client, args []string) error {
-	var path string
-	if len(args) > 0 {
-		path = args[0]
-	} else {
-		path = fmt.Sprintf("/items/%v", cmd.ItemID)
-	}
-	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
-	ctx := goa.WithLogger(context.Background(), logger)
-	resp, err := c.ShowItem(ctx, path)
-	if err != nil {
-		goa.LogError(ctx, "failed", "err", err)
-		return err
-	}
-
-	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
-	return nil
-}
-
-// RegisterFlags registers the command flags with the command line.
-func (cmd *ShowItemCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
-	var itemID int
-	cc.Flags().IntVar(&cmd.ItemID, "itemID", itemID, `item ID`)
 }
 
 // Run makes the HTTP request corresponding to the UpdateItemCommand command.

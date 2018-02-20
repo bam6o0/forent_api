@@ -442,7 +442,6 @@ type ItemController interface {
 	Create(*CreateItemContext) error
 	Delete(*DeleteItemContext) error
 	List(*ListItemContext) error
-	Show(*ShowItemContext) error
 	Update(*UpdateItemContext) error
 }
 
@@ -512,22 +511,6 @@ func MountItemController(service *goa.Service, ctrl ItemController) {
 	h = handleItemOrigin(h)
 	service.Mux.Handle("GET", "/items", ctrl.MuxHandler("list", h, unmarshalListItemPayload))
 	service.LogInfo("mount", "ctrl", "Item", "action", "List", "route", "GET /items")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewShowItemContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		return ctrl.Show(rctx)
-	}
-	h = handleItemOrigin(h)
-	service.Mux.Handle("GET", "/items/:itemID", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Item", "action", "Show", "route", "GET /items/:itemID")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request

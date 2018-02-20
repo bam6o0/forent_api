@@ -1491,29 +1491,6 @@ paths:
       summary: delete item
       tags:
       - item
-    get:
-      description: Get item by id
-      operationId: item#show
-      parameters:
-      - description: item ID
-        in: path
-        name: itemID
-        required: true
-        type: integer
-      produces:
-      - application/vnd.item+json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/Item'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      summary: show item
-      tags:
-      - item
     put:
       description: Change item data
       operationId: item#update

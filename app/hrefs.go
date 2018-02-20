@@ -33,12 +33,6 @@ func CommentHref(itemID interface{}) string {
 	return fmt.Sprintf("/comments/%v", paramitemID)
 }
 
-// ItemHref returns the resource href.
-func ItemHref(itemID interface{}) string {
-	paramitemID := strings.TrimLeftFunc(fmt.Sprintf("%v", itemID), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/items/%v", paramitemID)
-}
-
 // OfferHref returns the resource href.
 func OfferHref(ownerID interface{}) string {
 	paramownerID := strings.TrimLeftFunc(fmt.Sprintf("%v", ownerID), func(r rune) bool { return r == '/' })
