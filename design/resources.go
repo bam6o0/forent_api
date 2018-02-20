@@ -412,19 +412,11 @@ var _ = Resource("category", func() { // Resources group related API endpoints
 
 	Action("list", func() {
 		Routing(
-			GET("/:middlecategoryID"),
+			GET(""),
 		)
 		Payload(func() {
 			Param("middlecategoryID", Integer, "middlecategory id")
 		})
-		Description("Retrieve all categories.")
-		Response(OK, CollectionOf(Category))
-	})
-
-	Action("all", func() {
-		Routing(
-			GET(""),
-		)
 		Description("Retrieve all categories.")
 		Response(OK, CollectionOf(Category))
 	})
