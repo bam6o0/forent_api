@@ -222,6 +222,12 @@ var _ = Resource("item", func() { // Resources group related API endpoints
 		Routing(
 			GET(""),
 		)
+		Payload(func() {
+			Param("itemID", Integer, "item ID")
+			Param("userID", Integer, "user id")
+			Param("placeID", Integer, "place id")
+			Param("categoryID", Integer, "category id")
+		})
 		Description("Retrieve all items.")
 		Response(OK, CollectionOf(Item))
 	})

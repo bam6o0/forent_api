@@ -118,6 +118,18 @@ func (c *Client) NewDeleteItemRequest(ctx context.Context, path string) (*http.R
 	return req, nil
 }
 
+// ListItemPayload is the item list action payload.
+type ListItemPayload struct {
+	// category id
+	CategoryID *int `form:"categoryID,omitempty" json:"categoryID,omitempty" xml:"categoryID,omitempty"`
+	// item ID
+	ItemID *int `form:"itemID,omitempty" json:"itemID,omitempty" xml:"itemID,omitempty"`
+	// place id
+	PlaceID *int `form:"placeID,omitempty" json:"placeID,omitempty" xml:"placeID,omitempty"`
+	// user id
+	UserID *int `form:"userID,omitempty" json:"userID,omitempty" xml:"userID,omitempty"`
+}
+
 // ListItemPath computes a request path to the list action of item.
 func ListItemPath() string {
 
@@ -125,8 +137,8 @@ func ListItemPath() string {
 }
 
 // Retrieve all items.
-func (c *Client) ListItem(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewListItemRequest(ctx, path)
+func (c *Client) ListItem(ctx context.Context, path string, payload *ListItemPayload, contentType string) (*http.Response, error) {
+	req, err := c.NewListItemRequest(ctx, path, payload, contentType)
 	if err != nil {
 		return nil, err
 	}
@@ -134,15 +146,29 @@ func (c *Client) ListItem(ctx context.Context, path string) (*http.Response, err
 }
 
 // NewListItemRequest create the request corresponding to the list action endpoint of the item resource.
-func (c *Client) NewListItemRequest(ctx context.Context, path string) (*http.Request, error) {
+func (c *Client) NewListItemRequest(ctx context.Context, path string, payload *ListItemPayload, contentType string) (*http.Request, error) {
+	var body bytes.Buffer
+	if contentType == "" {
+		contentType = "*/*" // Use default encoder
+	}
+	err := c.Encoder.Encode(payload, &body, contentType)
+	if err != nil {
+		return nil, fmt.Errorf("failed to encode body: %s", err)
+	}
 	scheme := c.Scheme
 	if scheme == "" {
 		scheme = "http"
 	}
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
+	req, err := http.NewRequest("GET", u.String(), &body)
 	if err != nil {
 		return nil, err
+	}
+	header := req.Header
+	if contentType == "*/*" {
+		header.Set("Content-Type", "application/json")
+	} else {
+		header.Set("Content-Type", contentType)
 	}
 	return req, nil
 }

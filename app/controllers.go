@@ -501,10 +501,16 @@ func MountItemController(service *goa.Service, ctrl ItemController) {
 		if err != nil {
 			return err
 		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*ListItemPayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
 		return ctrl.List(rctx)
 	}
 	h = handleItemOrigin(h)
-	service.Mux.Handle("GET", "/items", ctrl.MuxHandler("list", h, nil))
+	service.Mux.Handle("GET", "/items", ctrl.MuxHandler("list", h, unmarshalListItemPayload))
 	service.LogInfo("mount", "ctrl", "Item", "action", "List", "route", "GET /items")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
@@ -581,6 +587,16 @@ func unmarshalCreateItemPayload(ctx context.Context, service *goa.Service, req *
 	if err := payload.Validate(); err != nil {
 		// Initialize payload with private data structure so it can be logged
 		goa.ContextRequest(ctx).Payload = payload
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
+}
+
+// unmarshalListItemPayload unmarshals the request body into the context request data Payload field.
+func unmarshalListItemPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &listItemPayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
 		return err
 	}
 	goa.ContextRequest(ctx).Payload = payload.Publicize()

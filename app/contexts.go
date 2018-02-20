@@ -833,6 +833,7 @@ type ListItemContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
+	Payload *ListItemPayload
 }
 
 // NewListItemContext parses the incoming request URL and body, performs validations and creates the
@@ -845,6 +846,48 @@ func NewListItemContext(ctx context.Context, r *http.Request, service *goa.Servi
 	req.Request = r
 	rctx := ListItemContext{Context: ctx, ResponseData: resp, RequestData: req}
 	return &rctx, err
+}
+
+// listItemPayload is the item list action payload.
+type listItemPayload struct {
+	// category id
+	CategoryID *int `form:"categoryID,omitempty" json:"categoryID,omitempty" xml:"categoryID,omitempty"`
+	// item ID
+	ItemID *int `form:"itemID,omitempty" json:"itemID,omitempty" xml:"itemID,omitempty"`
+	// place id
+	PlaceID *int `form:"placeID,omitempty" json:"placeID,omitempty" xml:"placeID,omitempty"`
+	// user id
+	UserID *int `form:"userID,omitempty" json:"userID,omitempty" xml:"userID,omitempty"`
+}
+
+// Publicize creates ListItemPayload from listItemPayload
+func (payload *listItemPayload) Publicize() *ListItemPayload {
+	var pub ListItemPayload
+	if payload.CategoryID != nil {
+		pub.CategoryID = payload.CategoryID
+	}
+	if payload.ItemID != nil {
+		pub.ItemID = payload.ItemID
+	}
+	if payload.PlaceID != nil {
+		pub.PlaceID = payload.PlaceID
+	}
+	if payload.UserID != nil {
+		pub.UserID = payload.UserID
+	}
+	return &pub
+}
+
+// ListItemPayload is the item list action payload.
+type ListItemPayload struct {
+	// category id
+	CategoryID *int `form:"categoryID,omitempty" json:"categoryID,omitempty" xml:"categoryID,omitempty"`
+	// item ID
+	ItemID *int `form:"itemID,omitempty" json:"itemID,omitempty" xml:"itemID,omitempty"`
+	// place id
+	PlaceID *int `form:"placeID,omitempty" json:"placeID,omitempty" xml:"placeID,omitempty"`
+	// user id
+	UserID *int `form:"userID,omitempty" json:"userID,omitempty" xml:"userID,omitempty"`
 }
 
 // OK sends a HTTP response with status code 200.
