@@ -1329,8 +1329,28 @@ paths:
   /categories:
     get:
       description: Retrieve all categories.
+      operationId: category#all
+      produces:
+      - application/vnd.category+json; type=collection
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/CategoryCollection'
+      schemes:
+      - http
+      summary: all category
+      tags:
+      - category
+  /categories/{middlecategoryID}:
+    get:
+      description: Retrieve all categories.
       operationId: category#list
       parameters:
+      - in: path
+        name: middlecategoryID
+        required: true
+        type: string
       - in: body
         name: payload
         required: true

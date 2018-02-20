@@ -382,12 +382,43 @@ func (ctx *UpdateAuthenticationContext) NotFound() error {
 	return nil
 }
 
+// AllCategoryContext provides the category all action context.
+type AllCategoryContext struct {
+	context.Context
+	*goa.ResponseData
+	*goa.RequestData
+}
+
+// NewAllCategoryContext parses the incoming request URL and body, performs validations and creates the
+// context used by the category controller all action.
+func NewAllCategoryContext(ctx context.Context, r *http.Request, service *goa.Service) (*AllCategoryContext, error) {
+	var err error
+	resp := goa.ContextResponse(ctx)
+	resp.Service = service
+	req := goa.ContextRequest(ctx)
+	req.Request = r
+	rctx := AllCategoryContext{Context: ctx, ResponseData: resp, RequestData: req}
+	return &rctx, err
+}
+
+// OK sends a HTTP response with status code 200.
+func (ctx *AllCategoryContext) OK(r CategoryCollection) error {
+	if ctx.ResponseData.Header().Get("Content-Type") == "" {
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.category+json; type=collection")
+	}
+	if r == nil {
+		r = CategoryCollection{}
+	}
+	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
+}
+
 // ListCategoryContext provides the category list action context.
 type ListCategoryContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	Payload *ListCategoryPayload
+	MiddlecategoryID string
+	Payload          *ListCategoryPayload
 }
 
 // NewListCategoryContext parses the incoming request URL and body, performs validations and creates the
@@ -399,6 +430,11 @@ func NewListCategoryContext(ctx context.Context, r *http.Request, service *goa.S
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := ListCategoryContext{Context: ctx, ResponseData: resp, RequestData: req}
+	paramMiddlecategoryID := req.Params["middlecategoryID"]
+	if len(paramMiddlecategoryID) > 0 {
+		rawMiddlecategoryID := paramMiddlecategoryID[0]
+		rctx.MiddlecategoryID = rawMiddlecategoryID
+	}
 	return &rctx, err
 }
 

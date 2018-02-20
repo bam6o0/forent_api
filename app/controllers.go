@@ -257,6 +257,7 @@ func unmarshalUpdateAuthenticationPayload(ctx context.Context, service *goa.Serv
 // CategoryController is the controller interface for the Category actions.
 type CategoryController interface {
 	goa.Muxer
+	All(*AllCategoryContext) error
 	List(*ListCategoryContext) error
 }
 
@@ -265,6 +266,23 @@ func MountCategoryController(service *goa.Service, ctrl CategoryController) {
 	initService(service)
 	var h goa.Handler
 	service.Mux.Handle("OPTIONS", "/categories", ctrl.MuxHandler("preflight", handleCategoryOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/categories/:middlecategoryID", ctrl.MuxHandler("preflight", handleCategoryOrigin(cors.HandlePreflight()), nil))
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewAllCategoryContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		return ctrl.All(rctx)
+	}
+	h = handleCategoryOrigin(h)
+	service.Mux.Handle("GET", "/categories", ctrl.MuxHandler("all", h, nil))
+	service.LogInfo("mount", "ctrl", "Category", "action", "All", "route", "GET /categories")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -285,8 +303,8 @@ func MountCategoryController(service *goa.Service, ctrl CategoryController) {
 		return ctrl.List(rctx)
 	}
 	h = handleCategoryOrigin(h)
-	service.Mux.Handle("GET", "/categories", ctrl.MuxHandler("list", h, unmarshalListCategoryPayload))
-	service.LogInfo("mount", "ctrl", "Category", "action", "List", "route", "GET /categories")
+	service.Mux.Handle("GET", "/categories/:middlecategoryID", ctrl.MuxHandler("list", h, unmarshalListCategoryPayload))
+	service.LogInfo("mount", "ctrl", "Category", "action", "List", "route", "GET /categories/:middlecategoryID")
 }
 
 // handleCategoryOrigin applies the CORS response headers corresponding to the origin.

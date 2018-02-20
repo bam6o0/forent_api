@@ -18,6 +18,35 @@ import (
 	"net/url"
 )
 
+// AllCategoryPath computes a request path to the all action of category.
+func AllCategoryPath() string {
+
+	return fmt.Sprintf("/categories")
+}
+
+// Retrieve all categories.
+func (c *Client) AllCategory(ctx context.Context, path string) (*http.Response, error) {
+	req, err := c.NewAllCategoryRequest(ctx, path)
+	if err != nil {
+		return nil, err
+	}
+	return c.Client.Do(ctx, req)
+}
+
+// NewAllCategoryRequest create the request corresponding to the all action endpoint of the category resource.
+func (c *Client) NewAllCategoryRequest(ctx context.Context, path string) (*http.Request, error) {
+	scheme := c.Scheme
+	if scheme == "" {
+		scheme = "http"
+	}
+	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
+	req, err := http.NewRequest("GET", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	return req, nil
+}
+
 // ListCategoryPayload is the category list action payload.
 type ListCategoryPayload struct {
 	// middlecategory id
@@ -25,9 +54,10 @@ type ListCategoryPayload struct {
 }
 
 // ListCategoryPath computes a request path to the list action of category.
-func ListCategoryPath() string {
+func ListCategoryPath(middlecategoryID string) string {
+	param0 := middlecategoryID
 
-	return fmt.Sprintf("/categories")
+	return fmt.Sprintf("/categories/%s", param0)
 }
 
 // Retrieve all categories.
