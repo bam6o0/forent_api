@@ -490,41 +490,41 @@ definitions:
     type: object
   CreateOfferPayload:
     example:
-      end_at: 1987-05-24T13:00:29Z
-      item_id: 7.1104125e+18
-      owner_id: 5.954731e+18
-      price: 5.2909506e+18
-      start_at: 2007-04-25T22:14:45Z
-      user_id: 1.4271503e+18
+      end_at: 2010-12-06T20:23:53Z
+      item_id: 8.954419e+18
+      owner_id: 1.4271503e+18
+      price: 8.6293645e+17
+      start_at: 1983-11-07T15:17:13Z
+      user_id: 4.080085e+18
     properties:
       end_at:
         description: rental end at
-        example: 1987-05-24T13:00:29Z
+        example: 2010-12-06T20:23:53Z
         format: date-time
         type: string
       item_id:
         description: item id
-        example: 7.1104125e+18
+        example: 8.954419e+18
         format: int64
         type: integer
       owner_id:
         description: item id
-        example: 5.954731e+18
+        example: 1.4271503e+18
         format: int64
         type: integer
       price:
         description: offer price
-        example: 5.2909506e+18
+        example: 8.6293645e+17
         format: int64
         type: integer
       start_at:
         description: rental start at
-        example: 2007-04-25T22:14:45Z
+        example: 1983-11-07T15:17:13Z
         format: date-time
         type: string
       user_id:
         description: offer user id
-        example: 1.4271503e+18
+        example: 4.080085e+18
         format: int64
         type: integer
     required:
@@ -537,37 +537,37 @@ definitions:
     type: object
   CreateProfilePayload:
     example:
-      address: Sit vero architecto non sapiente numquam doloribus.
-      avatar_image: Hic fugiat aut aperiam eius voluptatem.
-      cover_image: Non molestiae reiciendis doloribus mollitia iure mollitia.
-      introduction: Doloribus velit voluptatem adipisci aut.
-      phone: 5.363108e+18
-      user_id: 3.8656242e+18
+      address: Non sapiente numquam doloribus exercitationem.
+      avatar_image: Fugiat aut aperiam eius voluptatem hic non.
+      cover_image: Reiciendis doloribus mollitia iure.
+      introduction: Id doloribus velit.
+      phone: 6.2452387e+18
+      user_id: 2.8051667e+18
     properties:
       address:
         description: address
-        example: Sit vero architecto non sapiente numquam doloribus.
+        example: Non sapiente numquam doloribus exercitationem.
         type: string
       avatar_image:
         description: avatar image url
-        example: Hic fugiat aut aperiam eius voluptatem.
+        example: Fugiat aut aperiam eius voluptatem hic non.
         type: string
       cover_image:
         description: cover image url
-        example: Non molestiae reiciendis doloribus mollitia iure mollitia.
+        example: Reiciendis doloribus mollitia iure.
         type: string
       introduction:
         description: user introduciton
-        example: Doloribus velit voluptatem adipisci aut.
+        example: Id doloribus velit.
         type: string
       phone:
         description: phone number
-        example: 5.363108e+18
+        example: 6.2452387e+18
         format: int64
         type: integer
       user_id:
         description: user id
-        example: 3.8656242e+18
+        example: 2.8051667e+18
         format: int64
         type: integer
     required:
@@ -622,6 +622,19 @@ definitions:
     - profile_id
     - authentication_id
     title: CreateUserPayload
+    type: object
+  DeleteItemPayload:
+    example:
+      itemID: 1.243587e+18
+    properties:
+      itemID:
+        description: item ID
+        example: 1.243587e+18
+        format: int64
+        type: integer
+    required:
+    - itemID
+    title: DeleteItemPayload
     type: object
   Item:
     description: A item of user (default view)
@@ -811,13 +824,42 @@ definitions:
         type: integer
     title: ListCategoryPayload
     type: object
+  ListItemPayload:
+    example:
+      categoryID: 6.716818e+15
+      itemID: 8.953063e+18
+      placeID: 4.0374683e+18
+      userID: 9.1163604e+18
+    properties:
+      categoryID:
+        description: category id
+        example: 6.716818e+15
+        format: int64
+        type: integer
+      itemID:
+        description: item ID
+        example: 8.953063e+18
+        format: int64
+        type: integer
+      placeID:
+        description: place id
+        example: 4.0374683e+18
+        format: int64
+        type: integer
+      userID:
+        description: user id
+        example: 9.1163604e+18
+        format: int64
+        type: integer
+    title: ListItemPayload
+    type: object
   ListMiddlecategoryPayload:
     example:
-      largecategoryID: 6.6474104e+18
+      largecategoryID: 5.954731e+18
     properties:
       largecategoryID:
         description: largecategory id
-        example: 6.6474104e+18
+        example: 5.954731e+18
         format: int64
         type: integer
     title: ListMiddlecategoryPayload
@@ -955,97 +997,97 @@ definitions:
     type: object
   UpdateItemPayload:
     example:
-      category_id: 1.243587e+18
-      compensation: 6.716818e+15
-      description: Deserunt eum ex dolores et voluptatem.
-      id: 6.151236e+18
-      image1: Animi numquam delectus dolor vitae nulla nemo.
-      image2: Sit corporis sint accusantium eos.
-      image3: Ut non vel qui.
-      image4: Accusamus esse velit itaque qui.
-      name: Voluptatem molestiae voluptas voluptate voluptatum veniam.
-      place_id: 7.519377e+18
-      price: 8.0542976e+18
-      user_id: 1.9943134e+18
+      category_id: 4.646796e+18
+      compensation: 6.0068393e+18
+      description: Voluptatem consequatur in.
+      image1: Numquam delectus dolor vitae nulla nemo aut.
+      image2: Corporis sint.
+      image3: Eos consectetur ut non vel.
+      image4: Cum accusamus esse velit itaque qui quo.
+      itemID: 3.1674495e+18
+      name: Voluptas voluptate voluptatum veniam qui sit velit.
+      place_id: 6.6474104e+18
+      price: 7.9674884e+18
+      user_id: 7.1104125e+18
     properties:
       category_id:
         description: Category ID
-        example: 1.243587e+18
+        example: 4.646796e+18
         format: int64
         type: integer
       compensation:
         description: compensation of item
-        example: 6.716818e+15
+        example: 6.0068393e+18
         format: int64
         type: integer
       description:
         description: description of item
-        example: Deserunt eum ex dolores et voluptatem.
+        example: Voluptatem consequatur in.
         type: string
-      id:
-        description: Unique item ID
-        example: 6.151236e+18
-        format: int64
-        type: integer
       image1:
         description: item image 1
-        example: Animi numquam delectus dolor vitae nulla nemo.
+        example: Numquam delectus dolor vitae nulla nemo aut.
         type: string
       image2:
         description: item image 2
-        example: Sit corporis sint accusantium eos.
+        example: Corporis sint.
         type: string
       image3:
         description: item image 3
-        example: Ut non vel qui.
+        example: Eos consectetur ut non vel.
         type: string
       image4:
         description: item image 4
-        example: Accusamus esse velit itaque qui.
+        example: Cum accusamus esse velit itaque qui quo.
         type: string
+      itemID:
+        description: item ID
+        example: 3.1674495e+18
+        format: int64
+        type: integer
       name:
         description: Name of item
-        example: Voluptatem molestiae voluptas voluptate voluptatum veniam.
+        example: Voluptas voluptate voluptatum veniam qui sit velit.
         type: string
       place_id:
         description: Place ID
-        example: 7.519377e+18
+        example: 6.6474104e+18
         format: int64
         type: integer
       price:
         description: price of item
-        example: 8.0542976e+18
+        example: 7.9674884e+18
         format: int64
         type: integer
       user_id:
         description: user ID
-        example: 1.9943134e+18
+        example: 7.1104125e+18
         format: int64
         type: integer
     required:
-    - id
+    - itemID
     title: UpdateItemPayload
     type: object
   UpdateProfilePayload:
     example:
-      address: Repudiandae odio vero.
-      avatar_image: Quisquam est porro voluptas ut odit.
-      cover_image: Est porro provident.
+      address: Sit voluptatum dolore repudiandae.
+      avatar_image: Vero excepturi quisquam est porro voluptas.
+      cover_image: Odit ut est porro provident.
       introduction: Expedita voluptates repellat aut perspiciatis.
       phone: 8.401865e+18
       user_id: 2.1842365e+18
     properties:
       address:
         description: address
-        example: Repudiandae odio vero.
+        example: Sit voluptatum dolore repudiandae.
         type: string
       avatar_image:
         description: avatar image url
-        example: Quisquam est porro voluptas ut odit.
+        example: Vero excepturi quisquam est porro voluptas.
         type: string
       cover_image:
         description: cover image url
-        example: Est porro provident.
+        example: Odit ut est porro provident.
         type: string
       introduction:
         description: user introduciton
@@ -1417,9 +1459,39 @@ paths:
       tags:
       - comment
   /items:
+    delete:
+      operationId: item#delete
+      parameters:
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/DeleteItemPayload'
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: delete item
+      tags:
+      - item
     get:
       description: Retrieve all items.
       operationId: item#list
+      parameters:
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/ListItemPayload'
       produces:
       - application/vnd.item+json; type=collection
       responses:
@@ -1460,63 +1532,10 @@ paths:
       summary: create item
       tags:
       - item
-  /items/{itemID}:
-    delete:
-      operationId: item#delete
-      parameters:
-      - description: item ID
-        in: path
-        name: itemID
-        required: true
-        type: integer
-      produces:
-      - application/vnd.goa.error
-      responses:
-        "204":
-          description: No Content
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/error'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      summary: delete item
-      tags:
-      - item
-    get:
-      description: Get item by id
-      operationId: item#show
-      parameters:
-      - description: item ID
-        in: path
-        name: itemID
-        required: true
-        type: integer
-      produces:
-      - application/vnd.item+json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/Item'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      summary: show item
-      tags:
-      - item
     put:
       description: Change item data
       operationId: item#update
       parameters:
-      - description: item ID
-        in: path
-        name: itemID
-        required: true
-        type: integer
       - in: body
         name: payload
         required: true

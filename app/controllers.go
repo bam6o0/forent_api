@@ -442,7 +442,6 @@ type ItemController interface {
 	Create(*CreateItemContext) error
 	Delete(*DeleteItemContext) error
 	List(*ListItemContext) error
-	Show(*ShowItemContext) error
 	Update(*UpdateItemContext) error
 }
 
@@ -451,7 +450,6 @@ func MountItemController(service *goa.Service, ctrl ItemController) {
 	initService(service)
 	var h goa.Handler
 	service.Mux.Handle("OPTIONS", "/items", ctrl.MuxHandler("preflight", handleItemOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/items/:itemID", ctrl.MuxHandler("preflight", handleItemOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -485,11 +483,17 @@ func MountItemController(service *goa.Service, ctrl ItemController) {
 		if err != nil {
 			return err
 		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*DeleteItemPayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
 		return ctrl.Delete(rctx)
 	}
 	h = handleItemOrigin(h)
-	service.Mux.Handle("DELETE", "/items/:itemID", ctrl.MuxHandler("delete", h, nil))
-	service.LogInfo("mount", "ctrl", "Item", "action", "Delete", "route", "DELETE /items/:itemID")
+	service.Mux.Handle("DELETE", "/items", ctrl.MuxHandler("delete", h, unmarshalDeleteItemPayload))
+	service.LogInfo("mount", "ctrl", "Item", "action", "Delete", "route", "DELETE /items")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -501,27 +505,17 @@ func MountItemController(service *goa.Service, ctrl ItemController) {
 		if err != nil {
 			return err
 		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*ListItemPayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
 		return ctrl.List(rctx)
 	}
 	h = handleItemOrigin(h)
-	service.Mux.Handle("GET", "/items", ctrl.MuxHandler("list", h, nil))
+	service.Mux.Handle("GET", "/items", ctrl.MuxHandler("list", h, unmarshalListItemPayload))
 	service.LogInfo("mount", "ctrl", "Item", "action", "List", "route", "GET /items")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewShowItemContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		return ctrl.Show(rctx)
-	}
-	h = handleItemOrigin(h)
-	service.Mux.Handle("GET", "/items/:itemID", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Item", "action", "Show", "route", "GET /items/:itemID")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -542,8 +536,8 @@ func MountItemController(service *goa.Service, ctrl ItemController) {
 		return ctrl.Update(rctx)
 	}
 	h = handleItemOrigin(h)
-	service.Mux.Handle("PUT", "/items/:itemID", ctrl.MuxHandler("update", h, unmarshalUpdateItemPayload))
-	service.LogInfo("mount", "ctrl", "Item", "action", "Update", "route", "PUT /items/:itemID")
+	service.Mux.Handle("PUT", "/items", ctrl.MuxHandler("update", h, unmarshalUpdateItemPayload))
+	service.LogInfo("mount", "ctrl", "Item", "action", "Update", "route", "PUT /items")
 }
 
 // handleItemOrigin applies the CORS response headers corresponding to the origin.
@@ -581,6 +575,31 @@ func unmarshalCreateItemPayload(ctx context.Context, service *goa.Service, req *
 	if err := payload.Validate(); err != nil {
 		// Initialize payload with private data structure so it can be logged
 		goa.ContextRequest(ctx).Payload = payload
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
+}
+
+// unmarshalDeleteItemPayload unmarshals the request body into the context request data Payload field.
+func unmarshalDeleteItemPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &deleteItemPayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
+		return err
+	}
+	if err := payload.Validate(); err != nil {
+		// Initialize payload with private data structure so it can be logged
+		goa.ContextRequest(ctx).Payload = payload
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
+}
+
+// unmarshalListItemPayload unmarshals the request body into the context request data Payload field.
+func unmarshalListItemPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &listItemPayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
 		return err
 	}
 	goa.ContextRequest(ctx).Payload = payload.Publicize()

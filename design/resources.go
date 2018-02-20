@@ -222,18 +222,14 @@ var _ = Resource("item", func() { // Resources group related API endpoints
 		Routing(
 			GET(""),
 		)
+		Payload(func() {
+			Param("itemID", Integer, "item ID")
+			Param("userID", Integer, "user id")
+			Param("placeID", Integer, "place id")
+			Param("categoryID", Integer, "category id")
+		})
 		Description("Retrieve all items.")
 		Response(OK, CollectionOf(Item))
-	})
-
-	Action("show", func() { // Actions define a single API endpoint together
-		Description("Get item by id") // with its path, parameters (both path
-		Routing(GET("/:itemID"))      // parameters and querystring values) and payload
-		Params(func() {               // (shape of the request body).
-			Param("itemID", Integer, "item ID")
-		})
-		Response(OK)       // Responses define the shape and status code
-		Response(NotFound) // of HTTP responses.
 	})
 
 	Action("create", func() {
@@ -262,14 +258,11 @@ var _ = Resource("item", func() { // Resources group related API endpoints
 
 	Action("update", func() {
 		Routing(
-			PUT("/:itemID"),
+			PUT(""),
 		)
 		Description("Change item data")
-		Params(func() {
-			Param("itemID", Integer, "item ID")
-		})
 		Payload(func() {
-			Param("id", Integer, "Unique item ID")
+			Param("itemID", Integer, "item ID")
 			Param("name", String, "Name of item")
 			Param("description", String, "description of item")
 			Param("price", Integer, "price of item")
@@ -282,7 +275,7 @@ var _ = Resource("item", func() { // Resources group related API endpoints
 			Param("image3", String, "item image 3")
 			Param("image4", String, "item image 4")
 
-			Required("id")
+			Required("itemID")
 		})
 		Response(NoContent)
 		Response(NotFound)
@@ -291,11 +284,13 @@ var _ = Resource("item", func() { // Resources group related API endpoints
 
 	Action("delete", func() {
 		Routing(
-			DELETE("/:itemID"),
+			DELETE(""),
 		)
-		Params(func() {
+		Payload(func() {
 			Param("itemID", Integer, "item ID")
+			Required("itemID")
 		})
+
 		Response(NoContent)
 		Response(NotFound)
 		Response(BadRequest, ErrorMedia)
