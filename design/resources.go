@@ -307,18 +307,14 @@ var _ = Resource("article", func() { // Resources group related API endpoints
 		Routing(
 			GET(""),
 		)
+		Payload(func() {
+			Param("articleID", Integer, "article ID")
+			Param("itemID", Integer, "item ID")
+			Param("userID", Integer, "user id")
+			Param("categoryID", Integer, "category id")
+		})
 		Description("Retrieve all items.")
 		Response(OK, CollectionOf(Article))
-	})
-
-	Action("show", func() { // Actions define a single API endpoint together
-		Description("Get article by id") // with its path, parameters (both path
-		Routing(GET("/:articleID"))      // parameters and querystring values) and payload
-		Params(func() {                  // (shape of the request body).
-			Param("articleID", Integer, "article ID")
-		})
-		Response(OK)       // Responses define the shape and status code
-		Response(NotFound) // of HTTP responses.
 	})
 
 })

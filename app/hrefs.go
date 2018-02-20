@@ -15,12 +15,6 @@ import (
 	"strings"
 )
 
-// ArticleHref returns the resource href.
-func ArticleHref(articleID interface{}) string {
-	paramarticleID := strings.TrimLeftFunc(fmt.Sprintf("%v", articleID), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/articles/%v", paramarticleID)
-}
-
 // AuthenticationHref returns the resource href.
 func AuthenticationHref(authenticationID interface{}) string {
 	paramauthenticationID := strings.TrimLeftFunc(fmt.Sprintf("%v", authenticationID), func(r rune) bool { return r == '/' })

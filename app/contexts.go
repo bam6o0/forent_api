@@ -23,6 +23,7 @@ type ListArticleContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
+	Payload *ListArticlePayload
 }
 
 // NewListArticleContext parses the incoming request URL and body, performs validations and creates the
@@ -37,6 +38,48 @@ func NewListArticleContext(ctx context.Context, r *http.Request, service *goa.Se
 	return &rctx, err
 }
 
+// listArticlePayload is the article list action payload.
+type listArticlePayload struct {
+	// article ID
+	ArticleID *int `form:"articleID,omitempty" json:"articleID,omitempty" xml:"articleID,omitempty"`
+	// category id
+	CategoryID *int `form:"categoryID,omitempty" json:"categoryID,omitempty" xml:"categoryID,omitempty"`
+	// item ID
+	ItemID *int `form:"itemID,omitempty" json:"itemID,omitempty" xml:"itemID,omitempty"`
+	// user id
+	UserID *int `form:"userID,omitempty" json:"userID,omitempty" xml:"userID,omitempty"`
+}
+
+// Publicize creates ListArticlePayload from listArticlePayload
+func (payload *listArticlePayload) Publicize() *ListArticlePayload {
+	var pub ListArticlePayload
+	if payload.ArticleID != nil {
+		pub.ArticleID = payload.ArticleID
+	}
+	if payload.CategoryID != nil {
+		pub.CategoryID = payload.CategoryID
+	}
+	if payload.ItemID != nil {
+		pub.ItemID = payload.ItemID
+	}
+	if payload.UserID != nil {
+		pub.UserID = payload.UserID
+	}
+	return &pub
+}
+
+// ListArticlePayload is the article list action payload.
+type ListArticlePayload struct {
+	// article ID
+	ArticleID *int `form:"articleID,omitempty" json:"articleID,omitempty" xml:"articleID,omitempty"`
+	// category id
+	CategoryID *int `form:"categoryID,omitempty" json:"categoryID,omitempty" xml:"categoryID,omitempty"`
+	// item ID
+	ItemID *int `form:"itemID,omitempty" json:"itemID,omitempty" xml:"itemID,omitempty"`
+	// user id
+	UserID *int `form:"userID,omitempty" json:"userID,omitempty" xml:"userID,omitempty"`
+}
+
 // OK sends a HTTP response with status code 200.
 func (ctx *ListArticleContext) OK(r ArticleCollection) error {
 	if ctx.ResponseData.Header().Get("Content-Type") == "" {
@@ -46,49 +89,6 @@ func (ctx *ListArticleContext) OK(r ArticleCollection) error {
 		r = ArticleCollection{}
 	}
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// ShowArticleContext provides the article show action context.
-type ShowArticleContext struct {
-	context.Context
-	*goa.ResponseData
-	*goa.RequestData
-	ArticleID int
-}
-
-// NewShowArticleContext parses the incoming request URL and body, performs validations and creates the
-// context used by the article controller show action.
-func NewShowArticleContext(ctx context.Context, r *http.Request, service *goa.Service) (*ShowArticleContext, error) {
-	var err error
-	resp := goa.ContextResponse(ctx)
-	resp.Service = service
-	req := goa.ContextRequest(ctx)
-	req.Request = r
-	rctx := ShowArticleContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramArticleID := req.Params["articleID"]
-	if len(paramArticleID) > 0 {
-		rawArticleID := paramArticleID[0]
-		if articleID, err2 := strconv.Atoi(rawArticleID); err2 == nil {
-			rctx.ArticleID = articleID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("articleID", rawArticleID, "integer"))
-		}
-	}
-	return &rctx, err
-}
-
-// OK sends a HTTP response with status code 200.
-func (ctx *ShowArticleContext) OK(r *Article) error {
-	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.article+json")
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ShowArticleContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
 }
 
 // CreateAuthenticationContext provides the authentication create action context.

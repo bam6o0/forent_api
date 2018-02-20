@@ -11,12 +11,24 @@
 package client
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"net/http"
 	"net/url"
-	"strconv"
 )
+
+// ListArticlePayload is the article list action payload.
+type ListArticlePayload struct {
+	// article ID
+	ArticleID *int `form:"articleID,omitempty" json:"articleID,omitempty" xml:"articleID,omitempty"`
+	// category id
+	CategoryID *int `form:"categoryID,omitempty" json:"categoryID,omitempty" xml:"categoryID,omitempty"`
+	// item ID
+	ItemID *int `form:"itemID,omitempty" json:"itemID,omitempty" xml:"itemID,omitempty"`
+	// user id
+	UserID *int `form:"userID,omitempty" json:"userID,omitempty" xml:"userID,omitempty"`
+}
 
 // ListArticlePath computes a request path to the list action of article.
 func ListArticlePath() string {
@@ -25,8 +37,8 @@ func ListArticlePath() string {
 }
 
 // Retrieve all items.
-func (c *Client) ListArticle(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewListArticleRequest(ctx, path)
+func (c *Client) ListArticle(ctx context.Context, path string, payload *ListArticlePayload, contentType string) (*http.Response, error) {
+	req, err := c.NewListArticleRequest(ctx, path, payload, contentType)
 	if err != nil {
 		return nil, err
 	}
@@ -34,45 +46,29 @@ func (c *Client) ListArticle(ctx context.Context, path string) (*http.Response, 
 }
 
 // NewListArticleRequest create the request corresponding to the list action endpoint of the article resource.
-func (c *Client) NewListArticleRequest(ctx context.Context, path string) (*http.Request, error) {
+func (c *Client) NewListArticleRequest(ctx context.Context, path string, payload *ListArticlePayload, contentType string) (*http.Request, error) {
+	var body bytes.Buffer
+	if contentType == "" {
+		contentType = "*/*" // Use default encoder
+	}
+	err := c.Encoder.Encode(payload, &body, contentType)
+	if err != nil {
+		return nil, fmt.Errorf("failed to encode body: %s", err)
+	}
 	scheme := c.Scheme
 	if scheme == "" {
 		scheme = "http"
 	}
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
+	req, err := http.NewRequest("GET", u.String(), &body)
 	if err != nil {
 		return nil, err
 	}
-	return req, nil
-}
-
-// ShowArticlePath computes a request path to the show action of article.
-func ShowArticlePath(articleID int) string {
-	param0 := strconv.Itoa(articleID)
-
-	return fmt.Sprintf("/articles/%s", param0)
-}
-
-// Get article by id
-func (c *Client) ShowArticle(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewShowArticleRequest(ctx, path)
-	if err != nil {
-		return nil, err
-	}
-	return c.Client.Do(ctx, req)
-}
-
-// NewShowArticleRequest create the request corresponding to the show action endpoint of the article resource.
-func (c *Client) NewShowArticleRequest(ctx context.Context, path string) (*http.Request, error) {
-	scheme := c.Scheme
-	if scheme == "" {
-		scheme = "http"
-	}
-	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
-	if err != nil {
-		return nil, err
+	header := req.Header
+	if contentType == "*/*" {
+		header.Set("Content-Type", "application/json")
+	} else {
+		header.Set("Content-Type", contentType)
 	}
 	return req, nil
 }

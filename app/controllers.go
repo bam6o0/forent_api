@@ -36,7 +36,6 @@ func initService(service *goa.Service) {
 type ArticleController interface {
 	goa.Muxer
 	List(*ListArticleContext) error
-	Show(*ShowArticleContext) error
 }
 
 // MountArticleController "mounts" a Article resource controller on the given service.
@@ -44,7 +43,6 @@ func MountArticleController(service *goa.Service, ctrl ArticleController) {
 	initService(service)
 	var h goa.Handler
 	service.Mux.Handle("OPTIONS", "/articles", ctrl.MuxHandler("preflight", handleArticleOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/articles/:articleID", ctrl.MuxHandler("preflight", handleArticleOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -56,27 +54,17 @@ func MountArticleController(service *goa.Service, ctrl ArticleController) {
 		if err != nil {
 			return err
 		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*ListArticlePayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
 		return ctrl.List(rctx)
 	}
 	h = handleArticleOrigin(h)
-	service.Mux.Handle("GET", "/articles", ctrl.MuxHandler("list", h, nil))
+	service.Mux.Handle("GET", "/articles", ctrl.MuxHandler("list", h, unmarshalListArticlePayload))
 	service.LogInfo("mount", "ctrl", "Article", "action", "List", "route", "GET /articles")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewShowArticleContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		return ctrl.Show(rctx)
-	}
-	h = handleArticleOrigin(h)
-	service.Mux.Handle("GET", "/articles/:articleID", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Article", "action", "Show", "route", "GET /articles/:articleID")
 }
 
 // handleArticleOrigin applies the CORS response headers corresponding to the origin.
@@ -103,6 +91,16 @@ func handleArticleOrigin(h goa.Handler) goa.Handler {
 
 		return h(ctx, rw, req)
 	}
+}
+
+// unmarshalListArticlePayload unmarshals the request body into the context request data Payload field.
+func unmarshalListArticlePayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &listArticlePayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
 }
 
 // AuthenticationController is the controller interface for the Authentication actions.
