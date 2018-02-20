@@ -21,6 +21,8 @@ import (
 
 // CreateUserPayload is the user create action payload.
 type CreateUserPayload struct {
+	// authentication id
+	AuthenticationID int `form:"authentication_id" json:"authentication_id" xml:"authentication_id"`
 	// email
 	Email string `form:"email" json:"email" xml:"email"`
 	// first name
@@ -29,6 +31,8 @@ type CreateUserPayload struct {
 	LastName string `form:"last_name" json:"last_name" xml:"last_name"`
 	// password
 	Password string `form:"password" json:"password" xml:"password"`
+	// profile id
+	ProfileID int `form:"profile_id" json:"profile_id" xml:"profile_id"`
 }
 
 // CreateUserPath computes a request path to the create action of user.

@@ -119,7 +119,7 @@ func MountAuthenticationController(service *goa.Service, ctrl AuthenticationCont
 	initService(service)
 	var h goa.Handler
 	service.Mux.Handle("OPTIONS", "/authentications", ctrl.MuxHandler("preflight", handleAuthenticationOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/authentications/:userID", ctrl.MuxHandler("preflight", handleAuthenticationOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/authentications/:authenticationID", ctrl.MuxHandler("preflight", handleAuthenticationOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -156,8 +156,8 @@ func MountAuthenticationController(service *goa.Service, ctrl AuthenticationCont
 		return ctrl.Delete(rctx)
 	}
 	h = handleAuthenticationOrigin(h)
-	service.Mux.Handle("DELETE", "/authentications/:userID", ctrl.MuxHandler("delete", h, nil))
-	service.LogInfo("mount", "ctrl", "Authentication", "action", "Delete", "route", "DELETE /authentications/:userID")
+	service.Mux.Handle("DELETE", "/authentications/:authenticationID", ctrl.MuxHandler("delete", h, nil))
+	service.LogInfo("mount", "ctrl", "Authentication", "action", "Delete", "route", "DELETE /authentications/:authenticationID")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -172,8 +172,8 @@ func MountAuthenticationController(service *goa.Service, ctrl AuthenticationCont
 		return ctrl.Show(rctx)
 	}
 	h = handleAuthenticationOrigin(h)
-	service.Mux.Handle("GET", "/authentications/:userID", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Authentication", "action", "Show", "route", "GET /authentications/:userID")
+	service.Mux.Handle("GET", "/authentications/:authenticationID", ctrl.MuxHandler("show", h, nil))
+	service.LogInfo("mount", "ctrl", "Authentication", "action", "Show", "route", "GET /authentications/:authenticationID")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -194,8 +194,8 @@ func MountAuthenticationController(service *goa.Service, ctrl AuthenticationCont
 		return ctrl.Update(rctx)
 	}
 	h = handleAuthenticationOrigin(h)
-	service.Mux.Handle("PUT", "/authentications/:userID", ctrl.MuxHandler("update", h, unmarshalUpdateAuthenticationPayload))
-	service.LogInfo("mount", "ctrl", "Authentication", "action", "Update", "route", "PUT /authentications/:userID")
+	service.Mux.Handle("PUT", "/authentications/:authenticationID", ctrl.MuxHandler("update", h, unmarshalUpdateAuthenticationPayload))
+	service.LogInfo("mount", "ctrl", "Authentication", "action", "Update", "route", "PUT /authentications/:authenticationID")
 }
 
 // handleAuthenticationOrigin applies the CORS response headers corresponding to the origin.
@@ -836,7 +836,7 @@ func MountProfileController(service *goa.Service, ctrl ProfileController) {
 	initService(service)
 	var h goa.Handler
 	service.Mux.Handle("OPTIONS", "/profiles", ctrl.MuxHandler("preflight", handleProfileOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/profiles/:userID", ctrl.MuxHandler("preflight", handleProfileOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/profiles/:profileID", ctrl.MuxHandler("preflight", handleProfileOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -873,8 +873,8 @@ func MountProfileController(service *goa.Service, ctrl ProfileController) {
 		return ctrl.Delete(rctx)
 	}
 	h = handleProfileOrigin(h)
-	service.Mux.Handle("DELETE", "/profiles/:userID", ctrl.MuxHandler("delete", h, nil))
-	service.LogInfo("mount", "ctrl", "Profile", "action", "Delete", "route", "DELETE /profiles/:userID")
+	service.Mux.Handle("DELETE", "/profiles/:profileID", ctrl.MuxHandler("delete", h, nil))
+	service.LogInfo("mount", "ctrl", "Profile", "action", "Delete", "route", "DELETE /profiles/:profileID")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -889,8 +889,8 @@ func MountProfileController(service *goa.Service, ctrl ProfileController) {
 		return ctrl.Show(rctx)
 	}
 	h = handleProfileOrigin(h)
-	service.Mux.Handle("GET", "/profiles/:userID", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Profile", "action", "Show", "route", "GET /profiles/:userID")
+	service.Mux.Handle("GET", "/profiles/:profileID", ctrl.MuxHandler("show", h, nil))
+	service.LogInfo("mount", "ctrl", "Profile", "action", "Show", "route", "GET /profiles/:profileID")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -911,8 +911,8 @@ func MountProfileController(service *goa.Service, ctrl ProfileController) {
 		return ctrl.Update(rctx)
 	}
 	h = handleProfileOrigin(h)
-	service.Mux.Handle("PUT", "/profiles/:userID", ctrl.MuxHandler("update", h, unmarshalUpdateProfilePayload))
-	service.LogInfo("mount", "ctrl", "Profile", "action", "Update", "route", "PUT /profiles/:userID")
+	service.Mux.Handle("PUT", "/profiles/:profileID", ctrl.MuxHandler("update", h, unmarshalUpdateProfilePayload))
+	service.LogInfo("mount", "ctrl", "Profile", "action", "Update", "route", "PUT /profiles/:profileID")
 }
 
 // handleProfileOrigin applies the CORS response headers corresponding to the origin.

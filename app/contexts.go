@@ -195,7 +195,7 @@ type DeleteAuthenticationContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	UserID int
+	AuthenticationID int
 }
 
 // NewDeleteAuthenticationContext parses the incoming request URL and body, performs validations and creates the
@@ -207,13 +207,13 @@ func NewDeleteAuthenticationContext(ctx context.Context, r *http.Request, servic
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := DeleteAuthenticationContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramUserID := req.Params["userID"]
-	if len(paramUserID) > 0 {
-		rawUserID := paramUserID[0]
-		if userID, err2 := strconv.Atoi(rawUserID); err2 == nil {
-			rctx.UserID = userID
+	paramAuthenticationID := req.Params["authenticationID"]
+	if len(paramAuthenticationID) > 0 {
+		rawAuthenticationID := paramAuthenticationID[0]
+		if authenticationID, err2 := strconv.Atoi(rawAuthenticationID); err2 == nil {
+			rctx.AuthenticationID = authenticationID
 		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("userID", rawUserID, "integer"))
+			err = goa.MergeErrors(err, goa.InvalidParamTypeError("authenticationID", rawAuthenticationID, "integer"))
 		}
 	}
 	return &rctx, err
@@ -244,7 +244,7 @@ type ShowAuthenticationContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	UserID int
+	AuthenticationID int
 }
 
 // NewShowAuthenticationContext parses the incoming request URL and body, performs validations and creates the
@@ -256,13 +256,13 @@ func NewShowAuthenticationContext(ctx context.Context, r *http.Request, service 
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := ShowAuthenticationContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramUserID := req.Params["userID"]
-	if len(paramUserID) > 0 {
-		rawUserID := paramUserID[0]
-		if userID, err2 := strconv.Atoi(rawUserID); err2 == nil {
-			rctx.UserID = userID
+	paramAuthenticationID := req.Params["authenticationID"]
+	if len(paramAuthenticationID) > 0 {
+		rawAuthenticationID := paramAuthenticationID[0]
+		if authenticationID, err2 := strconv.Atoi(rawAuthenticationID); err2 == nil {
+			rctx.AuthenticationID = authenticationID
 		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("userID", rawUserID, "integer"))
+			err = goa.MergeErrors(err, goa.InvalidParamTypeError("authenticationID", rawAuthenticationID, "integer"))
 		}
 	}
 	return &rctx, err
@@ -287,8 +287,8 @@ type UpdateAuthenticationContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	UserID  int
-	Payload *UpdateAuthenticationPayload
+	AuthenticationID int
+	Payload          *UpdateAuthenticationPayload
 }
 
 // NewUpdateAuthenticationContext parses the incoming request URL and body, performs validations and creates the
@@ -300,13 +300,13 @@ func NewUpdateAuthenticationContext(ctx context.Context, r *http.Request, servic
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := UpdateAuthenticationContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramUserID := req.Params["userID"]
-	if len(paramUserID) > 0 {
-		rawUserID := paramUserID[0]
-		if userID, err2 := strconv.Atoi(rawUserID); err2 == nil {
-			rctx.UserID = userID
+	paramAuthenticationID := req.Params["authenticationID"]
+	if len(paramAuthenticationID) > 0 {
+		rawAuthenticationID := paramAuthenticationID[0]
+		if authenticationID, err2 := strconv.Atoi(rawAuthenticationID); err2 == nil {
+			rctx.AuthenticationID = authenticationID
 		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("userID", rawUserID, "integer"))
+			err = goa.MergeErrors(err, goa.InvalidParamTypeError("authenticationID", rawAuthenticationID, "integer"))
 		}
 	}
 	return &rctx, err
@@ -1435,7 +1435,7 @@ type DeleteProfileContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	UserID int
+	ProfileID int
 }
 
 // NewDeleteProfileContext parses the incoming request URL and body, performs validations and creates the
@@ -1447,13 +1447,13 @@ func NewDeleteProfileContext(ctx context.Context, r *http.Request, service *goa.
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := DeleteProfileContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramUserID := req.Params["userID"]
-	if len(paramUserID) > 0 {
-		rawUserID := paramUserID[0]
-		if userID, err2 := strconv.Atoi(rawUserID); err2 == nil {
-			rctx.UserID = userID
+	paramProfileID := req.Params["profileID"]
+	if len(paramProfileID) > 0 {
+		rawProfileID := paramProfileID[0]
+		if profileID, err2 := strconv.Atoi(rawProfileID); err2 == nil {
+			rctx.ProfileID = profileID
 		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("userID", rawUserID, "integer"))
+			err = goa.MergeErrors(err, goa.InvalidParamTypeError("profileID", rawProfileID, "integer"))
 		}
 	}
 	return &rctx, err
@@ -1484,7 +1484,7 @@ type ShowProfileContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	UserID int
+	ProfileID int
 }
 
 // NewShowProfileContext parses the incoming request URL and body, performs validations and creates the
@@ -1496,13 +1496,13 @@ func NewShowProfileContext(ctx context.Context, r *http.Request, service *goa.Se
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := ShowProfileContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramUserID := req.Params["userID"]
-	if len(paramUserID) > 0 {
-		rawUserID := paramUserID[0]
-		if userID, err2 := strconv.Atoi(rawUserID); err2 == nil {
-			rctx.UserID = userID
+	paramProfileID := req.Params["profileID"]
+	if len(paramProfileID) > 0 {
+		rawProfileID := paramProfileID[0]
+		if profileID, err2 := strconv.Atoi(rawProfileID); err2 == nil {
+			rctx.ProfileID = profileID
 		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("userID", rawUserID, "integer"))
+			err = goa.MergeErrors(err, goa.InvalidParamTypeError("profileID", rawProfileID, "integer"))
 		}
 	}
 	return &rctx, err
@@ -1527,8 +1527,8 @@ type UpdateProfileContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	UserID  int
-	Payload *UpdateProfilePayload
+	ProfileID int
+	Payload   *UpdateProfilePayload
 }
 
 // NewUpdateProfileContext parses the incoming request URL and body, performs validations and creates the
@@ -1540,13 +1540,13 @@ func NewUpdateProfileContext(ctx context.Context, r *http.Request, service *goa.
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := UpdateProfileContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramUserID := req.Params["userID"]
-	if len(paramUserID) > 0 {
-		rawUserID := paramUserID[0]
-		if userID, err2 := strconv.Atoi(rawUserID); err2 == nil {
-			rctx.UserID = userID
+	paramProfileID := req.Params["profileID"]
+	if len(paramProfileID) > 0 {
+		rawProfileID := paramProfileID[0]
+		if profileID, err2 := strconv.Atoi(rawProfileID); err2 == nil {
+			rctx.ProfileID = profileID
 		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("userID", rawUserID, "integer"))
+			err = goa.MergeErrors(err, goa.InvalidParamTypeError("profileID", rawProfileID, "integer"))
 		}
 	}
 	return &rctx, err
@@ -1658,6 +1658,8 @@ func NewCreateUserContext(ctx context.Context, r *http.Request, service *goa.Ser
 
 // createUserPayload is the user create action payload.
 type createUserPayload struct {
+	// authentication id
+	AuthenticationID *int `form:"authentication_id,omitempty" json:"authentication_id,omitempty" xml:"authentication_id,omitempty"`
 	// email
 	Email *string `form:"email,omitempty" json:"email,omitempty" xml:"email,omitempty"`
 	// first name
@@ -1666,6 +1668,8 @@ type createUserPayload struct {
 	LastName *string `form:"last_name,omitempty" json:"last_name,omitempty" xml:"last_name,omitempty"`
 	// password
 	Password *string `form:"password,omitempty" json:"password,omitempty" xml:"password,omitempty"`
+	// profile id
+	ProfileID *int `form:"profile_id,omitempty" json:"profile_id,omitempty" xml:"profile_id,omitempty"`
 }
 
 // Validate runs the validation rules defined in the design.
@@ -1682,12 +1686,21 @@ func (payload *createUserPayload) Validate() (err error) {
 	if payload.Password == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "password"))
 	}
+	if payload.ProfileID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "profile_id"))
+	}
+	if payload.AuthenticationID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "authentication_id"))
+	}
 	return
 }
 
 // Publicize creates CreateUserPayload from createUserPayload
 func (payload *createUserPayload) Publicize() *CreateUserPayload {
 	var pub CreateUserPayload
+	if payload.AuthenticationID != nil {
+		pub.AuthenticationID = *payload.AuthenticationID
+	}
 	if payload.Email != nil {
 		pub.Email = *payload.Email
 	}
@@ -1700,11 +1713,16 @@ func (payload *createUserPayload) Publicize() *CreateUserPayload {
 	if payload.Password != nil {
 		pub.Password = *payload.Password
 	}
+	if payload.ProfileID != nil {
+		pub.ProfileID = *payload.ProfileID
+	}
 	return &pub
 }
 
 // CreateUserPayload is the user create action payload.
 type CreateUserPayload struct {
+	// authentication id
+	AuthenticationID int `form:"authentication_id" json:"authentication_id" xml:"authentication_id"`
 	// email
 	Email string `form:"email" json:"email" xml:"email"`
 	// first name
@@ -1713,6 +1731,8 @@ type CreateUserPayload struct {
 	LastName string `form:"last_name" json:"last_name" xml:"last_name"`
 	// password
 	Password string `form:"password" json:"password" xml:"password"`
+	// profile id
+	ProfileID int `form:"profile_id" json:"profile_id" xml:"profile_id"`
 }
 
 // Validate runs the validation rules defined in the design.
@@ -1729,6 +1749,7 @@ func (payload *CreateUserPayload) Validate() (err error) {
 	if payload.Password == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "password"))
 	}
+
 	return
 }
 

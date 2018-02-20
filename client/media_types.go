@@ -164,8 +164,6 @@ type Authentication struct {
 	Identification bool `form:"identification" json:"identification" xml:"identification"`
 	// phone flag
 	Phone bool `form:"phone" json:"phone" xml:"phone"`
-	// user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // Validate validates the Authentication media type instance.
@@ -638,8 +636,6 @@ type Profile struct {
 	Introduction string `form:"introduction" json:"introduction" xml:"introduction"`
 	// phone number
 	Phone int `form:"phone" json:"phone" xml:"phone"`
-	// user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // Validate validates the Profile media type instance.

@@ -22,9 +22,9 @@ func ArticleHref(articleID interface{}) string {
 }
 
 // AuthenticationHref returns the resource href.
-func AuthenticationHref(userID interface{}) string {
-	paramuserID := strings.TrimLeftFunc(fmt.Sprintf("%v", userID), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/authentications/%v", paramuserID)
+func AuthenticationHref(authenticationID interface{}) string {
+	paramauthenticationID := strings.TrimLeftFunc(fmt.Sprintf("%v", authenticationID), func(r rune) bool { return r == '/' })
+	return fmt.Sprintf("/authentications/%v", paramauthenticationID)
 }
 
 // CommentHref returns the resource href.
@@ -46,9 +46,9 @@ func OfferHref(ownerID interface{}) string {
 }
 
 // ProfileHref returns the resource href.
-func ProfileHref(userID interface{}) string {
-	paramuserID := strings.TrimLeftFunc(fmt.Sprintf("%v", userID), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/profiles/%v", paramuserID)
+func ProfileHref(profileID interface{}) string {
+	paramprofileID := strings.TrimLeftFunc(fmt.Sprintf("%v", profileID), func(r rune) bool { return r == '/' })
+	return fmt.Sprintf("/profiles/%v", paramprofileID)
 }
 
 // UserHref returns the resource href.

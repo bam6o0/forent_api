@@ -20,14 +20,16 @@ import (
 
 // User Model
 type User struct {
-	ID        int `gorm:"primary_key"` // This is the user Model PK field
-	Email     string
-	FirstName string
-	LastName  string
-	Password  string
-	CreatedAt time.Time  // timestamp
-	DeletedAt *time.Time // nullable timestamp (soft delete)
-	UpdatedAt time.Time  // timestamp
+	ID             int            `gorm:"primary_key"` // This is the user Model PK field
+	Authentication Authentication // has one Authentication
+	Email          string
+	FirstName      string
+	LastName       string
+	Password       string
+	Profile        Profile    // has one Profile
+	CreatedAt      time.Time  // timestamp
+	DeletedAt      *time.Time // nullable timestamp (soft delete)
+	UpdatedAt      time.Time  // timestamp
 }
 
 // TableName overrides the table name settings in Gorm to force a specific table name

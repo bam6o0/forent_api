@@ -21,12 +21,12 @@ import (
 // MediaType Retrieval Functions
 
 // ListAuthentication returns an array of view: default.
-func (m *AuthenticationDB) ListAuthentication(ctx context.Context, userID int) []*app.Authentication {
+func (m *AuthenticationDB) ListAuthentication(ctx context.Context) []*app.Authentication {
 	defer goa.MeasureSince([]string{"goa", "db", "authentication", "listauthentication"}, time.Now())
 
 	var native []*Authentication
 	var objs []*app.Authentication
-	err := m.Db.Scopes(AuthenticationFilterByUser(userID, m.Db)).Table(m.TableName()).Find(&native).Error
+	err := m.Db.Scopes().Table(m.TableName()).Find(&native).Error
 
 	if err != nil {
 		goa.LogError(ctx, "error listing Authentication", "error", err.Error())
@@ -47,17 +47,16 @@ func (m *Authentication) AuthenticationToAuthentication() *app.Authentication {
 	authentication.ID = m.ID
 	authentication.Identification = m.Identification
 	authentication.Phone = m.Phone
-	authentication.UserID = m.UserID
 
 	return authentication
 }
 
 // OneAuthentication loads a Authentication and builds the default view of media type Authentication.
-func (m *AuthenticationDB) OneAuthentication(ctx context.Context, id int, userID int) (*app.Authentication, error) {
+func (m *AuthenticationDB) OneAuthentication(ctx context.Context, id int) (*app.Authentication, error) {
 	defer goa.MeasureSince([]string{"goa", "db", "authentication", "oneauthentication"}, time.Now())
 
 	var native Authentication
-	err := m.Db.Scopes(AuthenticationFilterByUser(userID, m.Db)).Table(m.TableName()).Preload("User").Where("id = ?", id).Find(&native).Error
+	err := m.Db.Scopes().Table(m.TableName()).Where("id = ?", id).Find(&native).Error
 
 	if err != nil && err != gorm.ErrRecordNotFound {
 		goa.LogError(ctx, "error getting Authentication", "error", err.Error())

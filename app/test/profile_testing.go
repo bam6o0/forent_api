@@ -180,7 +180,7 @@ func CreateProfileCreated(t goatest.TInterface, ctx context.Context, service *go
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteProfileBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ProfileController, userID int) (http.ResponseWriter, error) {
+func DeleteProfileBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ProfileController, profileID int) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -201,14 +201,14 @@ func DeleteProfileBadRequest(t goatest.TInterface, ctx context.Context, service 
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/profiles/%v", userID),
+		Path: fmt.Sprintf("/profiles/%v", profileID),
 	}
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
+	prms["profileID"] = []string{fmt.Sprintf("%v", profileID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -249,7 +249,7 @@ func DeleteProfileBadRequest(t goatest.TInterface, ctx context.Context, service 
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteProfileNoContent(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ProfileController, userID int) http.ResponseWriter {
+func DeleteProfileNoContent(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ProfileController, profileID int) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -270,14 +270,14 @@ func DeleteProfileNoContent(t goatest.TInterface, ctx context.Context, service *
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/profiles/%v", userID),
+		Path: fmt.Sprintf("/profiles/%v", profileID),
 	}
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
+	prms["profileID"] = []string{fmt.Sprintf("%v", profileID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -311,7 +311,7 @@ func DeleteProfileNoContent(t goatest.TInterface, ctx context.Context, service *
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteProfileNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ProfileController, userID int) http.ResponseWriter {
+func DeleteProfileNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ProfileController, profileID int) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -332,14 +332,14 @@ func DeleteProfileNotFound(t goatest.TInterface, ctx context.Context, service *g
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/profiles/%v", userID),
+		Path: fmt.Sprintf("/profiles/%v", profileID),
 	}
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
+	prms["profileID"] = []string{fmt.Sprintf("%v", profileID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -373,7 +373,7 @@ func DeleteProfileNotFound(t goatest.TInterface, ctx context.Context, service *g
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowProfileNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ProfileController, userID int) http.ResponseWriter {
+func ShowProfileNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ProfileController, profileID int) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -394,14 +394,14 @@ func ShowProfileNotFound(t goatest.TInterface, ctx context.Context, service *goa
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/profiles/%v", userID),
+		Path: fmt.Sprintf("/profiles/%v", profileID),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
+	prms["profileID"] = []string{fmt.Sprintf("%v", profileID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -435,7 +435,7 @@ func ShowProfileNotFound(t goatest.TInterface, ctx context.Context, service *goa
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowProfileOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ProfileController, userID int) (http.ResponseWriter, *app.Profile) {
+func ShowProfileOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ProfileController, profileID int) (http.ResponseWriter, *app.Profile) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -456,14 +456,14 @@ func ShowProfileOK(t goatest.TInterface, ctx context.Context, service *goa.Servi
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/profiles/%v", userID),
+		Path: fmt.Sprintf("/profiles/%v", profileID),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
+	prms["profileID"] = []string{fmt.Sprintf("%v", profileID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -509,7 +509,7 @@ func ShowProfileOK(t goatest.TInterface, ctx context.Context, service *goa.Servi
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateProfileBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ProfileController, userID int, payload *app.UpdateProfilePayload) (http.ResponseWriter, error) {
+func UpdateProfileBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ProfileController, profileID int, payload *app.UpdateProfilePayload) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -530,14 +530,14 @@ func UpdateProfileBadRequest(t goatest.TInterface, ctx context.Context, service 
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/profiles/%v", userID),
+		Path: fmt.Sprintf("/profiles/%v", profileID),
 	}
 	req, err := http.NewRequest("PUT", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
+	prms["profileID"] = []string{fmt.Sprintf("%v", profileID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -579,7 +579,7 @@ func UpdateProfileBadRequest(t goatest.TInterface, ctx context.Context, service 
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateProfileNoContent(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ProfileController, userID int, payload *app.UpdateProfilePayload) http.ResponseWriter {
+func UpdateProfileNoContent(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ProfileController, profileID int, payload *app.UpdateProfilePayload) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -600,14 +600,14 @@ func UpdateProfileNoContent(t goatest.TInterface, ctx context.Context, service *
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/profiles/%v", userID),
+		Path: fmt.Sprintf("/profiles/%v", profileID),
 	}
 	req, err := http.NewRequest("PUT", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
+	prms["profileID"] = []string{fmt.Sprintf("%v", profileID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -642,7 +642,7 @@ func UpdateProfileNoContent(t goatest.TInterface, ctx context.Context, service *
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateProfileNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ProfileController, userID int, payload *app.UpdateProfilePayload) http.ResponseWriter {
+func UpdateProfileNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ProfileController, profileID int, payload *app.UpdateProfilePayload) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -663,14 +663,14 @@ func UpdateProfileNotFound(t goatest.TInterface, ctx context.Context, service *g
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/profiles/%v", userID),
+		Path: fmt.Sprintf("/profiles/%v", profileID),
 	}
 	req, err := http.NewRequest("PUT", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
+	prms["profileID"] = []string{fmt.Sprintf("%v", profileID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}

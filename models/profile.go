@@ -26,11 +26,10 @@ type Profile struct {
 	CoverImage   string
 	Introduction string
 	Phone        int
-	UserID       int        // Belongs To User
+	UserID       int        // has one Profile
 	CreatedAt    time.Time  // timestamp
 	DeletedAt    *time.Time // nullable timestamp (soft delete)
 	UpdatedAt    time.Time  // timestamp
-	User         User
 }
 
 // TableName overrides the table name settings in Gorm to force a specific table name
@@ -65,8 +64,8 @@ type ProfileStorage interface {
 	Update(ctx context.Context, profile *Profile) error
 	Delete(ctx context.Context, id int) error
 
-	ListProfile(ctx context.Context, userID int) []*app.Profile
-	OneProfile(ctx context.Context, id int, userID int) (*app.Profile, error)
+	ListProfile(ctx context.Context) []*app.Profile
+	OneProfile(ctx context.Context, id int) (*app.Profile, error)
 }
 
 // TableName overrides the table name settings in Gorm to force a specific table name
@@ -74,21 +73,6 @@ type ProfileStorage interface {
 func (m *ProfileDB) TableName() string {
 	return "profiles"
 
-}
-
-// Belongs To Relationships
-
-// ProfileFilterByUser is a gorm filter for a Belongs To relationship.
-func ProfileFilterByUser(userID int, originaldb *gorm.DB) func(db *gorm.DB) *gorm.DB {
-
-	if userID > 0 {
-
-		return func(db *gorm.DB) *gorm.DB {
-			return db.Where("user_id = ?", userID)
-
-		}
-	}
-	return func(db *gorm.DB) *gorm.DB { return db }
 }
 
 // CRUD Functions

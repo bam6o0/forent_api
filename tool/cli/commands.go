@@ -48,25 +48,25 @@ type (
 
 	// DeleteAuthenticationCommand is the command line data structure for the delete action of authentication
 	DeleteAuthenticationCommand struct {
-		// user ID
-		UserID      int
-		PrettyPrint bool
+		// authentication ID
+		AuthenticationID int
+		PrettyPrint      bool
 	}
 
 	// ShowAuthenticationCommand is the command line data structure for the show action of authentication
 	ShowAuthenticationCommand struct {
-		// user ID
-		UserID      int
-		PrettyPrint bool
+		// authentication ID
+		AuthenticationID int
+		PrettyPrint      bool
 	}
 
 	// UpdateAuthenticationCommand is the command line data structure for the update action of authentication
 	UpdateAuthenticationCommand struct {
 		Payload     string
 		ContentType string
-		// user ID
-		UserID      int
-		PrettyPrint bool
+		// authentication ID
+		AuthenticationID int
+		PrettyPrint      bool
 	}
 
 	// ListCategoryCommand is the command line data structure for the list action of category
@@ -165,15 +165,15 @@ type (
 
 	// DeleteProfileCommand is the command line data structure for the delete action of profile
 	DeleteProfileCommand struct {
-		// user ID
-		UserID      int
+		// profile ID
+		ProfileID   int
 		PrettyPrint bool
 	}
 
 	// ShowProfileCommand is the command line data structure for the show action of profile
 	ShowProfileCommand struct {
-		// user ID
-		UserID      int
+		// profile ID
+		ProfileID   int
 		PrettyPrint bool
 	}
 
@@ -181,8 +181,8 @@ type (
 	UpdateProfileCommand struct {
 		Payload     string
 		ContentType string
-		// user ID
-		UserID      int
+		// profile ID
+		ProfileID   int
 		PrettyPrint bool
 	}
 
@@ -235,8 +235,8 @@ Payload example:
 {
    "email": false,
    "identification": true,
-   "phone": true,
-   "user_id": 210721069839295324
+   "phone": false,
+   "user_id": 4726699271155621827
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp1.Run(c, args) },
 	}
@@ -252,10 +252,10 @@ Payload example:
 Payload example:
 
 {
-   "item_id": 1903535642580170281,
-   "reply_to": 8089283186721699045,
-   "text": "Iusto recusandae blanditiis eum.",
-   "user_id": 7670294923610785200
+   "item_id": 8217123841278070488,
+   "reply_to": 6837028770888741491,
+   "text": "Nesciunt autem.",
+   "user_id": 4054051155250373517
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp2.Run(c, args) },
 	}
@@ -271,17 +271,17 @@ Payload example:
 Payload example:
 
 {
-   "category_id": 7052998132802647300,
-   "compensation": 1383945810601495831,
-   "description": "Et molestiae placeat ratione aut sed.",
-   "image1": "Voluptatem totam nemo aut eaque quia.",
-   "image2": "In dolorem sit dolorem beatae expedita.",
-   "image3": "Numquam corrupti et ab delectus est.",
-   "image4": "Deserunt eum ex dolores et voluptatem.",
-   "name": "In animi numquam.",
-   "place_id": 3964661906394431359,
-   "price": 5325611971539390615,
-   "user_id": 3450207829942366638
+   "category_id": 1236615277901375902,
+   "compensation": 842645638139794782,
+   "description": "Accusamus officiis veritatis velit eum esse.",
+   "image1": "Dolorem iusto recusandae blanditiis eum est commodi.",
+   "image2": "Odio et molestiae placeat ratione.",
+   "image3": "Sed facilis.",
+   "image4": "Totam nemo aut eaque quia temporibus in.",
+   "name": "Sit dolorem beatae expedita dolorem numquam.",
+   "place_id": 4825460241665938350,
+   "price": 6241206085536203158,
+   "user_id": 602677204851744568
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp3.Run(c, args) },
 	}
@@ -297,12 +297,12 @@ Payload example:
 Payload example:
 
 {
-   "end_at": "2015-07-21T17:35:21Z",
-   "item_id": 8978848248755649179,
-   "owner_id": 6612698198611834311,
-   "price": 3455600905650324201,
-   "start_at": "1983-01-26T16:07:59Z",
-   "user_id": 8832286662952519220
+   "end_at": "1987-05-24T13:00:29Z",
+   "item_id": 7110412686662470652,
+   "owner_id": 5954730991984481353,
+   "price": 5290950378195383033,
+   "start_at": "2007-04-25T22:14:45Z",
+   "user_id": 1427150219523800627
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp4.Run(c, args) },
 	}
@@ -318,12 +318,12 @@ Payload example:
 Payload example:
 
 {
-   "address": "Doloribus mollitia iure mollitia id.",
-   "avatar_image": "Velit voluptatem.",
-   "cover_image": "Aut sit voluptatum dolore repudiandae.",
-   "introduction": "Vero excepturi quisquam est porro voluptas.",
-   "phone": 7970866834379500639,
-   "user_id": 4685224335950537424
+   "address": "Sit vero architecto non sapiente numquam doloribus.",
+   "avatar_image": "Hic fugiat aut aperiam eius voluptatem.",
+   "cover_image": "Non molestiae reiciendis doloribus mollitia iure mollitia.",
+   "introduction": "Doloribus velit voluptatem adipisci aut.",
+   "phone": 5363108437172969725,
+   "user_id": 3865624184652850719
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp5.Run(c, args) },
 	}
@@ -339,10 +339,12 @@ Payload example:
 Payload example:
 
 {
-   "email": "Perferendis placeat ut magni distinctio.",
-   "first_name": "Deserunt aliquam quia aspernatur ipsum non.",
-   "last_name": "Est suscipit rerum officia.",
-   "password": "Debitis dolorem laborum ratione aliquid et sapiente."
+   "authentication_id": 5249167591792164367,
+   "email": "Eos illo quo ad dolor ipsa temporibus.",
+   "first_name": "Quasi et perferendis placeat ut magni distinctio.",
+   "last_name": "Deserunt aliquam quia aspernatur ipsum non.",
+   "password": "Est suscipit rerum officia.",
+   "profile_id": 3250950888659514045
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp6.Run(c, args) },
 	}
@@ -356,7 +358,7 @@ Payload example:
 	}
 	tmp7 := new(DeleteAuthenticationCommand)
 	sub = &cobra.Command{
-		Use:   `authentication ["/authentications/USERID"]`,
+		Use:   `authentication ["/authentications/AUTHENTICATIONID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp7.Run(c, args) },
 	}
@@ -374,7 +376,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp9 := new(DeleteProfileCommand)
 	sub = &cobra.Command{
-		Use:   `profile ["/profiles/USERID"]`,
+		Use:   `profile ["/profiles/PROFILEID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp9.Run(c, args) },
 	}
@@ -413,7 +415,7 @@ Payload example:
 Payload example:
 
 {
-   "middlecategoryID": 6302415908907190566
+   "middlecategoryID": 4208015693792790909
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp12.Run(c, args) },
 	}
@@ -456,7 +458,7 @@ Payload example:
 Payload example:
 
 {
-   "largecategoryID": 8177945555275027707
+   "largecategoryID": 6647410479222226079
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp16.Run(c, args) },
 	}
@@ -479,7 +481,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp18 := new(ShowAuthenticationCommand)
 	sub = &cobra.Command{
-		Use:   `authentication ["/authentications/USERID"]`,
+		Use:   `authentication ["/authentications/AUTHENTICATIONID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp18.Run(c, args) },
 	}
@@ -515,7 +517,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp22 := new(ShowProfileCommand)
 	sub = &cobra.Command{
-		Use:   `profile ["/profiles/USERID"]`,
+		Use:   `profile ["/profiles/PROFILEID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp22.Run(c, args) },
 	}
@@ -538,7 +540,7 @@ Payload example:
 	}
 	tmp24 := new(UpdateAuthenticationCommand)
 	sub = &cobra.Command{
-		Use:   `authentication ["/authentications/USERID"]`,
+		Use:   `authentication ["/authentications/AUTHENTICATIONID"]`,
 		Short: ``,
 		Long: `
 
@@ -546,9 +548,9 @@ Payload example:
 
 {
    "email": true,
-   "identification": false,
+   "identification": true,
    "phone": false,
-   "user_id": 8026846116927176526
+   "user_id": 5936237511368153743
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp24.Run(c, args) },
 	}
@@ -564,18 +566,18 @@ Payload example:
 Payload example:
 
 {
-   "category_id": 7459463311843491355,
-   "compensation": 8954337693124348770,
-   "description": "Sit corporis sint accusantium eos.",
-   "id": 8035949011948408078,
-   "image1": "Non vel qui cum accusamus.",
-   "image2": "Velit itaque qui quo voluptatem molestiae.",
-   "image3": "Voluptate voluptatum veniam qui sit velit.",
-   "image4": "Voluptatem culpa officia perferendis quia sed.",
-   "name": "Sit vero architecto non sapiente numquam doloribus.",
-   "place_id": 2120241804948535816,
-   "price": 7749618258712479413,
-   "user_id": 6403895722829922202
+   "category_id": 1243586991775857378,
+   "compensation": 6716817941287639,
+   "description": "Deserunt eum ex dolores et voluptatem.",
+   "id": 6151235883001044288,
+   "image1": "Animi numquam delectus dolor vitae nulla nemo.",
+   "image2": "Sit corporis sint accusantium eos.",
+   "image3": "Ut non vel qui.",
+   "image4": "Accusamus esse velit itaque qui.",
+   "name": "Voluptatem molestiae voluptas voluptate voluptatum veniam.",
+   "place_id": 7519376908200432516,
+   "price": 8054297503032771610,
+   "user_id": 1994313493321975167
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp25.Run(c, args) },
 	}
@@ -584,19 +586,19 @@ Payload example:
 	command.AddCommand(sub)
 	tmp26 := new(UpdateProfileCommand)
 	sub = &cobra.Command{
-		Use:   `profile ["/profiles/USERID"]`,
+		Use:   `profile ["/profiles/PROFILEID"]`,
 		Short: ``,
 		Long: `
 
 Payload example:
 
 {
-   "address": "Est porro provident.",
-   "avatar_image": "Expedita voluptates repellat aut perspiciatis.",
-   "cover_image": "Quis atque.",
-   "introduction": "Eos illo quo ad dolor ipsa temporibus.",
-   "phone": 8500795076124070611,
-   "user_id": 6521523366813107284
+   "address": "Repudiandae odio vero.",
+   "avatar_image": "Quisquam est porro voluptas ut odit.",
+   "cover_image": "Est porro provident.",
+   "introduction": "Expedita voluptates repellat aut perspiciatis.",
+   "phone": 8401865038472264679,
+   "user_id": 2184236428407854640
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp26.Run(c, args) },
 	}
@@ -612,11 +614,11 @@ Payload example:
 Payload example:
 
 {
-   "email": "Ut doloremque.",
-   "first_name": "Eaque voluptas dolor exercitationem qui.",
-   "id": 4359156766155043097,
-   "last_name": "Est facilis eligendi aperiam eligendi molestias.",
-   "password": "Quas dolor aliquid quo repellendus magnam."
+   "email": "Dolorem laborum ratione aliquid.",
+   "first_name": "Sapiente dicta ut doloremque perspiciatis eaque voluptas.",
+   "id": 7777606998977430557,
+   "last_name": "Qui dignissimos excepturi est facilis eligendi.",
+   "password": "Eligendi molestias sit quas."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp27.Run(c, args) },
 	}
@@ -868,7 +870,7 @@ func (cmd *DeleteAuthenticationCommand) Run(c *client.Client, args []string) err
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/authentications/%v", cmd.UserID)
+		path = fmt.Sprintf("/authentications/%v", cmd.AuthenticationID)
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -884,8 +886,8 @@ func (cmd *DeleteAuthenticationCommand) Run(c *client.Client, args []string) err
 
 // RegisterFlags registers the command flags with the command line.
 func (cmd *DeleteAuthenticationCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
-	var userID int
-	cc.Flags().IntVar(&cmd.UserID, "userID", userID, `user ID`)
+	var authenticationID int
+	cc.Flags().IntVar(&cmd.AuthenticationID, "authenticationID", authenticationID, `authentication ID`)
 }
 
 // Run makes the HTTP request corresponding to the ShowAuthenticationCommand command.
@@ -894,7 +896,7 @@ func (cmd *ShowAuthenticationCommand) Run(c *client.Client, args []string) error
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/authentications/%v", cmd.UserID)
+		path = fmt.Sprintf("/authentications/%v", cmd.AuthenticationID)
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -910,8 +912,8 @@ func (cmd *ShowAuthenticationCommand) Run(c *client.Client, args []string) error
 
 // RegisterFlags registers the command flags with the command line.
 func (cmd *ShowAuthenticationCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
-	var userID int
-	cc.Flags().IntVar(&cmd.UserID, "userID", userID, `user ID`)
+	var authenticationID int
+	cc.Flags().IntVar(&cmd.AuthenticationID, "authenticationID", authenticationID, `authentication ID`)
 }
 
 // Run makes the HTTP request corresponding to the UpdateAuthenticationCommand command.
@@ -920,7 +922,7 @@ func (cmd *UpdateAuthenticationCommand) Run(c *client.Client, args []string) err
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/authentications/%v", cmd.UserID)
+		path = fmt.Sprintf("/authentications/%v", cmd.AuthenticationID)
 	}
 	var payload client.UpdateAuthenticationPayload
 	if cmd.Payload != "" {
@@ -945,8 +947,8 @@ func (cmd *UpdateAuthenticationCommand) Run(c *client.Client, args []string) err
 func (cmd *UpdateAuthenticationCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
 	cc.Flags().StringVar(&cmd.Payload, "payload", "", "Request body encoded in JSON")
 	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
-	var userID int
-	cc.Flags().IntVar(&cmd.UserID, "userID", userID, `user ID`)
+	var authenticationID int
+	cc.Flags().IntVar(&cmd.AuthenticationID, "authenticationID", authenticationID, `authentication ID`)
 }
 
 // Run makes the HTTP request corresponding to the ListCategoryCommand command.
@@ -1364,7 +1366,7 @@ func (cmd *DeleteProfileCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/profiles/%v", cmd.UserID)
+		path = fmt.Sprintf("/profiles/%v", cmd.ProfileID)
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1380,8 +1382,8 @@ func (cmd *DeleteProfileCommand) Run(c *client.Client, args []string) error {
 
 // RegisterFlags registers the command flags with the command line.
 func (cmd *DeleteProfileCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
-	var userID int
-	cc.Flags().IntVar(&cmd.UserID, "userID", userID, `user ID`)
+	var profileID int
+	cc.Flags().IntVar(&cmd.ProfileID, "profileID", profileID, `profile ID`)
 }
 
 // Run makes the HTTP request corresponding to the ShowProfileCommand command.
@@ -1390,7 +1392,7 @@ func (cmd *ShowProfileCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/profiles/%v", cmd.UserID)
+		path = fmt.Sprintf("/profiles/%v", cmd.ProfileID)
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -1406,8 +1408,8 @@ func (cmd *ShowProfileCommand) Run(c *client.Client, args []string) error {
 
 // RegisterFlags registers the command flags with the command line.
 func (cmd *ShowProfileCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
-	var userID int
-	cc.Flags().IntVar(&cmd.UserID, "userID", userID, `user ID`)
+	var profileID int
+	cc.Flags().IntVar(&cmd.ProfileID, "profileID", profileID, `profile ID`)
 }
 
 // Run makes the HTTP request corresponding to the UpdateProfileCommand command.
@@ -1416,7 +1418,7 @@ func (cmd *UpdateProfileCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/profiles/%v", cmd.UserID)
+		path = fmt.Sprintf("/profiles/%v", cmd.ProfileID)
 	}
 	var payload client.UpdateProfilePayload
 	if cmd.Payload != "" {
@@ -1441,8 +1443,8 @@ func (cmd *UpdateProfileCommand) Run(c *client.Client, args []string) error {
 func (cmd *UpdateProfileCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
 	cc.Flags().StringVar(&cmd.Payload, "payload", "", "Request body encoded in JSON")
 	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
-	var userID int
-	cc.Flags().IntVar(&cmd.UserID, "userID", userID, `user ID`)
+	var profileID int
+	cc.Flags().IntVar(&cmd.ProfileID, "profileID", profileID, `profile ID`)
 }
 
 // Run makes the HTTP request corresponding to the CreateUserCommand command.
