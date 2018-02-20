@@ -180,7 +180,7 @@ func CreateAuthenticationCreated(t goatest.TInterface, ctx context.Context, serv
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteAuthenticationBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, userID int) (http.ResponseWriter, error) {
+func DeleteAuthenticationBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, authenticationID int) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -201,14 +201,14 @@ func DeleteAuthenticationBadRequest(t goatest.TInterface, ctx context.Context, s
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/authentications/%v", userID),
+		Path: fmt.Sprintf("/authentications/%v", authenticationID),
 	}
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
+	prms["authenticationID"] = []string{fmt.Sprintf("%v", authenticationID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -249,7 +249,7 @@ func DeleteAuthenticationBadRequest(t goatest.TInterface, ctx context.Context, s
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteAuthenticationNoContent(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, userID int) http.ResponseWriter {
+func DeleteAuthenticationNoContent(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, authenticationID int) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -270,14 +270,14 @@ func DeleteAuthenticationNoContent(t goatest.TInterface, ctx context.Context, se
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/authentications/%v", userID),
+		Path: fmt.Sprintf("/authentications/%v", authenticationID),
 	}
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
+	prms["authenticationID"] = []string{fmt.Sprintf("%v", authenticationID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -311,7 +311,7 @@ func DeleteAuthenticationNoContent(t goatest.TInterface, ctx context.Context, se
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteAuthenticationNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, userID int) http.ResponseWriter {
+func DeleteAuthenticationNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, authenticationID int) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -332,14 +332,14 @@ func DeleteAuthenticationNotFound(t goatest.TInterface, ctx context.Context, ser
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/authentications/%v", userID),
+		Path: fmt.Sprintf("/authentications/%v", authenticationID),
 	}
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
+	prms["authenticationID"] = []string{fmt.Sprintf("%v", authenticationID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -373,7 +373,7 @@ func DeleteAuthenticationNotFound(t goatest.TInterface, ctx context.Context, ser
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowAuthenticationNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, userID int) http.ResponseWriter {
+func ShowAuthenticationNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, authenticationID int) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -394,14 +394,14 @@ func ShowAuthenticationNotFound(t goatest.TInterface, ctx context.Context, servi
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/authentications/%v", userID),
+		Path: fmt.Sprintf("/authentications/%v", authenticationID),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
+	prms["authenticationID"] = []string{fmt.Sprintf("%v", authenticationID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -435,7 +435,7 @@ func ShowAuthenticationNotFound(t goatest.TInterface, ctx context.Context, servi
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowAuthenticationOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, userID int) (http.ResponseWriter, *app.Authentication) {
+func ShowAuthenticationOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, authenticationID int) (http.ResponseWriter, *app.Authentication) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -456,14 +456,14 @@ func ShowAuthenticationOK(t goatest.TInterface, ctx context.Context, service *go
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/authentications/%v", userID),
+		Path: fmt.Sprintf("/authentications/%v", authenticationID),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
+	prms["authenticationID"] = []string{fmt.Sprintf("%v", authenticationID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -509,7 +509,7 @@ func ShowAuthenticationOK(t goatest.TInterface, ctx context.Context, service *go
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateAuthenticationBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, userID int, payload *app.UpdateAuthenticationPayload) (http.ResponseWriter, error) {
+func UpdateAuthenticationBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, authenticationID int, payload *app.UpdateAuthenticationPayload) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -530,14 +530,14 @@ func UpdateAuthenticationBadRequest(t goatest.TInterface, ctx context.Context, s
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/authentications/%v", userID),
+		Path: fmt.Sprintf("/authentications/%v", authenticationID),
 	}
 	req, err := http.NewRequest("PUT", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
+	prms["authenticationID"] = []string{fmt.Sprintf("%v", authenticationID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -579,7 +579,7 @@ func UpdateAuthenticationBadRequest(t goatest.TInterface, ctx context.Context, s
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateAuthenticationNoContent(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, userID int, payload *app.UpdateAuthenticationPayload) http.ResponseWriter {
+func UpdateAuthenticationNoContent(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, authenticationID int, payload *app.UpdateAuthenticationPayload) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -600,14 +600,14 @@ func UpdateAuthenticationNoContent(t goatest.TInterface, ctx context.Context, se
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/authentications/%v", userID),
+		Path: fmt.Sprintf("/authentications/%v", authenticationID),
 	}
 	req, err := http.NewRequest("PUT", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
+	prms["authenticationID"] = []string{fmt.Sprintf("%v", authenticationID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -642,7 +642,7 @@ func UpdateAuthenticationNoContent(t goatest.TInterface, ctx context.Context, se
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateAuthenticationNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, userID int, payload *app.UpdateAuthenticationPayload) http.ResponseWriter {
+func UpdateAuthenticationNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, authenticationID int, payload *app.UpdateAuthenticationPayload) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -663,14 +663,14 @@ func UpdateAuthenticationNotFound(t goatest.TInterface, ctx context.Context, ser
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/authentications/%v", userID),
+		Path: fmt.Sprintf("/authentications/%v", authenticationID),
 	}
 	req, err := http.NewRequest("PUT", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
+	prms["authenticationID"] = []string{fmt.Sprintf("%v", authenticationID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}

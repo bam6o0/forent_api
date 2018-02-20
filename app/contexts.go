@@ -195,7 +195,7 @@ type DeleteAuthenticationContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	UserID int
+	AuthenticationID int
 }
 
 // NewDeleteAuthenticationContext parses the incoming request URL and body, performs validations and creates the
@@ -207,13 +207,13 @@ func NewDeleteAuthenticationContext(ctx context.Context, r *http.Request, servic
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := DeleteAuthenticationContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramUserID := req.Params["userID"]
-	if len(paramUserID) > 0 {
-		rawUserID := paramUserID[0]
-		if userID, err2 := strconv.Atoi(rawUserID); err2 == nil {
-			rctx.UserID = userID
+	paramAuthenticationID := req.Params["authenticationID"]
+	if len(paramAuthenticationID) > 0 {
+		rawAuthenticationID := paramAuthenticationID[0]
+		if authenticationID, err2 := strconv.Atoi(rawAuthenticationID); err2 == nil {
+			rctx.AuthenticationID = authenticationID
 		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("userID", rawUserID, "integer"))
+			err = goa.MergeErrors(err, goa.InvalidParamTypeError("authenticationID", rawAuthenticationID, "integer"))
 		}
 	}
 	return &rctx, err
@@ -244,7 +244,7 @@ type ShowAuthenticationContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	UserID int
+	AuthenticationID int
 }
 
 // NewShowAuthenticationContext parses the incoming request URL and body, performs validations and creates the
@@ -256,13 +256,13 @@ func NewShowAuthenticationContext(ctx context.Context, r *http.Request, service 
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := ShowAuthenticationContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramUserID := req.Params["userID"]
-	if len(paramUserID) > 0 {
-		rawUserID := paramUserID[0]
-		if userID, err2 := strconv.Atoi(rawUserID); err2 == nil {
-			rctx.UserID = userID
+	paramAuthenticationID := req.Params["authenticationID"]
+	if len(paramAuthenticationID) > 0 {
+		rawAuthenticationID := paramAuthenticationID[0]
+		if authenticationID, err2 := strconv.Atoi(rawAuthenticationID); err2 == nil {
+			rctx.AuthenticationID = authenticationID
 		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("userID", rawUserID, "integer"))
+			err = goa.MergeErrors(err, goa.InvalidParamTypeError("authenticationID", rawAuthenticationID, "integer"))
 		}
 	}
 	return &rctx, err
@@ -287,8 +287,8 @@ type UpdateAuthenticationContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	UserID  int
-	Payload *UpdateAuthenticationPayload
+	AuthenticationID int
+	Payload          *UpdateAuthenticationPayload
 }
 
 // NewUpdateAuthenticationContext parses the incoming request URL and body, performs validations and creates the
@@ -300,13 +300,13 @@ func NewUpdateAuthenticationContext(ctx context.Context, r *http.Request, servic
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := UpdateAuthenticationContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramUserID := req.Params["userID"]
-	if len(paramUserID) > 0 {
-		rawUserID := paramUserID[0]
-		if userID, err2 := strconv.Atoi(rawUserID); err2 == nil {
-			rctx.UserID = userID
+	paramAuthenticationID := req.Params["authenticationID"]
+	if len(paramAuthenticationID) > 0 {
+		rawAuthenticationID := paramAuthenticationID[0]
+		if authenticationID, err2 := strconv.Atoi(rawAuthenticationID); err2 == nil {
+			rctx.AuthenticationID = authenticationID
 		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("userID", rawUserID, "integer"))
+			err = goa.MergeErrors(err, goa.InvalidParamTypeError("authenticationID", rawAuthenticationID, "integer"))
 		}
 	}
 	return &rctx, err
@@ -387,6 +387,7 @@ type ListCategoryContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
+	Payload *ListCategoryPayload
 }
 
 // NewListCategoryContext parses the incoming request URL and body, performs validations and creates the
@@ -401,6 +402,27 @@ func NewListCategoryContext(ctx context.Context, r *http.Request, service *goa.S
 	return &rctx, err
 }
 
+// listCategoryPayload is the category list action payload.
+type listCategoryPayload struct {
+	// middlecategory id
+	MiddlecategoryID *int `form:"middlecategoryID,omitempty" json:"middlecategoryID,omitempty" xml:"middlecategoryID,omitempty"`
+}
+
+// Publicize creates ListCategoryPayload from listCategoryPayload
+func (payload *listCategoryPayload) Publicize() *ListCategoryPayload {
+	var pub ListCategoryPayload
+	if payload.MiddlecategoryID != nil {
+		pub.MiddlecategoryID = payload.MiddlecategoryID
+	}
+	return &pub
+}
+
+// ListCategoryPayload is the category list action payload.
+type ListCategoryPayload struct {
+	// middlecategory id
+	MiddlecategoryID *int `form:"middlecategoryID,omitempty" json:"middlecategoryID,omitempty" xml:"middlecategoryID,omitempty"`
+}
+
 // OK sends a HTTP response with status code 200.
 func (ctx *ListCategoryContext) OK(r CategoryCollection) error {
 	if ctx.ResponseData.Header().Get("Content-Type") == "" {
@@ -410,49 +432,6 @@ func (ctx *ListCategoryContext) OK(r CategoryCollection) error {
 		r = CategoryCollection{}
 	}
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// ShowCategoryContext provides the category show action context.
-type ShowCategoryContext struct {
-	context.Context
-	*goa.ResponseData
-	*goa.RequestData
-	CategoryID int
-}
-
-// NewShowCategoryContext parses the incoming request URL and body, performs validations and creates the
-// context used by the category controller show action.
-func NewShowCategoryContext(ctx context.Context, r *http.Request, service *goa.Service) (*ShowCategoryContext, error) {
-	var err error
-	resp := goa.ContextResponse(ctx)
-	resp.Service = service
-	req := goa.ContextRequest(ctx)
-	req.Request = r
-	rctx := ShowCategoryContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramCategoryID := req.Params["categoryID"]
-	if len(paramCategoryID) > 0 {
-		rawCategoryID := paramCategoryID[0]
-		if categoryID, err2 := strconv.Atoi(rawCategoryID); err2 == nil {
-			rctx.CategoryID = categoryID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("categoryID", rawCategoryID, "integer"))
-		}
-	}
-	return &rctx, err
-}
-
-// OK sends a HTTP response with status code 200.
-func (ctx *ShowCategoryContext) OK(r *Category) error {
-	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.category+json")
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ShowCategoryContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
 }
 
 // CreateCommentContext provides the comment create action context.
@@ -1108,54 +1087,12 @@ func (ctx *ListLargecategoryContext) OK(r LargecategoryCollection) error {
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
 }
 
-// ShowLargecategoryContext provides the largecategory show action context.
-type ShowLargecategoryContext struct {
-	context.Context
-	*goa.ResponseData
-	*goa.RequestData
-	LargecategoryID int
-}
-
-// NewShowLargecategoryContext parses the incoming request URL and body, performs validations and creates the
-// context used by the largecategory controller show action.
-func NewShowLargecategoryContext(ctx context.Context, r *http.Request, service *goa.Service) (*ShowLargecategoryContext, error) {
-	var err error
-	resp := goa.ContextResponse(ctx)
-	resp.Service = service
-	req := goa.ContextRequest(ctx)
-	req.Request = r
-	rctx := ShowLargecategoryContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramLargecategoryID := req.Params["largecategoryID"]
-	if len(paramLargecategoryID) > 0 {
-		rawLargecategoryID := paramLargecategoryID[0]
-		if largecategoryID, err2 := strconv.Atoi(rawLargecategoryID); err2 == nil {
-			rctx.LargecategoryID = largecategoryID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("largecategoryID", rawLargecategoryID, "integer"))
-		}
-	}
-	return &rctx, err
-}
-
-// OK sends a HTTP response with status code 200.
-func (ctx *ShowLargecategoryContext) OK(r *Largecategory) error {
-	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.largecategory+json")
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ShowLargecategoryContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
-}
-
 // ListMiddlecategoryContext provides the middlecategory list action context.
 type ListMiddlecategoryContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
+	Payload *ListMiddlecategoryPayload
 }
 
 // NewListMiddlecategoryContext parses the incoming request URL and body, performs validations and creates the
@@ -1170,6 +1107,27 @@ func NewListMiddlecategoryContext(ctx context.Context, r *http.Request, service 
 	return &rctx, err
 }
 
+// listMiddlecategoryPayload is the middlecategory list action payload.
+type listMiddlecategoryPayload struct {
+	// largecategory id
+	LargecategoryID *int `form:"largecategoryID,omitempty" json:"largecategoryID,omitempty" xml:"largecategoryID,omitempty"`
+}
+
+// Publicize creates ListMiddlecategoryPayload from listMiddlecategoryPayload
+func (payload *listMiddlecategoryPayload) Publicize() *ListMiddlecategoryPayload {
+	var pub ListMiddlecategoryPayload
+	if payload.LargecategoryID != nil {
+		pub.LargecategoryID = payload.LargecategoryID
+	}
+	return &pub
+}
+
+// ListMiddlecategoryPayload is the middlecategory list action payload.
+type ListMiddlecategoryPayload struct {
+	// largecategory id
+	LargecategoryID *int `form:"largecategoryID,omitempty" json:"largecategoryID,omitempty" xml:"largecategoryID,omitempty"`
+}
+
 // OK sends a HTTP response with status code 200.
 func (ctx *ListMiddlecategoryContext) OK(r MiddlecategoryCollection) error {
 	if ctx.ResponseData.Header().Get("Content-Type") == "" {
@@ -1179,49 +1137,6 @@ func (ctx *ListMiddlecategoryContext) OK(r MiddlecategoryCollection) error {
 		r = MiddlecategoryCollection{}
 	}
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// ShowMiddlecategoryContext provides the middlecategory show action context.
-type ShowMiddlecategoryContext struct {
-	context.Context
-	*goa.ResponseData
-	*goa.RequestData
-	MiddlecategoryID int
-}
-
-// NewShowMiddlecategoryContext parses the incoming request URL and body, performs validations and creates the
-// context used by the middlecategory controller show action.
-func NewShowMiddlecategoryContext(ctx context.Context, r *http.Request, service *goa.Service) (*ShowMiddlecategoryContext, error) {
-	var err error
-	resp := goa.ContextResponse(ctx)
-	resp.Service = service
-	req := goa.ContextRequest(ctx)
-	req.Request = r
-	rctx := ShowMiddlecategoryContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramMiddlecategoryID := req.Params["middlecategoryID"]
-	if len(paramMiddlecategoryID) > 0 {
-		rawMiddlecategoryID := paramMiddlecategoryID[0]
-		if middlecategoryID, err2 := strconv.Atoi(rawMiddlecategoryID); err2 == nil {
-			rctx.MiddlecategoryID = middlecategoryID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("middlecategoryID", rawMiddlecategoryID, "integer"))
-		}
-	}
-	return &rctx, err
-}
-
-// OK sends a HTTP response with status code 200.
-func (ctx *ShowMiddlecategoryContext) OK(r *Middlecategory) error {
-	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.middlecategory+json")
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ShowMiddlecategoryContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
 }
 
 // CreateOfferContext provides the offer create action context.
@@ -1520,7 +1435,7 @@ type DeleteProfileContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	UserID int
+	ProfileID int
 }
 
 // NewDeleteProfileContext parses the incoming request URL and body, performs validations and creates the
@@ -1532,13 +1447,13 @@ func NewDeleteProfileContext(ctx context.Context, r *http.Request, service *goa.
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := DeleteProfileContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramUserID := req.Params["userID"]
-	if len(paramUserID) > 0 {
-		rawUserID := paramUserID[0]
-		if userID, err2 := strconv.Atoi(rawUserID); err2 == nil {
-			rctx.UserID = userID
+	paramProfileID := req.Params["profileID"]
+	if len(paramProfileID) > 0 {
+		rawProfileID := paramProfileID[0]
+		if profileID, err2 := strconv.Atoi(rawProfileID); err2 == nil {
+			rctx.ProfileID = profileID
 		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("userID", rawUserID, "integer"))
+			err = goa.MergeErrors(err, goa.InvalidParamTypeError("profileID", rawProfileID, "integer"))
 		}
 	}
 	return &rctx, err
@@ -1569,7 +1484,7 @@ type ShowProfileContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	UserID int
+	ProfileID int
 }
 
 // NewShowProfileContext parses the incoming request URL and body, performs validations and creates the
@@ -1581,13 +1496,13 @@ func NewShowProfileContext(ctx context.Context, r *http.Request, service *goa.Se
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := ShowProfileContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramUserID := req.Params["userID"]
-	if len(paramUserID) > 0 {
-		rawUserID := paramUserID[0]
-		if userID, err2 := strconv.Atoi(rawUserID); err2 == nil {
-			rctx.UserID = userID
+	paramProfileID := req.Params["profileID"]
+	if len(paramProfileID) > 0 {
+		rawProfileID := paramProfileID[0]
+		if profileID, err2 := strconv.Atoi(rawProfileID); err2 == nil {
+			rctx.ProfileID = profileID
 		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("userID", rawUserID, "integer"))
+			err = goa.MergeErrors(err, goa.InvalidParamTypeError("profileID", rawProfileID, "integer"))
 		}
 	}
 	return &rctx, err
@@ -1612,8 +1527,8 @@ type UpdateProfileContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	UserID  int
-	Payload *UpdateProfilePayload
+	ProfileID int
+	Payload   *UpdateProfilePayload
 }
 
 // NewUpdateProfileContext parses the incoming request URL and body, performs validations and creates the
@@ -1625,13 +1540,13 @@ func NewUpdateProfileContext(ctx context.Context, r *http.Request, service *goa.
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := UpdateProfileContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramUserID := req.Params["userID"]
-	if len(paramUserID) > 0 {
-		rawUserID := paramUserID[0]
-		if userID, err2 := strconv.Atoi(rawUserID); err2 == nil {
-			rctx.UserID = userID
+	paramProfileID := req.Params["profileID"]
+	if len(paramProfileID) > 0 {
+		rawProfileID := paramProfileID[0]
+		if profileID, err2 := strconv.Atoi(rawProfileID); err2 == nil {
+			rctx.ProfileID = profileID
 		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("userID", rawUserID, "integer"))
+			err = goa.MergeErrors(err, goa.InvalidParamTypeError("profileID", rawProfileID, "integer"))
 		}
 	}
 	return &rctx, err
@@ -1743,6 +1658,8 @@ func NewCreateUserContext(ctx context.Context, r *http.Request, service *goa.Ser
 
 // createUserPayload is the user create action payload.
 type createUserPayload struct {
+	// authentication id
+	AuthenticationID *int `form:"authentication_id,omitempty" json:"authentication_id,omitempty" xml:"authentication_id,omitempty"`
 	// email
 	Email *string `form:"email,omitempty" json:"email,omitempty" xml:"email,omitempty"`
 	// first name
@@ -1751,6 +1668,8 @@ type createUserPayload struct {
 	LastName *string `form:"last_name,omitempty" json:"last_name,omitempty" xml:"last_name,omitempty"`
 	// password
 	Password *string `form:"password,omitempty" json:"password,omitempty" xml:"password,omitempty"`
+	// profile id
+	ProfileID *int `form:"profile_id,omitempty" json:"profile_id,omitempty" xml:"profile_id,omitempty"`
 }
 
 // Validate runs the validation rules defined in the design.
@@ -1767,12 +1686,21 @@ func (payload *createUserPayload) Validate() (err error) {
 	if payload.Password == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "password"))
 	}
+	if payload.ProfileID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "profile_id"))
+	}
+	if payload.AuthenticationID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "authentication_id"))
+	}
 	return
 }
 
 // Publicize creates CreateUserPayload from createUserPayload
 func (payload *createUserPayload) Publicize() *CreateUserPayload {
 	var pub CreateUserPayload
+	if payload.AuthenticationID != nil {
+		pub.AuthenticationID = *payload.AuthenticationID
+	}
 	if payload.Email != nil {
 		pub.Email = *payload.Email
 	}
@@ -1785,11 +1713,16 @@ func (payload *createUserPayload) Publicize() *CreateUserPayload {
 	if payload.Password != nil {
 		pub.Password = *payload.Password
 	}
+	if payload.ProfileID != nil {
+		pub.ProfileID = *payload.ProfileID
+	}
 	return &pub
 }
 
 // CreateUserPayload is the user create action payload.
 type CreateUserPayload struct {
+	// authentication id
+	AuthenticationID int `form:"authentication_id" json:"authentication_id" xml:"authentication_id"`
 	// email
 	Email string `form:"email" json:"email" xml:"email"`
 	// first name
@@ -1798,6 +1731,8 @@ type CreateUserPayload struct {
 	LastName string `form:"last_name" json:"last_name" xml:"last_name"`
 	// password
 	Password string `form:"password" json:"password" xml:"password"`
+	// profile id
+	ProfileID int `form:"profile_id" json:"profile_id" xml:"profile_id"`
 }
 
 // Validate runs the validation rules defined in the design.
@@ -1814,6 +1749,7 @@ func (payload *CreateUserPayload) Validate() (err error) {
 	if payload.Password == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "password"))
 	}
+
 	return
 }
 

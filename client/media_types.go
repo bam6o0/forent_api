@@ -164,8 +164,6 @@ type Authentication struct {
 	Identification bool `form:"identification" json:"identification" xml:"identification"`
 	// phone flag
 	Phone bool `form:"phone" json:"phone" xml:"phone"`
-	// user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // Validate validates the Authentication media type instance.
@@ -187,7 +185,7 @@ func (c *Client) DecodeAuthentication(resp *http.Response) (*Authentication, err
 type Category struct {
 	// Unique category ID
 	ID int `form:"id" json:"id" xml:"id"`
-	// middle_category_id
+	// middle category id
 	MiddleCategoryID int `form:"middle_category_id" json:"middle_category_id" xml:"middle_category_id"`
 	// category name
 	Name string `form:"name" json:"name" xml:"name"`
@@ -638,8 +636,6 @@ type Profile struct {
 	Introduction string `form:"introduction" json:"introduction" xml:"introduction"`
 	// phone number
 	Phone int `form:"phone" json:"phone" xml:"phone"`
-	// user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // Validate validates the Profile media type instance.

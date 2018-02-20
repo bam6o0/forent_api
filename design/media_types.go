@@ -10,6 +10,8 @@ var User = MediaType("application/vnd.user+json", func() {
 	Description("user")
 	Attributes(func() { // Attributes define the media type shape.
 		Attribute("id", Integer, "Unique user ID")
+		Attribute("profile_id", Integer, "profile id")
+		Attribute("authentication_id", Integer, "authentication id")
 		Attribute("first_name", String, "first name")
 		Attribute("last_name", String, "last_name")
 		Attribute("email", String, "email")
@@ -31,18 +33,16 @@ var Profile = MediaType("application/vnd.profile+json", func() {
 	Description("profile")
 	Attributes(func() { // Attributes define the media type shape.
 		Attribute("id", Integer, "Unique profile ID")
-		Attribute("user_id", Integer, "user id")
 		Attribute("introduction", String, "user introduciton")
 		Attribute("address", String, "address")
 		Attribute("phone", Integer, "phone number")
 		Attribute("avatar_image", String, "avatar image url")
 		Attribute("cover_image", String, "cover image url")
 
-		Required("id", "user_id", "introduction", "address", "phone", "avatar_image", "cover_image")
+		Required("id", "introduction", "address", "phone", "avatar_image", "cover_image")
 	})
 	View("default", func() { // View defines a rendering of the media type.
 		Attribute("id") // Media types may have multiple views and must have a "default" view.
-		Attribute("user_id")
 		Attribute("introduction")
 		Attribute("address")
 		Attribute("phone")
@@ -56,16 +56,14 @@ var Authentication = MediaType("application/vnd.authentication+json", func() {
 	Description("Authentication")
 	Attributes(func() { // Attributes define the media type shape.
 		Attribute("id", Integer, "Unique auth ID")
-		Attribute("user_id", Integer, "user id")
 		Attribute("identification", Boolean, "identification flag")
 		Attribute("email", Boolean, "address flag")
 		Attribute("phone", Boolean, "phone flag")
 
-		Required("id", "user_id", "identification", "email", "phone")
+		Required("id", "identification", "email", "phone")
 	})
 	View("default", func() { // View defines a rendering of the media type.
 		Attribute("id") // Media types may have multiple views and must have a "default" view.
-		Attribute("user_id")
 		Attribute("identification")
 		Attribute("email")
 		Attribute("phone")
@@ -304,7 +302,7 @@ var Category = MediaType("application/vnd.category+json", func() {
 	Description("Category")
 	Attributes(func() { // Attributes define the media type shape.
 		Attribute("id", Integer, "Unique category ID")
-		Attribute("middle_category_id", Integer, "middle_category_id")
+		Attribute("middle_category_id", Integer, "middle category id")
 		Attribute("name", String, "category name")
 		Attribute("name_base", String, "category kana name")
 		Attribute("name_en", String, "category english name")

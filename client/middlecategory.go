@@ -11,12 +11,18 @@
 package client
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"net/http"
 	"net/url"
-	"strconv"
 )
+
+// ListMiddlecategoryPayload is the middlecategory list action payload.
+type ListMiddlecategoryPayload struct {
+	// largecategory id
+	LargecategoryID *int `form:"largecategoryID,omitempty" json:"largecategoryID,omitempty" xml:"largecategoryID,omitempty"`
+}
 
 // ListMiddlecategoryPath computes a request path to the list action of middlecategory.
 func ListMiddlecategoryPath() string {
@@ -25,8 +31,8 @@ func ListMiddlecategoryPath() string {
 }
 
 // Retrieve all middlecategories.
-func (c *Client) ListMiddlecategory(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewListMiddlecategoryRequest(ctx, path)
+func (c *Client) ListMiddlecategory(ctx context.Context, path string, payload *ListMiddlecategoryPayload, contentType string) (*http.Response, error) {
+	req, err := c.NewListMiddlecategoryRequest(ctx, path, payload, contentType)
 	if err != nil {
 		return nil, err
 	}
@@ -34,45 +40,29 @@ func (c *Client) ListMiddlecategory(ctx context.Context, path string) (*http.Res
 }
 
 // NewListMiddlecategoryRequest create the request corresponding to the list action endpoint of the middlecategory resource.
-func (c *Client) NewListMiddlecategoryRequest(ctx context.Context, path string) (*http.Request, error) {
+func (c *Client) NewListMiddlecategoryRequest(ctx context.Context, path string, payload *ListMiddlecategoryPayload, contentType string) (*http.Request, error) {
+	var body bytes.Buffer
+	if contentType == "" {
+		contentType = "*/*" // Use default encoder
+	}
+	err := c.Encoder.Encode(payload, &body, contentType)
+	if err != nil {
+		return nil, fmt.Errorf("failed to encode body: %s", err)
+	}
 	scheme := c.Scheme
 	if scheme == "" {
 		scheme = "http"
 	}
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
+	req, err := http.NewRequest("GET", u.String(), &body)
 	if err != nil {
 		return nil, err
 	}
-	return req, nil
-}
-
-// ShowMiddlecategoryPath computes a request path to the show action of middlecategory.
-func ShowMiddlecategoryPath(middlecategoryID int) string {
-	param0 := strconv.Itoa(middlecategoryID)
-
-	return fmt.Sprintf("/middlecategories/%s", param0)
-}
-
-// Get middlecategory by id
-func (c *Client) ShowMiddlecategory(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewShowMiddlecategoryRequest(ctx, path)
-	if err != nil {
-		return nil, err
-	}
-	return c.Client.Do(ctx, req)
-}
-
-// NewShowMiddlecategoryRequest create the request corresponding to the show action endpoint of the middlecategory resource.
-func (c *Client) NewShowMiddlecategoryRequest(ctx context.Context, path string) (*http.Request, error) {
-	scheme := c.Scheme
-	if scheme == "" {
-		scheme = "http"
-	}
-	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
-	if err != nil {
-		return nil, err
+	header := req.Header
+	if contentType == "*/*" {
+		header.Set("Content-Type", "application/json")
+	} else {
+		header.Set("Content-Type", contentType)
 	}
 	return req, nil
 }

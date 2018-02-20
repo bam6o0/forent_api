@@ -30,8 +30,10 @@ var _ = Resource("user", func() { // Resources group related API endpoints
 			Param("last_name", String, "last_name")
 			Param("email", String, "email")
 			Param("password", String, "password")
+			Param("profile_id", Integer, "profile id")
+			Param("authentication_id", Integer, "authentication id")
 
-			Required("first_name", "last_name", "email", "password")
+			Required("first_name", "last_name", "email", "password", "profile_id", "authentication_id")
 		})
 		Response(Created, "/users/[0-9]+")
 		Response(BadRequest, ErrorMedia)
@@ -80,9 +82,9 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 
 	Action("show", func() { // Actions define a single API endpoint together
 		Description("Get profile by id") // with its path, parameters (both path
-		Routing(GET("/:userID"))         // parameters and querystring values) and payload
+		Routing(GET("/:profileID"))      // parameters and querystring values) and payload
 		Params(func() {                  // (shape of the request body).
-			Param("userID", Integer, "user ID")
+			Param("profileID", Integer, "profile ID")
 		})
 		Response(OK)       // Responses define the shape and status code
 		Response(NotFound) // of HTTP responses.
@@ -109,11 +111,11 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 
 	Action("update", func() {
 		Routing(
-			PUT("/:userID"),
+			PUT("/:profileID"),
 		)
 		Description("Change profile data")
 		Params(func() {
-			Param("userID", Integer, "user ID")
+			Param("profileID", Integer, "profile ID")
 		})
 		Payload(func() {
 			Param("user_id", Integer, "user id")
@@ -132,10 +134,10 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 
 	Action("delete", func() {
 		Routing(
-			DELETE("/:userID"),
+			DELETE("/:profileID"),
 		)
 		Params(func() {
-			Param("userID", Integer, "user ID")
+			Param("profileID", Integer, "profile ID")
 		})
 		Response(NoContent)
 		Response(NotFound)
@@ -151,9 +153,9 @@ var _ = Resource("authentication", func() { // Resources group related API endpo
 
 	Action("show", func() { // Actions define a single API endpoint together
 		Description("Get authentication by id") // with its path, parameters (both path
-		Routing(GET("/:userID"))                // parameters and querystring values) and payload
+		Routing(GET("/:authenticationID"))      // parameters and querystring values) and payload
 		Params(func() {                         // (shape of the request body).
-			Param("userID", Integer, "user ID")
+			Param("authenticationID", Integer, "authentication ID")
 		})
 		Response(OK)       // Responses define the shape and status code
 		Response(NotFound) // of HTTP responses.
@@ -178,11 +180,11 @@ var _ = Resource("authentication", func() { // Resources group related API endpo
 
 	Action("update", func() {
 		Routing(
-			PUT("/:userID"),
+			PUT("/:authenticationID"),
 		)
 		Description("Change authentication data")
 		Params(func() {
-			Param("userID", Integer, "user ID")
+			Param("authenticationID", Integer, "authentication ID")
 		})
 		Payload(func() {
 			Param("user_id", Integer, "user id")
@@ -199,10 +201,10 @@ var _ = Resource("authentication", func() { // Resources group related API endpo
 
 	Action("delete", func() {
 		Routing(
-			DELETE("/:userID"),
+			DELETE("/:authenticationID"),
 		)
 		Params(func() {
-			Param("userID", Integer, "user ID")
+			Param("authenticationID", Integer, "authentication ID")
 		})
 		Response(NoContent)
 		Response(NotFound)
@@ -412,18 +414,11 @@ var _ = Resource("category", func() { // Resources group related API endpoints
 		Routing(
 			GET(""),
 		)
+		Payload(func() {
+			Param("middlecategoryID", Integer, "middlecategory id")
+		})
 		Description("Retrieve all categories.")
 		Response(OK, CollectionOf(Category))
-	})
-
-	Action("show", func() { // Actions define a single API endpoint together
-		Description("Get category by id") // with its path, parameters (both path
-		Routing(GET("/:categoryID"))      // parameters and querystring values) and payload
-		Params(func() {                   // (shape of the request body).
-			Param("categoryID", Integer, "category ID")
-		})
-		Response(OK)       // Responses define the shape and status code
-		Response(NotFound) // of HTTP responses.
 	})
 
 })
@@ -437,20 +432,12 @@ var _ = Resource("middlecategory", func() { // Resources group related API endpo
 		Routing(
 			GET(""),
 		)
+		Payload(func() {
+			Param("largecategoryID", Integer, "largecategory id")
+		})
 		Description("Retrieve all middlecategories.")
 		Response(OK, CollectionOf(MiddleCategory))
 	})
-
-	Action("show", func() { // Actions define a single API endpoint together
-		Description("Get middlecategory by id") // with its path, parameters (both path
-		Routing(GET("/:middlecategoryID"))      // parameters and querystring values) and payload
-		Params(func() {                         // (shape of the request body).
-			Param("middlecategoryID", Integer, "middlecategory ID")
-		})
-		Response(OK)       // Responses define the shape and status code
-		Response(NotFound) // of HTTP responses.
-	})
-
 })
 
 // LargeCategory
@@ -464,16 +451,6 @@ var _ = Resource("largecategory", func() { // Resources group related API endpoi
 		)
 		Description("Retrieve all largecategories.")
 		Response(OK, CollectionOf(LargeCategory))
-	})
-
-	Action("show", func() { // Actions define a single API endpoint together
-		Description("Get largecategory by id") // with its path, parameters (both path
-		Routing(GET("/:largecategoryID"))      // parameters and querystring values) and payload
-		Params(func() {                        // (shape of the request body).
-			Param("largecategoryID", Integer, "largecategory ID")
-		})
-		Response(OK)       // Responses define the shape and status code
-		Response(NotFound) // of HTTP responses.
 	})
 
 })

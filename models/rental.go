@@ -21,13 +21,12 @@ import (
 // Rental Model
 type Rental struct {
 	ID          int        `gorm:"primary_key"` // This is the rental Model PK field
-	OfferID     int        // Belongs To Offer
+	Offer       Offer      // has one Offer
 	CreatedAt   time.Time  // timestamp
 	DeletedAt   *time.Time // nullable timestamp (soft delete)
 	DeliveredAt time.Time  // timestamp
 	ReturnedAt  time.Time  // timestamp
 	UpdatedAt   time.Time  // timestamp
-	Offer       Offer
 }
 
 // TableName overrides the table name settings in Gorm to force a specific table name
@@ -62,8 +61,8 @@ type RentalStorage interface {
 	Update(ctx context.Context, rental *Rental) error
 	Delete(ctx context.Context, id int) error
 
-	ListRental(ctx context.Context, offerID int) []*app.Rental
-	OneRental(ctx context.Context, id int, offerID int) (*app.Rental, error)
+	ListRental(ctx context.Context) []*app.Rental
+	OneRental(ctx context.Context, id int) (*app.Rental, error)
 }
 
 // TableName overrides the table name settings in Gorm to force a specific table name
@@ -71,21 +70,6 @@ type RentalStorage interface {
 func (m *RentalDB) TableName() string {
 	return "rentals"
 
-}
-
-// Belongs To Relationships
-
-// RentalFilterByOffer is a gorm filter for a Belongs To relationship.
-func RentalFilterByOffer(offerID int, originaldb *gorm.DB) func(db *gorm.DB) *gorm.DB {
-
-	if offerID > 0 {
-
-		return func(db *gorm.DB) *gorm.DB {
-			return db.Where("offer_id = ?", offerID)
-
-		}
-	}
-	return func(db *gorm.DB) *gorm.DB { return db }
 }
 
 // CRUD Functions

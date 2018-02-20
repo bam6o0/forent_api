@@ -79,8 +79,8 @@ func (c *Client) NewCreateProfileRequest(ctx context.Context, path string, paylo
 }
 
 // DeleteProfilePath computes a request path to the delete action of profile.
-func DeleteProfilePath(userID int) string {
-	param0 := strconv.Itoa(userID)
+func DeleteProfilePath(profileID int) string {
+	param0 := strconv.Itoa(profileID)
 
 	return fmt.Sprintf("/profiles/%s", param0)
 }
@@ -109,8 +109,8 @@ func (c *Client) NewDeleteProfileRequest(ctx context.Context, path string) (*htt
 }
 
 // ShowProfilePath computes a request path to the show action of profile.
-func ShowProfilePath(userID int) string {
-	param0 := strconv.Itoa(userID)
+func ShowProfilePath(profileID int) string {
+	param0 := strconv.Itoa(profileID)
 
 	return fmt.Sprintf("/profiles/%s", param0)
 }
@@ -155,8 +155,8 @@ type UpdateProfilePayload struct {
 }
 
 // UpdateProfilePath computes a request path to the update action of profile.
-func UpdateProfilePath(userID int) string {
-	param0 := strconv.Itoa(userID)
+func UpdateProfilePath(profileID int) string {
+	param0 := strconv.Itoa(profileID)
 
 	return fmt.Sprintf("/profiles/%s", param0)
 }

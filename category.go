@@ -1,4 +1,4 @@
-package controller
+package main
 
 import (
 	"forent_api/app"
@@ -18,22 +18,14 @@ func NewCategoryController(service *goa.Service) *CategoryController {
 
 // List runs the list action.
 func (c *CategoryController) List(ctx *app.ListCategoryContext) error {
-	// CategoryController_List: start_implement
+	pay := *ctx.Payload
+	if pay.MiddlecategoryID != nil {
+		categories := CategoryDB.ListCategory(ctx.Context, *pay.MiddlecategoryID)
+		return ctx.OK(categories)
+	} else {
+		categories := CategoryDB.AllListCategory(ctx.Context)
+		return ctx.OK(categories)
 
-	// Put your logic here
+	}
 
-	res := app.CategoryCollection{}
-	return ctx.OK(res)
-	// CategoryController_List: end_implement
-}
-
-// Show runs the show action.
-func (c *CategoryController) Show(ctx *app.ShowCategoryContext) error {
-	// CategoryController_Show: start_implement
-
-	// Put your logic here
-
-	res := &app.Category{}
-	return ctx.OK(res)
-	// CategoryController_Show: end_implement
 }

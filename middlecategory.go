@@ -1,4 +1,4 @@
-package controller
+package main
 
 import (
 	"forent_api/app"
@@ -18,22 +18,7 @@ func NewMiddlecategoryController(service *goa.Service) *MiddlecategoryController
 
 // List runs the list action.
 func (c *MiddlecategoryController) List(ctx *app.ListMiddlecategoryContext) error {
-	// MiddlecategoryController_List: start_implement
-
-	// Put your logic here
-
-	res := app.MiddlecategoryCollection{}
-	return ctx.OK(res)
-	// MiddlecategoryController_List: end_implement
-}
-
-// Show runs the show action.
-func (c *MiddlecategoryController) Show(ctx *app.ShowMiddlecategoryContext) error {
-	// MiddlecategoryController_Show: start_implement
-
-	// Put your logic here
-
-	res := &app.Middlecategory{}
-	return ctx.OK(res)
-	// MiddlecategoryController_Show: end_implement
+	pay := *ctx.Payload
+	middlecategories := MiddleCategoryDB.ListMiddlecategory(ctx.Context, *pay.LargecategoryID)
+	return ctx.OK(middlecategories)
 }

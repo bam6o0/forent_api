@@ -24,11 +24,10 @@ type Authentication struct {
 	Email          bool
 	Identification bool
 	Phone          bool
-	UserID         int        // Belongs To User
+	UserID         int        // has one Authentication
 	CreatedAt      time.Time  // timestamp
 	DeletedAt      *time.Time // nullable timestamp (soft delete)
 	UpdatedAt      time.Time  // timestamp
-	User           User
 }
 
 // TableName overrides the table name settings in Gorm to force a specific table name
@@ -63,8 +62,8 @@ type AuthenticationStorage interface {
 	Update(ctx context.Context, authentication *Authentication) error
 	Delete(ctx context.Context, id int) error
 
-	ListAuthentication(ctx context.Context, userID int) []*app.Authentication
-	OneAuthentication(ctx context.Context, id int, userID int) (*app.Authentication, error)
+	ListAuthentication(ctx context.Context) []*app.Authentication
+	OneAuthentication(ctx context.Context, id int) (*app.Authentication, error)
 }
 
 // TableName overrides the table name settings in Gorm to force a specific table name
@@ -72,21 +71,6 @@ type AuthenticationStorage interface {
 func (m *AuthenticationDB) TableName() string {
 	return "authentications"
 
-}
-
-// Belongs To Relationships
-
-// AuthenticationFilterByUser is a gorm filter for a Belongs To relationship.
-func AuthenticationFilterByUser(userID int, originaldb *gorm.DB) func(db *gorm.DB) *gorm.DB {
-
-	if userID > 0 {
-
-		return func(db *gorm.DB) *gorm.DB {
-			return db.Where("user_id = ?", userID)
-
-		}
-	}
-	return func(db *gorm.DB) *gorm.DB { return db }
 }
 
 // CRUD Functions

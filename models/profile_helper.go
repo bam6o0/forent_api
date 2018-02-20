@@ -21,12 +21,12 @@ import (
 // MediaType Retrieval Functions
 
 // ListProfile returns an array of view: default.
-func (m *ProfileDB) ListProfile(ctx context.Context, userID int) []*app.Profile {
+func (m *ProfileDB) ListProfile(ctx context.Context) []*app.Profile {
 	defer goa.MeasureSince([]string{"goa", "db", "profile", "listprofile"}, time.Now())
 
 	var native []*Profile
 	var objs []*app.Profile
-	err := m.Db.Scopes(ProfileFilterByUser(userID, m.Db)).Table(m.TableName()).Find(&native).Error
+	err := m.Db.Scopes().Table(m.TableName()).Find(&native).Error
 
 	if err != nil {
 		goa.LogError(ctx, "error listing Profile", "error", err.Error())
@@ -49,17 +49,16 @@ func (m *Profile) ProfileToProfile() *app.Profile {
 	profile.ID = m.ID
 	profile.Introduction = m.Introduction
 	profile.Phone = m.Phone
-	profile.UserID = m.UserID
 
 	return profile
 }
 
 // OneProfile loads a Profile and builds the default view of media type Profile.
-func (m *ProfileDB) OneProfile(ctx context.Context, id int, userID int) (*app.Profile, error) {
+func (m *ProfileDB) OneProfile(ctx context.Context, id int) (*app.Profile, error) {
 	defer goa.MeasureSince([]string{"goa", "db", "profile", "oneprofile"}, time.Now())
 
 	var native Profile
-	err := m.Db.Scopes(ProfileFilterByUser(userID, m.Db)).Table(m.TableName()).Preload("User").Where("id = ?", id).Find(&native).Error
+	err := m.Db.Scopes().Table(m.TableName()).Where("id = ?", id).Find(&native).Error
 
 	if err != nil && err != gorm.ErrRecordNotFound {
 		goa.LogError(ctx, "error getting Profile", "error", err.Error())

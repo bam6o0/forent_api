@@ -75,8 +75,8 @@ func (c *Client) NewCreateAuthenticationRequest(ctx context.Context, path string
 }
 
 // DeleteAuthenticationPath computes a request path to the delete action of authentication.
-func DeleteAuthenticationPath(userID int) string {
-	param0 := strconv.Itoa(userID)
+func DeleteAuthenticationPath(authenticationID int) string {
+	param0 := strconv.Itoa(authenticationID)
 
 	return fmt.Sprintf("/authentications/%s", param0)
 }
@@ -105,8 +105,8 @@ func (c *Client) NewDeleteAuthenticationRequest(ctx context.Context, path string
 }
 
 // ShowAuthenticationPath computes a request path to the show action of authentication.
-func ShowAuthenticationPath(userID int) string {
-	param0 := strconv.Itoa(userID)
+func ShowAuthenticationPath(authenticationID int) string {
+	param0 := strconv.Itoa(authenticationID)
 
 	return fmt.Sprintf("/authentications/%s", param0)
 }
@@ -147,8 +147,8 @@ type UpdateAuthenticationPayload struct {
 }
 
 // UpdateAuthenticationPath computes a request path to the update action of authentication.
-func UpdateAuthenticationPath(userID int) string {
-	param0 := strconv.Itoa(userID)
+func UpdateAuthenticationPath(authenticationID int) string {
+	param0 := strconv.Itoa(authenticationID)
 
 	return fmt.Sprintf("/authentications/%s", param0)
 }
