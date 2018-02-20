@@ -5,6 +5,7 @@ import (
 	"forent_api/models"
 
 	"github.com/goadesign/goa"
+	"github.com/jinzhu/gorm"
 )
 
 // ErrDatabaseError is the error returned when a db query fails.
@@ -44,12 +45,12 @@ func (c *ItemController) Create(ctx *app.CreateItemContext) error {
 
 // Delete runs the delete action.
 func (c *ItemController) Delete(ctx *app.DeleteItemContext) error {
-	// ItemController_Delete: start_implement
-
-	// Put your logic here
-
-	return nil
-	// ItemController_Delete: end_implement
+	pay := *ctx.Payload
+	err := ItemDB.Delete(ctx.Context, pay.ItemID)
+	if err != nil {
+		return ErrDatabaseError(err)
+	}
+	return ctx.NoContent()
 }
 
 // List runs the list action.
@@ -69,10 +70,26 @@ func (c *ItemController) List(ctx *app.ListItemContext) error {
 
 // Update runs the update action.
 func (c *ItemController) Update(ctx *app.UpdateItemContext) error {
-	// ItemController_Update: start_implement
+	pay := *ctx.Payload
+	item, err := ItemDB.Get(ctx.Context, pay.ItemID)
+	if err == gorm.ErrRecordNotFound {
+		return ctx.NotFound()
+	}
 
-	// Put your logic here
-
-	return nil
-	// ItemController_Update: end_implement
+	item.Name = *ctx.Payload.Name
+	item.Description = *ctx.Payload.Description
+	item.Price = *ctx.Payload.Price
+	item.Compensation = *ctx.Payload.Compensation
+	item.UserID = *ctx.Payload.UserID
+	item.CategoryID = *ctx.Payload.CategoryID
+	item.PlaceID = *ctx.Payload.PlaceID
+	item.Image1 = *ctx.Payload.Image1
+	item.Image2 = *ctx.Payload.Image2
+	item.Image3 = *ctx.Payload.Image3
+	item.Image4 = *ctx.Payload.Image4
+	err = ItemDB.Update(ctx, item)
+	if err != nil {
+		return ErrDatabaseError(err)
+	}
+	return ctx.NoContent()
 }

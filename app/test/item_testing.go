@@ -176,11 +176,11 @@ func CreateItemCreated(t goatest.TInterface, ctx context.Context, service *goa.S
 	return rw
 }
 
-// DeleteItemBadRequest runs the method Delete of the given controller with the given parameters.
+// DeleteItemBadRequest runs the method Delete of the given controller with the given parameters and payload.
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteItemBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ItemController, itemID int) (http.ResponseWriter, error) {
+func DeleteItemBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ItemController, payload *app.DeleteItemPayload) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -201,14 +201,13 @@ func DeleteItemBadRequest(t goatest.TInterface, ctx context.Context, service *go
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/items/%v", itemID),
+		Path: fmt.Sprintf("/items"),
 	}
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["itemID"] = []string{fmt.Sprintf("%v", itemID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -221,6 +220,7 @@ func DeleteItemBadRequest(t goatest.TInterface, ctx context.Context, service *go
 		}
 		return nil, e
 	}
+	deleteCtx.Payload = payload
 
 	// Perform action
 	_err = ctrl.Delete(deleteCtx)
@@ -245,11 +245,11 @@ func DeleteItemBadRequest(t goatest.TInterface, ctx context.Context, service *go
 	return rw, mt
 }
 
-// DeleteItemNoContent runs the method Delete of the given controller with the given parameters.
+// DeleteItemNoContent runs the method Delete of the given controller with the given parameters and payload.
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteItemNoContent(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ItemController, itemID int) http.ResponseWriter {
+func DeleteItemNoContent(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ItemController, payload *app.DeleteItemPayload) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -270,14 +270,13 @@ func DeleteItemNoContent(t goatest.TInterface, ctx context.Context, service *goa
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/items/%v", itemID),
+		Path: fmt.Sprintf("/items"),
 	}
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["itemID"] = []string{fmt.Sprintf("%v", itemID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -291,6 +290,7 @@ func DeleteItemNoContent(t goatest.TInterface, ctx context.Context, service *goa
 		t.Errorf("unexpected parameter validation error: %+v", e)
 		return nil
 	}
+	deleteCtx.Payload = payload
 
 	// Perform action
 	_err = ctrl.Delete(deleteCtx)
@@ -307,11 +307,11 @@ func DeleteItemNoContent(t goatest.TInterface, ctx context.Context, service *goa
 	return rw
 }
 
-// DeleteItemNotFound runs the method Delete of the given controller with the given parameters.
+// DeleteItemNotFound runs the method Delete of the given controller with the given parameters and payload.
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteItemNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ItemController, itemID int) http.ResponseWriter {
+func DeleteItemNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ItemController, payload *app.DeleteItemPayload) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -332,14 +332,13 @@ func DeleteItemNotFound(t goatest.TInterface, ctx context.Context, service *goa.
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/items/%v", itemID),
+		Path: fmt.Sprintf("/items"),
 	}
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["itemID"] = []string{fmt.Sprintf("%v", itemID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -353,6 +352,7 @@ func DeleteItemNotFound(t goatest.TInterface, ctx context.Context, service *goa.
 		t.Errorf("unexpected parameter validation error: %+v", e)
 		return nil
 	}
+	deleteCtx.Payload = payload
 
 	// Perform action
 	_err = ctrl.Delete(deleteCtx)
@@ -447,7 +447,7 @@ func ListItemOK(t goatest.TInterface, ctx context.Context, service *goa.Service,
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateItemBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ItemController, itemID int, payload *app.UpdateItemPayload) (http.ResponseWriter, error) {
+func UpdateItemBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ItemController, payload *app.UpdateItemPayload) (http.ResponseWriter, error) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -468,14 +468,13 @@ func UpdateItemBadRequest(t goatest.TInterface, ctx context.Context, service *go
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/items/%v", itemID),
+		Path: fmt.Sprintf("/items"),
 	}
 	req, err := http.NewRequest("PUT", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["itemID"] = []string{fmt.Sprintf("%v", itemID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -517,7 +516,7 @@ func UpdateItemBadRequest(t goatest.TInterface, ctx context.Context, service *go
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateItemNoContent(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ItemController, itemID int, payload *app.UpdateItemPayload) http.ResponseWriter {
+func UpdateItemNoContent(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ItemController, payload *app.UpdateItemPayload) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -538,14 +537,13 @@ func UpdateItemNoContent(t goatest.TInterface, ctx context.Context, service *goa
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/items/%v", itemID),
+		Path: fmt.Sprintf("/items"),
 	}
 	req, err := http.NewRequest("PUT", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["itemID"] = []string{fmt.Sprintf("%v", itemID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -580,7 +578,7 @@ func UpdateItemNoContent(t goatest.TInterface, ctx context.Context, service *goa
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func UpdateItemNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ItemController, itemID int, payload *app.UpdateItemPayload) http.ResponseWriter {
+func UpdateItemNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.ItemController, payload *app.UpdateItemPayload) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -601,14 +599,13 @@ func UpdateItemNotFound(t goatest.TInterface, ctx context.Context, service *goa.
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/items/%v", itemID),
+		Path: fmt.Sprintf("/items"),
 	}
 	req, err := http.NewRequest("PUT", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["itemID"] = []string{fmt.Sprintf("%v", itemID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}

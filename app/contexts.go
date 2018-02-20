@@ -784,7 +784,7 @@ type DeleteItemContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	ItemID int
+	Payload *DeleteItemPayload
 }
 
 // NewDeleteItemContext parses the incoming request URL and body, performs validations and creates the
@@ -796,16 +796,36 @@ func NewDeleteItemContext(ctx context.Context, r *http.Request, service *goa.Ser
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := DeleteItemContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramItemID := req.Params["itemID"]
-	if len(paramItemID) > 0 {
-		rawItemID := paramItemID[0]
-		if itemID, err2 := strconv.Atoi(rawItemID); err2 == nil {
-			rctx.ItemID = itemID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("itemID", rawItemID, "integer"))
-		}
-	}
 	return &rctx, err
+}
+
+// deleteItemPayload is the item delete action payload.
+type deleteItemPayload struct {
+	// item ID
+	ItemID *int `form:"itemID,omitempty" json:"itemID,omitempty" xml:"itemID,omitempty"`
+}
+
+// Validate runs the validation rules defined in the design.
+func (payload *deleteItemPayload) Validate() (err error) {
+	if payload.ItemID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "itemID"))
+	}
+	return
+}
+
+// Publicize creates DeleteItemPayload from deleteItemPayload
+func (payload *deleteItemPayload) Publicize() *DeleteItemPayload {
+	var pub DeleteItemPayload
+	if payload.ItemID != nil {
+		pub.ItemID = *payload.ItemID
+	}
+	return &pub
+}
+
+// DeleteItemPayload is the item delete action payload.
+type DeleteItemPayload struct {
+	// item ID
+	ItemID int `form:"itemID" json:"itemID" xml:"itemID"`
 }
 
 // NoContent sends a HTTP response with status code 204.
@@ -906,7 +926,6 @@ type UpdateItemContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	ItemID  int
 	Payload *UpdateItemPayload
 }
 
@@ -919,15 +938,6 @@ func NewUpdateItemContext(ctx context.Context, r *http.Request, service *goa.Ser
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := UpdateItemContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramItemID := req.Params["itemID"]
-	if len(paramItemID) > 0 {
-		rawItemID := paramItemID[0]
-		if itemID, err2 := strconv.Atoi(rawItemID); err2 == nil {
-			rctx.ItemID = itemID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("itemID", rawItemID, "integer"))
-		}
-	}
 	return &rctx, err
 }
 
@@ -939,8 +949,6 @@ type updateItemPayload struct {
 	Compensation *int `form:"compensation,omitempty" json:"compensation,omitempty" xml:"compensation,omitempty"`
 	// description of item
 	Description *string `form:"description,omitempty" json:"description,omitempty" xml:"description,omitempty"`
-	// Unique item ID
-	ID *int `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// item image 1
 	Image1 *string `form:"image1,omitempty" json:"image1,omitempty" xml:"image1,omitempty"`
 	// item image 2
@@ -949,6 +957,8 @@ type updateItemPayload struct {
 	Image3 *string `form:"image3,omitempty" json:"image3,omitempty" xml:"image3,omitempty"`
 	// item image 4
 	Image4 *string `form:"image4,omitempty" json:"image4,omitempty" xml:"image4,omitempty"`
+	// item ID
+	ItemID *int `form:"itemID,omitempty" json:"itemID,omitempty" xml:"itemID,omitempty"`
 	// Name of item
 	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
 	// Place ID
@@ -961,8 +971,8 @@ type updateItemPayload struct {
 
 // Validate runs the validation rules defined in the design.
 func (payload *updateItemPayload) Validate() (err error) {
-	if payload.ID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "id"))
+	if payload.ItemID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "itemID"))
 	}
 	return
 }
@@ -979,9 +989,6 @@ func (payload *updateItemPayload) Publicize() *UpdateItemPayload {
 	if payload.Description != nil {
 		pub.Description = payload.Description
 	}
-	if payload.ID != nil {
-		pub.ID = *payload.ID
-	}
 	if payload.Image1 != nil {
 		pub.Image1 = payload.Image1
 	}
@@ -993,6 +1000,9 @@ func (payload *updateItemPayload) Publicize() *UpdateItemPayload {
 	}
 	if payload.Image4 != nil {
 		pub.Image4 = payload.Image4
+	}
+	if payload.ItemID != nil {
+		pub.ItemID = *payload.ItemID
 	}
 	if payload.Name != nil {
 		pub.Name = payload.Name
@@ -1017,8 +1027,6 @@ type UpdateItemPayload struct {
 	Compensation *int `form:"compensation,omitempty" json:"compensation,omitempty" xml:"compensation,omitempty"`
 	// description of item
 	Description *string `form:"description,omitempty" json:"description,omitempty" xml:"description,omitempty"`
-	// Unique item ID
-	ID int `form:"id" json:"id" xml:"id"`
 	// item image 1
 	Image1 *string `form:"image1,omitempty" json:"image1,omitempty" xml:"image1,omitempty"`
 	// item image 2
@@ -1027,6 +1035,8 @@ type UpdateItemPayload struct {
 	Image3 *string `form:"image3,omitempty" json:"image3,omitempty" xml:"image3,omitempty"`
 	// item image 4
 	Image4 *string `form:"image4,omitempty" json:"image4,omitempty" xml:"image4,omitempty"`
+	// item ID
+	ItemID int `form:"itemID" json:"itemID" xml:"itemID"`
 	// Name of item
 	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
 	// Place ID

@@ -16,7 +16,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"strconv"
 )
 
 // CreateItemPayload is the item create action payload.
@@ -88,16 +87,21 @@ func (c *Client) NewCreateItemRequest(ctx context.Context, path string, payload 
 	return req, nil
 }
 
-// DeleteItemPath computes a request path to the delete action of item.
-func DeleteItemPath(itemID int) string {
-	param0 := strconv.Itoa(itemID)
+// DeleteItemPayload is the item delete action payload.
+type DeleteItemPayload struct {
+	// item ID
+	ItemID int `form:"itemID" json:"itemID" xml:"itemID"`
+}
 
-	return fmt.Sprintf("/items/%s", param0)
+// DeleteItemPath computes a request path to the delete action of item.
+func DeleteItemPath() string {
+
+	return fmt.Sprintf("/items")
 }
 
 // DeleteItem makes a request to the delete action endpoint of the item resource
-func (c *Client) DeleteItem(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewDeleteItemRequest(ctx, path)
+func (c *Client) DeleteItem(ctx context.Context, path string, payload *DeleteItemPayload, contentType string) (*http.Response, error) {
+	req, err := c.NewDeleteItemRequest(ctx, path, payload, contentType)
 	if err != nil {
 		return nil, err
 	}
@@ -105,15 +109,29 @@ func (c *Client) DeleteItem(ctx context.Context, path string) (*http.Response, e
 }
 
 // NewDeleteItemRequest create the request corresponding to the delete action endpoint of the item resource.
-func (c *Client) NewDeleteItemRequest(ctx context.Context, path string) (*http.Request, error) {
+func (c *Client) NewDeleteItemRequest(ctx context.Context, path string, payload *DeleteItemPayload, contentType string) (*http.Request, error) {
+	var body bytes.Buffer
+	if contentType == "" {
+		contentType = "*/*" // Use default encoder
+	}
+	err := c.Encoder.Encode(payload, &body, contentType)
+	if err != nil {
+		return nil, fmt.Errorf("failed to encode body: %s", err)
+	}
 	scheme := c.Scheme
 	if scheme == "" {
 		scheme = "http"
 	}
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("DELETE", u.String(), nil)
+	req, err := http.NewRequest("DELETE", u.String(), &body)
 	if err != nil {
 		return nil, err
+	}
+	header := req.Header
+	if contentType == "*/*" {
+		header.Set("Content-Type", "application/json")
+	} else {
+		header.Set("Content-Type", contentType)
 	}
 	return req, nil
 }
@@ -181,8 +199,6 @@ type UpdateItemPayload struct {
 	Compensation *int `form:"compensation,omitempty" json:"compensation,omitempty" xml:"compensation,omitempty"`
 	// description of item
 	Description *string `form:"description,omitempty" json:"description,omitempty" xml:"description,omitempty"`
-	// Unique item ID
-	ID int `form:"id" json:"id" xml:"id"`
 	// item image 1
 	Image1 *string `form:"image1,omitempty" json:"image1,omitempty" xml:"image1,omitempty"`
 	// item image 2
@@ -191,6 +207,8 @@ type UpdateItemPayload struct {
 	Image3 *string `form:"image3,omitempty" json:"image3,omitempty" xml:"image3,omitempty"`
 	// item image 4
 	Image4 *string `form:"image4,omitempty" json:"image4,omitempty" xml:"image4,omitempty"`
+	// item ID
+	ItemID int `form:"itemID" json:"itemID" xml:"itemID"`
 	// Name of item
 	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
 	// Place ID
@@ -202,10 +220,9 @@ type UpdateItemPayload struct {
 }
 
 // UpdateItemPath computes a request path to the update action of item.
-func UpdateItemPath(itemID int) string {
-	param0 := strconv.Itoa(itemID)
+func UpdateItemPath() string {
 
-	return fmt.Sprintf("/items/%s", param0)
+	return fmt.Sprintf("/items")
 }
 
 // Change item data
