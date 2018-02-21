@@ -44,6 +44,8 @@ func (m *AuthenticationDB) ListAuthentication(ctx context.Context) []*app.Authen
 func (m *Authentication) AuthenticationToAuthentication() *app.Authentication {
 	authentication := &app.Authentication{}
 	authentication.Email = m.Email
+	authentication.FacebookID = m.FacebookID
+	authentication.GoogleID = m.GoogleID
 	authentication.ID = m.ID
 	authentication.Identification = m.Identification
 	authentication.Phone = m.Phone

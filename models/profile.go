@@ -24,7 +24,9 @@ type Profile struct {
 	Address      string
 	AvatarImage  string
 	CoverImage   string
+	FirstName    string
 	Introduction string
+	LastName     string
 	Phone        int
 	UserID       int        // has one Profile
 	CreatedAt    time.Time  // timestamp

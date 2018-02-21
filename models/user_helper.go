@@ -44,10 +44,9 @@ func (m *UserDB) ListUser(ctx context.Context) []*app.User {
 func (m *User) UserToUser() *app.User {
 	user := &app.User{}
 	user.Email = m.Email
-	user.FirstName = m.FirstName
 	user.ID = m.ID
-	user.LastName = m.LastName
 	user.Password = m.Password
+	user.Salt = m.Salt
 
 	return user
 }

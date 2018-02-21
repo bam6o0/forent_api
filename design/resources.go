@@ -26,14 +26,12 @@ var _ = Resource("user", func() { // Resources group related API endpoints
 		)
 		Description("Create new user")
 		Payload(func() {
-			Param("first_name", String, "first name")
-			Param("last_name", String, "last_name")
 			Param("email", String, "email")
 			Param("password", String, "password")
 			Param("profile_id", Integer, "profile id")
 			Param("authentication_id", Integer, "authentication id")
 
-			Required("first_name", "last_name", "email", "password", "profile_id", "authentication_id")
+			Required("email", "password", "profile_id", "authentication_id")
 		})
 		Response(Created, "/users/[0-9]+")
 		Response(BadRequest, ErrorMedia)
@@ -49,8 +47,6 @@ var _ = Resource("user", func() { // Resources group related API endpoints
 		})
 		Payload(func() {
 			Param("id", Integer, "Unique user ID")
-			Param("first_name", String, "first name")
-			Param("last_name", String, "last_name")
 			Param("email", String, "email")
 			Param("password", String, "password")
 
@@ -96,6 +92,8 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 		)
 		Description("Create new profile")
 		Payload(func() {
+			Param("first_name", String, "first name")
+			Param("last_name", String, "last_name")
 			Param("user_id", Integer, "user id")
 			Param("introduction", String, "user introduciton")
 			Param("address", String, "address")
@@ -103,7 +101,7 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 			Param("avatar_image", String, "avatar image url")
 			Param("cover_image", String, "cover image url")
 
-			Required("user_id", "introduction", "address", "phone", "avatar_image", "cover_image")
+			Required("first_name", "last_name", "user_id", "introduction", "address", "phone", "avatar_image", "cover_image")
 		})
 		Response(Created, "/profiles/[0-9]+")
 		Response(BadRequest, ErrorMedia)
@@ -118,14 +116,16 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 			Param("profileID", Integer, "profile ID")
 		})
 		Payload(func() {
-			Param("user_id", Integer, "user id")
+			Param("profile_id", Integer, "user id")
+			Param("first_name", String, "first name")
+			Param("last_name", String, "last_name")
 			Param("introduction", String, "user introduciton")
 			Param("address", String, "address")
 			Param("phone", Integer, "phone number")
 			Param("avatar_image", String, "avatar image url")
 			Param("cover_image", String, "cover image url")
 
-			Required("user_id")
+			Required("profile_id")
 		})
 		Response(NoContent)
 		Response(NotFound)
@@ -171,8 +171,10 @@ var _ = Resource("authentication", func() { // Resources group related API endpo
 			Param("identification", Boolean, "identification flag")
 			Param("email", Boolean, "address flag")
 			Param("phone", Boolean, "phone flag")
+			Param("facebook_id", Integer, "Unique facebook ID")
+			Param("google_id", Integer, "Unique google ID")
 
-			Required("user_id", "identification", "email", "phone")
+			Required("user_id", "identification", "email", "phone", "facebook_id", "google_id")
 		})
 		Response(Created, "/authentications/[0-9]+")
 		Response(BadRequest, ErrorMedia)
@@ -191,6 +193,8 @@ var _ = Resource("authentication", func() { // Resources group related API endpo
 			Param("identification", Boolean, "identification flag")
 			Param("email", Boolean, "address flag")
 			Param("phone", Boolean, "phone flag")
+			Param("facebook_id", Integer, "Unique facebook ID")
+			Param("google_id", Integer, "Unique google ID")
 
 			Required("user_id")
 		})

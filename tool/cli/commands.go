@@ -174,6 +174,20 @@ type (
 		PrettyPrint bool
 	}
 
+	// SigninSigninCommand is the command line data structure for the signin action of signin
+	SigninSigninCommand struct {
+		Payload     string
+		ContentType string
+		PrettyPrint bool
+	}
+
+	// SigninSignupCommand is the command line data structure for the signin action of signup
+	SigninSignupCommand struct {
+		Payload     string
+		ContentType string
+		PrettyPrint bool
+	}
+
 	// CreateUserCommand is the command line data structure for the create action of user
 	CreateUserCommand struct {
 		Payload     string
@@ -221,10 +235,12 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 Payload example:
 
 {
-   "email": true,
-   "identification": true,
+   "email": false,
+   "facebook_id": 4208015693792790909,
+   "google_id": 8217123841278070488,
+   "identification": false,
    "phone": false,
-   "user_id": 5936237511368153743
+   "user_id": 5509556167028255370
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp1.Run(c, args) },
 	}
@@ -240,10 +256,10 @@ Payload example:
 Payload example:
 
 {
-   "item_id": 9038058342943439550,
-   "reply_to": 4054051155250373517,
-   "text": "Laborum odio accusamus officiis veritatis.",
-   "user_id": 8026846116927176526
+   "item_id": 1994628605545994675,
+   "reply_to": 8026846116927176526,
+   "text": "Esse repellat dolorem iusto.",
+   "user_id": 3872484109673217835
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp2.Run(c, args) },
 	}
@@ -259,17 +275,17 @@ Payload example:
 Payload example:
 
 {
-   "category_id": 6302415908907190566,
-   "compensation": 1903535642580170281,
-   "description": "Dolorem iusto recusandae blanditiis eum est commodi.",
-   "image1": "Odio et molestiae placeat ratione.",
-   "image2": "Sed facilis.",
-   "image3": "Totam nemo aut eaque quia temporibus in.",
-   "image4": "Sit dolorem beatae expedita dolorem numquam.",
-   "name": "Et ab delectus.",
-   "place_id": 6716817941287639,
-   "price": 8953063093780093311,
-   "user_id": 4037468380709977678
+   "category_id": 2897958704065072342,
+   "compensation": 1964620271010757783,
+   "description": "Commodi minima odio et.",
+   "image1": "Placeat ratione aut sed facilis voluptatem.",
+   "image2": "Nemo aut eaque quia.",
+   "image3": "In dolorem sit dolorem beatae expedita.",
+   "image4": "Numquam corrupti et ab delectus est.",
+   "name": "Deserunt eum ex dolores et voluptatem.",
+   "place_id": 6151235883001044288,
+   "price": 1575289417914732575,
+   "user_id": 7167095528567468392
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp3.Run(c, args) },
 	}
@@ -285,12 +301,12 @@ Payload example:
 Payload example:
 
 {
-   "end_at": "1994-09-07T13:38:09Z",
-   "item_id": 6944886643485896233,
-   "owner_id": 4080085050586078891,
-   "price": 8688446219376125666,
-   "start_at": "2015-06-24T04:59:10Z",
-   "user_id": 6934069861913228142
+   "end_at": "1986-10-16T05:50:16Z",
+   "item_id": 7749618258712479413,
+   "owner_id": 6403895722829922202,
+   "price": 8177945555275027707,
+   "start_at": "2015-07-21T17:35:21Z",
+   "user_id": 8978848248755649179
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp4.Run(c, args) },
 	}
@@ -306,12 +322,14 @@ Payload example:
 Payload example:
 
 {
-   "address": "Doloribus exercitationem hic fugiat aut aperiam eius.",
-   "avatar_image": "Hic non molestiae reiciendis doloribus mollitia iure.",
-   "cover_image": "Id doloribus velit.",
-   "introduction": "Adipisci aut sit.",
-   "phone": 3865624184652850719,
-   "user_id": 2943175765955801370
+   "address": "Hic non molestiae reiciendis doloribus mollitia iure.",
+   "avatar_image": "Id doloribus velit.",
+   "cover_image": "Adipisci aut sit.",
+   "first_name": "Dolore repudiandae odio.",
+   "introduction": "Excepturi quisquam.",
+   "last_name": "Porro voluptas ut odit ut est porro.",
+   "phone": 2255365600057400911,
+   "user_id": 8103770447231538962
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp5.Run(c, args) },
 	}
@@ -327,12 +345,10 @@ Payload example:
 Payload example:
 
 {
-   "authentication_id": 701782849044107343,
-   "email": "Ad dolor ipsa temporibus totam quasi.",
-   "first_name": "Perferendis placeat ut magni distinctio.",
-   "last_name": "Deserunt aliquam quia aspernatur ipsum non.",
-   "password": "Est suscipit rerum officia.",
-   "profile_id": 3250950888659514045
+   "authentication_id": 4899122327416443280,
+   "email": "notify.forent@gmail.com",
+   "password": "password",
+   "profile_id": 2221843873795258404
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp6.Run(c, args) },
 	}
@@ -362,7 +378,7 @@ Payload example:
 Payload example:
 
 {
-   "itemID": 9116360518154288230
+   "itemID": 735271680465362917
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp8.Run(c, args) },
 	}
@@ -401,10 +417,10 @@ Payload example:
 Payload example:
 
 {
-   "articleID": 4379826072921807295,
-   "categoryID": 5129666823940704506,
-   "itemID": 2939196853648588769,
-   "userID": 4726699271155621827
+   "articleID": 4726699271155621827,
+   "categoryID": 5857327676583771112,
+   "itemID": 3405345455377370664,
+   "userID": 8064194533851353605
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp11.Run(c, args) },
 	}
@@ -420,7 +436,7 @@ Payload example:
 Payload example:
 
 {
-   "middlecategoryID": 5509556167028255370
+   "middlecategoryID": 948382130188809923
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp12.Run(c, args) },
 	}
@@ -445,10 +461,10 @@ Payload example:
 Payload example:
 
 {
-   "categoryID": 4646796168293220566,
-   "itemID": 6006839302217682018,
-   "placeID": 7343430551110035196,
-   "userID": 2048025116077347313
+   "categoryID": 3964661906394431359,
+   "itemID": 5325611971539390615,
+   "placeID": 3450207829942366638,
+   "userID": 7459463311843491355
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp14.Run(c, args) },
 	}
@@ -473,7 +489,7 @@ Payload example:
 Payload example:
 
 {
-   "largecategoryID": 1427150219523800627
+   "largecategoryID": 8889916014689583131
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp16.Run(c, args) },
 	}
@@ -532,10 +548,49 @@ Payload example:
 	command.AddCommand(sub)
 	app.AddCommand(command)
 	command = &cobra.Command{
+		Use:   "signin",
+		Short: `signin action`,
+	}
+	tmp22 := new(SigninSigninCommand)
+	sub = &cobra.Command{
+		Use:   `signin ["/signin"]`,
+		Short: `This resource uses JWT to secure its endpoints`,
+		Long: `This resource uses JWT to secure its endpoints
+
+Payload example:
+
+{
+   "email": "jamesbond@gmail.com",
+   "password": "abcd1234"
+}`,
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp22.Run(c, args) },
+	}
+	tmp22.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp22.PrettyPrint, "pp", false, "Pretty print response body")
+	command.AddCommand(sub)
+	tmp23 := new(SigninSignupCommand)
+	sub = &cobra.Command{
+		Use:   `signup ["/signup"]`,
+		Short: `This resource uses JWT to secure its endpoints`,
+		Long: `This resource uses JWT to secure its endpoints
+
+Payload example:
+
+{
+   "email": "jamesbond@gmail.com",
+   "password": "abcd1234"
+}`,
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp23.Run(c, args) },
+	}
+	tmp23.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp23.PrettyPrint, "pp", false, "Pretty print response body")
+	command.AddCommand(sub)
+	app.AddCommand(command)
+	command = &cobra.Command{
 		Use:   "update",
 		Short: `update action`,
 	}
-	tmp22 := new(UpdateAuthenticationCommand)
+	tmp24 := new(UpdateAuthenticationCommand)
 	sub = &cobra.Command{
 		Use:   `authentication ["/authentications/AUTHENTICATIONID"]`,
 		Short: ``,
@@ -544,17 +599,19 @@ Payload example:
 Payload example:
 
 {
-   "email": false,
+   "email": true,
+   "facebook_id": 4054051155250373517,
+   "google_id": 1236615277901375902,
    "identification": true,
-   "phone": false,
-   "user_id": 1633418833020944473
+   "phone": true,
+   "user_id": 5972137609191114296
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp22.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp24.Run(c, args) },
 	}
-	tmp22.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp22.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp24.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp24.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp23 := new(UpdateItemCommand)
+	tmp25 := new(UpdateItemCommand)
 	sub = &cobra.Command{
 		Use:   `item ["/items"]`,
 		Short: ``,
@@ -563,25 +620,25 @@ Payload example:
 Payload example:
 
 {
-   "category_id": 6151235883001044288,
-   "compensation": 1575289417914732575,
-   "description": "Numquam delectus dolor vitae nulla nemo aut.",
-   "image1": "Corporis sint.",
-   "image2": "Eos consectetur ut non vel.",
-   "image3": "Cum accusamus esse velit itaque qui quo.",
-   "image4": "Molestiae voluptas voluptate.",
-   "itemID": 7752508468608208206,
-   "name": "Qui sit velit molestiae voluptatem culpa.",
-   "place_id": 5954730991984481353,
-   "price": 5290950378195383033,
-   "user_id": 8954418773650461285
+   "category_id": 8954337693124348770,
+   "compensation": 6786702140230431244,
+   "description": "Corporis sint.",
+   "image1": "Eos consectetur ut non vel.",
+   "image2": "Cum accusamus esse velit itaque qui quo.",
+   "image3": "Molestiae voluptas voluptate.",
+   "image4": "Veniam qui sit velit molestiae voluptatem.",
+   "itemID": 7110412686662470652,
+   "name": "Perferendis quia sed dolor sit vero architecto.",
+   "place_id": 908713195846451950,
+   "price": 6934069861913228142,
+   "user_id": 592086649889904813
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp23.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp25.Run(c, args) },
 	}
-	tmp23.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp23.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp25.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp25.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp24 := new(UpdateProfileCommand)
+	tmp26 := new(UpdateProfileCommand)
 	sub = &cobra.Command{
 		Use:   `profile ["/profiles/PROFILEID"]`,
 		Short: ``,
@@ -590,19 +647,21 @@ Payload example:
 Payload example:
 
 {
-   "address": "Odio vero excepturi quisquam est porro voluptas.",
-   "avatar_image": "Odit ut est porro provident.",
-   "cover_image": "Expedita voluptates repellat aut perspiciatis.",
-   "introduction": "Quis atque.",
-   "phone": 3723526127981727419,
-   "user_id": 535706396728239600
+   "address": "Voluptates repellat aut perspiciatis nam quis.",
+   "avatar_image": "Et eos illo quo ad.",
+   "cover_image": "Ipsa temporibus totam quasi.",
+   "first_name": "Perferendis placeat ut magni distinctio.",
+   "introduction": "Deserunt aliquam quia aspernatur ipsum non.",
+   "last_name": "Est suscipit rerum officia.",
+   "phone": 3250950888659514045,
+   "profile_id": 8297593126065142499
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp24.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp26.Run(c, args) },
 	}
-	tmp24.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp24.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp26.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp26.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp25 := new(UpdateUserCommand)
+	tmp27 := new(UpdateUserCommand)
 	sub = &cobra.Command{
 		Use:   `user ["/users/USERID"]`,
 		Short: ``,
@@ -611,16 +670,14 @@ Payload example:
 Payload example:
 
 {
-   "email": "Dolorem laborum ratione aliquid.",
-   "first_name": "Sapiente dicta ut doloremque perspiciatis eaque voluptas.",
-   "id": 7777606998977430557,
-   "last_name": "Qui dignissimos excepturi est facilis eligendi.",
-   "password": "Eligendi molestias sit quas."
+   "email": "notify.forent@gmail.com",
+   "id": 1961059828244931163,
+   "password": "password"
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp25.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp27.Run(c, args) },
 	}
-	tmp25.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp25.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp27.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp27.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
 	app.AddCommand(command)
 }
@@ -1413,6 +1470,72 @@ func (cmd *UpdateProfileCommand) RegisterFlags(cc *cobra.Command, c *client.Clie
 	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
 	var profileID int
 	cc.Flags().IntVar(&cmd.ProfileID, "profileID", profileID, `profile ID`)
+}
+
+// Run makes the HTTP request corresponding to the SigninSigninCommand command.
+func (cmd *SigninSigninCommand) Run(c *client.Client, args []string) error {
+	var path string
+	if len(args) > 0 {
+		path = args[0]
+	} else {
+		path = "/signin"
+	}
+	var payload client.SigninPayload
+	if cmd.Payload != "" {
+		err := json.Unmarshal([]byte(cmd.Payload), &payload)
+		if err != nil {
+			return fmt.Errorf("failed to deserialize payload: %s", err)
+		}
+	}
+	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
+	ctx := goa.WithLogger(context.Background(), logger)
+	resp, err := c.SigninSignin(ctx, path, &payload, cmd.ContentType)
+	if err != nil {
+		goa.LogError(ctx, "failed", "err", err)
+		return err
+	}
+
+	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
+	return nil
+}
+
+// RegisterFlags registers the command flags with the command line.
+func (cmd *SigninSigninCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+	cc.Flags().StringVar(&cmd.Payload, "payload", "", "Request body encoded in JSON")
+	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
+}
+
+// Run makes the HTTP request corresponding to the SigninSignupCommand command.
+func (cmd *SigninSignupCommand) Run(c *client.Client, args []string) error {
+	var path string
+	if len(args) > 0 {
+		path = args[0]
+	} else {
+		path = "/signup"
+	}
+	var payload client.SignupPayload
+	if cmd.Payload != "" {
+		err := json.Unmarshal([]byte(cmd.Payload), &payload)
+		if err != nil {
+			return fmt.Errorf("failed to deserialize payload: %s", err)
+		}
+	}
+	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
+	ctx := goa.WithLogger(context.Background(), logger)
+	resp, err := c.SigninSignup(ctx, path, &payload, cmd.ContentType)
+	if err != nil {
+		goa.LogError(ctx, "failed", "err", err)
+		return err
+	}
+
+	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
+	return nil
+}
+
+// RegisterFlags registers the command flags with the command line.
+func (cmd *SigninSignupCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+	cc.Flags().StringVar(&cmd.Payload, "payload", "", "Request body encoded in JSON")
+	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
 }
 
 // Run makes the HTTP request corresponding to the CreateUserCommand command.

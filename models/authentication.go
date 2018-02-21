@@ -22,6 +22,8 @@ import (
 type Authentication struct {
 	ID             int `gorm:"primary_key"` // This is the authentication Model PK field
 	Email          bool
+	FacebookID     int
+	GoogleID       int
 	Identification bool
 	Phone          bool
 	UserID         int        // has one Authentication

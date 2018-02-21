@@ -23,10 +23,9 @@ type User struct {
 	ID             int            `gorm:"primary_key"` // This is the user Model PK field
 	Authentication Authentication // has one Authentication
 	Email          string
-	FirstName      string
-	LastName       string
 	Password       string
-	Profile        Profile    // has one Profile
+	Profile        Profile // has one Profile
+	Salt           string
 	CreatedAt      time.Time  // timestamp
 	DeletedAt      *time.Time // nullable timestamp (soft delete)
 	UpdatedAt      time.Time  // timestamp
