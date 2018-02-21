@@ -21,16 +21,16 @@ import (
 
 // CreateProfilePayload is the profile create action payload.
 type CreateProfilePayload struct {
-	// address
-	Address string `form:"address" json:"address" xml:"address"`
 	// avatar image url
 	AvatarImage string `form:"avatar_image" json:"avatar_image" xml:"avatar_image"`
 	// cover image url
 	CoverImage string `form:"cover_image" json:"cover_image" xml:"cover_image"`
+	// first name
+	FirstName string `form:"first_name" json:"first_name" xml:"first_name"`
 	// user introduciton
 	Introduction string `form:"introduction" json:"introduction" xml:"introduction"`
-	// phone number
-	Phone int `form:"phone" json:"phone" xml:"phone"`
+	// last_name
+	LastName string `form:"last_name" json:"last_name" xml:"last_name"`
 	// user id
 	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
@@ -140,18 +140,18 @@ func (c *Client) NewShowProfileRequest(ctx context.Context, path string) (*http.
 
 // UpdateProfilePayload is the profile update action payload.
 type UpdateProfilePayload struct {
-	// address
-	Address *string `form:"address,omitempty" json:"address,omitempty" xml:"address,omitempty"`
 	// avatar image url
 	AvatarImage *string `form:"avatar_image,omitempty" json:"avatar_image,omitempty" xml:"avatar_image,omitempty"`
 	// cover image url
 	CoverImage *string `form:"cover_image,omitempty" json:"cover_image,omitempty" xml:"cover_image,omitempty"`
+	// first name
+	FirstName *string `form:"first_name,omitempty" json:"first_name,omitempty" xml:"first_name,omitempty"`
 	// user introduciton
 	Introduction *string `form:"introduction,omitempty" json:"introduction,omitempty" xml:"introduction,omitempty"`
-	// phone number
-	Phone *int `form:"phone,omitempty" json:"phone,omitempty" xml:"phone,omitempty"`
+	// last_name
+	LastName *string `form:"last_name,omitempty" json:"last_name,omitempty" xml:"last_name,omitempty"`
 	// user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
+	ProfileID int `form:"profile_id" json:"profile_id" xml:"profile_id"`
 }
 
 // UpdateProfilePath computes a request path to the update action of profile.

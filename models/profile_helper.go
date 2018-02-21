@@ -43,14 +43,12 @@ func (m *ProfileDB) ListProfile(ctx context.Context) []*app.Profile {
 // ProfileToProfile loads a Profile and builds the default view of media type Profile.
 func (m *Profile) ProfileToProfile() *app.Profile {
 	profile := &app.Profile{}
-	profile.Address = m.Address
 	profile.AvatarImage = m.AvatarImage
 	profile.CoverImage = m.CoverImage
 	profile.FirstName = m.FirstName
 	profile.ID = m.ID
 	profile.Introduction = m.Introduction
 	profile.LastName = m.LastName
-	profile.Phone = m.Phone
 
 	return profile
 }

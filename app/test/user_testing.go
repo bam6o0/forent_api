@@ -527,14 +527,24 @@ func UpdateUserBadRequest(t goatest.TInterface, ctx context.Context, service *go
 		service.Encoder.Register(newEncoder, "*/*")
 	}
 
+	// Validate payload
+	err := payload.Validate()
+	if err != nil {
+		e, ok := err.(goa.ServiceError)
+		if !ok {
+			panic(err) // bug
+		}
+		return nil, e
+	}
+
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
 		Path: fmt.Sprintf("/users/%v", userID),
 	}
-	req, err := http.NewRequest("PUT", u.String(), nil)
-	if err != nil {
-		panic("invalid test " + err.Error()) // bug
+	req, _err := http.NewRequest("PUT", u.String(), nil)
+	if _err != nil {
+		panic("invalid test " + _err.Error()) // bug
 	}
 	prms := url.Values{}
 	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
@@ -542,31 +552,31 @@ func UpdateUserBadRequest(t goatest.TInterface, ctx context.Context, service *go
 		ctx = context.Background()
 	}
 	goaCtx := goa.NewContext(goa.WithAction(ctx, "UserTest"), rw, req, prms)
-	updateCtx, _err := app.NewUpdateUserContext(goaCtx, req, service)
-	if _err != nil {
-		e, ok := _err.(goa.ServiceError)
-		if !ok {
-			panic("invalid test data " + _err.Error()) // bug
+	updateCtx, __err := app.NewUpdateUserContext(goaCtx, req, service)
+	if __err != nil {
+		_e, _ok := __err.(goa.ServiceError)
+		if !_ok {
+			panic("invalid test data " + __err.Error()) // bug
 		}
-		return nil, e
+		return nil, _e
 	}
 	updateCtx.Payload = payload
 
 	// Perform action
-	_err = ctrl.Update(updateCtx)
+	__err = ctrl.Update(updateCtx)
 
 	// Validate response
-	if _err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
+	if __err != nil {
+		t.Fatalf("controller returned %+v, logs:\n%s", __err, logBuf.String())
 	}
 	if rw.Code != 400 {
 		t.Errorf("invalid response status code: got %+v, expected 400", rw.Code)
 	}
 	var mt error
 	if resp != nil {
-		var _ok bool
-		mt, _ok = resp.(error)
-		if !_ok {
+		var __ok bool
+		mt, __ok = resp.(error)
+		if !__ok {
 			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of error", resp, resp)
 		}
 	}
@@ -597,14 +607,25 @@ func UpdateUserNoContent(t goatest.TInterface, ctx context.Context, service *goa
 		service.Encoder.Register(newEncoder, "*/*")
 	}
 
+	// Validate payload
+	err := payload.Validate()
+	if err != nil {
+		e, ok := err.(goa.ServiceError)
+		if !ok {
+			panic(err) // bug
+		}
+		t.Errorf("unexpected payload validation error: %+v", e)
+		return nil
+	}
+
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
 		Path: fmt.Sprintf("/users/%v", userID),
 	}
-	req, err := http.NewRequest("PUT", u.String(), nil)
-	if err != nil {
-		panic("invalid test " + err.Error()) // bug
+	req, _err := http.NewRequest("PUT", u.String(), nil)
+	if _err != nil {
+		panic("invalid test " + _err.Error()) // bug
 	}
 	prms := url.Values{}
 	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
@@ -612,23 +633,23 @@ func UpdateUserNoContent(t goatest.TInterface, ctx context.Context, service *goa
 		ctx = context.Background()
 	}
 	goaCtx := goa.NewContext(goa.WithAction(ctx, "UserTest"), rw, req, prms)
-	updateCtx, _err := app.NewUpdateUserContext(goaCtx, req, service)
-	if _err != nil {
-		e, ok := _err.(goa.ServiceError)
-		if !ok {
-			panic("invalid test data " + _err.Error()) // bug
+	updateCtx, __err := app.NewUpdateUserContext(goaCtx, req, service)
+	if __err != nil {
+		_e, _ok := __err.(goa.ServiceError)
+		if !_ok {
+			panic("invalid test data " + __err.Error()) // bug
 		}
-		t.Errorf("unexpected parameter validation error: %+v", e)
+		t.Errorf("unexpected parameter validation error: %+v", _e)
 		return nil
 	}
 	updateCtx.Payload = payload
 
 	// Perform action
-	_err = ctrl.Update(updateCtx)
+	__err = ctrl.Update(updateCtx)
 
 	// Validate response
-	if _err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
+	if __err != nil {
+		t.Fatalf("controller returned %+v, logs:\n%s", __err, logBuf.String())
 	}
 	if rw.Code != 204 {
 		t.Errorf("invalid response status code: got %+v, expected 204", rw.Code)
@@ -660,14 +681,25 @@ func UpdateUserNotFound(t goatest.TInterface, ctx context.Context, service *goa.
 		service.Encoder.Register(newEncoder, "*/*")
 	}
 
+	// Validate payload
+	err := payload.Validate()
+	if err != nil {
+		e, ok := err.(goa.ServiceError)
+		if !ok {
+			panic(err) // bug
+		}
+		t.Errorf("unexpected payload validation error: %+v", e)
+		return nil
+	}
+
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
 		Path: fmt.Sprintf("/users/%v", userID),
 	}
-	req, err := http.NewRequest("PUT", u.String(), nil)
-	if err != nil {
-		panic("invalid test " + err.Error()) // bug
+	req, _err := http.NewRequest("PUT", u.String(), nil)
+	if _err != nil {
+		panic("invalid test " + _err.Error()) // bug
 	}
 	prms := url.Values{}
 	prms["userID"] = []string{fmt.Sprintf("%v", userID)}
@@ -675,23 +707,23 @@ func UpdateUserNotFound(t goatest.TInterface, ctx context.Context, service *goa.
 		ctx = context.Background()
 	}
 	goaCtx := goa.NewContext(goa.WithAction(ctx, "UserTest"), rw, req, prms)
-	updateCtx, _err := app.NewUpdateUserContext(goaCtx, req, service)
-	if _err != nil {
-		e, ok := _err.(goa.ServiceError)
-		if !ok {
-			panic("invalid test data " + _err.Error()) // bug
+	updateCtx, __err := app.NewUpdateUserContext(goaCtx, req, service)
+	if __err != nil {
+		_e, _ok := __err.(goa.ServiceError)
+		if !_ok {
+			panic("invalid test data " + __err.Error()) // bug
 		}
-		t.Errorf("unexpected parameter validation error: %+v", e)
+		t.Errorf("unexpected parameter validation error: %+v", _e)
 		return nil
 	}
 	updateCtx.Payload = payload
 
 	// Perform action
-	_err = ctrl.Update(updateCtx)
+	__err = ctrl.Update(updateCtx)
 
 	// Validate response
-	if _err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
+	if __err != nil {
+		t.Fatalf("controller returned %+v, logs:\n%s", __err, logBuf.String())
 	}
 	if rw.Code != 404 {
 		t.Errorf("invalid response status code: got %+v, expected 404", rw.Code)

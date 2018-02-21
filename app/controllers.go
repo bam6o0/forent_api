@@ -103,155 +103,6 @@ func unmarshalListArticlePayload(ctx context.Context, service *goa.Service, req 
 	return nil
 }
 
-// AuthenticationController is the controller interface for the Authentication actions.
-type AuthenticationController interface {
-	goa.Muxer
-	Create(*CreateAuthenticationContext) error
-	Delete(*DeleteAuthenticationContext) error
-	Show(*ShowAuthenticationContext) error
-	Update(*UpdateAuthenticationContext) error
-}
-
-// MountAuthenticationController "mounts" a Authentication resource controller on the given service.
-func MountAuthenticationController(service *goa.Service, ctrl AuthenticationController) {
-	initService(service)
-	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/authentications", ctrl.MuxHandler("preflight", handleAuthenticationOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/authentications/:authenticationID", ctrl.MuxHandler("preflight", handleAuthenticationOrigin(cors.HandlePreflight()), nil))
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewCreateAuthenticationContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		// Build the payload
-		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
-			rctx.Payload = rawPayload.(*CreateAuthenticationPayload)
-		} else {
-			return goa.MissingPayloadError()
-		}
-		return ctrl.Create(rctx)
-	}
-	h = handleAuthenticationOrigin(h)
-	service.Mux.Handle("POST", "/authentications", ctrl.MuxHandler("create", h, unmarshalCreateAuthenticationPayload))
-	service.LogInfo("mount", "ctrl", "Authentication", "action", "Create", "route", "POST /authentications")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewDeleteAuthenticationContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		return ctrl.Delete(rctx)
-	}
-	h = handleAuthenticationOrigin(h)
-	service.Mux.Handle("DELETE", "/authentications/:authenticationID", ctrl.MuxHandler("delete", h, nil))
-	service.LogInfo("mount", "ctrl", "Authentication", "action", "Delete", "route", "DELETE /authentications/:authenticationID")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewShowAuthenticationContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		return ctrl.Show(rctx)
-	}
-	h = handleAuthenticationOrigin(h)
-	service.Mux.Handle("GET", "/authentications/:authenticationID", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Authentication", "action", "Show", "route", "GET /authentications/:authenticationID")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewUpdateAuthenticationContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		// Build the payload
-		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
-			rctx.Payload = rawPayload.(*UpdateAuthenticationPayload)
-		} else {
-			return goa.MissingPayloadError()
-		}
-		return ctrl.Update(rctx)
-	}
-	h = handleAuthenticationOrigin(h)
-	service.Mux.Handle("PUT", "/authentications/:authenticationID", ctrl.MuxHandler("update", h, unmarshalUpdateAuthenticationPayload))
-	service.LogInfo("mount", "ctrl", "Authentication", "action", "Update", "route", "PUT /authentications/:authenticationID")
-}
-
-// handleAuthenticationOrigin applies the CORS response headers corresponding to the origin.
-func handleAuthenticationOrigin(h goa.Handler) goa.Handler {
-
-	return func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		origin := req.Header.Get("Origin")
-		if origin == "" {
-			// Not a CORS request
-			return h(ctx, rw, req)
-		}
-		if cors.MatchOrigin(origin, "http://swagger.goa.design") {
-			ctx = goa.WithLogContext(ctx, "origin", origin)
-			rw.Header().Set("Access-Control-Allow-Origin", origin)
-			rw.Header().Set("Vary", "Origin")
-			rw.Header().Set("Access-Control-Max-Age", "600")
-			rw.Header().Set("Access-Control-Allow-Credentials", "true")
-			if acrm := req.Header.Get("Access-Control-Request-Method"); acrm != "" {
-				// We are handling a preflight request
-				rw.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE")
-			}
-			return h(ctx, rw, req)
-		}
-
-		return h(ctx, rw, req)
-	}
-}
-
-// unmarshalCreateAuthenticationPayload unmarshals the request body into the context request data Payload field.
-func unmarshalCreateAuthenticationPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
-	payload := &createAuthenticationPayload{}
-	if err := service.DecodeRequest(req, payload); err != nil {
-		return err
-	}
-	if err := payload.Validate(); err != nil {
-		// Initialize payload with private data structure so it can be logged
-		goa.ContextRequest(ctx).Payload = payload
-		return err
-	}
-	goa.ContextRequest(ctx).Payload = payload.Publicize()
-	return nil
-}
-
-// unmarshalUpdateAuthenticationPayload unmarshals the request body into the context request data Payload field.
-func unmarshalUpdateAuthenticationPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
-	payload := &updateAuthenticationPayload{}
-	if err := service.DecodeRequest(req, payload); err != nil {
-		return err
-	}
-	if err := payload.Validate(); err != nil {
-		// Initialize payload with private data structure so it can be logged
-		goa.ContextRequest(ctx).Payload = payload
-		return err
-	}
-	goa.ContextRequest(ctx).Payload = payload.Publicize()
-	return nil
-}
-
 // CategoryController is the controller interface for the Category actions.
 type CategoryController interface {
 	goa.Muxer
@@ -1125,6 +976,155 @@ func unmarshalCreateUserPayload(ctx context.Context, service *goa.Service, req *
 // unmarshalUpdateUserPayload unmarshals the request body into the context request data Payload field.
 func unmarshalUpdateUserPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
 	payload := &updateUserPayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
+		return err
+	}
+	if err := payload.Validate(); err != nil {
+		// Initialize payload with private data structure so it can be logged
+		goa.ContextRequest(ctx).Payload = payload
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
+}
+
+// VerificationController is the controller interface for the Verification actions.
+type VerificationController interface {
+	goa.Muxer
+	Create(*CreateVerificationContext) error
+	Delete(*DeleteVerificationContext) error
+	Show(*ShowVerificationContext) error
+	Update(*UpdateVerificationContext) error
+}
+
+// MountVerificationController "mounts" a Verification resource controller on the given service.
+func MountVerificationController(service *goa.Service, ctrl VerificationController) {
+	initService(service)
+	var h goa.Handler
+	service.Mux.Handle("OPTIONS", "/verifications", ctrl.MuxHandler("preflight", handleVerificationOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/verifications/:verificationID", ctrl.MuxHandler("preflight", handleVerificationOrigin(cors.HandlePreflight()), nil))
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewCreateVerificationContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*CreateVerificationPayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
+		return ctrl.Create(rctx)
+	}
+	h = handleVerificationOrigin(h)
+	service.Mux.Handle("POST", "/verifications", ctrl.MuxHandler("create", h, unmarshalCreateVerificationPayload))
+	service.LogInfo("mount", "ctrl", "Verification", "action", "Create", "route", "POST /verifications")
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewDeleteVerificationContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		return ctrl.Delete(rctx)
+	}
+	h = handleVerificationOrigin(h)
+	service.Mux.Handle("DELETE", "/verifications/:verificationID", ctrl.MuxHandler("delete", h, nil))
+	service.LogInfo("mount", "ctrl", "Verification", "action", "Delete", "route", "DELETE /verifications/:verificationID")
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewShowVerificationContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		return ctrl.Show(rctx)
+	}
+	h = handleVerificationOrigin(h)
+	service.Mux.Handle("GET", "/verifications/:verificationID", ctrl.MuxHandler("show", h, nil))
+	service.LogInfo("mount", "ctrl", "Verification", "action", "Show", "route", "GET /verifications/:verificationID")
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewUpdateVerificationContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*UpdateVerificationPayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
+		return ctrl.Update(rctx)
+	}
+	h = handleVerificationOrigin(h)
+	service.Mux.Handle("PUT", "/verifications/:verificationID", ctrl.MuxHandler("update", h, unmarshalUpdateVerificationPayload))
+	service.LogInfo("mount", "ctrl", "Verification", "action", "Update", "route", "PUT /verifications/:verificationID")
+}
+
+// handleVerificationOrigin applies the CORS response headers corresponding to the origin.
+func handleVerificationOrigin(h goa.Handler) goa.Handler {
+
+	return func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		origin := req.Header.Get("Origin")
+		if origin == "" {
+			// Not a CORS request
+			return h(ctx, rw, req)
+		}
+		if cors.MatchOrigin(origin, "http://swagger.goa.design") {
+			ctx = goa.WithLogContext(ctx, "origin", origin)
+			rw.Header().Set("Access-Control-Allow-Origin", origin)
+			rw.Header().Set("Vary", "Origin")
+			rw.Header().Set("Access-Control-Max-Age", "600")
+			rw.Header().Set("Access-Control-Allow-Credentials", "true")
+			if acrm := req.Header.Get("Access-Control-Request-Method"); acrm != "" {
+				// We are handling a preflight request
+				rw.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE")
+			}
+			return h(ctx, rw, req)
+		}
+
+		return h(ctx, rw, req)
+	}
+}
+
+// unmarshalCreateVerificationPayload unmarshals the request body into the context request data Payload field.
+func unmarshalCreateVerificationPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &createVerificationPayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
+		return err
+	}
+	if err := payload.Validate(); err != nil {
+		// Initialize payload with private data structure so it can be logged
+		goa.ContextRequest(ctx).Payload = payload
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
+}
+
+// unmarshalUpdateVerificationPayload unmarshals the request body into the context request data Payload field.
+func unmarshalUpdateVerificationPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &updateVerificationPayload{}
 	if err := service.DecodeRequest(req, payload); err != nil {
 		return err
 	}

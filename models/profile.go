@@ -21,13 +21,11 @@ import (
 // Profile Model
 type Profile struct {
 	ID           int `gorm:"primary_key"` // This is the profile Model PK field
-	Address      string
 	AvatarImage  string
 	CoverImage   string
 	FirstName    string
 	Introduction string
 	LastName     string
-	Phone        int
 	UserID       int        // has one Profile
 	CreatedAt    time.Time  // timestamp
 	DeletedAt    *time.Time // nullable timestamp (soft delete)

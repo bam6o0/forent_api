@@ -21,16 +21,16 @@ var User = MediaType("application/vnd.user+json", func() {
 			Example("salt")
 		})
 		Attribute("profile_id", Integer, "profile id")
-		Attribute("authentication_id", Integer, "authentication id")
+		Attribute("verification_id", Integer, "verification id")
 
-		Required("id", "email", "password", "profile_id", "authentication_id", "salt")
+		Required("id", "email", "password", "profile_id", "verification_id", "salt")
 	})
 	View("default", func() { // View defines a rendering of the media type.
 		Attribute("id") // Media types may have multiple views and must have a "default" view.¥
 		Attribute("email")
 		Attribute("password")
 		Attribute("profile_id")
-		Attribute("authentication_id")
+		Attribute("verification_id")
 		Attribute("salt")
 	})
 })
@@ -43,43 +43,37 @@ var Profile = MediaType("application/vnd.profile+json", func() {
 		Attribute("first_name", String, "first name")
 		Attribute("last_name", String, "last_name")
 		Attribute("introduction", String, "user introduciton")
-		Attribute("address", String, "address")
-		Attribute("phone", Integer, "phone number")
 		Attribute("avatar_image", String, "avatar image url")
 		Attribute("cover_image", String, "cover image url")
 
-		Required("id", "first_name", "last_name", "introduction", "address", "phone", "avatar_image", "cover_image")
+		Required("id", "first_name", "last_name", "introduction", "avatar_image", "cover_image")
 	})
 	View("default", func() { // View defines a rendering of the media type.
 		Attribute("id") // Media types may have multiple views and must have a "default" view.
 		Attribute("first_name")
 		Attribute("last_name")
 		Attribute("introduction")
-		Attribute("address")
-		Attribute("phone")
 		Attribute("avatar_image")
 		Attribute("cover_image")
 	})
 })
 
-// Authentication defines the media type used to render Authentications.
-var Authentication = MediaType("application/vnd.authentication+json", func() {
-	Description("Authentication")
+// Verification defines the media type used to render verifications.
+var Verification = MediaType("application/vnd.verification+json", func() {
+	Description("Verification")
 	Attributes(func() { // Attributes define the media type shape.
 		Attribute("id", Integer, "Unique auth ID")
 		Attribute("identification", Boolean, "identification flag")
 		Attribute("email", Boolean, "address flag")
-		Attribute("phone", Boolean, "phone flag")
 		Attribute("facebook_id", Integer, "Unique facebook ID")
 		Attribute("google_id", Integer, "Unique google ID")
 
-		Required("id", "facebook_id", "google_id", "identification", "email", "phone")
+		Required("id", "facebook_id", "google_id", "identification", "email")
 	})
 	View("default", func() { // View defines a rendering of the media type.
 		Attribute("id") // Media types may have multiple views and must have a "default" view.
 		Attribute("identification")
 		Attribute("email")
-		Attribute("phone")
 		Attribute("facebook_id")
 		Attribute("google_id")
 	})

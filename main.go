@@ -23,8 +23,8 @@ var UserDB *models.UserDB
 // ProfileDB is Profile model
 var ProfileDB *models.ProfileDB
 
-// AuthenticationDB is Authentication model
-var AuthenticationDB *models.AuthenticationDB
+// VerificationDB is Verification model
+var VerificationDB *models.VerificationDB
 
 // ItemDB is Item model
 var ItemDB *models.ItemDB
@@ -71,7 +71,7 @@ func main() {
 	//db.DropTable(&models.Item{})
 	db.AutoMigrate(&models.User{})
 	db.AutoMigrate(&models.Profile{})
-	db.AutoMigrate(&models.Authentication{})
+	db.AutoMigrate(&models.Verification{})
 	db.AutoMigrate(&models.Item{})
 	db.AutoMigrate(&models.Article{})
 	db.AutoMigrate(&models.Comment{})
@@ -86,7 +86,7 @@ func main() {
 
 	UserDB = models.NewUserDB(db)
 	ProfileDB = models.NewProfileDB(db)
-	AuthenticationDB = models.NewAuthenticationDB(db)
+	VerificationDB = models.NewVerificationDB(db)
 	ItemDB = models.NewItemDB(db)
 	ArticleDB = models.NewArticleDB(db)
 	CommentDB = models.NewCommentDB(db)
@@ -113,33 +113,33 @@ func main() {
 	// Mount "article" controller
 	c := NewArticleController(service)
 	app.MountArticleController(service, c)
-	// Mount "authentication" controller
-	c2 := NewAuthenticationController(service)
-	app.MountAuthenticationController(service, c2)
 	// Mount "category" controller
-	c3 := NewCategoryController(service)
-	app.MountCategoryController(service, c3)
+	c2 := NewCategoryController(service)
+	app.MountCategoryController(service, c2)
 	// Mount "comment" controller
-	c4 := NewCommentController(service)
-	app.MountCommentController(service, c4)
+	c3 := NewCommentController(service)
+	app.MountCommentController(service, c3)
 	// Mount "item" controller
-	c5 := NewItemController(service)
-	app.MountItemController(service, c5)
+	c4 := NewItemController(service)
+	app.MountItemController(service, c4)
 	// Mount "largecategory" controller
-	c6 := NewLargecategoryController(service)
-	app.MountLargecategoryController(service, c6)
+	c5 := NewLargecategoryController(service)
+	app.MountLargecategoryController(service, c5)
 	// Mount "middlecategory" controller
-	c7 := NewMiddlecategoryController(service)
-	app.MountMiddlecategoryController(service, c7)
+	c6 := NewMiddlecategoryController(service)
+	app.MountMiddlecategoryController(service, c6)
 	// Mount "offer" controller
-	c8 := NewOfferController(service)
-	app.MountOfferController(service, c8)
+	c7 := NewOfferController(service)
+	app.MountOfferController(service, c7)
 	// Mount "profile" controller
-	c9 := NewProfileController(service)
-	app.MountProfileController(service, c9)
+	c8 := NewProfileController(service)
+	app.MountProfileController(service, c8)
 	// Mount "user" controller
-	c10 := NewUserController(service)
-	app.MountUserController(service, c10)
+	c9 := NewUserController(service)
+	app.MountUserController(service, c9)
+	// Mount "verification" controller
+	c10 := NewVerificationController(service)
+	app.MountVerificationController(service, c10)
 
 	// Start service
 	if err := service.ListenAndServe(":8080"); err != nil {

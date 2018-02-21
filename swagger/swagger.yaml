@@ -187,107 +187,40 @@ definitions:
       title4: Accusamus modi qui debitis temporibus.
       title5: Corrupti iure dolores voluptatem.
       user_id: 4.723771e+18
-    - body1: Veniam magnam.
-      body2: Cum eius.
-      body3: Officia sunt ut sequi saepe.
-      body4: At accusantium repudiandae.
-      body5: Temporibus et culpa voluptate voluptas omnis.
-      category_id: 8.2652296e+18
-      id: 8.2080077e+18
-      image1: Pariatur ut id explicabo velit.
-      image2: Consequatur reiciendis eius ipsum.
-      image3: Facere id consequuntur ipsum reprehenderit.
-      image4: Sequi voluptas sed harum vel ut.
-      image5: Dolorum labore nulla.
-      introduction: Incidunt aut et fugiat.
-      item_description: Autem non.
-      item_id: 7.160447e+18
-      title1: Numquam incidunt qui aut excepturi doloremque optio.
-      title2: Eum qui.
-      title3: Et sed impedit enim enim aliquam culpa.
-      title4: Accusamus modi qui debitis temporibus.
-      title5: Corrupti iure dolores voluptatem.
-      user_id: 4.723771e+18
     items:
       $ref: '#/definitions/Article'
     title: 'Mediatype identifier: application/vnd.article+json; type=collection; view=default'
     type: array
-  Authentication:
-    description: Authentication (default view)
-    example:
-      email: false
-      facebook_id: 1.4066062e+18
-      google_id: 8.610045e+18
-      id: 2.2178557e+18
-      identification: false
-      phone: true
-    properties:
-      email:
-        description: address flag
-        example: false
-        type: boolean
-      facebook_id:
-        description: Unique facebook ID
-        example: 1.4066062e+18
-        format: int64
-        type: integer
-      google_id:
-        description: Unique google ID
-        example: 8.610045e+18
-        format: int64
-        type: integer
-      id:
-        description: Unique auth ID
-        example: 2.2178557e+18
-        format: int64
-        type: integer
-      identification:
-        description: identification flag
-        example: false
-        type: boolean
-      phone:
-        description: phone flag
-        example: true
-        type: boolean
-    required:
-    - id
-    - facebook_id
-    - google_id
-    - identification
-    - email
-    - phone
-    title: 'Mediatype identifier: application/vnd.authentication+json; view=default'
-    type: object
   Category:
     description: Category (default view)
     example:
-      id: 7.9010196e+18
-      middle_category_id: 8.605069e+18
-      name: Eaque dolorem eius consequuntur iure.
-      name_base: Rem alias quia ex minima.
-      name_en: Accusamus accusantium id repellendus alias voluptas molestiae.
+      id: 7.5318943e+18
+      middle_category_id: 1.4066062e+18
+      name: Consequatur molestias.
+      name_base: Culpa repellat tenetur eaque dolorem eius.
+      name_en: Iure eaque rem alias quia ex.
     properties:
       id:
         description: Unique category ID
-        example: 7.9010196e+18
+        example: 7.5318943e+18
         format: int64
         type: integer
       middle_category_id:
         description: middle category id
-        example: 8.605069e+18
+        example: 1.4066062e+18
         format: int64
         type: integer
       name:
         description: category name
-        example: Eaque dolorem eius consequuntur iure.
+        example: Consequatur molestias.
         type: string
       name_base:
         description: category kana name
-        example: Rem alias quia ex minima.
+        example: Culpa repellat tenetur eaque dolorem eius.
         type: string
       name_en:
         description: category english name
-        example: Accusamus accusantium id repellendus alias voluptas molestiae.
+        example: Iure eaque rem alias quia ex.
         type: string
     required:
     - id
@@ -301,11 +234,21 @@ definitions:
     description: CategoryCollection is the media type for an array of Category (default
       view)
     example:
-    - id: 7.9010196e+18
-      middle_category_id: 8.605069e+18
-      name: Eaque dolorem eius consequuntur iure.
-      name_base: Rem alias quia ex minima.
-      name_en: Accusamus accusantium id repellendus alias voluptas molestiae.
+    - id: 7.5318943e+18
+      middle_category_id: 1.4066062e+18
+      name: Consequatur molestias.
+      name_base: Culpa repellat tenetur eaque dolorem eius.
+      name_en: Iure eaque rem alias quia ex.
+    - id: 7.5318943e+18
+      middle_category_id: 1.4066062e+18
+      name: Consequatur molestias.
+      name_base: Culpa repellat tenetur eaque dolorem eius.
+      name_en: Iure eaque rem alias quia ex.
+    - id: 7.5318943e+18
+      middle_category_id: 1.4066062e+18
+      name: Consequatur molestias.
+      name_base: Culpa repellat tenetur eaque dolorem eius.
+      name_en: Iure eaque rem alias quia ex.
     items:
       $ref: '#/definitions/Category'
     title: 'Mediatype identifier: application/vnd.category+json; type=collection;
@@ -314,34 +257,34 @@ definitions:
   Comment:
     description: Comment (default view)
     example:
-      id: 9.158695e+18
-      item_id: 6.5946783e+18
-      reply_to: 4.0073785e+18
-      text: Veniam asperiores maiores eius omnis et.
-      user_id: 4.9147433e+18
+      id: 2.788934e+17
+      item_id: 5.88309e+17
+      reply_to: 6.31096e+18
+      text: Repellendus alias voluptas molestiae harum.
+      user_id: 9.158695e+18
     properties:
       id:
         description: Unique comment ID
-        example: 9.158695e+18
+        example: 2.788934e+17
         format: int64
         type: integer
       item_id:
         description: item id
-        example: 6.5946783e+18
+        example: 5.88309e+17
         format: int64
         type: integer
       reply_to:
         description: comment_id or null
-        example: 4.0073785e+18
+        example: 6.31096e+18
         format: int64
         type: integer
       text:
         description: comment text
-        example: Veniam asperiores maiores eius omnis et.
+        example: Repellendus alias voluptas molestiae harum.
         type: string
       user_id:
         description: comment user id
-        example: 4.9147433e+18
+        example: 9.158695e+18
         format: int64
         type: integer
     required:
@@ -356,89 +299,39 @@ definitions:
     description: CommentCollection is the media type for an array of Comment (default
       view)
     example:
-    - id: 9.158695e+18
-      item_id: 6.5946783e+18
-      reply_to: 4.0073785e+18
-      text: Veniam asperiores maiores eius omnis et.
-      user_id: 4.9147433e+18
-    - id: 9.158695e+18
-      item_id: 6.5946783e+18
-      reply_to: 4.0073785e+18
-      text: Veniam asperiores maiores eius omnis et.
-      user_id: 4.9147433e+18
+    - id: 2.788934e+17
+      item_id: 5.88309e+17
+      reply_to: 6.31096e+18
+      text: Repellendus alias voluptas molestiae harum.
+      user_id: 9.158695e+18
     items:
       $ref: '#/definitions/Comment'
     title: 'Mediatype identifier: application/vnd.comment+json; type=collection; view=default'
     type: array
-  CreateAuthenticationPayload:
-    example:
-      email: false
-      facebook_id: 4.2080157e+18
-      google_id: 8.217124e+18
-      identification: false
-      phone: false
-      user_id: 5.509556e+18
-    properties:
-      email:
-        description: address flag
-        example: false
-        type: boolean
-      facebook_id:
-        description: Unique facebook ID
-        example: 4.2080157e+18
-        format: int64
-        type: integer
-      google_id:
-        description: Unique google ID
-        example: 8.217124e+18
-        format: int64
-        type: integer
-      identification:
-        description: identification flag
-        example: false
-        type: boolean
-      phone:
-        description: phone flag
-        example: false
-        type: boolean
-      user_id:
-        description: user id
-        example: 5.509556e+18
-        format: int64
-        type: integer
-    required:
-    - user_id
-    - identification
-    - email
-    - phone
-    - facebook_id
-    - google_id
-    title: CreateAuthenticationPayload
-    type: object
   CreateCommentPayload:
     example:
-      item_id: 1.9946286e+18
-      reply_to: 8.026846e+18
-      text: Esse repellat dolorem iusto.
-      user_id: 3.872484e+18
+      item_id: 7.676466e+17
+      reply_to: 7.9860344e+18
+      text: Adipisci alias aliquid alias doloremque.
+      user_id: 3.1737714e+18
     properties:
       item_id:
         description: item id
-        example: 1.9946286e+18
+        example: 7.676466e+17
         format: int64
         type: integer
       reply_to:
         description: comment_id or null
-        example: 8.026846e+18
+        example: 7.9860344e+18
         format: int64
         type: integer
       text:
         description: comment text
-        example: Esse repellat dolorem iusto.
+        example: Adipisci alias aliquid alias doloremque.
         type: string
       user_id:
         description: comment user id
-        example: 3.872484e+18
+        example: 3.1737714e+18
         format: int64
         type: integer
     required:
@@ -450,65 +343,65 @@ definitions:
     type: object
   CreateItemPayload:
     example:
-      category_id: 2.8979586e+18
-      compensation: 1.9646203e+18
-      description: Commodi minima odio et.
-      image1: Placeat ratione aut sed facilis voluptatem.
-      image2: Nemo aut eaque quia.
-      image3: In dolorem sit dolorem beatae expedita.
-      image4: Numquam corrupti et ab delectus est.
-      name: Deserunt eum ex dolores et voluptatem.
-      place_id: 6.151236e+18
-      price: 1.5752894e+18
-      user_id: 7.1670956e+18
+      category_id: 2.6171584e+17
+      compensation: 4.379826e+18
+      description: Porro omnis quis rerum.
+      image1: Voluptatem quae eaque dignissimos incidunt nesciunt autem.
+      image2: Reiciendis laborum odio accusamus officiis veritatis velit.
+      image3: Esse repellat dolorem iusto.
+      image4: Blanditiis eum est.
+      name: Minima odio.
+      place_id: 7.866712e+18
+      price: 5.036411e+18
+      user_id: 6.0720134e+18
     properties:
       category_id:
         description: category ID
-        example: 2.8979586e+18
+        example: 2.6171584e+17
         format: int64
         type: integer
       compensation:
         description: compensation of item
-        example: 1.9646203e+18
+        example: 4.379826e+18
         format: int64
         type: integer
       description:
         description: description of item
-        example: Commodi minima odio et.
+        example: Porro omnis quis rerum.
         type: string
       image1:
         description: item image 1
-        example: Placeat ratione aut sed facilis voluptatem.
+        example: Voluptatem quae eaque dignissimos incidunt nesciunt autem.
         type: string
       image2:
         description: item image 2
-        example: Nemo aut eaque quia.
+        example: Reiciendis laborum odio accusamus officiis veritatis velit.
         type: string
       image3:
         description: item image 3
-        example: In dolorem sit dolorem beatae expedita.
+        example: Esse repellat dolorem iusto.
         type: string
       image4:
         description: item image 4
-        example: Numquam corrupti et ab delectus est.
+        example: Blanditiis eum est.
         type: string
       name:
         description: item name
-        example: Deserunt eum ex dolores et voluptatem.
+        example: Minima odio.
         type: string
       place_id:
         description: category ID
-        example: 6.151236e+18
+        example: 7.866712e+18
         format: int64
         type: integer
       price:
         description: price of item
-        example: 1.5752894e+18
+        example: 5.036411e+18
         format: int64
         type: integer
       user_id:
         description: user ID
-        example: 7.1670956e+18
+        example: 6.0720134e+18
         format: int64
         type: integer
     required:
@@ -524,41 +417,41 @@ definitions:
     type: object
   CreateOfferPayload:
     example:
-      end_at: 1986-10-16T05:50:16Z
-      item_id: 7.749618e+18
-      owner_id: 6.4038955e+18
-      price: 8.1779454e+18
-      start_at: 2015-07-21T17:35:21Z
-      user_id: 8.9788483e+18
+      end_at: 1982-02-03T19:36:59Z
+      item_id: 8.8780545e+18
+      owner_id: 2.3387863e+18
+      price: 2.7800846e+18
+      start_at: 1997-09-03T22:13:33Z
+      user_id: 5.7025274e+18
     properties:
       end_at:
         description: rental end at
-        example: 1986-10-16T05:50:16Z
+        example: 1982-02-03T19:36:59Z
         format: date-time
         type: string
       item_id:
         description: item id
-        example: 7.749618e+18
+        example: 8.8780545e+18
         format: int64
         type: integer
       owner_id:
         description: item id
-        example: 6.4038955e+18
+        example: 2.3387863e+18
         format: int64
         type: integer
       price:
         description: offer price
-        example: 8.1779454e+18
+        example: 2.7800846e+18
         format: int64
         type: integer
       start_at:
         description: rental start at
-        example: 2015-07-21T17:35:21Z
+        example: 1997-09-03T22:13:33Z
         format: date-time
         type: string
       user_id:
         description: offer user id
-        example: 8.9788483e+18
+        example: 5.7025274e+18
         format: int64
         type: integer
     required:
@@ -571,47 +464,36 @@ definitions:
     type: object
   CreateProfilePayload:
     example:
-      address: Hic non molestiae reiciendis doloribus mollitia iure.
-      avatar_image: Id doloribus velit.
-      cover_image: Adipisci aut sit.
-      first_name: Dolore repudiandae odio.
-      introduction: Excepturi quisquam.
-      last_name: Porro voluptas ut odit ut est porro.
-      phone: 2.2553657e+18
-      user_id: 8.1037707e+18
+      avatar_image: Itaque qui.
+      cover_image: Voluptatem molestiae voluptas voluptate voluptatum veniam.
+      first_name: Sit velit molestiae voluptatem culpa.
+      introduction: Perferendis quia sed dolor sit vero architecto.
+      last_name: Sapiente numquam.
+      user_id: 8.889916e+18
     properties:
-      address:
-        description: address
-        example: Hic non molestiae reiciendis doloribus mollitia iure.
-        type: string
       avatar_image:
         description: avatar image url
-        example: Id doloribus velit.
+        example: Itaque qui.
         type: string
       cover_image:
         description: cover image url
-        example: Adipisci aut sit.
+        example: Voluptatem molestiae voluptas voluptate voluptatum veniam.
         type: string
       first_name:
         description: first name
-        example: Dolore repudiandae odio.
+        example: Sit velit molestiae voluptatem culpa.
         type: string
       introduction:
         description: user introduciton
-        example: Excepturi quisquam.
+        example: Perferendis quia sed dolor sit vero architecto.
         type: string
       last_name:
         description: last_name
-        example: Porro voluptas ut odit ut est porro.
+        example: Sapiente numquam.
         type: string
-      phone:
-        description: phone number
-        example: 2.2553657e+18
-        format: int64
-        type: integer
       user_id:
         description: user id
-        example: 8.1037707e+18
+        example: 8.889916e+18
         format: int64
         type: integer
     required:
@@ -619,24 +501,17 @@ definitions:
     - last_name
     - user_id
     - introduction
-    - address
-    - phone
     - avatar_image
     - cover_image
     title: CreateProfilePayload
     type: object
   CreateUserPayload:
     example:
-      authentication_id: 4.8991225e+18
       email: notify.forent@gmail.com
       password: password
-      profile_id: 2.2218439e+18
+      profile_id: 4.685224e+18
+      verification_id: 4.889055e+18
     properties:
-      authentication_id:
-        description: authentication id
-        example: 4.8991225e+18
-        format: int64
-        type: integer
       email:
         description: email
         example: notify.forent@gmail.com
@@ -648,23 +523,67 @@ definitions:
         type: string
       profile_id:
         description: profile id
-        example: 2.2218439e+18
+        example: 4.685224e+18
+        format: int64
+        type: integer
+      verification_id:
+        description: verification id
+        example: 4.889055e+18
         format: int64
         type: integer
     required:
     - email
     - password
     - profile_id
-    - authentication_id
+    - verification_id
     title: CreateUserPayload
+    type: object
+  CreateVerificationPayload:
+    example:
+      email: false
+      facebook_id: 2.2553657e+18
+      google_id: 8.1037707e+18
+      identification: false
+      user_id: 1.1798863e+18
+    properties:
+      email:
+        description: address flag
+        example: false
+        type: boolean
+      facebook_id:
+        description: Unique facebook ID
+        example: 2.2553657e+18
+        format: int64
+        type: integer
+      google_id:
+        description: Unique google ID
+        example: 8.1037707e+18
+        format: int64
+        type: integer
+      identification:
+        description: identification flag
+        example: false
+        type: boolean
+      user_id:
+        description: user id
+        example: 1.1798863e+18
+        format: int64
+        type: integer
+    required:
+    - user_id
+    - identification
+    - email
+    - facebook_id
+    - google_id
+    title: CreateVerificationPayload
     type: object
   DeleteItemPayload:
     example:
-      itemID: 7.352717e+17
+      itemID: 2.1535967e+18
     properties:
       itemID:
         description: item ID
-        example: 7.352717e+17
+        example: 2.1535967e+18
         format: int64
         type: integer
     required:
@@ -674,71 +593,71 @@ definitions:
   Item:
     description: A item of user (default view)
     example:
-      category_id: 7.5270515e+18
-      compensation: 1.2191423e+18
-      description: Atque ut.
-      id: 6.7479057e+18
-      image1: Fugit a aut modi ex.
-      image2: Dolore rem et.
-      image3: Non nihil minus sed earum repudiandae.
-      image4: Animi nulla iusto voluptate ratione.
-      name: Recusandae deserunt et nisi.
-      place_id: 6.377645e+18
-      price: 1.4803834e+18
-      user_id: 5.0688146e+17
+      category_id: 6.1572426e+18
+      compensation: 2.440823e+18
+      description: Saepe quo.
+      id: 7.3371455e+18
+      image1: Explicabo perferendis minus est atque ut.
+      image2: Quo fugit a.
+      image3: Modi ex.
+      image4: Dolore rem et.
+      name: Non nihil minus sed earum repudiandae.
+      place_id: 8.925329e+18
+      price: 7.9235657e+18
+      user_id: 2.360499e+18
     properties:
       category_id:
         description: Category ID
-        example: 7.5270515e+18
+        example: 6.1572426e+18
         format: int64
         type: integer
       compensation:
         description: compensation of item
-        example: 1.2191423e+18
+        example: 2.440823e+18
         format: int64
         type: integer
       description:
         description: description of item
-        example: Atque ut.
+        example: Saepe quo.
         type: string
       id:
         description: Unique item ID
-        example: 6.7479057e+18
+        example: 7.3371455e+18
         format: int64
         type: integer
       image1:
         description: item image 1
-        example: Fugit a aut modi ex.
+        example: Explicabo perferendis minus est atque ut.
         type: string
       image2:
         description: item image 2
-        example: Dolore rem et.
+        example: Quo fugit a.
         type: string
       image3:
         description: item image 3
-        example: Non nihil minus sed earum repudiandae.
+        example: Modi ex.
         type: string
       image4:
         description: item image 4
-        example: Animi nulla iusto voluptate ratione.
+        example: Dolore rem et.
         type: string
       name:
         description: Name of item
-        example: Recusandae deserunt et nisi.
+        example: Non nihil minus sed earum repudiandae.
         type: string
       place_id:
         description: Place ID
-        example: 6.377645e+18
+        example: 8.925329e+18
         format: int64
         type: integer
       price:
         description: price of item
-        example: 1.4803834e+18
+        example: 7.9235657e+18
         format: int64
         type: integer
       user_id:
         description: user ID
-        example: 5.0688146e+17
+        example: 2.360499e+18
         format: int64
         type: integer
     required:
@@ -759,30 +678,18 @@ definitions:
   ItemCollection:
     description: ItemCollection is the media type for an array of Item (default view)
     example:
-    - category_id: 7.5270515e+18
-      compensation: 1.2191423e+18
-      description: Atque ut.
-      id: 6.7479057e+18
-      image1: Fugit a aut modi ex.
-      image2: Dolore rem et.
-      image3: Non nihil minus sed earum repudiandae.
-      image4: Animi nulla iusto voluptate ratione.
-      name: Recusandae deserunt et nisi.
-      place_id: 6.377645e+18
-      price: 1.4803834e+18
-      user_id: 5.0688146e+17
-    - category_id: 7.5270515e+18
-      compensation: 1.2191423e+18
-      description: Atque ut.
-      id: 6.7479057e+18
-      image1: Fugit a aut modi ex.
-      image2: Dolore rem et.
-      image3: Non nihil minus sed earum repudiandae.
-      image4: Animi nulla iusto voluptate ratione.
-      name: Recusandae deserunt et nisi.
-      place_id: 6.377645e+18
-      price: 1.4803834e+18
-      user_id: 5.0688146e+17
+    - category_id: 6.1572426e+18
+      compensation: 2.440823e+18
+      description: Saepe quo.
+      id: 7.3371455e+18
+      image1: Explicabo perferendis minus est atque ut.
+      image2: Quo fugit a.
+      image3: Modi ex.
+      image4: Dolore rem et.
+      name: Non nihil minus sed earum repudiandae.
+      place_id: 8.925329e+18
+      price: 7.9235657e+18
+      user_id: 2.360499e+18
     items:
       $ref: '#/definitions/Item'
     title: 'Mediatype identifier: application/vnd.item+json; type=collection; view=default'
@@ -790,27 +697,27 @@ definitions:
   Largecategory:
     description: Large Category (default view)
     example:
-      id: 5.9687467e+18
-      name: Est ab ea dolorem.
-      name_base: Error enim ut.
-      name_en: Quis odit et in.
+      id: 4.3150507e+18
+      name: Quasi recusandae.
+      name_base: Et nisi eaque odio voluptatem.
+      name_en: Ut magnam.
     properties:
       id:
         description: Unique large category ID
-        example: 5.9687467e+18
+        example: 4.3150507e+18
         format: int64
         type: integer
       name:
         description: category name
-        example: Est ab ea dolorem.
+        example: Quasi recusandae.
         type: string
       name_base:
         description: category kana name
-        example: Error enim ut.
+        example: Et nisi eaque odio voluptatem.
         type: string
       name_en:
         description: category english name
-        example: Quis odit et in.
+        example: Ut magnam.
         type: string
     required:
     - id
@@ -823,18 +730,18 @@ definitions:
     description: LargecategoryCollection is the media type for an array of Largecategory
       (default view)
     example:
-    - id: 5.9687467e+18
-      name: Est ab ea dolorem.
-      name_base: Error enim ut.
-      name_en: Quis odit et in.
-    - id: 5.9687467e+18
-      name: Est ab ea dolorem.
-      name_base: Error enim ut.
-      name_en: Quis odit et in.
-    - id: 5.9687467e+18
-      name: Est ab ea dolorem.
-      name_base: Error enim ut.
-      name_en: Quis odit et in.
+    - id: 4.3150507e+18
+      name: Quasi recusandae.
+      name_base: Et nisi eaque odio voluptatem.
+      name_en: Ut magnam.
+    - id: 4.3150507e+18
+      name: Quasi recusandae.
+      name_base: Et nisi eaque odio voluptatem.
+      name_en: Ut magnam.
+    - id: 4.3150507e+18
+      name: Quasi recusandae.
+      name_base: Et nisi eaque odio voluptatem.
+      name_en: Ut magnam.
     items:
       $ref: '#/definitions/Largecategory'
     title: 'Mediatype identifier: application/vnd.largecategory+json; type=collection;
@@ -842,80 +749,80 @@ definitions:
     type: array
   ListArticlePayload:
     example:
-      articleID: 4.7266993e+18
-      categoryID: 5.8573277e+18
-      itemID: 3.4053456e+18
-      userID: 8.0641943e+18
+      articleID: 5.753931e+18
+      categoryID: 8.2823006e+18
+      itemID: 3.1356596e+18
+      userID: 6.6659316e+18
     properties:
       articleID:
         description: article ID
-        example: 4.7266993e+18
+        example: 5.753931e+18
         format: int64
         type: integer
       categoryID:
         description: category id
-        example: 5.8573277e+18
+        example: 8.2823006e+18
         format: int64
         type: integer
       itemID:
         description: item ID
-        example: 3.4053456e+18
+        example: 3.1356596e+18
         format: int64
         type: integer
       userID:
         description: user id
-        example: 8.0641943e+18
+        example: 6.6659316e+18
         format: int64
         type: integer
     title: ListArticlePayload
     type: object
   ListCategoryPayload:
     example:
-      middlecategoryID: 9.483821e+17
+      middlecategoryID: 5.7810045e+18
     properties:
       middlecategoryID:
         description: middlecategory id
-        example: 9.483821e+17
+        example: 5.7810045e+18
         format: int64
         type: integer
     title: ListCategoryPayload
     type: object
   ListItemPayload:
     example:
-      categoryID: 3.964662e+18
-      itemID: 5.325612e+18
-      placeID: 3.4502078e+18
-      userID: 7.4594635e+18
+      categoryID: 2.3294047e+18
+      itemID: 2.569217e+18
+      placeID: 4.062211e+18
+      userID: 7.806357e+18
     properties:
       categoryID:
         description: category id
-        example: 3.964662e+18
+        example: 2.3294047e+18
         format: int64
         type: integer
       itemID:
         description: item ID
-        example: 5.325612e+18
+        example: 2.569217e+18
         format: int64
         type: integer
       placeID:
         description: place id
-        example: 3.4502078e+18
+        example: 4.062211e+18
         format: int64
         type: integer
       userID:
         description: user id
-        example: 7.4594635e+18
+        example: 7.806357e+18
         format: int64
         type: integer
     title: ListItemPayload
     type: object
   ListMiddlecategoryPayload:
     example:
-      largecategoryID: 8.889916e+18
+      largecategoryID: 8.578794e+18
     properties:
       largecategoryID:
         description: largecategory id
-        example: 8.889916e+18
+        example: 8.578794e+18
         format: int64
         type: integer
     title: ListMiddlecategoryPayload
@@ -923,33 +830,33 @@ definitions:
   Middlecategory:
     description: Middle Category (default view)
     example:
-      id: 1.8139432e+18
-      large_category_id: 1.4515504e+18
-      name: Labore at iure omnis quo rem.
-      name_base: Suscipit consequatur doloribus aspernatur.
-      name_en: Velit voluptas eum earum eos illum.
+      id: 5.829956e+18
+      large_category_id: 6.9933755e+18
+      name: Ut error enim.
+      name_base: Distinctio quis odit et in temporibus aut.
+      name_en: Omnis labore at.
     properties:
       id:
         description: Unique middle category ID
-        example: 1.8139432e+18
+        example: 5.829956e+18
         format: int64
         type: integer
       large_category_id:
         description: large category id
-        example: 1.4515504e+18
+        example: 6.9933755e+18
         format: int64
         type: integer
       name:
         description: category name
-        example: Labore at iure omnis quo rem.
+        example: Ut error enim.
         type: string
       name_base:
         description: category kana name
-        example: Suscipit consequatur doloribus aspernatur.
+        example: Distinctio quis odit et in temporibus aut.
         type: string
       name_en:
         description: category english name
-        example: Velit voluptas eum earum eos illum.
+        example: Omnis labore at.
         type: string
     required:
     - id
@@ -963,16 +870,16 @@ definitions:
     description: MiddlecategoryCollection is the media type for an array of Middlecategory
       (default view)
     example:
-    - id: 1.8139432e+18
-      large_category_id: 1.4515504e+18
-      name: Labore at iure omnis quo rem.
-      name_base: Suscipit consequatur doloribus aspernatur.
-      name_en: Velit voluptas eum earum eos illum.
-    - id: 1.8139432e+18
-      large_category_id: 1.4515504e+18
-      name: Labore at iure omnis quo rem.
-      name_base: Suscipit consequatur doloribus aspernatur.
-      name_en: Velit voluptas eum earum eos illum.
+    - id: 5.829956e+18
+      large_category_id: 6.9933755e+18
+      name: Ut error enim.
+      name_base: Distinctio quis odit et in temporibus aut.
+      name_en: Omnis labore at.
+    - id: 5.829956e+18
+      large_category_id: 6.9933755e+18
+      name: Ut error enim.
+      name_base: Distinctio quis odit et in temporibus aut.
+      name_en: Omnis labore at.
     items:
       $ref: '#/definitions/Middlecategory'
     title: 'Mediatype identifier: application/vnd.middlecategory+json; type=collection;
@@ -981,209 +888,114 @@ definitions:
   Profile:
     description: profile (default view)
     example:
-      address: Architecto sunt dolore et.
-      avatar_image: Facere ut.
-      cover_image: Ullam magni et quisquam assumenda quis vel.
-      first_name: Dicta accusamus.
-      id: 5.437151e+17
-      introduction: In voluptatem minus amet.
-      last_name: In architecto cumque.
-      phone: 7.9670376e+18
+      avatar_image: Est sapiente cumque.
+      cover_image: Animi voluptas quaerat qui non nemo.
+      first_name: Alias illo.
+      id: 6.1650436e+18
+      introduction: Architecto sunt dolore et.
+      last_name: Facere ut.
     properties:
-      address:
-        description: address
-        example: Architecto sunt dolore et.
-        type: string
       avatar_image:
         description: avatar image url
-        example: Facere ut.
+        example: Est sapiente cumque.
         type: string
       cover_image:
         description: cover image url
-        example: Ullam magni et quisquam assumenda quis vel.
+        example: Animi voluptas quaerat qui non nemo.
         type: string
       first_name:
         description: first name
-        example: Dicta accusamus.
+        example: Alias illo.
         type: string
       id:
         description: Unique profile ID
-        example: 5.437151e+17
+        example: 6.1650436e+18
         format: int64
         type: integer
       introduction:
         description: user introduciton
-        example: In voluptatem minus amet.
+        example: Architecto sunt dolore et.
         type: string
       last_name:
         description: last_name
-        example: In architecto cumque.
+        example: Facere ut.
         type: string
-      phone:
-        description: phone number
-        example: 7.9670376e+18
-        format: int64
-        type: integer
     required:
     - id
     - first_name
     - last_name
     - introduction
-    - address
-    - phone
     - avatar_image
     - cover_image
     title: 'Mediatype identifier: application/vnd.profile+json; view=default'
     type: object
-  SigninPayload:
-    example:
-      email: jamesbond@gmail.com
-      password: abcd1234
-    properties:
-      email:
-        example: jamesbond@gmail.com
-        format: email
-        maxLength: 400
-        minLength: 6
-        type: string
-      password:
-        example: abcd1234
-        maxLength: 100
-        minLength: 8
-        type: string
-    required:
-    - email
-    - password
-    title: SigninPayload
-    type: object
-  SignupPayload:
-    example:
-      email: jamesbond@gmail.com
-      password: abcd1234
-    properties:
-      email:
-        example: jamesbond@gmail.com
-        format: email
-        maxLength: 150
-        minLength: 6
-        type: string
-      password:
-        example: abcd1234
-        maxLength: 100
-        minLength: 8
-        type: string
-    required:
-    - email
-    - password
-    title: SignupPayload
-    type: object
-  UpdateAuthenticationPayload:
-    example:
-      email: true
-      facebook_id: 4.054051e+18
-      google_id: 1.2366152e+18
-      identification: true
-      phone: true
-      user_id: 5.9721376e+18
-    properties:
-      email:
-        description: address flag
-        example: true
-        type: boolean
-      facebook_id:
-        description: Unique facebook ID
-        example: 4.054051e+18
-        format: int64
-        type: integer
-      google_id:
-        description: Unique google ID
-        example: 1.2366152e+18
-        format: int64
-        type: integer
-      identification:
-        description: identification flag
-        example: true
-        type: boolean
-      phone:
-        description: phone flag
-        example: true
-        type: boolean
-      user_id:
-        description: user id
-        example: 5.9721376e+18
-        format: int64
-        type: integer
-    required:
-    - user_id
-    title: UpdateAuthenticationPayload
-    type: object
   UpdateItemPayload:
     example:
-      category_id: 8.9543375e+18
-      compensation: 6.786702e+18
-      description: Corporis sint.
-      image1: Eos consectetur ut non vel.
-      image2: Cum accusamus esse velit itaque qui quo.
-      image3: Molestiae voluptas voluptate.
-      image4: Veniam qui sit velit molestiae voluptatem.
-      itemID: 7.1104125e+18
-      name: Perferendis quia sed dolor sit vero architecto.
-      place_id: 9.087132e+17
-      price: 6.93407e+18
-      user_id: 5.920867e+17
+      category_id: 5.954865e+18
+      compensation: 7.718814e+18
+      description: Eaque quia temporibus in dolorem.
+      image1: Dolorem beatae expedita dolorem numquam.
+      image2: Et ab delectus.
+      image3: Voluptatum deserunt eum ex dolores et voluptatem.
+      image4: In animi numquam.
+      itemID: 3.964662e+18
+      name: Vitae nulla nemo aut sit corporis sint.
+      place_id: 1.5693501e+18
+      price: 9.11167e+18
+      user_id: 8.035949e+18
     properties:
       category_id:
         description: Category ID
-        example: 8.9543375e+18
+        example: 5.954865e+18
         format: int64
         type: integer
       compensation:
         description: compensation of item
-        example: 6.786702e+18
+        example: 7.718814e+18
         format: int64
         type: integer
       description:
         description: description of item
-        example: Corporis sint.
+        example: Eaque quia temporibus in dolorem.
         type: string
       image1:
         description: item image 1
-        example: Eos consectetur ut non vel.
+        example: Dolorem beatae expedita dolorem numquam.
         type: string
       image2:
         description: item image 2
-        example: Cum accusamus esse velit itaque qui quo.
+        example: Et ab delectus.
         type: string
       image3:
         description: item image 3
-        example: Molestiae voluptas voluptate.
+        example: Voluptatum deserunt eum ex dolores et voluptatem.
         type: string
       image4:
         description: item image 4
-        example: Veniam qui sit velit molestiae voluptatem.
+        example: In animi numquam.
         type: string
       itemID:
         description: item ID
-        example: 7.1104125e+18
+        example: 3.964662e+18
         format: int64
         type: integer
       name:
         description: Name of item
-        example: Perferendis quia sed dolor sit vero architecto.
+        example: Vitae nulla nemo aut sit corporis sint.
         type: string
       place_id:
         description: Place ID
-        example: 9.087132e+17
+        example: 1.5693501e+18
         format: int64
         type: integer
       price:
         description: price of item
-        example: 6.93407e+18
+        example: 9.11167e+18
         format: int64
         type: integer
       user_id:
         description: user ID
-        example: 5.920867e+17
+        example: 8.035949e+18
         format: int64
         type: integer
     required:
@@ -1192,47 +1004,36 @@ definitions:
     type: object
   UpdateProfilePayload:
     example:
-      address: Voluptates repellat aut perspiciatis nam quis.
-      avatar_image: Et eos illo quo ad.
-      cover_image: Ipsa temporibus totam quasi.
-      first_name: Perferendis placeat ut magni distinctio.
-      introduction: Deserunt aliquam quia aspernatur ipsum non.
-      last_name: Est suscipit rerum officia.
-      phone: 3.2509508e+18
-      profile_id: 8.297593e+18
+      avatar_image: Hic fugiat aut aperiam eius voluptatem.
+      cover_image: Non molestiae reiciendis doloribus mollitia iure mollitia.
+      first_name: Doloribus velit voluptatem adipisci aut.
+      introduction: Voluptatum dolore repudiandae.
+      last_name: Vero excepturi quisquam est porro voluptas.
+      profile_id: 7.9708667e+18
     properties:
-      address:
-        description: address
-        example: Voluptates repellat aut perspiciatis nam quis.
-        type: string
       avatar_image:
         description: avatar image url
-        example: Et eos illo quo ad.
+        example: Hic fugiat aut aperiam eius voluptatem.
         type: string
       cover_image:
         description: cover image url
-        example: Ipsa temporibus totam quasi.
+        example: Non molestiae reiciendis doloribus mollitia iure mollitia.
         type: string
       first_name:
         description: first name
-        example: Perferendis placeat ut magni distinctio.
+        example: Doloribus velit voluptatem adipisci aut.
         type: string
       introduction:
         description: user introduciton
-        example: Deserunt aliquam quia aspernatur ipsum non.
+        example: Voluptatum dolore repudiandae.
         type: string
       last_name:
         description: last_name
-        example: Est suscipit rerum officia.
+        example: Vero excepturi quisquam est porro voluptas.
         type: string
-      phone:
-        description: phone number
-        example: 3.2509508e+18
-        format: int64
-        type: integer
       profile_id:
         description: user id
-        example: 8.297593e+18
+        example: 7.9708667e+18
         format: int64
         type: integer
     required:
@@ -1242,7 +1043,7 @@ definitions:
   UpdateUserPayload:
     example:
       email: notify.forent@gmail.com
-      id: 1.9610598e+18
+      id: 5.5736037e+18
       password: password
     properties:
       email:
@@ -1252,7 +1053,7 @@ definitions:
         type: string
       id:
         description: Unique user ID
-        example: 1.9610598e+18
+        example: 5.5736037e+18
         format: int64
         type: integer
       password:
@@ -1263,21 +1064,51 @@ definitions:
     - id
     title: UpdateUserPayload
     type: object
+  UpdateVerificationPayload:
+    example:
+      email: false
+      facebook_id: 2.673028e+18
+      google_id: 5.627028e+18
+      identification: false
+      user_id: 2.1842365e+18
+    properties:
+      email:
+        description: address flag
+        example: false
+        type: boolean
+      facebook_id:
+        description: Unique facebook ID
+        example: 2.673028e+18
+        format: int64
+        type: integer
+      google_id:
+        description: Unique google ID
+        example: 5.627028e+18
+        format: int64
+        type: integer
+      identification:
+        description: identification flag
+        example: false
+        type: boolean
+      user_id:
+        description: user id
+        example: 2.1842365e+18
+        format: int64
+        type: integer
+    required:
+    - user_id
+    title: UpdateVerificationPayload
+    type: object
   User:
     description: user (default view)
     example:
-      authentication_id: 4.379826e+18
       email: notify.forent@gmail.com
-      id: 5.129667e+18
+      id: 5.171761e+18
       password: password
-      profile_id: 2.939197e+18
+      profile_id: 6.44637e+17
       salt: salt
+      verification_id: 6.706611e+18
     properties:
-      authentication_id:
-        description: authentication id
-        example: 4.379826e+18
-        format: int64
-        type: integer
       email:
         description: email
         example: notify.forent@gmail.com
@@ -1285,7 +1116,7 @@ definitions:
         type: string
       id:
         description: Unique user ID
-        example: 5.129667e+18
+        example: 5.171761e+18
         format: int64
         type: integer
       password:
@@ -1294,21 +1125,66 @@ definitions:
         type: string
       profile_id:
         description: profile id
-        example: 2.939197e+18
+        example: 6.44637e+17
         format: int64
         type: integer
       salt:
         description: Salt of the user
         example: salt
         type: string
+      verification_id:
+        description: verification id
+        example: 6.706611e+18
+        format: int64
+        type: integer
     required:
     - id
     - email
     - password
     - profile_id
-    - authentication_id
+    - verification_id
     - salt
     title: 'Mediatype identifier: application/vnd.user+json; view=default'
+    type: object
+  Verification:
+    description: Verification (default view)
+    example:
+      email: true
+      facebook_id: 8.1193497e+18
+      google_id: 8.110422e+18
+      id: 2.7445888e+18
+      identification: false
+    properties:
+      email:
+        description: address flag
+        example: true
+        type: boolean
+      facebook_id:
+        description: Unique facebook ID
+        example: 8.1193497e+18
+        format: int64
+        type: integer
+      google_id:
+        description: Unique google ID
+        example: 8.110422e+18
+        format: int64
+        type: integer
+      id:
+        description: Unique auth ID
+        example: 2.7445888e+18
+        format: int64
+        type: integer
+      identification:
+        description: identification flag
+        example: false
+        type: boolean
+    required:
+    - id
+    - facebook_id
+    - google_id
+    - identification
+    - email
+    title: 'Mediatype identifier: application/vnd.verification+json; view=default'
     type: object
   error:
     description: Error response media type (default view)
@@ -1375,113 +1251,6 @@ paths:
       summary: list article
       tags:
       - article
-  /authentications:
-    post:
-      description: Create new authentication
-      operationId: authentication#create
-      parameters:
-      - in: body
-        name: payload
-        required: true
-        schema:
-          $ref: '#/definitions/CreateAuthenticationPayload'
-      produces:
-      - application/vnd.goa.error
-      responses:
-        "201":
-          description: Resource created
-          headers:
-            Location:
-              description: href to created resource
-              pattern: /authentications/[0-9]+
-              type: string
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/error'
-      schemes:
-      - http
-      summary: create authentication
-      tags:
-      - authentication
-  /authentications/{authenticationID}:
-    delete:
-      operationId: authentication#delete
-      parameters:
-      - description: authentication ID
-        in: path
-        name: authenticationID
-        required: true
-        type: integer
-      produces:
-      - application/vnd.goa.error
-      responses:
-        "204":
-          description: No Content
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/error'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      summary: delete authentication
-      tags:
-      - authentication
-    get:
-      description: Get authentication by id
-      operationId: authentication#show
-      parameters:
-      - description: authentication ID
-        in: path
-        name: authenticationID
-        required: true
-        type: integer
-      produces:
-      - application/vnd.authentication+json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/Authentication'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      summary: show authentication
-      tags:
-      - authentication
-    put:
-      description: Change authentication data
-      operationId: authentication#update
-      parameters:
-      - description: authentication ID
-        in: path
-        name: authenticationID
-        required: true
-        type: integer
-      - in: body
-        name: payload
-        required: true
-        schema:
-          $ref: '#/definitions/UpdateAuthenticationPayload'
-      produces:
-      - application/vnd.goa.error
-      responses:
-        "204":
-          description: No Content
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/error'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      summary: update authentication
-      tags:
-      - authentication
   /categories:
     get:
       description: Retrieve all categories.
@@ -1869,58 +1638,6 @@ paths:
       summary: update profile
       tags:
       - profile
-  /signin:
-    post:
-      description: Creates a valid JWT
-      operationId: signin#signin
-      parameters:
-      - in: body
-        name: payload
-        required: true
-        schema:
-          $ref: '#/definitions/SigninPayload'
-      responses:
-        "204":
-          description: No Content
-          headers:
-            Authorization:
-              description: Generated JWT
-              type: string
-        "401":
-          description: Unauthorized
-      schemes:
-      - http
-      security:
-      - SigninBasicAuth: []
-      summary: signin signin
-      tags:
-      - signin
-  /signup:
-    post:
-      description: Creates a valid JWT
-      operationId: signup#signin
-      parameters:
-      - in: body
-        name: payload
-        required: true
-        schema:
-          $ref: '#/definitions/SignupPayload'
-      responses:
-        "204":
-          description: No Content
-          headers:
-            Authorization:
-              description: Generated JWT
-              type: string
-        "401":
-          description: Unauthorized
-      schemes:
-      - http
-      security:
-      - SigninBasicAuth: []
-      summary: signin signup
-      tags:
-      - signup
   /users:
     post:
       description: Create new user
@@ -2028,6 +1745,113 @@ paths:
       summary: update user
       tags:
       - user
+  /verifications:
+    post:
+      description: Create new verification
+      operationId: verification#create
+      parameters:
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/CreateVerificationPayload'
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "201":
+          description: Resource created
+          headers:
+            Location:
+              description: href to created resource
+              pattern: /verifications/[0-9]+
+              type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+      schemes:
+      - http
+      summary: create verification
+      tags:
+      - verification
+  /verifications/{verificationID}:
+    delete:
+      operationId: verification#delete
+      parameters:
+      - description: verification ID
+        in: path
+        name: verificationID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: delete verification
+      tags:
+      - verification
+    get:
+      description: Get verification by id
+      operationId: verification#show
+      parameters:
+      - description: verification ID
+        in: path
+        name: verificationID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.verification+json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Verification'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: show verification
+      tags:
+      - verification
+    put:
+      description: Change verification data
+      operationId: verification#update
+      parameters:
+      - description: verification ID
+        in: path
+        name: verificationID
+        required: true
+        type: integer
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateVerificationPayload'
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: update verification
+      tags:
+      - verification
 produces:
 - application/json
 - application/xml
@@ -2041,21 +1865,7 @@ responses:
   OK:
     description: OK
     schema:
-      $ref: '#/definitions/Authentication'
-  Unauthorized:
-    description: Unauthorized
+      $ref: '#/definitions/Comment'
 schemes:
 - http
-securityDefinitions:
-  SigninBasicAuth:
-    type: basic
-  jwt:
-    description: |2-
-
-
-      **Security Scopes**:
-        * `api:access`: API access
-    in: header
-    name: Authorization
-    type: apiKey
 swagger: "2.0"

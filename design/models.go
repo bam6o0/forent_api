@@ -19,7 +19,7 @@ var _ = StorageGroup("forent", func() {
 				Description("This is the user Model PK field")
 			})
 			HasOne("Profile")
-			HasOne("Authentication")
+			HasOne("Verification")
 			Field("email", gorma.String, func() {})
 			Field("password", gorma.String, func() {})
 			Field("salt", gorma.String, func() {})
@@ -39,8 +39,6 @@ var _ = StorageGroup("forent", func() {
 			Field("first_name", gorma.String, func() {})
 			Field("last_name", gorma.String, func() {})
 			Field("introduction", gorma.String, func() {})
-			Field("address", gorma.String, func() {})
-			Field("phone", gorma.Integer, func() {})
 			Field("avatar_image", gorma.String, func() {})
 			Field("cover_image", gorma.String, func() {})
 			Field("created_at", gorma.Timestamp, func() {})
@@ -48,17 +46,16 @@ var _ = StorageGroup("forent", func() {
 			Field("deleted_at", gorma.NullableTimestamp, func() {})
 		})
 
-		// Authentication Model
-		Model("Authentication", func() {
-			RendersTo(Authentication)
-			Description("Authentication Model")
+		// Verification Model
+		Model("Verification", func() {
+			RendersTo(Verification)
+			Description("Verification Model")
 			Field("id", gorma.Integer, func() {
 				PrimaryKey()
-				Description("This is the authentication Model PK field")
+				Description("This is the verification Model PK field")
 			})
 			Field("identification", gorma.Boolean, func() {})
 			Field("email", gorma.Boolean, func() {})
-			Field("phone", gorma.Boolean, func() {})
 			Field("facebook_id", gorma.Integer, func() {})
 			Field("google_id", gorma.Integer, func() {})
 			Field("created_at", gorma.Timestamp, func() {})

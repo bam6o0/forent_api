@@ -21,18 +21,14 @@ import (
 
 // CreateUserPayload is the user create action payload.
 type CreateUserPayload struct {
-	// authentication id
-	AuthenticationID int `form:"authentication_id" json:"authentication_id" xml:"authentication_id"`
 	// email
 	Email string `form:"email" json:"email" xml:"email"`
-	// first name
-	FirstName string `form:"first_name" json:"first_name" xml:"first_name"`
-	// last_name
-	LastName string `form:"last_name" json:"last_name" xml:"last_name"`
 	// password
 	Password string `form:"password" json:"password" xml:"password"`
 	// profile id
 	ProfileID int `form:"profile_id" json:"profile_id" xml:"profile_id"`
+	// verification id
+	VerificationID int `form:"verification_id" json:"verification_id" xml:"verification_id"`
 }
 
 // CreateUserPath computes a request path to the create action of user.
@@ -142,12 +138,8 @@ func (c *Client) NewShowUserRequest(ctx context.Context, path string) (*http.Req
 type UpdateUserPayload struct {
 	// email
 	Email *string `form:"email,omitempty" json:"email,omitempty" xml:"email,omitempty"`
-	// first name
-	FirstName *string `form:"first_name,omitempty" json:"first_name,omitempty" xml:"first_name,omitempty"`
 	// Unique user ID
 	ID int `form:"id" json:"id" xml:"id"`
-	// last_name
-	LastName *string `form:"last_name,omitempty" json:"last_name,omitempty" xml:"last_name,omitempty"`
 	// password
 	Password *string `form:"password,omitempty" json:"password,omitempty" xml:"password,omitempty"`
 }
