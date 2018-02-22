@@ -704,6 +704,21 @@ func (c *Client) DecodeReview(resp *http.Response) (*Review, error) {
 	return &decoded, err
 }
 
+// The common media type to all request responses for this example (default view)
+//
+// Identifier: application/vnd.security.success; view=default
+type Success struct {
+	// Always true
+	OK bool `form:"ok" json:"ok" xml:"ok"`
+}
+
+// DecodeSuccess decodes the Success instance encoded in resp body.
+func (c *Client) DecodeSuccess(resp *http.Response) (*Success, error) {
+	var decoded Success
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return &decoded, err
+}
+
 // user (default view)
 //
 // Identifier: application/vnd.user+json; view=default

@@ -570,6 +570,14 @@ func (mt *Review) Validate() (err error) {
 	return
 }
 
+// The common media type to all request responses for this example (default view)
+//
+// Identifier: application/vnd.security.success; view=default
+type Success struct {
+	// Always true
+	OK bool `form:"ok" json:"ok" xml:"ok"`
+}
+
 // user (default view)
 //
 // Identifier: application/vnd.user+json; view=default

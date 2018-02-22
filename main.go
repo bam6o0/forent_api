@@ -3,7 +3,9 @@
 package main
 
 import (
+	"fmt"
 	"forent_api/app"
+	"os"
 
 	"forent_api/models"
 
@@ -113,37 +115,50 @@ func main() {
 	// Mount "article" controller
 	c := NewArticleController(service)
 	app.MountArticleController(service, c)
+	// Mount "authentication" controller
+	c2, err := NewAuthenticationController(service)
+	exitOnFailure(err)
+	app.MountAuthenticationController(service, c2)
 	// Mount "category" controller
-	c2 := NewCategoryController(service)
-	app.MountCategoryController(service, c2)
+	c3 := NewCategoryController(service)
+	app.MountCategoryController(service, c3)
 	// Mount "comment" controller
-	c3 := NewCommentController(service)
-	app.MountCommentController(service, c3)
+	c4 := NewCommentController(service)
+	app.MountCommentController(service, c4)
 	// Mount "item" controller
-	c4 := NewItemController(service)
-	app.MountItemController(service, c4)
+	c5 := NewItemController(service)
+	app.MountItemController(service, c5)
 	// Mount "largecategory" controller
-	c5 := NewLargecategoryController(service)
-	app.MountLargecategoryController(service, c5)
+	c6 := NewLargecategoryController(service)
+	app.MountLargecategoryController(service, c6)
 	// Mount "middlecategory" controller
-	c6 := NewMiddlecategoryController(service)
-	app.MountMiddlecategoryController(service, c6)
+	c7 := NewMiddlecategoryController(service)
+	app.MountMiddlecategoryController(service, c7)
 	// Mount "offer" controller
-	c7 := NewOfferController(service)
-	app.MountOfferController(service, c7)
+	c8 := NewOfferController(service)
+	app.MountOfferController(service, c8)
 	// Mount "profile" controller
-	c8 := NewProfileController(service)
-	app.MountProfileController(service, c8)
+	c9 := NewProfileController(service)
+	app.MountProfileController(service, c9)
 	// Mount "user" controller
-	c9 := NewUserController(service)
-	app.MountUserController(service, c9)
+	c10 := NewUserController(service)
+	app.MountUserController(service, c10)
 	// Mount "verification" controller
-	c10 := NewVerificationController(service)
-	app.MountVerificationController(service, c10)
+	c11 := NewVerificationController(service)
+	app.MountVerificationController(service, c11)
 
 	// Start service
 	if err := service.ListenAndServe(":8080"); err != nil {
 		service.LogError("startup", "err", err)
 	}
 
+}
+
+// exitOnFailure prints a fatal error message and exits the process with status 1.
+func exitOnFailure(err error) {
+	if err == nil {
+		return
+	}
+	fmt.Fprintf(os.Stderr, "[CRIT] %s", err.Error())
+	os.Exit(1)
 }

@@ -91,6 +91,72 @@ func (ctx *ListArticleContext) OK(r ArticleCollection) error {
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
 }
 
+// SiginAuthenticationContext provides the authentication sigin action context.
+type SiginAuthenticationContext struct {
+	context.Context
+	*goa.ResponseData
+	*goa.RequestData
+	Payload *SignupPayload
+}
+
+// NewSiginAuthenticationContext parses the incoming request URL and body, performs validations and creates the
+// context used by the authentication controller sigin action.
+func NewSiginAuthenticationContext(ctx context.Context, r *http.Request, service *goa.Service) (*SiginAuthenticationContext, error) {
+	var err error
+	resp := goa.ContextResponse(ctx)
+	resp.Service = service
+	req := goa.ContextRequest(ctx)
+	req.Request = r
+	rctx := SiginAuthenticationContext{Context: ctx, ResponseData: resp, RequestData: req}
+	return &rctx, err
+}
+
+// OK sends a HTTP response with status code 200.
+func (ctx *SiginAuthenticationContext) OK(r *Success) error {
+	if ctx.ResponseData.Header().Get("Content-Type") == "" {
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.security.success")
+	}
+	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
+}
+
+// Unauthorized sends a HTTP response with status code 401.
+func (ctx *SiginAuthenticationContext) Unauthorized() error {
+	ctx.ResponseData.WriteHeader(401)
+	return nil
+}
+
+// SignupAuthenticationContext provides the authentication signup action context.
+type SignupAuthenticationContext struct {
+	context.Context
+	*goa.ResponseData
+	*goa.RequestData
+	Payload *SignupPayload
+}
+
+// NewSignupAuthenticationContext parses the incoming request URL and body, performs validations and creates the
+// context used by the authentication controller signup action.
+func NewSignupAuthenticationContext(ctx context.Context, r *http.Request, service *goa.Service) (*SignupAuthenticationContext, error) {
+	var err error
+	resp := goa.ContextResponse(ctx)
+	resp.Service = service
+	req := goa.ContextRequest(ctx)
+	req.Request = r
+	rctx := SignupAuthenticationContext{Context: ctx, ResponseData: resp, RequestData: req}
+	return &rctx, err
+}
+
+// NoContent sends a HTTP response with status code 204.
+func (ctx *SignupAuthenticationContext) NoContent() error {
+	ctx.ResponseData.WriteHeader(204)
+	return nil
+}
+
+// Unauthorized sends a HTTP response with status code 401.
+func (ctx *SignupAuthenticationContext) Unauthorized() error {
+	ctx.ResponseData.WriteHeader(401)
+	return nil
+}
+
 // ListCategoryContext provides the category list action context.
 type ListCategoryContext struct {
 	context.Context

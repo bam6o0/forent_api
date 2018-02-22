@@ -103,6 +103,123 @@ func unmarshalListArticlePayload(ctx context.Context, service *goa.Service, req 
 	return nil
 }
 
+// AuthenticationController is the controller interface for the Authentication actions.
+type AuthenticationController interface {
+	goa.Muxer
+	Sigin(*SiginAuthenticationContext) error
+	Signup(*SignupAuthenticationContext) error
+}
+
+// MountAuthenticationController "mounts" a Authentication resource controller on the given service.
+func MountAuthenticationController(service *goa.Service, ctrl AuthenticationController) {
+	initService(service)
+	var h goa.Handler
+	service.Mux.Handle("OPTIONS", "/signin", ctrl.MuxHandler("preflight", handleAuthenticationOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/signup", ctrl.MuxHandler("preflight", handleAuthenticationOrigin(cors.HandlePreflight()), nil))
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewSiginAuthenticationContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*SignupPayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
+		return ctrl.Sigin(rctx)
+	}
+	h = handleSecurity("jwt", h, "api:access")
+	h = handleAuthenticationOrigin(h)
+	service.Mux.Handle("GET", "/signin", ctrl.MuxHandler("sigin", h, unmarshalSiginAuthenticationPayload))
+	service.LogInfo("mount", "ctrl", "Authentication", "action", "Sigin", "route", "GET /signin", "security", "jwt")
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewSignupAuthenticationContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*SignupPayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
+		return ctrl.Signup(rctx)
+	}
+	h = handleSecurity("SigninBasicAuth", h)
+	h = handleAuthenticationOrigin(h)
+	service.Mux.Handle("POST", "/signup", ctrl.MuxHandler("signup", h, unmarshalSignupAuthenticationPayload))
+	service.LogInfo("mount", "ctrl", "Authentication", "action", "Signup", "route", "POST /signup", "security", "SigninBasicAuth")
+}
+
+// handleAuthenticationOrigin applies the CORS response headers corresponding to the origin.
+func handleAuthenticationOrigin(h goa.Handler) goa.Handler {
+
+	return func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		origin := req.Header.Get("Origin")
+		if origin == "" {
+			// Not a CORS request
+			return h(ctx, rw, req)
+		}
+		if cors.MatchOrigin(origin, "http://swagger.goa.design") {
+			ctx = goa.WithLogContext(ctx, "origin", origin)
+			rw.Header().Set("Access-Control-Allow-Origin", origin)
+			rw.Header().Set("Vary", "Origin")
+			rw.Header().Set("Access-Control-Max-Age", "600")
+			rw.Header().Set("Access-Control-Allow-Credentials", "true")
+			if acrm := req.Header.Get("Access-Control-Request-Method"); acrm != "" {
+				// We are handling a preflight request
+				rw.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE")
+			}
+			return h(ctx, rw, req)
+		}
+
+		return h(ctx, rw, req)
+	}
+}
+
+// unmarshalSiginAuthenticationPayload unmarshals the request body into the context request data Payload field.
+func unmarshalSiginAuthenticationPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &signupPayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
+		return err
+	}
+	if err := payload.Validate(); err != nil {
+		// Initialize payload with private data structure so it can be logged
+		goa.ContextRequest(ctx).Payload = payload
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
+}
+
+// unmarshalSignupAuthenticationPayload unmarshals the request body into the context request data Payload field.
+func unmarshalSignupAuthenticationPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &signupPayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
+		return err
+	}
+	if err := payload.Validate(); err != nil {
+		// Initialize payload with private data structure so it can be logged
+		goa.ContextRequest(ctx).Payload = payload
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
+}
+
 // CategoryController is the controller interface for the Category actions.
 type CategoryController interface {
 	goa.Muxer
