@@ -151,7 +151,7 @@ type UpdateProfilePayload struct {
 	// last_name
 	LastName *string `form:"last_name,omitempty" json:"last_name,omitempty" xml:"last_name,omitempty"`
 	// user id
-	ProfileID int `form:"profile_id" json:"profile_id" xml:"profile_id"`
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // UpdateProfilePath computes a request path to the update action of profile.

@@ -20,17 +20,13 @@ var User = MediaType("application/vnd.user+json", func() {
 		Attribute("salt", String, "Salt of the user", func() {
 			Example("salt")
 		})
-		Attribute("profile_id", Integer, "profile id")
-		Attribute("verification_id", Integer, "verification id")
 
-		Required("id", "email", "password", "profile_id", "verification_id", "salt")
+		Required("id", "email", "password", "salt")
 	})
 	View("default", func() { // View defines a rendering of the media type.
 		Attribute("id") // Media types may have multiple views and must have a "default" view.¥
 		Attribute("email")
 		Attribute("password")
-		Attribute("profile_id")
-		Attribute("verification_id")
 		Attribute("salt")
 	})
 })
@@ -40,16 +36,18 @@ var Profile = MediaType("application/vnd.profile+json", func() {
 	Description("profile")
 	Attributes(func() { // Attributes define the media type shape.
 		Attribute("id", Integer, "Unique profile ID")
+		Attribute("user_id", Integer, "user id")
 		Attribute("first_name", String, "first name")
 		Attribute("last_name", String, "last_name")
 		Attribute("introduction", String, "user introduciton")
 		Attribute("avatar_image", String, "avatar image url")
 		Attribute("cover_image", String, "cover image url")
 
-		Required("id", "first_name", "last_name", "introduction", "avatar_image", "cover_image")
+		Required("id", "user_id", "first_name", "last_name", "introduction", "avatar_image", "cover_image")
 	})
 	View("default", func() { // View defines a rendering of the media type.
 		Attribute("id") // Media types may have multiple views and must have a "default" view.
+		Attribute("user_id")
 		Attribute("first_name")
 		Attribute("last_name")
 		Attribute("introduction")
@@ -63,15 +61,17 @@ var Verification = MediaType("application/vnd.verification+json", func() {
 	Description("Verification")
 	Attributes(func() { // Attributes define the media type shape.
 		Attribute("id", Integer, "Unique auth ID")
+		Attribute("user_id", Integer, "user id")
 		Attribute("identification", Boolean, "identification flag")
 		Attribute("email", Boolean, "address flag")
 		Attribute("facebook_id", Integer, "Unique facebook ID")
 		Attribute("google_id", Integer, "Unique google ID")
 
-		Required("id", "facebook_id", "google_id", "identification", "email")
+		Required("id", "user_id", "facebook_id", "google_id", "identification", "email")
 	})
 	View("default", func() { // View defines a rendering of the media type.
 		Attribute("id") // Media types may have multiple views and must have a "default" view.
+		Attribute("user_id")
 		Attribute("identification")
 		Attribute("email")
 		Attribute("facebook_id")

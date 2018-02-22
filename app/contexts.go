@@ -1352,13 +1352,13 @@ type updateProfilePayload struct {
 	// last_name
 	LastName *string `form:"last_name,omitempty" json:"last_name,omitempty" xml:"last_name,omitempty"`
 	// user id
-	ProfileID *int `form:"profile_id,omitempty" json:"profile_id,omitempty" xml:"profile_id,omitempty"`
+	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 }
 
 // Validate runs the validation rules defined in the design.
 func (payload *updateProfilePayload) Validate() (err error) {
-	if payload.ProfileID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "profile_id"))
+	if payload.UserID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
 	}
 	return
 }
@@ -1381,8 +1381,8 @@ func (payload *updateProfilePayload) Publicize() *UpdateProfilePayload {
 	if payload.LastName != nil {
 		pub.LastName = payload.LastName
 	}
-	if payload.ProfileID != nil {
-		pub.ProfileID = *payload.ProfileID
+	if payload.UserID != nil {
+		pub.UserID = *payload.UserID
 	}
 	return &pub
 }
@@ -1400,7 +1400,7 @@ type UpdateProfilePayload struct {
 	// last_name
 	LastName *string `form:"last_name,omitempty" json:"last_name,omitempty" xml:"last_name,omitempty"`
 	// user id
-	ProfileID int `form:"profile_id" json:"profile_id" xml:"profile_id"`
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // NoContent sends a HTTP response with status code 204.
@@ -1449,10 +1449,6 @@ type createUserPayload struct {
 	Email *string `form:"email,omitempty" json:"email,omitempty" xml:"email,omitempty"`
 	// password
 	Password *string `form:"password,omitempty" json:"password,omitempty" xml:"password,omitempty"`
-	// profile id
-	ProfileID *int `form:"profile_id,omitempty" json:"profile_id,omitempty" xml:"profile_id,omitempty"`
-	// verification id
-	VerificationID *int `form:"verification_id,omitempty" json:"verification_id,omitempty" xml:"verification_id,omitempty"`
 }
 
 // Validate runs the validation rules defined in the design.
@@ -1462,12 +1458,6 @@ func (payload *createUserPayload) Validate() (err error) {
 	}
 	if payload.Password == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "password"))
-	}
-	if payload.ProfileID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "profile_id"))
-	}
-	if payload.VerificationID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "verification_id"))
 	}
 	if payload.Email != nil {
 		if err2 := goa.ValidateFormat(goa.FormatEmail, *payload.Email); err2 != nil {
@@ -1486,12 +1476,6 @@ func (payload *createUserPayload) Publicize() *CreateUserPayload {
 	if payload.Password != nil {
 		pub.Password = *payload.Password
 	}
-	if payload.ProfileID != nil {
-		pub.ProfileID = *payload.ProfileID
-	}
-	if payload.VerificationID != nil {
-		pub.VerificationID = *payload.VerificationID
-	}
 	return &pub
 }
 
@@ -1501,10 +1485,6 @@ type CreateUserPayload struct {
 	Email string `form:"email" json:"email" xml:"email"`
 	// password
 	Password string `form:"password" json:"password" xml:"password"`
-	// profile id
-	ProfileID int `form:"profile_id" json:"profile_id" xml:"profile_id"`
-	// verification id
-	VerificationID int `form:"verification_id" json:"verification_id" xml:"verification_id"`
 }
 
 // Validate runs the validation rules defined in the design.
@@ -1515,7 +1495,6 @@ func (payload *CreateUserPayload) Validate() (err error) {
 	if payload.Password == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "password"))
 	}
-
 	if err2 := goa.ValidateFormat(goa.FormatEmail, payload.Email); err2 != nil {
 		err = goa.MergeErrors(err, goa.InvalidFormatError(`raw.email`, payload.Email, goa.FormatEmail, err2))
 	}

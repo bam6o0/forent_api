@@ -496,6 +496,8 @@ type Profile struct {
 	Introduction string `form:"introduction" json:"introduction" xml:"introduction"`
 	// last_name
 	LastName string `form:"last_name" json:"last_name" xml:"last_name"`
+	// user id
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // Validate validates the Profile media type instance.
@@ -588,12 +590,8 @@ type User struct {
 	ID int `form:"id" json:"id" xml:"id"`
 	// password
 	Password string `form:"password" json:"password" xml:"password"`
-	// profile id
-	ProfileID int `form:"profile_id" json:"profile_id" xml:"profile_id"`
 	// Salt of the user
 	Salt string `form:"salt" json:"salt" xml:"salt"`
-	// verification id
-	VerificationID int `form:"verification_id" json:"verification_id" xml:"verification_id"`
 }
 
 // Validate validates the User media type instance.
@@ -605,7 +603,6 @@ func (mt *User) Validate() (err error) {
 	if mt.Password == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "password"))
 	}
-
 	if mt.Salt == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "salt"))
 	}
@@ -629,6 +626,8 @@ type Verification struct {
 	ID int `form:"id" json:"id" xml:"id"`
 	// identification flag
 	Identification bool `form:"identification" json:"identification" xml:"identification"`
+	// user id
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // Validate validates the Verification media type instance.

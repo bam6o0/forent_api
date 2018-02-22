@@ -49,6 +49,7 @@ func (m *Profile) ProfileToProfile() *app.Profile {
 	profile.ID = m.ID
 	profile.Introduction = m.Introduction
 	profile.LastName = m.LastName
+	profile.UserID = m.UserID
 
 	return profile
 }

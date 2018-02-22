@@ -6,6 +6,8 @@ import (
 	"forent_api/app"
 	"io/ioutil"
 
+	"github.com/bam6o0/auth_api/repositories"
+	"github.com/bam6o0/auth_api/utils/jwt"
 	jwtgo "github.com/dgrijalva/jwt-go"
 	"github.com/goadesign/goa"
 )
@@ -52,10 +54,27 @@ func (c *AuthenticationController) Sigin(ctx *app.SiginAuthenticationContext) er
 
 // Signup runs the signup action.
 func (c *AuthenticationController) Signup(ctx *app.SignupAuthenticationContext) error {
-	// AuthenticationController_Signup: start_implement
+	payload := ctx.Payload
+	exists, err := repositories.CheckEmailExists(c.DB, payload.Email)
+	if err != nil {
+		c.Service.LogError("Register User", "err", err)
+		return ctx.InternalServerError()
+	}
+	if exists {
 
-	// Put your logic here
+		return ctx.BadRequest(goa.ErrBadRequest("Email already exists"))
+	}
+	err = repositories.AddUserToDatabase(c.DB, payload.FirstName, payload.LastName, payload.Email, payload.Password)
+	if err != nil {
+		c.Service.LogError("Register User", "err", err)
+		return ctx.InternalServerError()
+	}
+	token, err := jwt.CreateJWTToken(payload.Email)
+	if err != nil {
+		c.Service.LogError("Register User", "err", err)
+		return ctx.InternalServerError()
+	}
+	res := &app.Token{Token: &token}
+	return ctx.OK(res)
 
-	return nil
-	// AuthenticationController_Signup: end_implement
 }

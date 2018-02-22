@@ -48,6 +48,7 @@ func (m *Verification) VerificationToVerification() *app.Verification {
 	verification.GoogleID = m.GoogleID
 	verification.ID = m.ID
 	verification.Identification = m.Identification
+	verification.UserID = m.UserID
 
 	return verification
 }

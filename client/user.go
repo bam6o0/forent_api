@@ -25,10 +25,6 @@ type CreateUserPayload struct {
 	Email string `form:"email" json:"email" xml:"email"`
 	// password
 	Password string `form:"password" json:"password" xml:"password"`
-	// profile id
-	ProfileID int `form:"profile_id" json:"profile_id" xml:"profile_id"`
-	// verification id
-	VerificationID int `form:"verification_id" json:"verification_id" xml:"verification_id"`
 }
 
 // CreateUserPath computes a request path to the create action of user.

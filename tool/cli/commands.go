@@ -235,9 +235,9 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 Payload example:
 
 {
-   "item_id": 7986034355572599953,
-   "reply_to": 4438760119269285016,
-   "text": "Alias aliquid alias doloremque quidem.",
+   "item_id": 895664955111553761,
+   "reply_to": 1815803498240657391,
+   "text": "Doloremque quidem.",
    "user_id": 261715845046534689
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp1.Run(c, args) },
@@ -323,9 +323,7 @@ Payload example:
 
 {
    "email": "notify.forent@gmail.com",
-   "password": "password",
-   "profile_id": 4685224335950537424,
-   "verification_id": 4889054626020532595
+   "password": "password"
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp5.Run(c, args) },
 	}
@@ -342,10 +340,10 @@ Payload example:
 
 {
    "email": false,
-   "facebook_id": 2255365600057400911,
-   "google_id": 8103770447231538962,
+   "facebook_id": 5573603765649919459,
+   "google_id": 1369516231011537029,
    "identification": false,
-   "user_id": 1179886397285917790
+   "user_id": 8103770447231538962
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp6.Run(c, args) },
 	}
@@ -414,10 +412,10 @@ Payload example:
 Payload example:
 
 {
-   "articleID": 8282300642426029982,
-   "categoryID": 3135659496125920402,
-   "itemID": 6665931482238019815,
-   "userID": 5781004681014948879
+   "articleID": 5781004681014948879,
+   "categoryID": 767646562571720034,
+   "itemID": 7986034355572599953,
+   "userID": 4438760119269285016
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp11.Run(c, args) },
 	}
@@ -433,7 +431,7 @@ Payload example:
 Payload example:
 
 {
-   "middlecategoryID": 767646562571720034
+   "middlecategoryID": 8801698629180464080
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp12.Run(c, args) },
 	}
@@ -633,7 +631,7 @@ Payload example:
    "first_name": "Doloribus velit voluptatem adipisci aut.",
    "introduction": "Voluptatum dolore repudiandae.",
    "last_name": "Vero excepturi quisquam est porro voluptas.",
-   "profile_id": 7970866834379500639
+   "user_id": 7970866834379500639
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp25.Run(c, args) },
 	}
@@ -650,7 +648,7 @@ Payload example:
 
 {
    "email": "notify.forent@gmail.com",
-   "id": 5573603765649919459,
+   "id": 4685224335950537424,
    "password": "password"
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp26.Run(c, args) },
@@ -668,10 +666,10 @@ Payload example:
 
 {
    "email": false,
-   "facebook_id": 2673027849036968903,
-   "google_id": 5627027830918200967,
+   "facebook_id": 1179886397285917790,
+   "google_id": 6301608654651944179,
    "identification": false,
-   "user_id": 2184236428407854640
+   "user_id": 5627027830918200967
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp27.Run(c, args) },
 	}

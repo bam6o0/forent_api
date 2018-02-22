@@ -28,10 +28,8 @@ var _ = Resource("user", func() { // Resources group related API endpoints
 		Payload(func() {
 			Param("email", String, "email")
 			Param("password", String, "password")
-			Param("profile_id", Integer, "profile id")
-			Param("verification_id", Integer, "verification id")
 
-			Required("email", "password", "profile_id", "verification_id")
+			Required("email", "password")
 		})
 		Response(Created, "/users/[0-9]+")
 		Response(BadRequest, ErrorMedia)
@@ -114,14 +112,14 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 			Param("profileID", Integer, "profile ID")
 		})
 		Payload(func() {
-			Param("profile_id", Integer, "user id")
+			Param("user_id", Integer, "user id")
 			Param("first_name", String, "first name")
 			Param("last_name", String, "last_name")
 			Param("introduction", String, "user introduciton")
 			Param("avatar_image", String, "avatar image url")
 			Param("cover_image", String, "cover image url")
 
-			Required("profile_id")
+			Required("user_id")
 		})
 		Response(NoContent)
 		Response(NotFound)
