@@ -15,12 +15,6 @@ import (
 	"strings"
 )
 
-// AuthenticationHref returns the resource href.
-func AuthenticationHref(authenticationID interface{}) string {
-	paramauthenticationID := strings.TrimLeftFunc(fmt.Sprintf("%v", authenticationID), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/authentications/%v", paramauthenticationID)
-}
-
 // CommentHref returns the resource href.
 func CommentHref(itemID interface{}) string {
 	paramitemID := strings.TrimLeftFunc(fmt.Sprintf("%v", itemID), func(r rune) bool { return r == '/' })
@@ -43,4 +37,10 @@ func ProfileHref(profileID interface{}) string {
 func UserHref(userID interface{}) string {
 	paramuserID := strings.TrimLeftFunc(fmt.Sprintf("%v", userID), func(r rune) bool { return r == '/' })
 	return fmt.Sprintf("/users/%v", paramuserID)
+}
+
+// VerificationHref returns the resource href.
+func VerificationHref(verificationID interface{}) string {
+	paramverificationID := strings.TrimLeftFunc(fmt.Sprintf("%v", verificationID), func(r rune) bool { return r == '/' })
+	return fmt.Sprintf("/verifications/%v", paramverificationID)
 }

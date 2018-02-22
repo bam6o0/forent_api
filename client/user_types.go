@@ -9,3 +9,180 @@
 // --version=v1.3.1
 
 package client
+
+import (
+	"github.com/goadesign/goa"
+	"unicode/utf8"
+)
+
+// signinPayload user type.
+type signinPayload struct {
+	Email    *string `form:"email,omitempty" json:"email,omitempty" xml:"email,omitempty"`
+	Password *string `form:"password,omitempty" json:"password,omitempty" xml:"password,omitempty"`
+}
+
+// Validate validates the signinPayload type instance.
+func (ut *signinPayload) Validate() (err error) {
+	if ut.Email == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "email"))
+	}
+	if ut.Password == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "password"))
+	}
+	if ut.Email != nil {
+		if err2 := goa.ValidateFormat(goa.FormatEmail, *ut.Email); err2 != nil {
+			err = goa.MergeErrors(err, goa.InvalidFormatError(`request.email`, *ut.Email, goa.FormatEmail, err2))
+		}
+	}
+	if ut.Email != nil {
+		if utf8.RuneCountInString(*ut.Email) < 6 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError(`request.email`, *ut.Email, utf8.RuneCountInString(*ut.Email), 6, true))
+		}
+	}
+	if ut.Email != nil {
+		if utf8.RuneCountInString(*ut.Email) > 400 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError(`request.email`, *ut.Email, utf8.RuneCountInString(*ut.Email), 400, false))
+		}
+	}
+	if ut.Password != nil {
+		if utf8.RuneCountInString(*ut.Password) < 8 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError(`request.password`, *ut.Password, utf8.RuneCountInString(*ut.Password), 8, true))
+		}
+	}
+	if ut.Password != nil {
+		if utf8.RuneCountInString(*ut.Password) > 100 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError(`request.password`, *ut.Password, utf8.RuneCountInString(*ut.Password), 100, false))
+		}
+	}
+	return
+}
+
+// Publicize creates SigninPayload from signinPayload
+func (ut *signinPayload) Publicize() *SigninPayload {
+	var pub SigninPayload
+	if ut.Email != nil {
+		pub.Email = *ut.Email
+	}
+	if ut.Password != nil {
+		pub.Password = *ut.Password
+	}
+	return &pub
+}
+
+// SigninPayload user type.
+type SigninPayload struct {
+	Email    string `form:"email" json:"email" xml:"email"`
+	Password string `form:"password" json:"password" xml:"password"`
+}
+
+// Validate validates the SigninPayload type instance.
+func (ut *SigninPayload) Validate() (err error) {
+	if ut.Email == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "email"))
+	}
+	if ut.Password == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "password"))
+	}
+	if err2 := goa.ValidateFormat(goa.FormatEmail, ut.Email); err2 != nil {
+		err = goa.MergeErrors(err, goa.InvalidFormatError(`type.email`, ut.Email, goa.FormatEmail, err2))
+	}
+	if utf8.RuneCountInString(ut.Email) < 6 {
+		err = goa.MergeErrors(err, goa.InvalidLengthError(`type.email`, ut.Email, utf8.RuneCountInString(ut.Email), 6, true))
+	}
+	if utf8.RuneCountInString(ut.Email) > 400 {
+		err = goa.MergeErrors(err, goa.InvalidLengthError(`type.email`, ut.Email, utf8.RuneCountInString(ut.Email), 400, false))
+	}
+	if utf8.RuneCountInString(ut.Password) < 8 {
+		err = goa.MergeErrors(err, goa.InvalidLengthError(`type.password`, ut.Password, utf8.RuneCountInString(ut.Password), 8, true))
+	}
+	if utf8.RuneCountInString(ut.Password) > 100 {
+		err = goa.MergeErrors(err, goa.InvalidLengthError(`type.password`, ut.Password, utf8.RuneCountInString(ut.Password), 100, false))
+	}
+	return
+}
+
+// signupPayload user type.
+type signupPayload struct {
+	Email    *string `form:"email,omitempty" json:"email,omitempty" xml:"email,omitempty"`
+	Password *string `form:"password,omitempty" json:"password,omitempty" xml:"password,omitempty"`
+}
+
+// Validate validates the signupPayload type instance.
+func (ut *signupPayload) Validate() (err error) {
+	if ut.Email == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "email"))
+	}
+	if ut.Password == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`request`, "password"))
+	}
+	if ut.Email != nil {
+		if err2 := goa.ValidateFormat(goa.FormatEmail, *ut.Email); err2 != nil {
+			err = goa.MergeErrors(err, goa.InvalidFormatError(`request.email`, *ut.Email, goa.FormatEmail, err2))
+		}
+	}
+	if ut.Email != nil {
+		if utf8.RuneCountInString(*ut.Email) < 6 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError(`request.email`, *ut.Email, utf8.RuneCountInString(*ut.Email), 6, true))
+		}
+	}
+	if ut.Email != nil {
+		if utf8.RuneCountInString(*ut.Email) > 150 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError(`request.email`, *ut.Email, utf8.RuneCountInString(*ut.Email), 150, false))
+		}
+	}
+	if ut.Password != nil {
+		if utf8.RuneCountInString(*ut.Password) < 8 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError(`request.password`, *ut.Password, utf8.RuneCountInString(*ut.Password), 8, true))
+		}
+	}
+	if ut.Password != nil {
+		if utf8.RuneCountInString(*ut.Password) > 100 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError(`request.password`, *ut.Password, utf8.RuneCountInString(*ut.Password), 100, false))
+		}
+	}
+	return
+}
+
+// Publicize creates SignupPayload from signupPayload
+func (ut *signupPayload) Publicize() *SignupPayload {
+	var pub SignupPayload
+	if ut.Email != nil {
+		pub.Email = *ut.Email
+	}
+	if ut.Password != nil {
+		pub.Password = *ut.Password
+	}
+	return &pub
+}
+
+// SignupPayload user type.
+type SignupPayload struct {
+	Email    string `form:"email" json:"email" xml:"email"`
+	Password string `form:"password" json:"password" xml:"password"`
+}
+
+// Validate validates the SignupPayload type instance.
+func (ut *SignupPayload) Validate() (err error) {
+	if ut.Email == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "email"))
+	}
+	if ut.Password == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`type`, "password"))
+	}
+	if err2 := goa.ValidateFormat(goa.FormatEmail, ut.Email); err2 != nil {
+		err = goa.MergeErrors(err, goa.InvalidFormatError(`type.email`, ut.Email, goa.FormatEmail, err2))
+	}
+	if utf8.RuneCountInString(ut.Email) < 6 {
+		err = goa.MergeErrors(err, goa.InvalidLengthError(`type.email`, ut.Email, utf8.RuneCountInString(ut.Email), 6, true))
+	}
+	if utf8.RuneCountInString(ut.Email) > 150 {
+		err = goa.MergeErrors(err, goa.InvalidLengthError(`type.email`, ut.Email, utf8.RuneCountInString(ut.Email), 150, false))
+	}
+	if utf8.RuneCountInString(ut.Password) < 8 {
+		err = goa.MergeErrors(err, goa.InvalidLengthError(`type.password`, ut.Password, utf8.RuneCountInString(ut.Password), 8, true))
+	}
+	if utf8.RuneCountInString(ut.Password) > 100 {
+		err = goa.MergeErrors(err, goa.InvalidLengthError(`type.password`, ut.Password, utf8.RuneCountInString(ut.Password), 100, false))
+	}
+	return
+}

@@ -34,34 +34,18 @@ type (
 		PrettyPrint bool
 	}
 
-	// CreateAuthenticationCommand is the command line data structure for the create action of authentication
-	CreateAuthenticationCommand struct {
+	// SiginAuthenticationCommand is the command line data structure for the sigin action of authentication
+	SiginAuthenticationCommand struct {
 		Payload     string
 		ContentType string
 		PrettyPrint bool
 	}
 
-	// DeleteAuthenticationCommand is the command line data structure for the delete action of authentication
-	DeleteAuthenticationCommand struct {
-		// authentication ID
-		AuthenticationID int
-		PrettyPrint      bool
-	}
-
-	// ShowAuthenticationCommand is the command line data structure for the show action of authentication
-	ShowAuthenticationCommand struct {
-		// authentication ID
-		AuthenticationID int
-		PrettyPrint      bool
-	}
-
-	// UpdateAuthenticationCommand is the command line data structure for the update action of authentication
-	UpdateAuthenticationCommand struct {
+	// SignupAuthenticationCommand is the command line data structure for the signup action of authentication
+	SignupAuthenticationCommand struct {
 		Payload     string
 		ContentType string
-		// authentication ID
-		AuthenticationID int
-		PrettyPrint      bool
+		PrettyPrint bool
 	}
 
 	// ListCategoryCommand is the command line data structure for the list action of category
@@ -203,6 +187,36 @@ type (
 		UserID      int
 		PrettyPrint bool
 	}
+
+	// CreateVerificationCommand is the command line data structure for the create action of verification
+	CreateVerificationCommand struct {
+		Payload     string
+		ContentType string
+		PrettyPrint bool
+	}
+
+	// DeleteVerificationCommand is the command line data structure for the delete action of verification
+	DeleteVerificationCommand struct {
+		// verification ID
+		VerificationID int
+		PrettyPrint    bool
+	}
+
+	// ShowVerificationCommand is the command line data structure for the show action of verification
+	ShowVerificationCommand struct {
+		// verification ID
+		VerificationID int
+		PrettyPrint    bool
+	}
+
+	// UpdateVerificationCommand is the command line data structure for the update action of verification
+	UpdateVerificationCommand struct {
+		Payload     string
+		ContentType string
+		// verification ID
+		VerificationID int
+		PrettyPrint    bool
+	}
 )
 
 // RegisterCommands registers the resource action CLI commands.
@@ -212,26 +226,7 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 		Use:   "create",
 		Short: `create action`,
 	}
-	tmp1 := new(CreateAuthenticationCommand)
-	sub = &cobra.Command{
-		Use:   `authentication ["/authentications"]`,
-		Short: ``,
-		Long: `
-
-Payload example:
-
-{
-   "email": true,
-   "identification": true,
-   "phone": false,
-   "user_id": 5936237511368153743
-}`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp1.Run(c, args) },
-	}
-	tmp1.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp1.PrettyPrint, "pp", false, "Pretty print response body")
-	command.AddCommand(sub)
-	tmp2 := new(CreateCommentCommand)
+	tmp1 := new(CreateCommentCommand)
 	sub = &cobra.Command{
 		Use:   `comment ["/comments"]`,
 		Short: ``,
@@ -240,17 +235,17 @@ Payload example:
 Payload example:
 
 {
-   "item_id": 9038058342943439550,
-   "reply_to": 4054051155250373517,
-   "text": "Laborum odio accusamus officiis veritatis.",
-   "user_id": 8026846116927176526
+   "item_id": 895664955111553761,
+   "reply_to": 1815803498240657391,
+   "text": "Doloremque quidem.",
+   "user_id": 261715845046534689
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp2.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp1.Run(c, args) },
 	}
-	tmp2.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp2.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp1.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp1.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp3 := new(CreateItemCommand)
+	tmp2 := new(CreateItemCommand)
 	sub = &cobra.Command{
 		Use:   `item ["/items"]`,
 		Short: ``,
@@ -259,24 +254,24 @@ Payload example:
 Payload example:
 
 {
-   "category_id": 6302415908907190566,
-   "compensation": 1903535642580170281,
-   "description": "Dolorem iusto recusandae blanditiis eum est commodi.",
-   "image1": "Odio et molestiae placeat ratione.",
-   "image2": "Sed facilis.",
-   "image3": "Totam nemo aut eaque quia temporibus in.",
-   "image4": "Sit dolorem beatae expedita dolorem numquam.",
-   "name": "Et ab delectus.",
-   "place_id": 6716817941287639,
-   "price": 8953063093780093311,
-   "user_id": 4037468380709977678
+   "category_id": 4379826072921807295,
+   "compensation": 5129666823940704506,
+   "description": "Omnis quis rerum.",
+   "image1": "Voluptatem quae eaque dignissimos incidunt nesciunt autem.",
+   "image2": "Reiciendis laborum odio accusamus officiis veritatis velit.",
+   "image3": "Esse repellat dolorem iusto.",
+   "image4": "Blanditiis eum est.",
+   "name": "Minima odio.",
+   "place_id": 7866711967314337747,
+   "price": 5036410707692548870,
+   "user_id": 6072013120997752906
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp3.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp2.Run(c, args) },
 	}
-	tmp3.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp3.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp2.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp2.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp4 := new(CreateOfferCommand)
+	tmp3 := new(CreateOfferCommand)
 	sub = &cobra.Command{
 		Use:   `offer ["/offers"]`,
 		Short: ``,
@@ -285,19 +280,19 @@ Payload example:
 Payload example:
 
 {
-   "end_at": "1994-09-07T13:38:09Z",
-   "item_id": 6944886643485896233,
-   "owner_id": 4080085050586078891,
-   "price": 8688446219376125666,
-   "start_at": "2015-06-24T04:59:10Z",
-   "user_id": 6934069861913228142
+   "end_at": "1982-02-03T19:36:59Z",
+   "item_id": 8878054588523133853,
+   "owner_id": 2338786315439433886,
+   "price": 2780084507742108327,
+   "start_at": "1997-09-03T22:13:33Z",
+   "user_id": 5702527431513928252
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp4.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp3.Run(c, args) },
 	}
-	tmp4.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp4.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp3.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp3.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp5 := new(CreateProfileCommand)
+	tmp4 := new(CreateProfileCommand)
 	sub = &cobra.Command{
 		Use:   `profile ["/profiles"]`,
 		Short: ``,
@@ -306,19 +301,19 @@ Payload example:
 Payload example:
 
 {
-   "address": "Doloribus exercitationem hic fugiat aut aperiam eius.",
-   "avatar_image": "Hic non molestiae reiciendis doloribus mollitia iure.",
-   "cover_image": "Id doloribus velit.",
-   "introduction": "Adipisci aut sit.",
-   "phone": 3865624184652850719,
-   "user_id": 2943175765955801370
+   "avatar_image": "Itaque qui.",
+   "cover_image": "Voluptatem molestiae voluptas voluptate voluptatum veniam.",
+   "first_name": "Sit velit molestiae voluptatem culpa.",
+   "introduction": "Perferendis quia sed dolor sit vero architecto.",
+   "last_name": "Sapiente numquam.",
+   "user_id": 8889916014689583131
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp5.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp4.Run(c, args) },
 	}
-	tmp5.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp5.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp4.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp4.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp6 := new(CreateUserCommand)
+	tmp5 := new(CreateUserCommand)
 	sub = &cobra.Command{
 		Use:   `user ["/users"]`,
 		Short: ``,
@@ -327,12 +322,28 @@ Payload example:
 Payload example:
 
 {
-   "authentication_id": 701782849044107343,
-   "email": "Ad dolor ipsa temporibus totam quasi.",
-   "first_name": "Perferendis placeat ut magni distinctio.",
-   "last_name": "Deserunt aliquam quia aspernatur ipsum non.",
-   "password": "Est suscipit rerum officia.",
-   "profile_id": 3250950888659514045
+   "email": "notify.forent@gmail.com",
+   "password": "password"
+}`,
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp5.Run(c, args) },
+	}
+	tmp5.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp5.PrettyPrint, "pp", false, "Pretty print response body")
+	command.AddCommand(sub)
+	tmp6 := new(CreateVerificationCommand)
+	sub = &cobra.Command{
+		Use:   `verification ["/verifications"]`,
+		Short: ``,
+		Long: `
+
+Payload example:
+
+{
+   "email": false,
+   "facebook_id": 5573603765649919459,
+   "google_id": 1369516231011537029,
+   "identification": false,
+   "user_id": 8103770447231538962
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp6.Run(c, args) },
 	}
@@ -344,16 +355,7 @@ Payload example:
 		Use:   "delete",
 		Short: `delete action`,
 	}
-	tmp7 := new(DeleteAuthenticationCommand)
-	sub = &cobra.Command{
-		Use:   `authentication ["/authentications/AUTHENTICATIONID"]`,
-		Short: ``,
-		RunE:  func(cmd *cobra.Command, args []string) error { return tmp7.Run(c, args) },
-	}
-	tmp7.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp7.PrettyPrint, "pp", false, "Pretty print response body")
-	command.AddCommand(sub)
-	tmp8 := new(DeleteItemCommand)
+	tmp7 := new(DeleteItemCommand)
 	sub = &cobra.Command{
 		Use:   `item ["/items"]`,
 		Short: ``,
@@ -362,25 +364,34 @@ Payload example:
 Payload example:
 
 {
-   "itemID": 9116360518154288230
+   "itemID": 2153596627006572264
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp8.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp7.Run(c, args) },
+	}
+	tmp7.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp7.PrettyPrint, "pp", false, "Pretty print response body")
+	command.AddCommand(sub)
+	tmp8 := new(DeleteProfileCommand)
+	sub = &cobra.Command{
+		Use:   `profile ["/profiles/PROFILEID"]`,
+		Short: ``,
+		RunE:  func(cmd *cobra.Command, args []string) error { return tmp8.Run(c, args) },
 	}
 	tmp8.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp8.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp9 := new(DeleteProfileCommand)
+	tmp9 := new(DeleteUserCommand)
 	sub = &cobra.Command{
-		Use:   `profile ["/profiles/PROFILEID"]`,
+		Use:   `user ["/users/USERID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp9.Run(c, args) },
 	}
 	tmp9.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp9.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp10 := new(DeleteUserCommand)
+	tmp10 := new(DeleteVerificationCommand)
 	sub = &cobra.Command{
-		Use:   `user ["/users/USERID"]`,
+		Use:   `verification ["/verifications/VERIFICATIONID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp10.Run(c, args) },
 	}
@@ -401,10 +412,10 @@ Payload example:
 Payload example:
 
 {
-   "articleID": 4379826072921807295,
-   "categoryID": 5129666823940704506,
-   "itemID": 2939196853648588769,
-   "userID": 4726699271155621827
+   "articleID": 5781004681014948879,
+   "categoryID": 767646562571720034,
+   "itemID": 7986034355572599953,
+   "userID": 4438760119269285016
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp11.Run(c, args) },
 	}
@@ -420,7 +431,7 @@ Payload example:
 Payload example:
 
 {
-   "middlecategoryID": 5509556167028255370
+   "middlecategoryID": 8801698629180464080
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp12.Run(c, args) },
 	}
@@ -445,10 +456,10 @@ Payload example:
 Payload example:
 
 {
-   "categoryID": 4646796168293220566,
-   "itemID": 6006839302217682018,
-   "placeID": 7343430551110035196,
-   "userID": 2048025116077347313
+   "categoryID": 2329404850150435923,
+   "itemID": 2569216888562846087,
+   "placeID": 4062211158260381034,
+   "userID": 7806357027633878778
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp14.Run(c, args) },
 	}
@@ -473,7 +484,7 @@ Payload example:
 Payload example:
 
 {
-   "largecategoryID": 1427150219523800627
+   "largecategoryID": 8578793899205592767
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp16.Run(c, args) },
 	}
@@ -485,45 +496,45 @@ Payload example:
 		Use:   "show",
 		Short: `show action`,
 	}
-	tmp17 := new(ShowAuthenticationCommand)
+	tmp17 := new(ShowCommentCommand)
 	sub = &cobra.Command{
-		Use:   `authentication ["/authentications/AUTHENTICATIONID"]`,
+		Use:   `comment ["/comments/ITEMID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp17.Run(c, args) },
 	}
 	tmp17.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp17.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp18 := new(ShowCommentCommand)
+	tmp18 := new(ShowOfferCommand)
 	sub = &cobra.Command{
-		Use:   `comment ["/comments/ITEMID"]`,
+		Use:   `offer ["/offers/OWNERID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp18.Run(c, args) },
 	}
 	tmp18.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp18.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp19 := new(ShowOfferCommand)
+	tmp19 := new(ShowProfileCommand)
 	sub = &cobra.Command{
-		Use:   `offer ["/offers/OWNERID"]`,
+		Use:   `profile ["/profiles/PROFILEID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp19.Run(c, args) },
 	}
 	tmp19.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp19.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp20 := new(ShowProfileCommand)
+	tmp20 := new(ShowUserCommand)
 	sub = &cobra.Command{
-		Use:   `profile ["/profiles/PROFILEID"]`,
+		Use:   `user ["/users/USERID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp20.Run(c, args) },
 	}
 	tmp20.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp20.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp21 := new(ShowUserCommand)
+	tmp21 := new(ShowVerificationCommand)
 	sub = &cobra.Command{
-		Use:   `user ["/users/USERID"]`,
+		Use:   `verification ["/verifications/VERIFICATIONID"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp21.Run(c, args) },
 	}
@@ -532,29 +543,54 @@ Payload example:
 	command.AddCommand(sub)
 	app.AddCommand(command)
 	command = &cobra.Command{
-		Use:   "update",
-		Short: `update action`,
+		Use:   "sigin",
+		Short: `signup`,
 	}
-	tmp22 := new(UpdateAuthenticationCommand)
+	tmp22 := new(SiginAuthenticationCommand)
 	sub = &cobra.Command{
-		Use:   `authentication ["/authentications/AUTHENTICATIONID"]`,
-		Short: ``,
-		Long: `
+		Use:   `authentication ["/signin"]`,
+		Short: `This resource uses auth to secure its endpoints`,
+		Long: `This resource uses auth to secure its endpoints
 
 Payload example:
 
 {
-   "email": false,
-   "identification": true,
-   "phone": false,
-   "user_id": 1633418833020944473
+   "email": "jamesbond@gmail.com",
+   "password": "abcd1234"
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp22.Run(c, args) },
 	}
 	tmp22.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp22.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp23 := new(UpdateItemCommand)
+	app.AddCommand(command)
+	command = &cobra.Command{
+		Use:   "signup",
+		Short: `signup and Creates a valid JWT`,
+	}
+	tmp23 := new(SignupAuthenticationCommand)
+	sub = &cobra.Command{
+		Use:   `authentication ["/signup"]`,
+		Short: `This resource uses auth to secure its endpoints`,
+		Long: `This resource uses auth to secure its endpoints
+
+Payload example:
+
+{
+   "email": "jamesbond@gmail.com",
+   "password": "abcd1234"
+}`,
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp23.Run(c, args) },
+	}
+	tmp23.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp23.PrettyPrint, "pp", false, "Pretty print response body")
+	command.AddCommand(sub)
+	app.AddCommand(command)
+	command = &cobra.Command{
+		Use:   "update",
+		Short: `update action`,
+	}
+	tmp24 := new(UpdateItemCommand)
 	sub = &cobra.Command{
 		Use:   `item ["/items"]`,
 		Short: ``,
@@ -563,25 +599,25 @@ Payload example:
 Payload example:
 
 {
-   "category_id": 6151235883001044288,
-   "compensation": 1575289417914732575,
-   "description": "Numquam delectus dolor vitae nulla nemo aut.",
-   "image1": "Corporis sint.",
-   "image2": "Eos consectetur ut non vel.",
-   "image3": "Cum accusamus esse velit itaque qui quo.",
-   "image4": "Molestiae voluptas voluptate.",
-   "itemID": 7752508468608208206,
-   "name": "Qui sit velit molestiae voluptatem culpa.",
-   "place_id": 5954730991984481353,
-   "price": 5290950378195383033,
-   "user_id": 8954418773650461285
+   "category_id": 5954864543170794586,
+   "compensation": 7718814294335069074,
+   "description": "Eaque quia temporibus in dolorem.",
+   "image1": "Dolorem beatae expedita dolorem numquam.",
+   "image2": "Et ab delectus.",
+   "image3": "Voluptatum deserunt eum ex dolores et voluptatem.",
+   "image4": "In animi numquam.",
+   "itemID": 3964661906394431359,
+   "name": "Vitae nulla nemo aut sit corporis sint.",
+   "place_id": 1569350193560014928,
+   "price": 9111669958634578653,
+   "user_id": 8035949011948408078
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp23.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp24.Run(c, args) },
 	}
-	tmp23.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp23.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp24.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp24.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp24 := new(UpdateProfileCommand)
+	tmp25 := new(UpdateProfileCommand)
 	sub = &cobra.Command{
 		Use:   `profile ["/profiles/PROFILEID"]`,
 		Short: ``,
@@ -590,19 +626,19 @@ Payload example:
 Payload example:
 
 {
-   "address": "Odio vero excepturi quisquam est porro voluptas.",
-   "avatar_image": "Odit ut est porro provident.",
-   "cover_image": "Expedita voluptates repellat aut perspiciatis.",
-   "introduction": "Quis atque.",
-   "phone": 3723526127981727419,
-   "user_id": 535706396728239600
+   "avatar_image": "Hic fugiat aut aperiam eius voluptatem.",
+   "cover_image": "Non molestiae reiciendis doloribus mollitia iure mollitia.",
+   "first_name": "Doloribus velit voluptatem adipisci aut.",
+   "introduction": "Voluptatum dolore repudiandae.",
+   "last_name": "Vero excepturi quisquam est porro voluptas.",
+   "user_id": 7970866834379500639
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp24.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp25.Run(c, args) },
 	}
-	tmp24.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp24.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp25.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp25.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	tmp25 := new(UpdateUserCommand)
+	tmp26 := new(UpdateUserCommand)
 	sub = &cobra.Command{
 		Use:   `user ["/users/USERID"]`,
 		Short: ``,
@@ -611,16 +647,34 @@ Payload example:
 Payload example:
 
 {
-   "email": "Dolorem laborum ratione aliquid.",
-   "first_name": "Sapiente dicta ut doloremque perspiciatis eaque voluptas.",
-   "id": 7777606998977430557,
-   "last_name": "Qui dignissimos excepturi est facilis eligendi.",
-   "password": "Eligendi molestias sit quas."
+   "email": "notify.forent@gmail.com",
+   "id": 4685224335950537424,
+   "password": "password"
 }`,
-		RunE: func(cmd *cobra.Command, args []string) error { return tmp25.Run(c, args) },
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp26.Run(c, args) },
 	}
-	tmp25.RegisterFlags(sub, c)
-	sub.PersistentFlags().BoolVar(&tmp25.PrettyPrint, "pp", false, "Pretty print response body")
+	tmp26.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp26.PrettyPrint, "pp", false, "Pretty print response body")
+	command.AddCommand(sub)
+	tmp27 := new(UpdateVerificationCommand)
+	sub = &cobra.Command{
+		Use:   `verification ["/verifications/VERIFICATIONID"]`,
+		Short: ``,
+		Long: `
+
+Payload example:
+
+{
+   "email": false,
+   "facebook_id": 1179886397285917790,
+   "google_id": 6301608654651944179,
+   "identification": false,
+   "user_id": 5627027830918200967
+}`,
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp27.Run(c, args) },
+	}
+	tmp27.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp27.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
 	app.AddCommand(command)
 }
@@ -811,15 +865,15 @@ func (cmd *ListArticleCommand) RegisterFlags(cc *cobra.Command, c *client.Client
 	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
 }
 
-// Run makes the HTTP request corresponding to the CreateAuthenticationCommand command.
-func (cmd *CreateAuthenticationCommand) Run(c *client.Client, args []string) error {
+// Run makes the HTTP request corresponding to the SiginAuthenticationCommand command.
+func (cmd *SiginAuthenticationCommand) Run(c *client.Client, args []string) error {
 	var path string
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/authentications"
+		path = "/signin"
 	}
-	var payload client.CreateAuthenticationPayload
+	var payload client.SignupPayload
 	if cmd.Payload != "" {
 		err := json.Unmarshal([]byte(cmd.Payload), &payload)
 		if err != nil {
@@ -828,7 +882,7 @@ func (cmd *CreateAuthenticationCommand) Run(c *client.Client, args []string) err
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
-	resp, err := c.CreateAuthentication(ctx, path, &payload, cmd.ContentType)
+	resp, err := c.SiginAuthentication(ctx, path, &payload, cmd.ContentType)
 	if err != nil {
 		goa.LogError(ctx, "failed", "err", err)
 		return err
@@ -839,72 +893,20 @@ func (cmd *CreateAuthenticationCommand) Run(c *client.Client, args []string) err
 }
 
 // RegisterFlags registers the command flags with the command line.
-func (cmd *CreateAuthenticationCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+func (cmd *SiginAuthenticationCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
 	cc.Flags().StringVar(&cmd.Payload, "payload", "", "Request body encoded in JSON")
 	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
 }
 
-// Run makes the HTTP request corresponding to the DeleteAuthenticationCommand command.
-func (cmd *DeleteAuthenticationCommand) Run(c *client.Client, args []string) error {
+// Run makes the HTTP request corresponding to the SignupAuthenticationCommand command.
+func (cmd *SignupAuthenticationCommand) Run(c *client.Client, args []string) error {
 	var path string
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/authentications/%v", cmd.AuthenticationID)
+		path = "/signup"
 	}
-	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
-	ctx := goa.WithLogger(context.Background(), logger)
-	resp, err := c.DeleteAuthentication(ctx, path)
-	if err != nil {
-		goa.LogError(ctx, "failed", "err", err)
-		return err
-	}
-
-	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
-	return nil
-}
-
-// RegisterFlags registers the command flags with the command line.
-func (cmd *DeleteAuthenticationCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
-	var authenticationID int
-	cc.Flags().IntVar(&cmd.AuthenticationID, "authenticationID", authenticationID, `authentication ID`)
-}
-
-// Run makes the HTTP request corresponding to the ShowAuthenticationCommand command.
-func (cmd *ShowAuthenticationCommand) Run(c *client.Client, args []string) error {
-	var path string
-	if len(args) > 0 {
-		path = args[0]
-	} else {
-		path = fmt.Sprintf("/authentications/%v", cmd.AuthenticationID)
-	}
-	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
-	ctx := goa.WithLogger(context.Background(), logger)
-	resp, err := c.ShowAuthentication(ctx, path)
-	if err != nil {
-		goa.LogError(ctx, "failed", "err", err)
-		return err
-	}
-
-	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
-	return nil
-}
-
-// RegisterFlags registers the command flags with the command line.
-func (cmd *ShowAuthenticationCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
-	var authenticationID int
-	cc.Flags().IntVar(&cmd.AuthenticationID, "authenticationID", authenticationID, `authentication ID`)
-}
-
-// Run makes the HTTP request corresponding to the UpdateAuthenticationCommand command.
-func (cmd *UpdateAuthenticationCommand) Run(c *client.Client, args []string) error {
-	var path string
-	if len(args) > 0 {
-		path = args[0]
-	} else {
-		path = fmt.Sprintf("/authentications/%v", cmd.AuthenticationID)
-	}
-	var payload client.UpdateAuthenticationPayload
+	var payload client.SignupPayload
 	if cmd.Payload != "" {
 		err := json.Unmarshal([]byte(cmd.Payload), &payload)
 		if err != nil {
@@ -913,7 +915,7 @@ func (cmd *UpdateAuthenticationCommand) Run(c *client.Client, args []string) err
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
-	resp, err := c.UpdateAuthentication(ctx, path, &payload, cmd.ContentType)
+	resp, err := c.SignupAuthentication(ctx, path, &payload, cmd.ContentType)
 	if err != nil {
 		goa.LogError(ctx, "failed", "err", err)
 		return err
@@ -924,11 +926,9 @@ func (cmd *UpdateAuthenticationCommand) Run(c *client.Client, args []string) err
 }
 
 // RegisterFlags registers the command flags with the command line.
-func (cmd *UpdateAuthenticationCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+func (cmd *SignupAuthenticationCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
 	cc.Flags().StringVar(&cmd.Payload, "payload", "", "Request body encoded in JSON")
 	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
-	var authenticationID int
-	cc.Flags().IntVar(&cmd.AuthenticationID, "authenticationID", authenticationID, `authentication ID`)
 }
 
 // Run makes the HTTP request corresponding to the ListCategoryCommand command.
@@ -1533,4 +1533,124 @@ func (cmd *UpdateUserCommand) RegisterFlags(cc *cobra.Command, c *client.Client)
 	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
 	var userID int
 	cc.Flags().IntVar(&cmd.UserID, "userID", userID, `user ID`)
+}
+
+// Run makes the HTTP request corresponding to the CreateVerificationCommand command.
+func (cmd *CreateVerificationCommand) Run(c *client.Client, args []string) error {
+	var path string
+	if len(args) > 0 {
+		path = args[0]
+	} else {
+		path = "/verifications"
+	}
+	var payload client.CreateVerificationPayload
+	if cmd.Payload != "" {
+		err := json.Unmarshal([]byte(cmd.Payload), &payload)
+		if err != nil {
+			return fmt.Errorf("failed to deserialize payload: %s", err)
+		}
+	}
+	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
+	ctx := goa.WithLogger(context.Background(), logger)
+	resp, err := c.CreateVerification(ctx, path, &payload, cmd.ContentType)
+	if err != nil {
+		goa.LogError(ctx, "failed", "err", err)
+		return err
+	}
+
+	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
+	return nil
+}
+
+// RegisterFlags registers the command flags with the command line.
+func (cmd *CreateVerificationCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+	cc.Flags().StringVar(&cmd.Payload, "payload", "", "Request body encoded in JSON")
+	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
+}
+
+// Run makes the HTTP request corresponding to the DeleteVerificationCommand command.
+func (cmd *DeleteVerificationCommand) Run(c *client.Client, args []string) error {
+	var path string
+	if len(args) > 0 {
+		path = args[0]
+	} else {
+		path = fmt.Sprintf("/verifications/%v", cmd.VerificationID)
+	}
+	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
+	ctx := goa.WithLogger(context.Background(), logger)
+	resp, err := c.DeleteVerification(ctx, path)
+	if err != nil {
+		goa.LogError(ctx, "failed", "err", err)
+		return err
+	}
+
+	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
+	return nil
+}
+
+// RegisterFlags registers the command flags with the command line.
+func (cmd *DeleteVerificationCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+	var verificationID int
+	cc.Flags().IntVar(&cmd.VerificationID, "verificationID", verificationID, `verification ID`)
+}
+
+// Run makes the HTTP request corresponding to the ShowVerificationCommand command.
+func (cmd *ShowVerificationCommand) Run(c *client.Client, args []string) error {
+	var path string
+	if len(args) > 0 {
+		path = args[0]
+	} else {
+		path = fmt.Sprintf("/verifications/%v", cmd.VerificationID)
+	}
+	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
+	ctx := goa.WithLogger(context.Background(), logger)
+	resp, err := c.ShowVerification(ctx, path)
+	if err != nil {
+		goa.LogError(ctx, "failed", "err", err)
+		return err
+	}
+
+	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
+	return nil
+}
+
+// RegisterFlags registers the command flags with the command line.
+func (cmd *ShowVerificationCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+	var verificationID int
+	cc.Flags().IntVar(&cmd.VerificationID, "verificationID", verificationID, `verification ID`)
+}
+
+// Run makes the HTTP request corresponding to the UpdateVerificationCommand command.
+func (cmd *UpdateVerificationCommand) Run(c *client.Client, args []string) error {
+	var path string
+	if len(args) > 0 {
+		path = args[0]
+	} else {
+		path = fmt.Sprintf("/verifications/%v", cmd.VerificationID)
+	}
+	var payload client.UpdateVerificationPayload
+	if cmd.Payload != "" {
+		err := json.Unmarshal([]byte(cmd.Payload), &payload)
+		if err != nil {
+			return fmt.Errorf("failed to deserialize payload: %s", err)
+		}
+	}
+	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
+	ctx := goa.WithLogger(context.Background(), logger)
+	resp, err := c.UpdateVerification(ctx, path, &payload, cmd.ContentType)
+	if err != nil {
+		goa.LogError(ctx, "failed", "err", err)
+		return err
+	}
+
+	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
+	return nil
+}
+
+// RegisterFlags registers the command flags with the command line.
+func (cmd *UpdateVerificationCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+	cc.Flags().StringVar(&cmd.Payload, "payload", "", "Request body encoded in JSON")
+	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
+	var verificationID int
+	cc.Flags().IntVar(&cmd.VerificationID, "verificationID", verificationID, `verification ID`)
 }

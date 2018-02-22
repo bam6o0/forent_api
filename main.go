@@ -3,7 +3,9 @@
 package main
 
 import (
+	"fmt"
 	"forent_api/app"
+	"os"
 
 	"forent_api/models"
 
@@ -23,8 +25,8 @@ var UserDB *models.UserDB
 // ProfileDB is Profile model
 var ProfileDB *models.ProfileDB
 
-// AuthenticationDB is Authentication model
-var AuthenticationDB *models.AuthenticationDB
+// VerificationDB is Verification model
+var VerificationDB *models.VerificationDB
 
 // ItemDB is Item model
 var ItemDB *models.ItemDB
@@ -71,7 +73,7 @@ func main() {
 	//db.DropTable(&models.Item{})
 	db.AutoMigrate(&models.User{})
 	db.AutoMigrate(&models.Profile{})
-	db.AutoMigrate(&models.Authentication{})
+	db.AutoMigrate(&models.Verification{})
 	db.AutoMigrate(&models.Item{})
 	db.AutoMigrate(&models.Article{})
 	db.AutoMigrate(&models.Comment{})
@@ -86,7 +88,7 @@ func main() {
 
 	UserDB = models.NewUserDB(db)
 	ProfileDB = models.NewProfileDB(db)
-	AuthenticationDB = models.NewAuthenticationDB(db)
+	VerificationDB = models.NewVerificationDB(db)
 	ItemDB = models.NewItemDB(db)
 	ArticleDB = models.NewArticleDB(db)
 	CommentDB = models.NewCommentDB(db)
@@ -114,7 +116,8 @@ func main() {
 	c := NewArticleController(service)
 	app.MountArticleController(service, c)
 	// Mount "authentication" controller
-	c2 := NewAuthenticationController(service)
+	c2, err := NewAuthenticationController(service)
+	exitOnFailure(err)
 	app.MountAuthenticationController(service, c2)
 	// Mount "category" controller
 	c3 := NewCategoryController(service)
@@ -140,10 +143,22 @@ func main() {
 	// Mount "user" controller
 	c10 := NewUserController(service)
 	app.MountUserController(service, c10)
+	// Mount "verification" controller
+	c11 := NewVerificationController(service)
+	app.MountVerificationController(service, c11)
 
 	// Start service
 	if err := service.ListenAndServe(":8080"); err != nil {
 		service.LogError("startup", "err", err)
 	}
 
+}
+
+// exitOnFailure prints a fatal error message and exits the process with status 1.
+func exitOnFailure(err error) {
+	if err == nil {
+		return
+	}
+	fmt.Fprintf(os.Stderr, "[CRIT] %s", err.Error())
+	os.Exit(1)
 }

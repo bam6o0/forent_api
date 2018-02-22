@@ -152,33 +152,6 @@ func (c *Client) DecodeArticleCollection(resp *http.Response) (ArticleCollection
 	return decoded, err
 }
 
-// Authentication (default view)
-//
-// Identifier: application/vnd.authentication+json; view=default
-type Authentication struct {
-	// address flag
-	Email bool `form:"email" json:"email" xml:"email"`
-	// Unique auth ID
-	ID int `form:"id" json:"id" xml:"id"`
-	// identification flag
-	Identification bool `form:"identification" json:"identification" xml:"identification"`
-	// phone flag
-	Phone bool `form:"phone" json:"phone" xml:"phone"`
-}
-
-// Validate validates the Authentication media type instance.
-func (mt *Authentication) Validate() (err error) {
-
-	return
-}
-
-// DecodeAuthentication decodes the Authentication instance encoded in resp body.
-func (c *Client) DecodeAuthentication(resp *http.Response) (*Authentication, error) {
-	var decoded Authentication
-	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
-	return &decoded, err
-}
-
 // Category (default view)
 //
 // Identifier: application/vnd.category+json; view=default
@@ -624,30 +597,34 @@ func (c *Client) DecodePlace(resp *http.Response) (*Place, error) {
 //
 // Identifier: application/vnd.profile+json; view=default
 type Profile struct {
-	// address
-	Address string `form:"address" json:"address" xml:"address"`
 	// avatar image url
 	AvatarImage string `form:"avatar_image" json:"avatar_image" xml:"avatar_image"`
 	// cover image url
 	CoverImage string `form:"cover_image" json:"cover_image" xml:"cover_image"`
+	// first name
+	FirstName string `form:"first_name" json:"first_name" xml:"first_name"`
 	// Unique profile ID
 	ID int `form:"id" json:"id" xml:"id"`
 	// user introduciton
 	Introduction string `form:"introduction" json:"introduction" xml:"introduction"`
-	// phone number
-	Phone int `form:"phone" json:"phone" xml:"phone"`
+	// last_name
+	LastName string `form:"last_name" json:"last_name" xml:"last_name"`
+	// user id
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // Validate validates the Profile media type instance.
 func (mt *Profile) Validate() (err error) {
 
+	if mt.FirstName == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "first_name"))
+	}
+	if mt.LastName == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "last_name"))
+	}
 	if mt.Introduction == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "introduction"))
 	}
-	if mt.Address == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "address"))
-	}
-
 	if mt.AvatarImage == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "avatar_image"))
 	}
@@ -729,36 +706,49 @@ func (c *Client) DecodeReview(resp *http.Response) (*Review, error) {
 	return &decoded, err
 }
 
+// The common media type to all request responses for this example (default view)
+//
+// Identifier: application/vnd.security.success; view=default
+type Success struct {
+	// Always true
+	OK bool `form:"ok" json:"ok" xml:"ok"`
+}
+
+// DecodeSuccess decodes the Success instance encoded in resp body.
+func (c *Client) DecodeSuccess(resp *http.Response) (*Success, error) {
+	var decoded Success
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return &decoded, err
+}
+
 // user (default view)
 //
 // Identifier: application/vnd.user+json; view=default
 type User struct {
 	// email
 	Email string `form:"email" json:"email" xml:"email"`
-	// first name
-	FirstName string `form:"first_name" json:"first_name" xml:"first_name"`
 	// Unique user ID
 	ID int `form:"id" json:"id" xml:"id"`
-	// last_name
-	LastName string `form:"last_name" json:"last_name" xml:"last_name"`
 	// password
 	Password string `form:"password" json:"password" xml:"password"`
+	// Salt of the user
+	Salt string `form:"salt" json:"salt" xml:"salt"`
 }
 
 // Validate validates the User media type instance.
 func (mt *User) Validate() (err error) {
 
-	if mt.FirstName == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "first_name"))
-	}
-	if mt.LastName == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "last_name"))
-	}
 	if mt.Email == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "email"))
 	}
 	if mt.Password == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "password"))
+	}
+	if mt.Salt == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "salt"))
+	}
+	if err2 := goa.ValidateFormat(goa.FormatEmail, mt.Email); err2 != nil {
+		err = goa.MergeErrors(err, goa.InvalidFormatError(`response.email`, mt.Email, goa.FormatEmail, err2))
 	}
 	return
 }
@@ -766,6 +756,37 @@ func (mt *User) Validate() (err error) {
 // DecodeUser decodes the User instance encoded in resp body.
 func (c *Client) DecodeUser(resp *http.Response) (*User, error) {
 	var decoded User
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return &decoded, err
+}
+
+// Verification (default view)
+//
+// Identifier: application/vnd.verification+json; view=default
+type Verification struct {
+	// address flag
+	Email bool `form:"email" json:"email" xml:"email"`
+	// Unique facebook ID
+	FacebookID int `form:"facebook_id" json:"facebook_id" xml:"facebook_id"`
+	// Unique google ID
+	GoogleID int `form:"google_id" json:"google_id" xml:"google_id"`
+	// Unique auth ID
+	ID int `form:"id" json:"id" xml:"id"`
+	// identification flag
+	Identification bool `form:"identification" json:"identification" xml:"identification"`
+	// user id
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
+}
+
+// Validate validates the Verification media type instance.
+func (mt *Verification) Validate() (err error) {
+
+	return
+}
+
+// DecodeVerification decodes the Verification instance encoded in resp body.
+func (c *Client) DecodeVerification(resp *http.Response) (*Verification, error) {
+	var decoded Verification
 	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
 	return &decoded, err
 }

@@ -26,14 +26,10 @@ var _ = Resource("user", func() { // Resources group related API endpoints
 		)
 		Description("Create new user")
 		Payload(func() {
-			Param("first_name", String, "first name")
-			Param("last_name", String, "last_name")
 			Param("email", String, "email")
 			Param("password", String, "password")
-			Param("profile_id", Integer, "profile id")
-			Param("authentication_id", Integer, "authentication id")
 
-			Required("first_name", "last_name", "email", "password", "profile_id", "authentication_id")
+			Required("email", "password")
 		})
 		Response(Created, "/users/[0-9]+")
 		Response(BadRequest, ErrorMedia)
@@ -49,8 +45,6 @@ var _ = Resource("user", func() { // Resources group related API endpoints
 		})
 		Payload(func() {
 			Param("id", Integer, "Unique user ID")
-			Param("first_name", String, "first name")
-			Param("last_name", String, "last_name")
 			Param("email", String, "email")
 			Param("password", String, "password")
 
@@ -96,14 +90,14 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 		)
 		Description("Create new profile")
 		Payload(func() {
+			Param("first_name", String, "first name")
+			Param("last_name", String, "last_name")
 			Param("user_id", Integer, "user id")
 			Param("introduction", String, "user introduciton")
-			Param("address", String, "address")
-			Param("phone", Integer, "phone number")
 			Param("avatar_image", String, "avatar image url")
 			Param("cover_image", String, "cover image url")
 
-			Required("user_id", "introduction", "address", "phone", "avatar_image", "cover_image")
+			Required("first_name", "last_name", "user_id", "introduction", "avatar_image", "cover_image")
 		})
 		Response(Created, "/profiles/[0-9]+")
 		Response(BadRequest, ErrorMedia)
@@ -119,9 +113,9 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 		})
 		Payload(func() {
 			Param("user_id", Integer, "user id")
+			Param("first_name", String, "first name")
+			Param("last_name", String, "last_name")
 			Param("introduction", String, "user introduciton")
-			Param("address", String, "address")
-			Param("phone", Integer, "phone number")
 			Param("avatar_image", String, "avatar image url")
 			Param("cover_image", String, "cover image url")
 
@@ -146,16 +140,16 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 
 })
 
-//Authentication
-var _ = Resource("authentication", func() { // Resources group related API endpoints
-	BasePath("/authentications") // together. They map to REST resources for REST
-	DefaultMedia(Authentication) // services.
+//Verification
+var _ = Resource("verification", func() { // Resources group related API endpoints
+	BasePath("/verifications") // together. They map to REST resources for REST
+	DefaultMedia(Verification) // services.
 
 	Action("show", func() { // Actions define a single API endpoint together
-		Description("Get authentication by id") // with its path, parameters (both path
-		Routing(GET("/:authenticationID"))      // parameters and querystring values) and payload
-		Params(func() {                         // (shape of the request body).
-			Param("authenticationID", Integer, "authentication ID")
+		Description("Get verification by id") // with its path, parameters (both path
+		Routing(GET("/:verificationID"))      // parameters and querystring values) and payload
+		Params(func() {                       // (shape of the request body).
+			Param("verificationID", Integer, "verification ID")
 		})
 		Response(OK)       // Responses define the shape and status code
 		Response(NotFound) // of HTTP responses.
@@ -165,32 +159,34 @@ var _ = Resource("authentication", func() { // Resources group related API endpo
 		Routing(
 			POST(""),
 		)
-		Description("Create new authentication")
+		Description("Create new verification")
 		Payload(func() {
 			Param("user_id", Integer, "user id")
 			Param("identification", Boolean, "identification flag")
 			Param("email", Boolean, "address flag")
-			Param("phone", Boolean, "phone flag")
+			Param("facebook_id", Integer, "Unique facebook ID")
+			Param("google_id", Integer, "Unique google ID")
 
-			Required("user_id", "identification", "email", "phone")
+			Required("user_id", "identification", "email", "facebook_id", "google_id")
 		})
-		Response(Created, "/authentications/[0-9]+")
+		Response(Created, "/verifications/[0-9]+")
 		Response(BadRequest, ErrorMedia)
 	})
 
 	Action("update", func() {
 		Routing(
-			PUT("/:authenticationID"),
+			PUT("/:verificationID"),
 		)
-		Description("Change authentication data")
+		Description("Change verification data")
 		Params(func() {
-			Param("authenticationID", Integer, "authentication ID")
+			Param("verificationID", Integer, "verification ID")
 		})
 		Payload(func() {
 			Param("user_id", Integer, "user id")
 			Param("identification", Boolean, "identification flag")
 			Param("email", Boolean, "address flag")
-			Param("phone", Boolean, "phone flag")
+			Param("facebook_id", Integer, "Unique facebook ID")
+			Param("google_id", Integer, "Unique google ID")
 
 			Required("user_id")
 		})
@@ -201,10 +197,10 @@ var _ = Resource("authentication", func() { // Resources group related API endpo
 
 	Action("delete", func() {
 		Routing(
-			DELETE("/:authenticationID"),
+			DELETE("/:verificationID"),
 		)
 		Params(func() {
-			Param("authenticationID", Integer, "authentication ID")
+			Param("verificationID", Integer, "verification ID")
 		})
 		Response(NoContent)
 		Response(NotFound)
