@@ -839,9 +839,10 @@ func MountProfileController(service *goa.Service, ctrl ProfileController) {
 		}
 		return ctrl.Create(rctx)
 	}
+	h = handleSecurity("jwt", h, "api:access")
 	h = handleProfileOrigin(h)
 	service.Mux.Handle("POST", "/profiles", ctrl.MuxHandler("create", h, unmarshalCreateProfilePayload))
-	service.LogInfo("mount", "ctrl", "Profile", "action", "Create", "route", "POST /profiles")
+	service.LogInfo("mount", "ctrl", "Profile", "action", "Create", "route", "POST /profiles", "security", "jwt")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -855,9 +856,10 @@ func MountProfileController(service *goa.Service, ctrl ProfileController) {
 		}
 		return ctrl.Delete(rctx)
 	}
+	h = handleSecurity("jwt", h, "api:access")
 	h = handleProfileOrigin(h)
 	service.Mux.Handle("DELETE", "/profiles/:profileID", ctrl.MuxHandler("delete", h, nil))
-	service.LogInfo("mount", "ctrl", "Profile", "action", "Delete", "route", "DELETE /profiles/:profileID")
+	service.LogInfo("mount", "ctrl", "Profile", "action", "Delete", "route", "DELETE /profiles/:profileID", "security", "jwt")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -871,9 +873,10 @@ func MountProfileController(service *goa.Service, ctrl ProfileController) {
 		}
 		return ctrl.Show(rctx)
 	}
+	h = handleSecurity("jwt", h, "api:access")
 	h = handleProfileOrigin(h)
 	service.Mux.Handle("GET", "/profiles/:profileID", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Profile", "action", "Show", "route", "GET /profiles/:profileID")
+	service.LogInfo("mount", "ctrl", "Profile", "action", "Show", "route", "GET /profiles/:profileID", "security", "jwt")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -893,9 +896,10 @@ func MountProfileController(service *goa.Service, ctrl ProfileController) {
 		}
 		return ctrl.Update(rctx)
 	}
+	h = handleSecurity("jwt", h, "api:access")
 	h = handleProfileOrigin(h)
 	service.Mux.Handle("PUT", "/profiles/:profileID", ctrl.MuxHandler("update", h, unmarshalUpdateProfilePayload))
-	service.LogInfo("mount", "ctrl", "Profile", "action", "Update", "route", "PUT /profiles/:profileID")
+	service.LogInfo("mount", "ctrl", "Profile", "action", "Update", "route", "PUT /profiles/:profileID", "security", "jwt")
 }
 
 // handleProfileOrigin applies the CORS response headers corresponding to the origin.

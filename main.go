@@ -112,6 +112,11 @@ func main() {
 	service.Use(middleware.ErrorHandler(service, true))
 	service.Use(middleware.Recover())
 
+	// Mount security middlewares
+	jwtMiddleware, err := NewJWTMiddleware()
+	exitOnFailure(err)
+	app.UseJWTMiddleware(service, jwtMiddleware)
+
 	// Mount "article" controller
 	c := NewArticleController(service)
 	app.MountArticleController(service, c)
@@ -138,7 +143,8 @@ func main() {
 	c8 := NewOfferController(service)
 	app.MountOfferController(service, c8)
 	// Mount "profile" controller
-	c9 := NewProfileController(service)
+	c9, err := NewProfileController(service)
+	exitOnFailure(err)
 	app.MountProfileController(service, c9)
 	// Mount "user" controller
 	c10 := NewUserController(service)

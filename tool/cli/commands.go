@@ -301,12 +301,9 @@ Payload example:
 Payload example:
 
 {
-   "avatar_image": "Itaque qui.",
-   "cover_image": "Voluptatem molestiae voluptas voluptate voluptatum veniam.",
-   "first_name": "Sit velit molestiae voluptatem culpa.",
-   "introduction": "Perferendis quia sed dolor sit vero architecto.",
-   "last_name": "Sapiente numquam.",
-   "user_id": 8889916014689583131
+   "first_name": "Itaque qui.",
+   "last_name": "Voluptatem molestiae voluptas voluptate voluptatum veniam.",
+   "user_id": 7519376908200432516
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp4.Run(c, args) },
 	}
@@ -340,10 +337,10 @@ Payload example:
 
 {
    "email": false,
-   "facebook_id": 5573603765649919459,
-   "google_id": 1369516231011537029,
-   "identification": false,
-   "user_id": 8103770447231538962
+   "facebook_id": 6245238454964010202,
+   "google_id": 2805166801160697492,
+   "identification": true,
+   "user_id": 5363108437172969725
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp6.Run(c, args) },
 	}
@@ -626,12 +623,12 @@ Payload example:
 Payload example:
 
 {
-   "avatar_image": "Hic fugiat aut aperiam eius voluptatem.",
-   "cover_image": "Non molestiae reiciendis doloribus mollitia iure mollitia.",
-   "first_name": "Doloribus velit voluptatem adipisci aut.",
-   "introduction": "Voluptatum dolore repudiandae.",
-   "last_name": "Vero excepturi quisquam est porro voluptas.",
-   "user_id": 7970866834379500639
+   "avatar_image": "Velit molestiae voluptatem culpa officia.",
+   "cover_image": "Quia sed.",
+   "first_name": "Sit vero architecto non sapiente numquam doloribus.",
+   "introduction": "Hic fugiat aut aperiam eius voluptatem.",
+   "last_name": "Non molestiae reiciendis doloribus mollitia iure mollitia.",
+   "user_id": 3511529541955379454
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp25.Run(c, args) },
 	}
@@ -648,7 +645,7 @@ Payload example:
 
 {
    "email": "notify.forent@gmail.com",
-   "id": 4685224335950537424,
+   "id": 7178697308035953370,
    "password": "password"
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp26.Run(c, args) },
@@ -666,10 +663,10 @@ Payload example:
 
 {
    "email": false,
-   "facebook_id": 1179886397285917790,
-   "google_id": 6301608654651944179,
-   "identification": false,
-   "user_id": 5627027830918200967
+   "facebook_id": 2943175765955801370,
+   "google_id": 223021287530535858,
+   "identification": true,
+   "user_id": 4972812229240058676
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp27.Run(c, args) },
 	}

@@ -111,10 +111,12 @@ func NewSiginAuthenticationContext(ctx context.Context, r *http.Request, service
 	return &rctx, err
 }
 
-// NoContent sends a HTTP response with status code 204.
-func (ctx *SiginAuthenticationContext) NoContent() error {
-	ctx.ResponseData.WriteHeader(204)
-	return nil
+// OK sends a HTTP response with status code 200.
+func (ctx *SiginAuthenticationContext) OK(r *Success) error {
+	if ctx.ResponseData.Header().Get("Content-Type") == "" {
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.security.success")
+	}
+	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
 }
 
 // BadRequest sends a HTTP response with status code 400.
@@ -157,10 +159,12 @@ func NewSignupAuthenticationContext(ctx context.Context, r *http.Request, servic
 	return &rctx, err
 }
 
-// NoContent sends a HTTP response with status code 204.
-func (ctx *SignupAuthenticationContext) NoContent() error {
-	ctx.ResponseData.WriteHeader(204)
-	return nil
+// OK sends a HTTP response with status code 200.
+func (ctx *SignupAuthenticationContext) OK(r *Success) error {
+	if ctx.ResponseData.Header().Get("Content-Type") == "" {
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.security.success")
+	}
+	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
 }
 
 // BadRequest sends a HTTP response with status code 400.
@@ -1131,14 +1135,8 @@ func NewCreateProfileContext(ctx context.Context, r *http.Request, service *goa.
 
 // createProfilePayload is the profile create action payload.
 type createProfilePayload struct {
-	// avatar image url
-	AvatarImage *string `form:"avatar_image,omitempty" json:"avatar_image,omitempty" xml:"avatar_image,omitempty"`
-	// cover image url
-	CoverImage *string `form:"cover_image,omitempty" json:"cover_image,omitempty" xml:"cover_image,omitempty"`
 	// first name
 	FirstName *string `form:"first_name,omitempty" json:"first_name,omitempty" xml:"first_name,omitempty"`
-	// user introduciton
-	Introduction *string `form:"introduction,omitempty" json:"introduction,omitempty" xml:"introduction,omitempty"`
 	// last_name
 	LastName *string `form:"last_name,omitempty" json:"last_name,omitempty" xml:"last_name,omitempty"`
 	// user id
@@ -1156,32 +1154,14 @@ func (payload *createProfilePayload) Validate() (err error) {
 	if payload.UserID == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
 	}
-	if payload.Introduction == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "introduction"))
-	}
-	if payload.AvatarImage == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "avatar_image"))
-	}
-	if payload.CoverImage == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "cover_image"))
-	}
 	return
 }
 
 // Publicize creates CreateProfilePayload from createProfilePayload
 func (payload *createProfilePayload) Publicize() *CreateProfilePayload {
 	var pub CreateProfilePayload
-	if payload.AvatarImage != nil {
-		pub.AvatarImage = *payload.AvatarImage
-	}
-	if payload.CoverImage != nil {
-		pub.CoverImage = *payload.CoverImage
-	}
 	if payload.FirstName != nil {
 		pub.FirstName = *payload.FirstName
-	}
-	if payload.Introduction != nil {
-		pub.Introduction = *payload.Introduction
 	}
 	if payload.LastName != nil {
 		pub.LastName = *payload.LastName
@@ -1194,14 +1174,8 @@ func (payload *createProfilePayload) Publicize() *CreateProfilePayload {
 
 // CreateProfilePayload is the profile create action payload.
 type CreateProfilePayload struct {
-	// avatar image url
-	AvatarImage string `form:"avatar_image" json:"avatar_image" xml:"avatar_image"`
-	// cover image url
-	CoverImage string `form:"cover_image" json:"cover_image" xml:"cover_image"`
 	// first name
 	FirstName string `form:"first_name" json:"first_name" xml:"first_name"`
-	// user introduciton
-	Introduction string `form:"introduction" json:"introduction" xml:"introduction"`
 	// last_name
 	LastName string `form:"last_name" json:"last_name" xml:"last_name"`
 	// user id
@@ -1217,15 +1191,6 @@ func (payload *CreateProfilePayload) Validate() (err error) {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "last_name"))
 	}
 
-	if payload.Introduction == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "introduction"))
-	}
-	if payload.AvatarImage == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "avatar_image"))
-	}
-	if payload.CoverImage == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "cover_image"))
-	}
 	return
 }
 

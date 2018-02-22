@@ -79,7 +79,11 @@ func (c *AuthenticationController) Sigin(ctx *app.SiginAuthenticationContext) er
 	ctx.ResponseData.Header().Set("Authorization", "Bearer "+signedToken)
 
 	// Send response
-	return ctx.NoContent()
+	//return ctx.NoContent()
+	res := &app.Success{}
+	res.ID = user.ID
+
+	return ctx.OK(res)
 }
 
 // Signup runs the signup action.
@@ -133,7 +137,11 @@ func (c *AuthenticationController) Signup(ctx *app.SignupAuthenticationContext) 
 	ctx.ResponseData.Header().Set("Authorization", "Bearer "+signedToken)
 
 	// Send response
-	return ctx.NoContent()
+	//return ctx.NoContent()
+	res := &app.Success{}
+	res.ID = user.ID
+
+	return ctx.OK(res)
 
 }
 
