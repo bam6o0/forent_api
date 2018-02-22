@@ -71,7 +71,10 @@ var _ = Resource("user", func() { // Resources group related API endpoints
 
 //Profile
 var _ = Resource("profile", func() { // Resources group related API endpoints
-	BasePath("/profiles") // together. They map to REST resources for REST
+	BasePath("/profiles")  // together. They map to REST resources for REST
+	Security(JWT, func() { // Use JWT to auth requests to this endpoint
+		Scope("api:access") // Enforce presence of "api" scope in JWT claims.
+	})
 	DefaultMedia(Profile) // services.
 
 	Action("show", func() { // Actions define a single API endpoint together
@@ -93,11 +96,8 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 			Param("first_name", String, "first name")
 			Param("last_name", String, "last_name")
 			Param("user_id", Integer, "user id")
-			Param("introduction", String, "user introduciton")
-			Param("avatar_image", String, "avatar image url")
-			Param("cover_image", String, "cover image url")
 
-			Required("first_name", "last_name", "user_id", "introduction", "avatar_image", "cover_image")
+			Required("first_name", "last_name", "user_id")
 		})
 		Response(Created, "/profiles/[0-9]+")
 		Response(BadRequest, ErrorMedia)

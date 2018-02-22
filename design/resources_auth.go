@@ -26,7 +26,7 @@ var _ = Resource("authentication", func() {
 		NoSecurity()
 		Routing(POST("/signup"))
 		Payload(SignupPayload)
-		Response(NoContent, func() {
+		Response(OK, SuccessMedia, func() {
 			Headers(func() {
 				Header("Authorization", String, "Generated JWT")
 			})
@@ -41,7 +41,7 @@ var _ = Resource("authentication", func() {
 		NoSecurity()
 		Routing(GET("/signin"))
 		Payload(SignupPayload)
-		Response(NoContent, func() {
+		Response(OK, SuccessMedia, func() {
 			Headers(func() {
 				Header("Authorization", String, "Generated JWT")
 			})
@@ -57,10 +57,10 @@ var SuccessMedia = MediaType("application/vnd.security.success", func() {
 	Description("The common media type to all request responses for this example")
 	TypeName("Success")
 	Attributes(func() {
-		Attribute("ok", Boolean, "Always true")
-		Required("ok")
+		Attribute("id", Integer, "Unique user ID")
+		Required("id")
 	})
 	View("default", func() {
-		Attribute("ok")
+		Attribute("id")
 	})
 })

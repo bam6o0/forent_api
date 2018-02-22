@@ -176,11 +176,11 @@ func SiginAuthenticationInternalServerError(t goatest.TInterface, ctx context.Co
 	return rw
 }
 
-// SiginAuthenticationNoContent runs the method Sigin of the given controller with the given parameters and payload.
-// It returns the response writer so it's possible to inspect the response headers.
+// SiginAuthenticationOK runs the method Sigin of the given controller with the given parameters and payload.
+// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func SiginAuthenticationNoContent(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, payload *app.SignupPayload) http.ResponseWriter {
+func SiginAuthenticationOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, payload *app.SignupPayload) (http.ResponseWriter, *app.Success) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -206,7 +206,7 @@ func SiginAuthenticationNoContent(t goatest.TInterface, ctx context.Context, ser
 			panic(err) // bug
 		}
 		t.Errorf("unexpected payload validation error: %+v", e)
-		return nil
+		return nil, nil
 	}
 
 	// Setup request context
@@ -230,7 +230,7 @@ func SiginAuthenticationNoContent(t goatest.TInterface, ctx context.Context, ser
 			panic("invalid test data " + __err.Error()) // bug
 		}
 		t.Errorf("unexpected parameter validation error: %+v", _e)
-		return nil
+		return nil, nil
 	}
 	siginCtx.Payload = payload
 
@@ -241,12 +241,20 @@ func SiginAuthenticationNoContent(t goatest.TInterface, ctx context.Context, ser
 	if __err != nil {
 		t.Fatalf("controller returned %+v, logs:\n%s", __err, logBuf.String())
 	}
-	if rw.Code != 204 {
-		t.Errorf("invalid response status code: got %+v, expected 204", rw.Code)
+	if rw.Code != 200 {
+		t.Errorf("invalid response status code: got %+v, expected 200", rw.Code)
+	}
+	var mt *app.Success
+	if resp != nil {
+		var __ok bool
+		mt, __ok = resp.(*app.Success)
+		if !__ok {
+			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of app.Success", resp, resp)
+		}
 	}
 
 	// Return results
-	return rw
+	return rw, mt
 }
 
 // SiginAuthenticationUnauthorized runs the method Sigin of the given controller with the given parameters and payload.
@@ -474,11 +482,11 @@ func SignupAuthenticationInternalServerError(t goatest.TInterface, ctx context.C
 	return rw
 }
 
-// SignupAuthenticationNoContent runs the method Signup of the given controller with the given parameters and payload.
-// It returns the response writer so it's possible to inspect the response headers.
+// SignupAuthenticationOK runs the method Signup of the given controller with the given parameters and payload.
+// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func SignupAuthenticationNoContent(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, payload *app.SignupPayload) http.ResponseWriter {
+func SignupAuthenticationOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.AuthenticationController, payload *app.SignupPayload) (http.ResponseWriter, *app.Success) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -504,7 +512,7 @@ func SignupAuthenticationNoContent(t goatest.TInterface, ctx context.Context, se
 			panic(err) // bug
 		}
 		t.Errorf("unexpected payload validation error: %+v", e)
-		return nil
+		return nil, nil
 	}
 
 	// Setup request context
@@ -528,7 +536,7 @@ func SignupAuthenticationNoContent(t goatest.TInterface, ctx context.Context, se
 			panic("invalid test data " + __err.Error()) // bug
 		}
 		t.Errorf("unexpected parameter validation error: %+v", _e)
-		return nil
+		return nil, nil
 	}
 	signupCtx.Payload = payload
 
@@ -539,12 +547,20 @@ func SignupAuthenticationNoContent(t goatest.TInterface, ctx context.Context, se
 	if __err != nil {
 		t.Fatalf("controller returned %+v, logs:\n%s", __err, logBuf.String())
 	}
-	if rw.Code != 204 {
-		t.Errorf("invalid response status code: got %+v, expected 204", rw.Code)
+	if rw.Code != 200 {
+		t.Errorf("invalid response status code: got %+v, expected 200", rw.Code)
+	}
+	var mt *app.Success
+	if resp != nil {
+		var __ok bool
+		mt, __ok = resp.(*app.Success)
+		if !__ok {
+			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of app.Success", resp, resp)
+		}
 	}
 
 	// Return results
-	return rw
+	return rw, mt
 }
 
 // SignupAuthenticationUnauthorized runs the method Signup of the given controller with the given parameters and payload.

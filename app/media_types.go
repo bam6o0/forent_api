@@ -576,8 +576,8 @@ func (mt *Review) Validate() (err error) {
 //
 // Identifier: application/vnd.security.success; view=default
 type Success struct {
-	// Always true
-	OK bool `form:"ok" json:"ok" xml:"ok"`
+	// Unique user ID
+	ID int `form:"id" json:"id" xml:"id"`
 }
 
 // user (default view)

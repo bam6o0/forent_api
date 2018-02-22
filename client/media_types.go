@@ -710,8 +710,8 @@ func (c *Client) DecodeReview(resp *http.Response) (*Review, error) {
 //
 // Identifier: application/vnd.security.success; view=default
 type Success struct {
-	// Always true
-	OK bool `form:"ok" json:"ok" xml:"ok"`
+	// Unique user ID
+	ID int `form:"id" json:"id" xml:"id"`
 }
 
 // DecodeSuccess decodes the Success instance encoded in resp body.

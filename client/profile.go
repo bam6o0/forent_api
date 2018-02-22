@@ -21,14 +21,8 @@ import (
 
 // CreateProfilePayload is the profile create action payload.
 type CreateProfilePayload struct {
-	// avatar image url
-	AvatarImage string `form:"avatar_image" json:"avatar_image" xml:"avatar_image"`
-	// cover image url
-	CoverImage string `form:"cover_image" json:"cover_image" xml:"cover_image"`
 	// first name
 	FirstName string `form:"first_name" json:"first_name" xml:"first_name"`
-	// user introduciton
-	Introduction string `form:"introduction" json:"introduction" xml:"introduction"`
 	// last_name
 	LastName string `form:"last_name" json:"last_name" xml:"last_name"`
 	// user id
@@ -75,6 +69,11 @@ func (c *Client) NewCreateProfileRequest(ctx context.Context, path string, paylo
 	} else {
 		header.Set("Content-Type", contentType)
 	}
+	if c.JWTSigner != nil {
+		if err := c.JWTSigner.Sign(req); err != nil {
+			return nil, err
+		}
+	}
 	return req, nil
 }
 
@@ -105,6 +104,11 @@ func (c *Client) NewDeleteProfileRequest(ctx context.Context, path string) (*htt
 	if err != nil {
 		return nil, err
 	}
+	if c.JWTSigner != nil {
+		if err := c.JWTSigner.Sign(req); err != nil {
+			return nil, err
+		}
+	}
 	return req, nil
 }
 
@@ -134,6 +138,11 @@ func (c *Client) NewShowProfileRequest(ctx context.Context, path string) (*http.
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		return nil, err
+	}
+	if c.JWTSigner != nil {
+		if err := c.JWTSigner.Sign(req); err != nil {
+			return nil, err
+		}
 	}
 	return req, nil
 }
@@ -194,6 +203,11 @@ func (c *Client) NewUpdateProfileRequest(ctx context.Context, path string, paylo
 		header.Set("Content-Type", "application/json")
 	} else {
 		header.Set("Content-Type", contentType)
+	}
+	if c.JWTSigner != nil {
+		if err := c.JWTSigner.Sign(req); err != nil {
+			return nil, err
+		}
 	}
 	return req, nil
 }
