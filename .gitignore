@@ -1,2 +1,4 @@
 .DS_Store
 forent_api
+jwt.key
+jwt.key.pub

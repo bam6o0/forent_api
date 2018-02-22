@@ -928,20 +928,6 @@ definitions:
     - password
     title: SignupPayload
     type: object
-  Success:
-    description: The common media type to all request responses for this example (default
-      view)
-    example:
-      ok: false
-    properties:
-      ok:
-        description: Always true
-        example: false
-        type: boolean
-    required:
-    - ok
-    title: 'Mediatype identifier: application/vnd.security.success; view=default'
-    type: object
   UpdateItemPayload:
     example:
       category_id: 5.954865e+18
@@ -1646,11 +1632,7 @@ paths:
       - profile
   /signin:
     get:
-      description: |-
-        signup
-
-        Required security scopes:
-          * `api:access`
+      description: signup
       operationId: authentication#sigin
       parameters:
       - in: body
@@ -1659,19 +1641,24 @@ paths:
         schema:
           $ref: '#/definitions/SignupPayload'
       produces:
-      - application/vnd.security.success
+      - application/vnd.goa.error
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
+          headers:
+            Authorization:
+              description: Generated JWT
+              type: string
+        "400":
+          description: Bad Request
           schema:
-            $ref: '#/definitions/Success'
+            $ref: '#/definitions/error'
         "401":
           description: Unauthorized
+        "500":
+          description: Internal Server Error
       schemes:
       - http
-      security:
-      - jwt:
-        - api:access
       summary: sigin authentication
       tags:
       - authentication
@@ -1685,6 +1672,8 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/SignupPayload'
+      produces:
+      - application/vnd.goa.error
       responses:
         "204":
           description: No Content
@@ -1692,12 +1681,16 @@ paths:
             Authorization:
               description: Generated JWT
               type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
         "401":
           description: Unauthorized
+        "500":
+          description: Internal Server Error
       schemes:
       - http
-      security:
-      - SigninBasicAuth: []
       summary: signup authentication
       tags:
       - authentication
@@ -1921,6 +1914,8 @@ produces:
 - application/gob
 - application/x-gob
 responses:
+  InternalServerError:
+    description: Internal Server Error
   NoContent:
     description: No Content
   NotFound:
@@ -1928,14 +1923,12 @@ responses:
   OK:
     description: OK
     schema:
-      $ref: '#/definitions/Success'
+      $ref: '#/definitions/Comment'
   Unauthorized:
     description: Unauthorized
 schemes:
 - http
 securityDefinitions:
-  SigninBasicAuth:
-    type: basic
   jwt:
     description: |2-
 

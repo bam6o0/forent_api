@@ -12,10 +12,6 @@ var JWT = JWTSecurity("jwt", func() {
 	Scope("api:access", "API access") // Define "api:access" scope
 })
 
-// BasicAuth defines a security scheme using basic authentication. The scheme protects the "signin"
-// action used to create JWTs.
-var SigninBasicAuth = BasicAuthSecurity("SigninBasicAuth")
-
 // Resource jwt uses the JWTSecurity security scheme.
 var _ = Resource("authentication", func() {
 	Description("This resource uses auth to secure its endpoints")
@@ -27,7 +23,7 @@ var _ = Resource("authentication", func() {
 
 	Action("signup", func() {
 		Description("signup and Creates a valid JWT")
-		Security(SigninBasicAuth)
+		NoSecurity()
 		Routing(POST("/signup"))
 		Payload(SignupPayload)
 		Response(NoContent, func() {
@@ -36,14 +32,23 @@ var _ = Resource("authentication", func() {
 			})
 		})
 		Response(Unauthorized)
+		Response(InternalServerError)
+		Response(BadRequest, ErrorMedia)
 	})
 
 	Action("sigin", func() {
 		Description("signup")
+		NoSecurity()
 		Routing(GET("/signin"))
 		Payload(SignupPayload)
-		Response(OK)
+		Response(NoContent, func() {
+			Headers(func() {
+				Header("Authorization", String, "Generated JWT")
+			})
+		})
 		Response(Unauthorized)
+		Response(InternalServerError)
+		Response(BadRequest, ErrorMedia)
 	})
 
 })

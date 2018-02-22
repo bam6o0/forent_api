@@ -111,17 +111,29 @@ func NewSiginAuthenticationContext(ctx context.Context, r *http.Request, service
 	return &rctx, err
 }
 
-// OK sends a HTTP response with status code 200.
-func (ctx *SiginAuthenticationContext) OK(r *Success) error {
+// NoContent sends a HTTP response with status code 204.
+func (ctx *SiginAuthenticationContext) NoContent() error {
+	ctx.ResponseData.WriteHeader(204)
+	return nil
+}
+
+// BadRequest sends a HTTP response with status code 400.
+func (ctx *SiginAuthenticationContext) BadRequest(r error) error {
 	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.security.success")
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
 	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // Unauthorized sends a HTTP response with status code 401.
 func (ctx *SiginAuthenticationContext) Unauthorized() error {
 	ctx.ResponseData.WriteHeader(401)
+	return nil
+}
+
+// InternalServerError sends a HTTP response with status code 500.
+func (ctx *SiginAuthenticationContext) InternalServerError() error {
+	ctx.ResponseData.WriteHeader(500)
 	return nil
 }
 
@@ -151,9 +163,23 @@ func (ctx *SignupAuthenticationContext) NoContent() error {
 	return nil
 }
 
+// BadRequest sends a HTTP response with status code 400.
+func (ctx *SignupAuthenticationContext) BadRequest(r error) error {
+	if ctx.ResponseData.Header().Get("Content-Type") == "" {
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	}
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
+}
+
 // Unauthorized sends a HTTP response with status code 401.
 func (ctx *SignupAuthenticationContext) Unauthorized() error {
 	ctx.ResponseData.WriteHeader(401)
+	return nil
+}
+
+// InternalServerError sends a HTTP response with status code 500.
+func (ctx *SignupAuthenticationContext) InternalServerError() error {
+	ctx.ResponseData.WriteHeader(500)
 	return nil
 }
 

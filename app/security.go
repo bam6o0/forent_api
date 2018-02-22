@@ -39,17 +39,6 @@ func NewJWTSecurity() *goa.JWTSecurity {
 	return &def
 }
 
-// UseSigninBasicAuthMiddleware mounts the SigninBasicAuth auth middleware onto the service.
-func UseSigninBasicAuthMiddleware(service *goa.Service, middleware goa.Middleware) {
-	service.Context = context.WithValue(service.Context, authMiddlewareKey("SigninBasicAuth"), middleware)
-}
-
-// NewSigninBasicAuthSecurity creates a SigninBasicAuth security definition.
-func NewSigninBasicAuthSecurity() *goa.BasicAuthSecurity {
-	def := goa.BasicAuthSecurity{}
-	return &def
-}
-
 // handleSecurity creates a handler that runs the auth middleware for the security scheme.
 func handleSecurity(schemeName string, h goa.Handler, scopes ...string) goa.Handler {
 	return func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
