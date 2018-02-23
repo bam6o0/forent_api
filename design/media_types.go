@@ -43,7 +43,7 @@ var Profile = MediaType("application/vnd.profile+json", func() {
 		Attribute("avatar_image", String, "avatar image url")
 		Attribute("cover_image", String, "cover image url")
 
-		Required("id", "user_id", "first_name", "last_name", "introduction", "avatar_image", "cover_image")
+		Required("id", "user_id", "first_name", "last_name")
 	})
 	View("default", func() { // View defines a rendering of the media type.
 		Attribute("id") // Media types may have multiple views and must have a "default" view.

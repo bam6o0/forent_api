@@ -58,12 +58,12 @@ func (c *AuthenticationController) Sigin(ctx *app.SiginAuthenticationContext) er
 	}
 
 	token := jwtgo.New(jwtgo.SigningMethodRS512)
-	in10m := time.Now().Add(time.Duration(10) * time.Minute).Unix()
+	oneMonth := time.Now().Add(time.Duration(24*30) * time.Hour).Unix()
 	uuid, _ := uuid.NewV4()
 	token.Claims = jwtgo.MapClaims{
 		"iss":     "forent",          // who creates the token and signs it
 		"aud":     "forent-user",     // to whom the token is intended to be sent
-		"exp":     in10m,             // time when the token will expire (10 minutes from now)
+		"exp":     oneMonth,          // time when the token will expire (10 minutes from now)
 		"jti":     uuid.String(),     // a unique identifier for the token
 		"iat":     time.Now().Unix(), // when the token was issued/created (now)
 		"nbf":     2,                 // time before which the token is not yet valid (2 minutes ago)
@@ -116,12 +116,12 @@ func (c *AuthenticationController) Signup(ctx *app.SignupAuthenticationContext) 
 	db.Where("email = ?", payload.Email).Last(&user)
 
 	token := jwtgo.New(jwtgo.SigningMethodRS512)
-	in10m := time.Now().Add(time.Duration(10) * time.Minute).Unix()
+	oneMonth := time.Now().Add(time.Duration(24*30) * time.Hour).Unix()
 	uuid, _ := uuid.NewV4()
 	token.Claims = jwtgo.MapClaims{
 		"iss":     "forent",          // who creates the token and signs it
 		"aud":     "forent-user",     // to whom the token is intended to be sent
-		"exp":     in10m,             // time when the token will expire (10 minutes from now)
+		"exp":     oneMonth,          // time when the token will expire (10 minutes from now)
 		"jti":     uuid.String(),     // a unique identifier for the token
 		"iat":     time.Now().Unix(), // when the token was issued/created (now)
 		"nbf":     2,                 // time before which the token is not yet valid (2 minutes ago)
