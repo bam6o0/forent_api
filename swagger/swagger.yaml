@@ -166,48 +166,6 @@ definitions:
       title4: Accusamus modi qui debitis temporibus.
       title5: Corrupti iure dolores voluptatem.
       user_id: 4.723771e+18
-    - body1: Veniam magnam.
-      body2: Cum eius.
-      body3: Officia sunt ut sequi saepe.
-      body4: At accusantium repudiandae.
-      body5: Temporibus et culpa voluptate voluptas omnis.
-      category_id: 8.2652296e+18
-      id: 8.2080077e+18
-      image1: Pariatur ut id explicabo velit.
-      image2: Consequatur reiciendis eius ipsum.
-      image3: Facere id consequuntur ipsum reprehenderit.
-      image4: Sequi voluptas sed harum vel ut.
-      image5: Dolorum labore nulla.
-      introduction: Incidunt aut et fugiat.
-      item_description: Autem non.
-      item_id: 7.160447e+18
-      title1: Numquam incidunt qui aut excepturi doloremque optio.
-      title2: Eum qui.
-      title3: Et sed impedit enim enim aliquam culpa.
-      title4: Accusamus modi qui debitis temporibus.
-      title5: Corrupti iure dolores voluptatem.
-      user_id: 4.723771e+18
-    - body1: Veniam magnam.
-      body2: Cum eius.
-      body3: Officia sunt ut sequi saepe.
-      body4: At accusantium repudiandae.
-      body5: Temporibus et culpa voluptate voluptas omnis.
-      category_id: 8.2652296e+18
-      id: 8.2080077e+18
-      image1: Pariatur ut id explicabo velit.
-      image2: Consequatur reiciendis eius ipsum.
-      image3: Facere id consequuntur ipsum reprehenderit.
-      image4: Sequi voluptas sed harum vel ut.
-      image5: Dolorum labore nulla.
-      introduction: Incidunt aut et fugiat.
-      item_description: Autem non.
-      item_id: 7.160447e+18
-      title1: Numquam incidunt qui aut excepturi doloremque optio.
-      title2: Eum qui.
-      title3: Et sed impedit enim enim aliquam culpa.
-      title4: Accusamus modi qui debitis temporibus.
-      title5: Corrupti iure dolores voluptatem.
-      user_id: 4.723771e+18
     items:
       $ref: '#/definitions/Article'
     title: 'Mediatype identifier: application/vnd.article+json; type=collection; view=default'
@@ -255,6 +213,11 @@ definitions:
     description: CategoryCollection is the media type for an array of Category (default
       view)
     example:
+    - id: 7.5318943e+18
+      middle_category_id: 1.4066062e+18
+      name: Consequatur molestias.
+      name_base: Culpa repellat tenetur eaque dolorem eius.
+      name_en: Iure eaque rem alias quia ex.
     - id: 7.5318943e+18
       middle_category_id: 1.4066062e+18
       name: Consequatur molestias.
@@ -315,34 +278,44 @@ definitions:
       reply_to: 6.31096e+18
       text: Repellendus alias voluptas molestiae harum.
       user_id: 9.158695e+18
+    - id: 2.788934e+17
+      item_id: 5.88309e+17
+      reply_to: 6.31096e+18
+      text: Repellendus alias voluptas molestiae harum.
+      user_id: 9.158695e+18
+    - id: 2.788934e+17
+      item_id: 5.88309e+17
+      reply_to: 6.31096e+18
+      text: Repellendus alias voluptas molestiae harum.
+      user_id: 9.158695e+18
     items:
       $ref: '#/definitions/Comment'
     title: 'Mediatype identifier: application/vnd.comment+json; type=collection; view=default'
     type: array
   CreateCommentPayload:
     example:
-      item_id: 8.956649e+17
-      reply_to: 1.8158035e+18
-      text: Doloremque quidem.
-      user_id: 2.6171584e+17
+      item_id: 1.7504328e+18
+      reply_to: 5.285402e+18
+      text: Consequuntur est sapiente cumque dolorem animi.
+      user_id: 1.1411894e+18
     properties:
       item_id:
         description: item id
-        example: 8.956649e+17
+        example: 1.7504328e+18
         format: int64
         type: integer
       reply_to:
         description: comment_id or null
-        example: 1.8158035e+18
+        example: 5.285402e+18
         format: int64
         type: integer
       text:
         description: comment text
-        example: Doloremque quidem.
+        example: Consequuntur est sapiente cumque dolorem animi.
         type: string
       user_id:
         description: comment user id
-        example: 2.6171584e+17
+        example: 1.1411894e+18
         format: int64
         type: integer
     required:
@@ -354,65 +327,65 @@ definitions:
     type: object
   CreateItemPayload:
     example:
-      category_id: 4.379826e+18
-      compensation: 5.129667e+18
-      description: Omnis quis rerum.
-      image1: Voluptatem quae eaque dignissimos incidunt nesciunt autem.
-      image2: Reiciendis laborum odio accusamus officiis veritatis velit.
-      image3: Esse repellat dolorem iusto.
-      image4: Blanditiis eum est.
-      name: Minima odio.
-      place_id: 7.866712e+18
-      price: 5.036411e+18
-      user_id: 6.0720134e+18
+      category_id: 1
+      compensation: 1.5e+06
+      description: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
+      image1: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
+      image2: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
+      image3: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
+      image4: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
+      name: Bond vehicles
+      place_id: 1
+      price: 25000
+      user_id: 1
     properties:
       category_id:
         description: category ID
-        example: 4.379826e+18
+        example: 1
         format: int64
         type: integer
       compensation:
         description: compensation of item
-        example: 5.129667e+18
+        example: 1.5e+06
         format: int64
         type: integer
       description:
         description: description of item
-        example: Omnis quis rerum.
+        example: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
         type: string
       image1:
         description: item image 1
-        example: Voluptatem quae eaque dignissimos incidunt nesciunt autem.
+        example: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
         type: string
       image2:
         description: item image 2
-        example: Reiciendis laborum odio accusamus officiis veritatis velit.
+        example: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
         type: string
       image3:
         description: item image 3
-        example: Esse repellat dolorem iusto.
+        example: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
         type: string
       image4:
         description: item image 4
-        example: Blanditiis eum est.
+        example: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
         type: string
       name:
         description: item name
-        example: Minima odio.
+        example: Bond vehicles
         type: string
       place_id:
         description: category ID
-        example: 7.866712e+18
+        example: 1
         format: int64
         type: integer
       price:
         description: price of item
-        example: 5.036411e+18
+        example: 25000
         format: int64
         type: integer
       user_id:
         description: user ID
-        example: 6.0720134e+18
+        example: 1
         format: int64
         type: integer
     required:
@@ -428,41 +401,41 @@ definitions:
     type: object
   CreateOfferPayload:
     example:
-      end_at: 1982-02-03T19:36:59Z
-      item_id: 8.8780545e+18
-      owner_id: 2.3387863e+18
-      price: 2.7800846e+18
-      start_at: 1997-09-03T22:13:33Z
-      user_id: 5.7025274e+18
+      end_at: 2016-01-01T09:23:46Z
+      item_id: 3.3314988e+18
+      owner_id: 4.7922676e+18
+      price: 3.105161e+18
+      start_at: 1980-09-15T14:02:44Z
+      user_id: 1
     properties:
       end_at:
         description: rental end at
-        example: 1982-02-03T19:36:59Z
+        example: 2016-01-01T09:23:46Z
         format: date-time
         type: string
       item_id:
         description: item id
-        example: 8.8780545e+18
+        example: 3.3314988e+18
         format: int64
         type: integer
       owner_id:
         description: item id
-        example: 2.3387863e+18
+        example: 4.7922676e+18
         format: int64
         type: integer
       price:
         description: offer price
-        example: 2.7800846e+18
+        example: 3.105161e+18
         format: int64
         type: integer
       start_at:
         description: rental start at
-        example: 1997-09-03T22:13:33Z
+        example: 1980-09-15T14:02:44Z
         format: date-time
         type: string
       user_id:
         description: offer user id
-        example: 5.7025274e+18
+        example: 1
         format: int64
         type: integer
     required:
@@ -475,21 +448,21 @@ definitions:
     type: object
   CreateProfilePayload:
     example:
-      first_name: Itaque qui.
-      last_name: Voluptatem molestiae voluptas voluptate voluptatum veniam.
-      user_id: 7.519377e+18
+      first_name: James
+      last_name: Bond
+      user_id: 1
     properties:
       first_name:
         description: first name
-        example: Itaque qui.
+        example: James
         type: string
       last_name:
         description: last_name
-        example: Voluptatem molestiae voluptas voluptate voluptatum veniam.
+        example: Bond
         type: string
       user_id:
         description: user id
-        example: 7.519377e+18
+        example: 1
         format: int64
         type: integer
     required:
@@ -498,45 +471,26 @@ definitions:
     - user_id
     title: CreateProfilePayload
     type: object
-  CreateUserPayload:
-    example:
-      email: notify.forent@gmail.com
-      password: password
-    properties:
-      email:
-        description: email
-        example: notify.forent@gmail.com
-        format: email
-        type: string
-      password:
-        description: password
-        example: password
-        type: string
-    required:
-    - email
-    - password
-    title: CreateUserPayload
-    type: object
   CreateVerificationPayload:
     example:
-      email: false
-      facebook_id: 6.2452387e+18
-      google_id: 2.8051667e+18
+      email: true
+      facebook_id: 3.7269277e+18
+      google_id: 2.3829028e+18
       identification: true
-      user_id: 5.363108e+18
+      user_id: 7.476787e+18
     properties:
       email:
         description: address flag
-        example: false
+        example: true
         type: boolean
       facebook_id:
         description: Unique facebook ID
-        example: 6.2452387e+18
+        example: 3.7269277e+18
         format: int64
         type: integer
       google_id:
         description: Unique google ID
-        example: 2.8051667e+18
+        example: 2.3829028e+18
         format: int64
         type: integer
       identification:
@@ -545,7 +499,7 @@ definitions:
         type: boolean
       user_id:
         description: user id
-        example: 5.363108e+18
+        example: 7.476787e+18
         format: int64
         type: integer
     required:
@@ -558,85 +512,92 @@ definitions:
     type: object
   DeleteItemPayload:
     example:
-      itemID: 2.1535967e+18
+      itemID: 5.26222e+18
+      user_id: 1
     properties:
       itemID:
         description: item ID
-        example: 2.1535967e+18
+        example: 5.26222e+18
+        format: int64
+        type: integer
+      user_id:
+        description: user ID
+        example: 1
         format: int64
         type: integer
     required:
     - itemID
+    - user_id
     title: DeleteItemPayload
     type: object
   Item:
     description: A item of user (default view)
     example:
-      category_id: 6.1572426e+18
-      compensation: 2.440823e+18
-      description: Saepe quo.
-      id: 7.3371455e+18
-      image1: Explicabo perferendis minus est atque ut.
-      image2: Quo fugit a.
-      image3: Modi ex.
-      image4: Dolore rem et.
-      name: Non nihil minus sed earum repudiandae.
-      place_id: 8.925329e+18
-      price: 7.9235657e+18
-      user_id: 2.360499e+18
+      category_id: 1
+      compensation: 1.5e+06
+      description: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
+      id: 1
+      image1: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
+      image2: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
+      image3: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
+      image4: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
+      name: Bond vehicles
+      place_id: 1
+      price: 25000
+      user_id: 1
     properties:
       category_id:
         description: Category ID
-        example: 6.1572426e+18
+        example: 1
         format: int64
         type: integer
       compensation:
         description: compensation of item
-        example: 2.440823e+18
+        example: 1.5e+06
         format: int64
         type: integer
       description:
         description: description of item
-        example: Saepe quo.
+        example: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
         type: string
       id:
         description: Unique item ID
-        example: 7.3371455e+18
+        example: 1
         format: int64
         type: integer
       image1:
         description: item image 1
-        example: Explicabo perferendis minus est atque ut.
+        example: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
         type: string
       image2:
         description: item image 2
-        example: Quo fugit a.
+        example: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
         type: string
       image3:
         description: item image 3
-        example: Modi ex.
+        example: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
         type: string
       image4:
         description: item image 4
-        example: Dolore rem et.
+        example: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
         type: string
       name:
         description: Name of item
-        example: Non nihil minus sed earum repudiandae.
+        example: Bond vehicles
         type: string
       place_id:
         description: Place ID
-        example: 8.925329e+18
+        example: 1
         format: int64
         type: integer
       price:
         description: price of item
-        example: 7.9235657e+18
+        example: 25000
         format: int64
         type: integer
       user_id:
         description: user ID
-        example: 2.360499e+18
+        example: 1
         format: int64
         type: integer
     required:
@@ -657,42 +618,30 @@ definitions:
   ItemCollection:
     description: ItemCollection is the media type for an array of Item (default view)
     example:
-    - category_id: 6.1572426e+18
-      compensation: 2.440823e+18
-      description: Saepe quo.
-      id: 7.3371455e+18
-      image1: Explicabo perferendis minus est atque ut.
-      image2: Quo fugit a.
-      image3: Modi ex.
-      image4: Dolore rem et.
-      name: Non nihil minus sed earum repudiandae.
-      place_id: 8.925329e+18
-      price: 7.9235657e+18
-      user_id: 2.360499e+18
-    - category_id: 6.1572426e+18
-      compensation: 2.440823e+18
-      description: Saepe quo.
-      id: 7.3371455e+18
-      image1: Explicabo perferendis minus est atque ut.
-      image2: Quo fugit a.
-      image3: Modi ex.
-      image4: Dolore rem et.
-      name: Non nihil minus sed earum repudiandae.
-      place_id: 8.925329e+18
-      price: 7.9235657e+18
-      user_id: 2.360499e+18
-    - category_id: 6.1572426e+18
-      compensation: 2.440823e+18
-      description: Saepe quo.
-      id: 7.3371455e+18
-      image1: Explicabo perferendis minus est atque ut.
-      image2: Quo fugit a.
-      image3: Modi ex.
-      image4: Dolore rem et.
-      name: Non nihil minus sed earum repudiandae.
-      place_id: 8.925329e+18
-      price: 7.9235657e+18
-      user_id: 2.360499e+18
+    - category_id: 1
+      compensation: 1.5e+06
+      description: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
+      id: 1
+      image1: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
+      image2: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
+      image3: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
+      image4: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
+      name: Bond vehicles
+      place_id: 1
+      price: 25000
+      user_id: 1
+    - category_id: 1
+      compensation: 1.5e+06
+      description: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
+      id: 1
+      image1: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
+      image2: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
+      image3: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
+      image4: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
+      name: Bond vehicles
+      place_id: 1
+      price: 25000
+      user_id: 1
     items:
       $ref: '#/definitions/Item'
     title: 'Mediatype identifier: application/vnd.item+json; type=collection; view=default'
@@ -700,27 +649,27 @@ definitions:
   Largecategory:
     description: Large Category (default view)
     example:
-      id: 4.3150507e+18
-      name: Quasi recusandae.
-      name_base: Et nisi eaque odio voluptatem.
-      name_en: Ut magnam.
+      id: 2.440823e+18
+      name: Saepe quo.
+      name_base: Nemo explicabo.
+      name_en: Minus est atque ut mollitia.
     properties:
       id:
         description: Unique large category ID
-        example: 4.3150507e+18
+        example: 2.440823e+18
         format: int64
         type: integer
       name:
         description: category name
-        example: Quasi recusandae.
+        example: Saepe quo.
         type: string
       name_base:
         description: category kana name
-        example: Et nisi eaque odio voluptatem.
+        example: Nemo explicabo.
         type: string
       name_en:
         description: category english name
-        example: Ut magnam.
+        example: Minus est atque ut mollitia.
         type: string
     required:
     - id
@@ -733,10 +682,14 @@ definitions:
     description: LargecategoryCollection is the media type for an array of Largecategory
       (default view)
     example:
-    - id: 4.3150507e+18
-      name: Quasi recusandae.
-      name_base: Et nisi eaque odio voluptatem.
-      name_en: Ut magnam.
+    - id: 2.440823e+18
+      name: Saepe quo.
+      name_base: Nemo explicabo.
+      name_en: Minus est atque ut mollitia.
+    - id: 2.440823e+18
+      name: Saepe quo.
+      name_base: Nemo explicabo.
+      name_en: Minus est atque ut mollitia.
     items:
       $ref: '#/definitions/Largecategory'
     title: 'Mediatype identifier: application/vnd.largecategory+json; type=collection;
@@ -744,80 +697,80 @@ definitions:
     type: array
   ListArticlePayload:
     example:
-      articleID: 5.7810045e+18
-      categoryID: 7.676466e+17
-      itemID: 7.9860344e+18
-      userID: 4.43876e+18
+      articleID: 5.204112e+18
+      categoryID: 3.277284e+18
+      itemID: 8.404936e+16
+      userID: 5.237863e+18
     properties:
       articleID:
         description: article ID
-        example: 5.7810045e+18
+        example: 5.204112e+18
         format: int64
         type: integer
       categoryID:
         description: category id
-        example: 7.676466e+17
+        example: 3.277284e+18
         format: int64
         type: integer
       itemID:
         description: item ID
-        example: 7.9860344e+18
+        example: 8.404936e+16
         format: int64
         type: integer
       userID:
         description: user id
-        example: 4.43876e+18
+        example: 5.237863e+18
         format: int64
         type: integer
     title: ListArticlePayload
     type: object
   ListCategoryPayload:
     example:
-      middlecategoryID: 8.801699e+18
+      middlecategoryID: 4.1398542e+18
     properties:
       middlecategoryID:
         description: middlecategory id
-        example: 8.801699e+18
+        example: 4.1398542e+18
         format: int64
         type: integer
     title: ListCategoryPayload
     type: object
   ListItemPayload:
     example:
-      categoryID: 2.3294047e+18
-      itemID: 2.569217e+18
-      placeID: 4.062211e+18
-      userID: 7.806357e+18
+      categoryID: 3.3445907e+18
+      itemID: 2.677898e+18
+      placeID: 2.869751e+18
+      userID: 7.0849616e+18
     properties:
       categoryID:
         description: category id
-        example: 2.3294047e+18
+        example: 3.3445907e+18
         format: int64
         type: integer
       itemID:
         description: item ID
-        example: 2.569217e+18
+        example: 2.677898e+18
         format: int64
         type: integer
       placeID:
         description: place id
-        example: 4.062211e+18
+        example: 2.869751e+18
         format: int64
         type: integer
       userID:
         description: user id
-        example: 7.806357e+18
+        example: 7.0849616e+18
         format: int64
         type: integer
     title: ListItemPayload
     type: object
   ListMiddlecategoryPayload:
     example:
-      largecategoryID: 8.578794e+18
+      largecategoryID: 1.6164026e+18
     properties:
       largecategoryID:
         description: largecategory id
-        example: 8.578794e+18
+        example: 1.6164026e+18
         format: int64
         type: integer
     title: ListMiddlecategoryPayload
@@ -825,33 +778,33 @@ definitions:
   Middlecategory:
     description: Middle Category (default view)
     example:
-      id: 5.829956e+18
-      large_category_id: 6.9933755e+18
-      name: Ut error enim.
-      name_base: Distinctio quis odit et in temporibus aut.
-      name_en: Omnis labore at.
+      id: 5.740637e+18
+      large_category_id: 8.063472e+18
+      name: Modi ex.
+      name_base: Dolore rem et.
+      name_en: Non nihil minus sed earum repudiandae.
     properties:
       id:
         description: Unique middle category ID
-        example: 5.829956e+18
+        example: 5.740637e+18
         format: int64
         type: integer
       large_category_id:
         description: large category id
-        example: 6.9933755e+18
+        example: 8.063472e+18
         format: int64
         type: integer
       name:
         description: category name
-        example: Ut error enim.
+        example: Modi ex.
         type: string
       name_base:
         description: category kana name
-        example: Distinctio quis odit et in temporibus aut.
+        example: Dolore rem et.
         type: string
       name_en:
         description: category english name
-        example: Omnis labore at.
+        example: Non nihil minus sed earum repudiandae.
         type: string
     required:
     - id
@@ -865,16 +818,16 @@ definitions:
     description: MiddlecategoryCollection is the media type for an array of Middlecategory
       (default view)
     example:
-    - id: 5.829956e+18
-      large_category_id: 6.9933755e+18
-      name: Ut error enim.
-      name_base: Distinctio quis odit et in temporibus aut.
-      name_en: Omnis labore at.
-    - id: 5.829956e+18
-      large_category_id: 6.9933755e+18
-      name: Ut error enim.
-      name_base: Distinctio quis odit et in temporibus aut.
-      name_en: Omnis labore at.
+    - id: 5.740637e+18
+      large_category_id: 8.063472e+18
+      name: Modi ex.
+      name_base: Dolore rem et.
+      name_en: Non nihil minus sed earum repudiandae.
+    - id: 5.740637e+18
+      large_category_id: 8.063472e+18
+      name: Modi ex.
+      name_base: Dolore rem et.
+      name_en: Non nihil minus sed earum repudiandae.
     items:
       $ref: '#/definitions/Middlecategory'
     title: 'Mediatype identifier: application/vnd.middlecategory+json; type=collection;
@@ -883,42 +836,42 @@ definitions:
   Profile:
     description: profile (default view)
     example:
-      avatar_image: Est sapiente cumque.
-      cover_image: Animi voluptas quaerat qui non nemo.
-      first_name: Alias illo.
-      id: 6.1650436e+18
-      introduction: Architecto sunt dolore et.
-      last_name: Facere ut.
-      user_id: 7.476787e+18
+      avatar_image: https://img.cinematoday.jp/a/N0091767/_size_640x/_v_1495600154/main.jpg
+      cover_image: http://www.007.com/wp-content/uploads/2013/03/rgb_logo_650.jpg
+      first_name: James
+      id: 1
+      introduction: i am KGB
+      last_name: Bond
+      user_id: 1
     properties:
       avatar_image:
         description: avatar image url
-        example: Est sapiente cumque.
+        example: https://img.cinematoday.jp/a/N0091767/_size_640x/_v_1495600154/main.jpg
         type: string
       cover_image:
         description: cover image url
-        example: Animi voluptas quaerat qui non nemo.
+        example: http://www.007.com/wp-content/uploads/2013/03/rgb_logo_650.jpg
         type: string
       first_name:
         description: first name
-        example: Alias illo.
+        example: James
         type: string
       id:
         description: Unique profile ID
-        example: 6.1650436e+18
+        example: 1
         format: int64
         type: integer
       introduction:
         description: user introduciton
-        example: Architecto sunt dolore et.
+        example: i am KGB
         type: string
       last_name:
         description: last_name
-        example: Facere ut.
+        example: Bond
         type: string
       user_id:
         description: user id
-        example: 7.476787e+18
+        example: 1
         format: int64
         type: integer
     required:
@@ -953,11 +906,11 @@ definitions:
     description: The common media type to all request responses for this example (default
       view)
     example:
-      id: 8.1193497e+18
+      id: 6.8169386e+18
     properties:
       id:
         description: Unique user ID
-        example: 8.1193497e+18
+        example: 6.8169386e+18
         format: int64
         type: integer
     required:
@@ -966,159 +919,136 @@ definitions:
     type: object
   UpdateItemPayload:
     example:
-      category_id: 5.954865e+18
-      compensation: 7.718814e+18
-      description: Eaque quia temporibus in dolorem.
-      image1: Dolorem beatae expedita dolorem numquam.
-      image2: Et ab delectus.
-      image3: Voluptatum deserunt eum ex dolores et voluptatem.
-      image4: In animi numquam.
-      itemID: 3.964662e+18
-      name: Vitae nulla nemo aut sit corporis sint.
-      place_id: 1.5693501e+18
-      price: 9.11167e+18
-      user_id: 8.035949e+18
+      category_id: 1
+      compensation: 1.5e+06
+      description: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
+      image1: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
+      image2: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
+      image3: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
+      image4: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
+      itemID: 8.3559475e+18
+      name: Bond vehicles
+      place_id: 1
+      price: 25000
+      user_id: 1
     properties:
       category_id:
         description: Category ID
-        example: 5.954865e+18
+        example: 1
         format: int64
         type: integer
       compensation:
         description: compensation of item
-        example: 7.718814e+18
+        example: 1.5e+06
         format: int64
         type: integer
       description:
         description: description of item
-        example: Eaque quia temporibus in dolorem.
+        example: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
         type: string
       image1:
         description: item image 1
-        example: Dolorem beatae expedita dolorem numquam.
+        example: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
         type: string
       image2:
         description: item image 2
-        example: Et ab delectus.
+        example: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
         type: string
       image3:
         description: item image 3
-        example: Voluptatum deserunt eum ex dolores et voluptatem.
+        example: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
         type: string
       image4:
         description: item image 4
-        example: In animi numquam.
+        example: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
         type: string
       itemID:
         description: item ID
-        example: 3.964662e+18
+        example: 8.3559475e+18
         format: int64
         type: integer
       name:
         description: Name of item
-        example: Vitae nulla nemo aut sit corporis sint.
+        example: Bond vehicles
         type: string
       place_id:
         description: Place ID
-        example: 1.5693501e+18
+        example: 1
         format: int64
         type: integer
       price:
         description: price of item
-        example: 9.11167e+18
+        example: 25000
         format: int64
         type: integer
       user_id:
         description: user ID
-        example: 8.035949e+18
+        example: 1
         format: int64
         type: integer
     required:
     - itemID
+    - user_id
     title: UpdateItemPayload
     type: object
   UpdateProfilePayload:
     example:
-      avatar_image: Velit molestiae voluptatem culpa officia.
-      cover_image: Quia sed.
-      first_name: Sit vero architecto non sapiente numquam doloribus.
-      introduction: Hic fugiat aut aperiam eius voluptatem.
-      last_name: Non molestiae reiciendis doloribus mollitia iure mollitia.
-      user_id: 3.5115295e+18
+      avatar_image: https://img.cinematoday.jp/a/N0091767/_size_640x/_v_1495600154/main.jpg
+      cover_image: http://www.007.com/wp-content/uploads/2013/03/rgb_logo_650.jpg
+      first_name: James
+      introduction: i am KGB
+      last_name: Bond
+      user_id: 1
     properties:
       avatar_image:
         description: avatar image url
-        example: Velit molestiae voluptatem culpa officia.
+        example: https://img.cinematoday.jp/a/N0091767/_size_640x/_v_1495600154/main.jpg
         type: string
       cover_image:
         description: cover image url
-        example: Quia sed.
+        example: http://www.007.com/wp-content/uploads/2013/03/rgb_logo_650.jpg
         type: string
       first_name:
         description: first name
-        example: Sit vero architecto non sapiente numquam doloribus.
+        example: James
         type: string
       introduction:
         description: user introduciton
-        example: Hic fugiat aut aperiam eius voluptatem.
+        example: i am KGB
         type: string
       last_name:
         description: last_name
-        example: Non molestiae reiciendis doloribus mollitia iure mollitia.
+        example: Bond
         type: string
       user_id:
         description: user id
-        example: 3.5115295e+18
+        example: 1
         format: int64
         type: integer
     required:
     - user_id
     title: UpdateProfilePayload
     type: object
-  UpdateUserPayload:
-    example:
-      email: notify.forent@gmail.com
-      id: 7.178697e+18
-      password: password
-    properties:
-      email:
-        description: email
-        example: notify.forent@gmail.com
-        format: email
-        type: string
-      id:
-        description: Unique user ID
-        example: 7.178697e+18
-        format: int64
-        type: integer
-      password:
-        description: password
-        example: password
-        type: string
-    required:
-    - id
-    title: UpdateUserPayload
-    type: object
   UpdateVerificationPayload:
     example:
-      email: false
-      facebook_id: 2.9431757e+18
-      google_id: 2.2302128e+17
+      email: true
+      facebook_id: 6.06008e+18
+      google_id: 9.1240795e+18
       identification: true
-      user_id: 4.9728124e+18
+      user_id: 4.333225e+17
     properties:
       email:
         description: address flag
-        example: false
+        example: true
         type: boolean
       facebook_id:
         description: Unique facebook ID
-        example: 2.9431757e+18
+        example: 6.06008e+18
         format: int64
         type: integer
       google_id:
         description: Unique google ID
-        example: 2.2302128e+17
+        example: 9.1240795e+18
         format: int64
         type: integer
       identification:
@@ -1127,73 +1057,40 @@ definitions:
         type: boolean
       user_id:
         description: user id
-        example: 4.9728124e+18
+        example: 4.333225e+17
         format: int64
         type: integer
     required:
     - user_id
     title: UpdateVerificationPayload
     type: object
-  User:
-    description: user (default view)
-    example:
-      email: notify.forent@gmail.com
-      id: 8.110422e+18
-      password: password
-      salt: salt
-    properties:
-      email:
-        description: email
-        example: notify.forent@gmail.com
-        format: email
-        type: string
-      id:
-        description: Unique user ID
-        example: 8.110422e+18
-        format: int64
-        type: integer
-      password:
-        description: password
-        example: password
-        type: string
-      salt:
-        description: Salt of the user
-        example: salt
-        type: string
-    required:
-    - id
-    - email
-    - password
-    - salt
-    title: 'Mediatype identifier: application/vnd.user+json; view=default'
-    type: object
   Verification:
     description: Verification (default view)
     example:
-      email: false
-      facebook_id: 8.4206917e+18
-      google_id: 5.753931e+18
-      id: 8.2823006e+18
+      email: true
+      facebook_id: 3.0850325e+18
+      google_id: 8.1920934e+18
+      id: 1.557831e+18
       identification: true
-      user_id: 6.6659316e+18
+      user_id: 1.5153229e+18
     properties:
       email:
         description: address flag
-        example: false
+        example: true
         type: boolean
       facebook_id:
         description: Unique facebook ID
-        example: 8.4206917e+18
+        example: 3.0850325e+18
         format: int64
         type: integer
       google_id:
         description: Unique google ID
-        example: 5.753931e+18
+        example: 8.1920934e+18
         format: int64
         type: integer
       id:
         description: Unique auth ID
-        example: 8.2823006e+18
+        example: 1.557831e+18
         format: int64
         type: integer
       identification:
@@ -1202,7 +1099,7 @@ definitions:
         type: boolean
       user_id:
         description: user id
-        example: 6.6659316e+18
+        example: 1.5153229e+18
         format: int64
         type: integer
     required:
@@ -1371,6 +1268,9 @@ paths:
       - comment
   /items:
     delete:
+      description: |-
+        Required security scopes:
+          * `api:access`
       operationId: item#delete
       parameters:
       - in: body
@@ -1391,6 +1291,9 @@ paths:
           description: Not Found
       schemes:
       - http
+      security:
+      - jwt:
+        - api:access
       summary: delete item
       tags:
       - item
@@ -1416,7 +1319,11 @@ paths:
       tags:
       - item
     post:
-      description: Create new item
+      description: |-
+        Create new item
+
+        Required security scopes:
+          * `api:access`
       operationId: item#create
       parameters:
       - in: body
@@ -1440,11 +1347,18 @@ paths:
             $ref: '#/definitions/error'
       schemes:
       - http
+      security:
+      - jwt:
+        - api:access
       summary: create item
       tags:
       - item
     put:
-      description: Change item data
+      description: |-
+        Change item data
+
+        Required security scopes:
+          * `api:access`
       operationId: item#update
       parameters:
       - in: body
@@ -1465,6 +1379,9 @@ paths:
           description: Not Found
       schemes:
       - http
+      security:
+      - jwt:
+        - api:access
       summary: update item
       tags:
       - item
@@ -1627,11 +1544,7 @@ paths:
       tags:
       - profile
     get:
-      description: |-
-        Get profile by id
-
-        Required security scopes:
-          * `api:access`
+      description: Get profile by id
       operationId: profile#show
       parameters:
       - description: profile ID
@@ -1650,9 +1563,6 @@ paths:
           description: Not Found
       schemes:
       - http
-      security:
-      - jwt:
-        - api:access
       summary: show profile
       tags:
       - profile
@@ -1763,113 +1673,6 @@ paths:
       summary: signup authentication
       tags:
       - authentication
-  /users:
-    post:
-      description: Create new user
-      operationId: user#create
-      parameters:
-      - in: body
-        name: payload
-        required: true
-        schema:
-          $ref: '#/definitions/CreateUserPayload'
-      produces:
-      - application/vnd.goa.error
-      responses:
-        "201":
-          description: Resource created
-          headers:
-            Location:
-              description: href to created resource
-              pattern: /users/[0-9]+
-              type: string
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/error'
-      schemes:
-      - http
-      summary: create user
-      tags:
-      - user
-  /users/{userID}:
-    delete:
-      operationId: user#delete
-      parameters:
-      - description: user ID
-        in: path
-        name: userID
-        required: true
-        type: integer
-      produces:
-      - application/vnd.goa.error
-      responses:
-        "204":
-          description: No Content
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/error'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      summary: delete user
-      tags:
-      - user
-    get:
-      description: Get user by id
-      operationId: user#show
-      parameters:
-      - description: user ID
-        in: path
-        name: userID
-        required: true
-        type: integer
-      produces:
-      - application/vnd.user+json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/User'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      summary: show user
-      tags:
-      - user
-    put:
-      description: Change user data
-      operationId: user#update
-      parameters:
-      - description: user ID
-        in: path
-        name: userID
-        required: true
-        type: integer
-      - in: body
-        name: payload
-        required: true
-        schema:
-          $ref: '#/definitions/UpdateUserPayload'
-      produces:
-      - application/vnd.goa.error
-      responses:
-        "204":
-          description: No Content
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/error'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      summary: update user
-      tags:
-      - user
   /verifications:
     post:
       description: Create new verification

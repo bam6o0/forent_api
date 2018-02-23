@@ -131,7 +131,8 @@ func main() {
 	c4 := NewCommentController(service)
 	app.MountCommentController(service, c4)
 	// Mount "item" controller
-	c5 := NewItemController(service)
+	c5, err := NewItemController(service)
+	exitOnFailure(err)
 	app.MountItemController(service, c5)
 	// Mount "largecategory" controller
 	c6 := NewLargecategoryController(service)
@@ -146,12 +147,9 @@ func main() {
 	c9, err := NewProfileController(service)
 	exitOnFailure(err)
 	app.MountProfileController(service, c9)
-	// Mount "user" controller
-	c10 := NewUserController(service)
-	app.MountUserController(service, c10)
 	// Mount "verification" controller
-	c11 := NewVerificationController(service)
-	app.MountVerificationController(service, c11)
+	c10 := NewVerificationController(service)
+	app.MountVerificationController(service, c10)
 
 	// Start service
 	if err := service.ListenAndServe(":8080"); err != nil {

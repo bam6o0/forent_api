@@ -139,11 +139,6 @@ func (c *Client) NewShowProfileRequest(ctx context.Context, path string) (*http.
 	if err != nil {
 		return nil, err
 	}
-	if c.JWTSigner != nil {
-		if err := c.JWTSigner.Sign(req); err != nil {
-			return nil, err
-		}
-	}
 	return req, nil
 }
 
