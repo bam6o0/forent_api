@@ -66,12 +66,15 @@ func (c *ProfileController) Create(ctx *app.CreateProfileContext) error {
 	if token == nil {
 		return fmt.Errorf("JWT token is missing from context") // internal error
 	}
-	claims := token.Claims.(jwtgo.MapClaims)
 
-	// Use the claims to authorize
-	userID := claims["user_id"]
-	if userID != payload.UserID {
-		// A real app would probably use an "Unauthorized" response here
+	if claims, ok := token.Claims.(jwtgo.MapClaims); ok && token.Valid {
+		//var authID = float64(payload.UserID)
+		if claims["user_id"] != float64(payload.UserID) {
+			errID := errors.New("id error")
+			return ctx.BadRequest(errID)
+		}
+	} else {
+		fmt.Println("失敗")
 		errID := errors.New("id error")
 		return ctx.BadRequest(errID)
 	}

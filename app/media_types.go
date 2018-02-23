@@ -485,15 +485,15 @@ func (mt *Place) Validate() (err error) {
 // Identifier: application/vnd.profile+json; view=default
 type Profile struct {
 	// avatar image url
-	AvatarImage string `form:"avatar_image" json:"avatar_image" xml:"avatar_image"`
+	AvatarImage *string `form:"avatar_image,omitempty" json:"avatar_image,omitempty" xml:"avatar_image,omitempty"`
 	// cover image url
-	CoverImage string `form:"cover_image" json:"cover_image" xml:"cover_image"`
+	CoverImage *string `form:"cover_image,omitempty" json:"cover_image,omitempty" xml:"cover_image,omitempty"`
 	// first name
 	FirstName string `form:"first_name" json:"first_name" xml:"first_name"`
 	// Unique profile ID
 	ID int `form:"id" json:"id" xml:"id"`
 	// user introduciton
-	Introduction string `form:"introduction" json:"introduction" xml:"introduction"`
+	Introduction *string `form:"introduction,omitempty" json:"introduction,omitempty" xml:"introduction,omitempty"`
 	// last_name
 	LastName string `form:"last_name" json:"last_name" xml:"last_name"`
 	// user id
@@ -508,15 +508,6 @@ func (mt *Profile) Validate() (err error) {
 	}
 	if mt.LastName == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "last_name"))
-	}
-	if mt.Introduction == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "introduction"))
-	}
-	if mt.AvatarImage == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "avatar_image"))
-	}
-	if mt.CoverImage == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "cover_image"))
 	}
 	return
 }

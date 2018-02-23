@@ -926,9 +926,6 @@ definitions:
     - user_id
     - first_name
     - last_name
-    - introduction
-    - avatar_image
-    - cover_image
     title: 'Mediatype identifier: application/vnd.profile+json; view=default'
     type: object
   SignupPayload:
