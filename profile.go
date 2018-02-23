@@ -16,6 +16,7 @@ import (
 	"github.com/goadesign/goa/middleware/security/jwt"
 )
 
+// NewJWTMiddleware is JWT auth
 func NewJWTMiddleware() (goa.Middleware, error) {
 
 	validationHandler, _ := goa.NewMiddleware(func(ctx context.Context, w http.ResponseWriter, r *http.Request) error {

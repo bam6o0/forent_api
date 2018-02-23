@@ -33,12 +33,6 @@ func ProfileHref(profileID interface{}) string {
 	return fmt.Sprintf("/profiles/%v", paramprofileID)
 }
 
-// UserHref returns the resource href.
-func UserHref(userID interface{}) string {
-	paramuserID := strings.TrimLeftFunc(fmt.Sprintf("%v", userID), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/users/%v", paramuserID)
-}
-
 // VerificationHref returns the resource href.
 func VerificationHref(verificationID interface{}) string {
 	paramverificationID := strings.TrimLeftFunc(fmt.Sprintf("%v", verificationID), func(r rune) bool { return r == '/' })
