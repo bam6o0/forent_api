@@ -131,7 +131,8 @@ func main() {
 	c4 := NewCommentController(service)
 	app.MountCommentController(service, c4)
 	// Mount "item" controller
-	c5 := NewItemController(service)
+	c5, err := NewItemController(service)
+	exitOnFailure(err)
 	app.MountItemController(service, c5)
 	// Mount "largecategory" controller
 	c6 := NewLargecategoryController(service)

@@ -1,10 +1,16 @@
 package main
 
 import (
+	"crypto/rsa"
+	"errors"
+	"fmt"
 	"forent_api/app"
 	"forent_api/models"
+	"io/ioutil"
 
+	jwtgo "github.com/dgrijalva/jwt-go"
 	"github.com/goadesign/goa"
+	"github.com/goadesign/goa/middleware/security/jwt"
 	"github.com/jinzhu/gorm"
 )
 
@@ -14,15 +20,45 @@ var ErrDatabaseError = goa.NewErrorClass("db_error", 500)
 // ItemController implements the item resource.
 type ItemController struct {
 	*goa.Controller
+	privateKey *rsa.PrivateKey
 }
 
 // NewItemController creates a item controller.
-func NewItemController(service *goa.Service) *ItemController {
-	return &ItemController{Controller: service.NewController("ItemController")}
+func NewItemController(service *goa.Service) (*ItemController, error) {
+	b, err := ioutil.ReadFile("./jwtkey/jwt.key")
+	if err != nil {
+		return nil, err
+	}
+	privKey, err := jwtgo.ParseRSAPrivateKeyFromPEM(b)
+	if err != nil {
+		return nil, fmt.Errorf("jwt: failed to load private key: %s", err) // bug
+	}
+	return &ItemController{
+		Controller: service.NewController("ItemController"),
+		privateKey: privKey,
+	}, nil
 }
 
 // Create runs the create action.
 func (c *ItemController) Create(ctx *app.CreateItemContext) error {
+	payload := ctx.Payload
+	// Retrieve the token claims
+	token := jwt.ContextJWT(ctx)
+	if token == nil {
+		return fmt.Errorf("JWT token is missing from context") // internal error
+	}
+
+	if claims, ok := token.Claims.(jwtgo.MapClaims); ok && token.Valid {
+		//var authID = float64(payload.UserID)
+		if claims["user_id"] != float64(payload.UserID) {
+			errID := errors.New("id error")
+			return ctx.BadRequest(errID)
+		}
+	} else {
+		errID := errors.New("id error")
+		return ctx.BadRequest(errID)
+	}
+
 	item := models.Item{}
 	item.Name = ctx.Payload.Name
 	item.Description = ctx.Payload.Description
@@ -45,6 +81,24 @@ func (c *ItemController) Create(ctx *app.CreateItemContext) error {
 
 // Delete runs the delete action.
 func (c *ItemController) Delete(ctx *app.DeleteItemContext) error {
+	payload := ctx.Payload
+	// Retrieve the token claims
+	token := jwt.ContextJWT(ctx)
+	if token == nil {
+		return fmt.Errorf("JWT token is missing from context") // internal error
+	}
+
+	if claims, ok := token.Claims.(jwtgo.MapClaims); ok && token.Valid {
+		//var authID = float64(payload.UserID)
+		if claims["user_id"] != float64(payload.UserID) {
+			errID := errors.New("id error")
+			return ctx.BadRequest(errID)
+		}
+	} else {
+		errID := errors.New("id error")
+		return ctx.BadRequest(errID)
+	}
+
 	pay := *ctx.Payload
 	err := ItemDB.Delete(ctx.Context, pay.ItemID)
 	if err != nil {
@@ -70,6 +124,24 @@ func (c *ItemController) List(ctx *app.ListItemContext) error {
 
 // Update runs the update action.
 func (c *ItemController) Update(ctx *app.UpdateItemContext) error {
+	payload := ctx.Payload
+	// Retrieve the token claims
+	token := jwt.ContextJWT(ctx)
+	if token == nil {
+		return fmt.Errorf("JWT token is missing from context") // internal error
+	}
+
+	if claims, ok := token.Claims.(jwtgo.MapClaims); ok && token.Valid {
+		//var authID = float64(payload.UserID)
+		if claims["user_id"] != float64(payload.UserID) {
+			errID := errors.New("id error")
+			return ctx.BadRequest(errID)
+		}
+	} else {
+		errID := errors.New("id error")
+		return ctx.BadRequest(errID)
+	}
+
 	pay := *ctx.Payload
 	item, err := ItemDB.Get(ctx.Context, pay.ItemID)
 	if err == gorm.ErrRecordNotFound {
@@ -80,7 +152,7 @@ func (c *ItemController) Update(ctx *app.UpdateItemContext) error {
 	item.Description = *ctx.Payload.Description
 	item.Price = *ctx.Payload.Price
 	item.Compensation = *ctx.Payload.Compensation
-	item.UserID = *ctx.Payload.UserID
+	item.UserID = ctx.Payload.UserID
 	item.CategoryID = *ctx.Payload.CategoryID
 	item.PlaceID = *ctx.Payload.PlaceID
 	item.Image1 = *ctx.Payload.Image1

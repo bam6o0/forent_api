@@ -608,12 +608,17 @@ func NewDeleteItemContext(ctx context.Context, r *http.Request, service *goa.Ser
 type deleteItemPayload struct {
 	// item ID
 	ItemID *int `form:"itemID,omitempty" json:"itemID,omitempty" xml:"itemID,omitempty"`
+	// user ID
+	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 }
 
 // Validate runs the validation rules defined in the design.
 func (payload *deleteItemPayload) Validate() (err error) {
 	if payload.ItemID == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "itemID"))
+	}
+	if payload.UserID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
 	}
 	return
 }
@@ -624,6 +629,9 @@ func (payload *deleteItemPayload) Publicize() *DeleteItemPayload {
 	if payload.ItemID != nil {
 		pub.ItemID = *payload.ItemID
 	}
+	if payload.UserID != nil {
+		pub.UserID = *payload.UserID
+	}
 	return &pub
 }
 
@@ -631,6 +639,14 @@ func (payload *deleteItemPayload) Publicize() *DeleteItemPayload {
 type DeleteItemPayload struct {
 	// item ID
 	ItemID int `form:"itemID" json:"itemID" xml:"itemID"`
+	// user ID
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
+}
+
+// Validate runs the validation rules defined in the design.
+func (payload *DeleteItemPayload) Validate() (err error) {
+
+	return
 }
 
 // NoContent sends a HTTP response with status code 204.
@@ -779,6 +795,9 @@ func (payload *updateItemPayload) Validate() (err error) {
 	if payload.ItemID == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "itemID"))
 	}
+	if payload.UserID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
+	}
 	return
 }
 
@@ -819,7 +838,7 @@ func (payload *updateItemPayload) Publicize() *UpdateItemPayload {
 		pub.Price = payload.Price
 	}
 	if payload.UserID != nil {
-		pub.UserID = payload.UserID
+		pub.UserID = *payload.UserID
 	}
 	return &pub
 }
@@ -849,7 +868,13 @@ type UpdateItemPayload struct {
 	// price of item
 	Price *int `form:"price,omitempty" json:"price,omitempty" xml:"price,omitempty"`
 	// user ID
-	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
+}
+
+// Validate runs the validation rules defined in the design.
+func (payload *UpdateItemPayload) Validate() (err error) {
+
+	return
 }
 
 // NoContent sends a HTTP response with status code 204.

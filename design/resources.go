@@ -14,6 +14,7 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 	DefaultMedia(Profile) // services.
 
 	Action("show", func() { // Actions define a single API endpoint together
+		NoSecurity()
 		Description("Get profile by id") // with its path, parameters (both path
 		Routing(GET("/:profileID"))      // parameters and querystring values) and payload
 		Params(func() {                  // (shape of the request body).
@@ -147,10 +148,14 @@ var _ = Resource("verification", func() { // Resources group related API endpoin
 
 // Item
 var _ = Resource("item", func() { // Resources group related API endpoints
+	Security(JWT, func() { // Use JWT to auth requests to this endpoint
+		Scope("api:access") // Enforce presence of "api" scope in JWT claims.
+	})
 	BasePath("/items") // together. They map to REST resources for REST
 	DefaultMedia(Item) // services.
 
 	Action("list", func() {
+		NoSecurity()
 		Routing(
 			GET(""),
 		)
@@ -207,7 +212,7 @@ var _ = Resource("item", func() { // Resources group related API endpoints
 			Param("image3", String, "item image 3")
 			Param("image4", String, "item image 4")
 
-			Required("itemID")
+			Required("itemID", "user_id")
 		})
 		Response(NoContent)
 		Response(NotFound)
@@ -220,7 +225,8 @@ var _ = Resource("item", func() { // Resources group related API endpoints
 		)
 		Payload(func() {
 			Param("itemID", Integer, "item ID")
-			Required("itemID")
+			Param("user_id", Integer, "user ID")
+			Required("itemID", "user_id")
 		})
 
 		Response(NoContent)

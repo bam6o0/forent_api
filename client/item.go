@@ -84,6 +84,11 @@ func (c *Client) NewCreateItemRequest(ctx context.Context, path string, payload 
 	} else {
 		header.Set("Content-Type", contentType)
 	}
+	if c.JWTSigner != nil {
+		if err := c.JWTSigner.Sign(req); err != nil {
+			return nil, err
+		}
+	}
 	return req, nil
 }
 
@@ -91,6 +96,8 @@ func (c *Client) NewCreateItemRequest(ctx context.Context, path string, payload 
 type DeleteItemPayload struct {
 	// item ID
 	ItemID int `form:"itemID" json:"itemID" xml:"itemID"`
+	// user ID
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // DeleteItemPath computes a request path to the delete action of item.
@@ -132,6 +139,11 @@ func (c *Client) NewDeleteItemRequest(ctx context.Context, path string, payload 
 		header.Set("Content-Type", "application/json")
 	} else {
 		header.Set("Content-Type", contentType)
+	}
+	if c.JWTSigner != nil {
+		if err := c.JWTSigner.Sign(req); err != nil {
+			return nil, err
+		}
 	}
 	return req, nil
 }
@@ -216,7 +228,7 @@ type UpdateItemPayload struct {
 	// price of item
 	Price *int `form:"price,omitempty" json:"price,omitempty" xml:"price,omitempty"`
 	// user ID
-	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // UpdateItemPath computes a request path to the update action of item.
@@ -258,6 +270,11 @@ func (c *Client) NewUpdateItemRequest(ctx context.Context, path string, payload 
 		header.Set("Content-Type", "application/json")
 	} else {
 		header.Set("Content-Type", contentType)
+	}
+	if c.JWTSigner != nil {
+		if err := c.JWTSigner.Sign(req); err != nil {
+			return nil, err
+		}
 	}
 	return req, nil
 }

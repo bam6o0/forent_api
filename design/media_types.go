@@ -24,7 +24,7 @@ var User = MediaType("application/vnd.user+json", func() {
 		Required("id", "email", "password", "salt")
 	})
 	View("default", func() { // View defines a rendering of the media type.
-		Attribute("id") // Media types may have multiple views and must have a "default" view.¥
+		Attribute("id") // Media types may have multiple views and must have a "default" view.Â¥
 		Attribute("email")
 		Attribute("password")
 		Attribute("salt")
@@ -35,13 +35,27 @@ var User = MediaType("application/vnd.user+json", func() {
 var Profile = MediaType("application/vnd.profile+json", func() {
 	Description("profile")
 	Attributes(func() { // Attributes define the media type shape.
-		Attribute("id", Integer, "Unique profile ID")
-		Attribute("user_id", Integer, "user id")
-		Attribute("first_name", String, "first name")
-		Attribute("last_name", String, "last_name")
-		Attribute("introduction", String, "user introduciton")
-		Attribute("avatar_image", String, "avatar image url")
-		Attribute("cover_image", String, "cover image url")
+		Attribute("id", Integer, "Unique profile ID", func() {
+			Example(1)
+		})
+		Attribute("user_id", Integer, "user id", func() {
+			Example(1)
+		})
+		Attribute("first_name", String, "first name", func() {
+			Example("James")
+		})
+		Attribute("last_name", String, "last_name", func() {
+			Example("Bond")
+		})
+		Attribute("introduction", String, "user introduciton", func() {
+			Example("i am KGB")
+		})
+		Attribute("avatar_image", String, "avatar image url", func() {
+			Example("https://img.cinematoday.jp/a/N0091767/_size_640x/_v_1495600154/main.jpg")
+		})
+		Attribute("cover_image", String, "cover image url", func() {
+			Example("http://www.007.com/wp-content/uploads/2013/03/rgb_logo_650.jpg")
+		})
 
 		Required("id", "user_id", "first_name", "last_name")
 	})
@@ -83,18 +97,42 @@ var Verification = MediaType("application/vnd.verification+json", func() {
 var Item = MediaType("application/vnd.item+json", func() {
 	Description("A item of user")
 	Attributes(func() { // Attributes define the media type shape.
-		Attribute("id", Integer, "Unique item ID")
-		Attribute("name", String, "Name of item")
-		Attribute("description", String, "description of item")
-		Attribute("price", Integer, "price of item")
-		Attribute("compensation", Integer, "compensation of item")
-		Attribute("user_id", Integer, "user ID")
-		Attribute("category_id", Integer, "Category ID")
-		Attribute("place_id", Integer, "Place ID")
-		Attribute("image1", String, "item image 1")
-		Attribute("image2", String, "item image 2")
-		Attribute("image3", String, "item image 3")
-		Attribute("image4", String, "item image 4")
+		Attribute("id", Integer, "Unique item ID", func() {
+			Example(1)
+		})
+		Attribute("name", String, "Name of item", func() {
+			Example("Bond vehicles")
+		})
+		Attribute("description", String, "description of item", func() {
+			Example("MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車")
+		})
+		Attribute("price", Integer, "price of item", func() {
+			Example(25000)
+		})
+		Attribute("compensation", Integer, "compensation of item", func() {
+			Example(1500000)
+		})
+		Attribute("user_id", Integer, "user ID", func() {
+			Example(1)
+		})
+		Attribute("category_id", Integer, "Category ID", func() {
+			Example(1)
+		})
+		Attribute("place_id", Integer, "Place ID", func() {
+			Example(1)
+		})
+		Attribute("image1", String, "item image 1", func() {
+			Example("https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg")
+		})
+		Attribute("image2", String, "item image 2", func() {
+			Example("http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg")
+		})
+		Attribute("image3", String, "item image 3", func() {
+			Example("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N")
+		})
+		Attribute("image4", String, "item image 4", func() {
+			Example("http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg")
+		})
 
 		Required("id", "user_id", "name", "description", "price", "compensation", "category_id", "place_id", "image1", "image2", "image3", "image4")
 	})

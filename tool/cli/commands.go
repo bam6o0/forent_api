@@ -205,10 +205,10 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 Payload example:
 
 {
-   "item_id": 895664955111553761,
-   "reply_to": 1815803498240657391,
-   "text": "Doloremque quidem.",
-   "user_id": 261715845046534689
+   "item_id": 1750432765469608901,
+   "reply_to": 5285402108012591872,
+   "text": "Consequuntur est sapiente cumque dolorem animi.",
+   "user_id": 1141189378607991802
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp1.Run(c, args) },
 	}
@@ -224,17 +224,17 @@ Payload example:
 Payload example:
 
 {
-   "category_id": 4379826072921807295,
-   "compensation": 5129666823940704506,
-   "description": "Omnis quis rerum.",
-   "image1": "Voluptatem quae eaque dignissimos incidunt nesciunt autem.",
-   "image2": "Reiciendis laborum odio accusamus officiis veritatis velit.",
-   "image3": "Esse repellat dolorem iusto.",
-   "image4": "Blanditiis eum est.",
-   "name": "Minima odio.",
-   "place_id": 7866711967314337747,
-   "price": 5036410707692548870,
-   "user_id": 6072013120997752906
+   "category_id": 1,
+   "compensation": 1500000,
+   "description": "MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車",
+   "image1": "https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg",
+   "image2": "http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg",
+   "image3": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N",
+   "image4": "http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg",
+   "name": "Bond vehicles",
+   "place_id": 1,
+   "price": 25000,
+   "user_id": 1
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp2.Run(c, args) },
 	}
@@ -250,12 +250,12 @@ Payload example:
 Payload example:
 
 {
-   "end_at": "1982-02-03T19:36:59Z",
-   "item_id": 8878054588523133853,
-   "owner_id": 2338786315439433886,
-   "price": 2780084507742108327,
-   "start_at": "1997-09-03T22:13:33Z",
-   "user_id": 5702527431513928252
+   "end_at": "2016-01-01T09:23:46Z",
+   "item_id": 3331498699296998073,
+   "owner_id": 4792267374908175313,
+   "price": 3105160949360189064,
+   "start_at": "1980-09-15T14:02:44Z",
+   "user_id": 1
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp3.Run(c, args) },
 	}
@@ -271,9 +271,9 @@ Payload example:
 Payload example:
 
 {
-   "first_name": "Itaque qui.",
-   "last_name": "Voluptatem molestiae voluptas voluptate voluptatum veniam.",
-   "user_id": 7519376908200432516
+   "first_name": "James",
+   "last_name": "Bond",
+   "user_id": 1
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp4.Run(c, args) },
 	}
@@ -290,10 +290,10 @@ Payload example:
 
 {
    "email": true,
-   "facebook_id": 7029661555294524937,
-   "google_id": 6245238454964010202,
+   "facebook_id": 3726927620878860780,
+   "google_id": 2382902723356640820,
    "identification": true,
-   "user_id": 8804215873107695530
+   "user_id": 7476786596887748196
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp5.Run(c, args) },
 	}
@@ -314,7 +314,8 @@ Payload example:
 Payload example:
 
 {
-   "itemID": 2153596627006572264
+   "itemID": 5262219951587073132,
+   "user_id": 1
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp6.Run(c, args) },
 	}
@@ -353,10 +354,10 @@ Payload example:
 Payload example:
 
 {
-   "articleID": 5781004681014948879,
-   "categoryID": 767646562571720034,
-   "itemID": 7986034355572599953,
-   "userID": 4438760119269285016
+   "articleID": 5204112153863387571,
+   "categoryID": 3277283968518300319,
+   "itemID": 84049361214932410,
+   "userID": 5237862712694794659
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp9.Run(c, args) },
 	}
@@ -372,7 +373,7 @@ Payload example:
 Payload example:
 
 {
-   "middlecategoryID": 8801698629180464080
+   "middlecategoryID": 4139854141937181432
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp10.Run(c, args) },
 	}
@@ -397,10 +398,10 @@ Payload example:
 Payload example:
 
 {
-   "categoryID": 2329404850150435923,
-   "itemID": 2569216888562846087,
-   "placeID": 4062211158260381034,
-   "userID": 7806357027633878778
+   "categoryID": 3344590660917123859,
+   "itemID": 2677898061761096803,
+   "placeID": 2869750814759589857,
+   "userID": 7084961679603754358
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp12.Run(c, args) },
 	}
@@ -425,7 +426,7 @@ Payload example:
 Payload example:
 
 {
-   "largecategoryID": 8578793899205592767
+   "largecategoryID": 1616402674843742933
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp14.Run(c, args) },
 	}
@@ -531,18 +532,18 @@ Payload example:
 Payload example:
 
 {
-   "category_id": 5954864543170794586,
-   "compensation": 7718814294335069074,
-   "description": "Eaque quia temporibus in dolorem.",
-   "image1": "Dolorem beatae expedita dolorem numquam.",
-   "image2": "Et ab delectus.",
-   "image3": "Voluptatum deserunt eum ex dolores et voluptatem.",
-   "image4": "In animi numquam.",
-   "itemID": 3964661906394431359,
-   "name": "Vitae nulla nemo aut sit corporis sint.",
-   "place_id": 1569350193560014928,
-   "price": 9111669958634578653,
-   "user_id": 8035949011948408078
+   "category_id": 1,
+   "compensation": 1500000,
+   "description": "MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車",
+   "image1": "https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg",
+   "image2": "http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg",
+   "image3": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N",
+   "image4": "http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg",
+   "itemID": 8355947628609087187,
+   "name": "Bond vehicles",
+   "place_id": 1,
+   "price": 25000,
+   "user_id": 1
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp21.Run(c, args) },
 	}
@@ -558,12 +559,12 @@ Payload example:
 Payload example:
 
 {
-   "avatar_image": "Velit molestiae voluptatem culpa officia.",
-   "cover_image": "Quia sed.",
-   "first_name": "Sit vero architecto non sapiente numquam doloribus.",
-   "introduction": "Hic fugiat aut aperiam eius voluptatem.",
-   "last_name": "Non molestiae reiciendis doloribus mollitia iure mollitia.",
-   "user_id": 3511529541955379454
+   "avatar_image": "https://img.cinematoday.jp/a/N0091767/_size_640x/_v_1495600154/main.jpg",
+   "cover_image": "http://www.007.com/wp-content/uploads/2013/03/rgb_logo_650.jpg",
+   "first_name": "James",
+   "introduction": "i am KGB",
+   "last_name": "Bond",
+   "user_id": 1
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp22.Run(c, args) },
 	}
@@ -579,11 +580,11 @@ Payload example:
 Payload example:
 
 {
-   "email": false,
-   "facebook_id": 3865624184652850719,
-   "google_id": 2943175765955801370,
+   "email": true,
+   "facebook_id": 6060079572208835562,
+   "google_id": 9124079572993051893,
    "identification": true,
-   "user_id": 7255556795259651752
+   "user_id": 433322509505515528
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp23.Run(c, args) },
 	}

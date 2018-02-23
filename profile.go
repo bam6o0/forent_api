@@ -75,7 +75,6 @@ func (c *ProfileController) Create(ctx *app.CreateProfileContext) error {
 			return ctx.BadRequest(errID)
 		}
 	} else {
-		fmt.Println("失敗")
 		errID := errors.New("id error")
 		return ctx.BadRequest(errID)
 	}

@@ -433,9 +433,10 @@ func MountItemController(service *goa.Service, ctrl ItemController) {
 		}
 		return ctrl.Create(rctx)
 	}
+	h = handleSecurity("jwt", h, "api:access")
 	h = handleItemOrigin(h)
 	service.Mux.Handle("POST", "/items", ctrl.MuxHandler("create", h, unmarshalCreateItemPayload))
-	service.LogInfo("mount", "ctrl", "Item", "action", "Create", "route", "POST /items")
+	service.LogInfo("mount", "ctrl", "Item", "action", "Create", "route", "POST /items", "security", "jwt")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -455,9 +456,10 @@ func MountItemController(service *goa.Service, ctrl ItemController) {
 		}
 		return ctrl.Delete(rctx)
 	}
+	h = handleSecurity("jwt", h, "api:access")
 	h = handleItemOrigin(h)
 	service.Mux.Handle("DELETE", "/items", ctrl.MuxHandler("delete", h, unmarshalDeleteItemPayload))
-	service.LogInfo("mount", "ctrl", "Item", "action", "Delete", "route", "DELETE /items")
+	service.LogInfo("mount", "ctrl", "Item", "action", "Delete", "route", "DELETE /items", "security", "jwt")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -499,9 +501,10 @@ func MountItemController(service *goa.Service, ctrl ItemController) {
 		}
 		return ctrl.Update(rctx)
 	}
+	h = handleSecurity("jwt", h, "api:access")
 	h = handleItemOrigin(h)
 	service.Mux.Handle("PUT", "/items", ctrl.MuxHandler("update", h, unmarshalUpdateItemPayload))
-	service.LogInfo("mount", "ctrl", "Item", "action", "Update", "route", "PUT /items")
+	service.LogInfo("mount", "ctrl", "Item", "action", "Update", "route", "PUT /items", "security", "jwt")
 }
 
 // handleItemOrigin applies the CORS response headers corresponding to the origin.
@@ -873,10 +876,9 @@ func MountProfileController(service *goa.Service, ctrl ProfileController) {
 		}
 		return ctrl.Show(rctx)
 	}
-	h = handleSecurity("jwt", h, "api:access")
 	h = handleProfileOrigin(h)
 	service.Mux.Handle("GET", "/profiles/:profileID", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Profile", "action", "Show", "route", "GET /profiles/:profileID", "security", "jwt")
+	service.LogInfo("mount", "ctrl", "Profile", "action", "Show", "route", "GET /profiles/:profileID")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
