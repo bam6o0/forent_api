@@ -28,9 +28,8 @@ func OfferHref(ownerID interface{}) string {
 }
 
 // ProfileHref returns the resource href.
-func ProfileHref(profileID interface{}) string {
-	paramprofileID := strings.TrimLeftFunc(fmt.Sprintf("%v", profileID), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/profiles/%v", paramprofileID)
+func ProfileHref() string {
+	return "/profiles"
 }
 
 // VerificationHref returns the resource href.

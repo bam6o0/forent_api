@@ -1003,6 +1003,19 @@ definitions:
     - last_name
     title: 'Mediatype identifier: application/vnd.profile+json; view=default'
     type: object
+  ShowProfilePayload:
+    example:
+      user_id: 1
+    properties:
+      user_id:
+        description: user ID
+        example: 1
+        format: int64
+        type: integer
+    required:
+    - user_id
+    title: ShowProfilePayload
+    type: object
   SignupPayload:
     example:
       email: jamesbond@gmail.com
@@ -1621,6 +1634,64 @@ paths:
       tags:
       - place
   /profiles:
+    delete:
+      description: |-
+        Required security scopes:
+          * `api:access`
+      operationId: profile#delete
+      parameters:
+      - description: profile ID
+        in: query
+        name: profileID
+        required: false
+        type: integer
+      produces:
+      - application/vnd.goa.error
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      security:
+      - jwt:
+        - api:access
+      summary: delete profile
+      tags:
+      - profile
+    get:
+      description: Get profile by id
+      operationId: profile#show
+      parameters:
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/ShowProfilePayload'
+      produces:
+      - application/vnd.goa.error
+      - application/vnd.profile+json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Profile'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: show profile
+      tags:
+      - profile
     post:
       description: |-
         Create new profile
@@ -1656,60 +1727,6 @@ paths:
       summary: create profile
       tags:
       - profile
-  /profiles/{profileID}:
-    delete:
-      description: |-
-        Required security scopes:
-          * `api:access`
-      operationId: profile#delete
-      parameters:
-      - description: profile ID
-        in: path
-        name: profileID
-        required: true
-        type: integer
-      produces:
-      - application/vnd.goa.error
-      responses:
-        "204":
-          description: No Content
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/error'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      security:
-      - jwt:
-        - api:access
-      summary: delete profile
-      tags:
-      - profile
-    get:
-      description: Get profile by id
-      operationId: profile#show
-      parameters:
-      - description: profile ID
-        in: path
-        name: profileID
-        required: true
-        type: integer
-      produces:
-      - application/vnd.profile+json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/Profile'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      summary: show profile
-      tags:
-      - profile
     put:
       description: |-
         Change profile data
@@ -1719,9 +1736,9 @@ paths:
       operationId: profile#update
       parameters:
       - description: profile ID
-        in: path
+        in: query
         name: profileID
-        required: true
+        required: false
         type: integer
       - in: body
         name: payload

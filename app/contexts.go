@@ -1297,7 +1297,7 @@ type DeleteProfileContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	ProfileID int
+	ProfileID *int
 }
 
 // NewDeleteProfileContext parses the incoming request URL and body, performs validations and creates the
@@ -1313,7 +1313,9 @@ func NewDeleteProfileContext(ctx context.Context, r *http.Request, service *goa.
 	if len(paramProfileID) > 0 {
 		rawProfileID := paramProfileID[0]
 		if profileID, err2 := strconv.Atoi(rawProfileID); err2 == nil {
-			rctx.ProfileID = profileID
+			tmp4 := profileID
+			tmp3 := &tmp4
+			rctx.ProfileID = tmp3
 		} else {
 			err = goa.MergeErrors(err, goa.InvalidParamTypeError("profileID", rawProfileID, "integer"))
 		}
@@ -1346,7 +1348,7 @@ type ShowProfileContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	ProfileID int
+	Payload *ShowProfilePayload
 }
 
 // NewShowProfileContext parses the incoming request URL and body, performs validations and creates the
@@ -1358,16 +1360,36 @@ func NewShowProfileContext(ctx context.Context, r *http.Request, service *goa.Se
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := ShowProfileContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramProfileID := req.Params["profileID"]
-	if len(paramProfileID) > 0 {
-		rawProfileID := paramProfileID[0]
-		if profileID, err2 := strconv.Atoi(rawProfileID); err2 == nil {
-			rctx.ProfileID = profileID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("profileID", rawProfileID, "integer"))
-		}
-	}
 	return &rctx, err
+}
+
+// showProfilePayload is the profile show action payload.
+type showProfilePayload struct {
+	// user ID
+	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
+}
+
+// Validate runs the validation rules defined in the design.
+func (payload *showProfilePayload) Validate() (err error) {
+	if payload.UserID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
+	}
+	return
+}
+
+// Publicize creates ShowProfilePayload from showProfilePayload
+func (payload *showProfilePayload) Publicize() *ShowProfilePayload {
+	var pub ShowProfilePayload
+	if payload.UserID != nil {
+		pub.UserID = *payload.UserID
+	}
+	return &pub
+}
+
+// ShowProfilePayload is the profile show action payload.
+type ShowProfilePayload struct {
+	// user ID
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // OK sends a HTTP response with status code 200.
@@ -1376,6 +1398,14 @@ func (ctx *ShowProfileContext) OK(r *Profile) error {
 		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.profile+json")
 	}
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
+}
+
+// BadRequest sends a HTTP response with status code 400.
+func (ctx *ShowProfileContext) BadRequest(r error) error {
+	if ctx.ResponseData.Header().Get("Content-Type") == "" {
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	}
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
 // NotFound sends a HTTP response with status code 404.
@@ -1389,7 +1419,7 @@ type UpdateProfileContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	ProfileID int
+	ProfileID *int
 	Payload   *UpdateProfilePayload
 }
 
@@ -1406,7 +1436,9 @@ func NewUpdateProfileContext(ctx context.Context, r *http.Request, service *goa.
 	if len(paramProfileID) > 0 {
 		rawProfileID := paramProfileID[0]
 		if profileID, err2 := strconv.Atoi(rawProfileID); err2 == nil {
-			rctx.ProfileID = profileID
+			tmp6 := profileID
+			tmp5 := &tmp6
+			rctx.ProfileID = tmp5
 		} else {
 			err = goa.MergeErrors(err, goa.InvalidParamTypeError("profileID", rawProfileID, "integer"))
 		}
