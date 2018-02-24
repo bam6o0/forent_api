@@ -16,7 +16,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"strconv"
 )
 
 // CreateCommentPayload is the comment create action payload.
@@ -91,36 +90,6 @@ func (c *Client) ListComment(ctx context.Context, path string) (*http.Response, 
 
 // NewListCommentRequest create the request corresponding to the list action endpoint of the comment resource.
 func (c *Client) NewListCommentRequest(ctx context.Context, path string) (*http.Request, error) {
-	scheme := c.Scheme
-	if scheme == "" {
-		scheme = "http"
-	}
-	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-	return req, nil
-}
-
-// ShowCommentPath computes a request path to the show action of comment.
-func ShowCommentPath(itemID int) string {
-	param0 := strconv.Itoa(itemID)
-
-	return fmt.Sprintf("/comments/%s", param0)
-}
-
-// Get comment by id
-func (c *Client) ShowComment(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewShowCommentRequest(ctx, path)
-	if err != nil {
-		return nil, err
-	}
-	return c.Client.Do(ctx, req)
-}
-
-// NewShowCommentRequest create the request corresponding to the show action endpoint of the comment resource.
-func (c *Client) NewShowCommentRequest(ctx context.Context, path string) (*http.Request, error) {
 	scheme := c.Scheme
 	if scheme == "" {
 		scheme = "http"

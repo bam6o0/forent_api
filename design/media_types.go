@@ -344,6 +344,25 @@ var Impression = MediaType("application/vnd.impression+json", func() {
 	})
 })
 
+// Message defines the media type used to render Message.
+var Message = MediaType("application/vnd.message+json", func() {
+	Description("Message")
+	Attributes(func() { // Attributes define the media type shape.
+		Attribute("id", Integer, "Unique message ID")
+		Attribute("offer_id", Integer, "offer id")
+		Attribute("user_id", Integer, "user id")
+		Attribute("text", String, "message text")
+
+		Required("id", "offer_id", "user_id", "text")
+	})
+	View("default", func() { // View defines a rendering of the media type.
+		Attribute("id") // Media types may have multiple views and must have a "default" view.
+		Attribute("offer_id")
+		Attribute("user_id")
+		Attribute("text")
+	})
+})
+
 // Category defines the media type used to render Category.
 var Category = MediaType("application/vnd.category+json", func() {
 	Description("Category")

@@ -36,14 +36,3 @@ func (c *CommentController) List(ctx *app.ListCommentContext) error {
 	return ctx.OK(res)
 	// CommentController_List: end_implement
 }
-
-// Show runs the show action.
-func (c *CommentController) Show(ctx *app.ShowCommentContext) error {
-	// CommentController_Show: start_implement
-
-	// Put your logic here
-
-	res := &app.Comment{}
-	return ctx.OK(res)
-	// CommentController_Show: end_implement
-}

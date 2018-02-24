@@ -372,6 +372,46 @@ func (mt LargecategoryCollection) Validate() (err error) {
 	return
 }
 
+// Message (default view)
+//
+// Identifier: application/vnd.message+json; view=default
+type Message struct {
+	// Unique message ID
+	ID int `form:"id" json:"id" xml:"id"`
+	// offer id
+	OfferID int `form:"offer_id" json:"offer_id" xml:"offer_id"`
+	// message text
+	Text string `form:"text" json:"text" xml:"text"`
+	// user id
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
+}
+
+// Validate validates the Message media type instance.
+func (mt *Message) Validate() (err error) {
+
+	if mt.Text == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "text"))
+	}
+	return
+}
+
+// MessageCollection is the media type for an array of Message (default view)
+//
+// Identifier: application/vnd.message+json; type=collection; view=default
+type MessageCollection []*Message
+
+// Validate validates the MessageCollection media type instance.
+func (mt MessageCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
 // Middle Category (default view)
 //
 // Identifier: application/vnd.middlecategory+json; view=default
