@@ -152,6 +152,8 @@ func (c *Client) NewDeleteItemRequest(ctx context.Context, path string, payload 
 type ListItemPayload struct {
 	// category id
 	CategoryID *int `form:"categoryID,omitempty" json:"categoryID,omitempty" xml:"categoryID,omitempty"`
+	// city id
+	CityID *string `form:"cityID,omitempty" json:"cityID,omitempty" xml:"cityID,omitempty"`
 	// item ID
 	ItemID *int `form:"itemID,omitempty" json:"itemID,omitempty" xml:"itemID,omitempty"`
 	// place id

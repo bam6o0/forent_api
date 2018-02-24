@@ -693,6 +693,8 @@ func NewListItemContext(ctx context.Context, r *http.Request, service *goa.Servi
 type listItemPayload struct {
 	// category id
 	CategoryID *int `form:"categoryID,omitempty" json:"categoryID,omitempty" xml:"categoryID,omitempty"`
+	// city id
+	CityID *string `form:"cityID,omitempty" json:"cityID,omitempty" xml:"cityID,omitempty"`
 	// item ID
 	ItemID *int `form:"itemID,omitempty" json:"itemID,omitempty" xml:"itemID,omitempty"`
 	// place id
@@ -706,6 +708,9 @@ func (payload *listItemPayload) Publicize() *ListItemPayload {
 	var pub ListItemPayload
 	if payload.CategoryID != nil {
 		pub.CategoryID = payload.CategoryID
+	}
+	if payload.CityID != nil {
+		pub.CityID = payload.CityID
 	}
 	if payload.ItemID != nil {
 		pub.ItemID = payload.ItemID
@@ -723,6 +728,8 @@ func (payload *listItemPayload) Publicize() *ListItemPayload {
 type ListItemPayload struct {
 	// category id
 	CategoryID *int `form:"categoryID,omitempty" json:"categoryID,omitempty" xml:"categoryID,omitempty"`
+	// city id
+	CityID *string `form:"cityID,omitempty" json:"cityID,omitempty" xml:"cityID,omitempty"`
 	// item ID
 	ItemID *int `form:"itemID,omitempty" json:"itemID,omitempty" xml:"itemID,omitempty"`
 	// place id

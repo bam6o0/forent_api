@@ -205,10 +205,10 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 Payload example:
 
 {
-   "item_id": 1750432765469608901,
-   "reply_to": 5285402108012591872,
-   "text": "Consequuntur est sapiente cumque dolorem animi.",
-   "user_id": 1141189378607991802
+   "item_id": 1141189378607991802,
+   "reply_to": 5262219951587073132,
+   "text": "Non nemo nostrum alias.",
+   "user_id": 1616402674843742933
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp1.Run(c, args) },
 	}
@@ -250,11 +250,11 @@ Payload example:
 Payload example:
 
 {
-   "end_at": "2016-01-01T09:23:46Z",
-   "item_id": 3331498699296998073,
-   "owner_id": 4792267374908175313,
-   "price": 3105160949360189064,
-   "start_at": "1980-09-15T14:02:44Z",
+   "end_at": "1978-09-14T20:57:06Z",
+   "item_id": 433322509505515528,
+   "owner_id": 7143760934004439452,
+   "price": 5129071201878696172,
+   "start_at": "2012-04-07T17:42:11Z",
    "user_id": 1
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp3.Run(c, args) },
@@ -289,11 +289,11 @@ Payload example:
 Payload example:
 
 {
-   "email": true,
-   "facebook_id": 3726927620878860780,
-   "google_id": 2382902723356640820,
+   "email": false,
+   "facebook_id": 1930065895424453287,
+   "google_id": 543715099071776542,
    "identification": true,
-   "user_id": 7476786596887748196
+   "user_id": 5619601623335078089
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp5.Run(c, args) },
 	}
@@ -314,7 +314,7 @@ Payload example:
 Payload example:
 
 {
-   "itemID": 5262219951587073132,
+   "itemID": 6165043678632504226,
    "user_id": 1
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp6.Run(c, args) },
@@ -354,10 +354,10 @@ Payload example:
 Payload example:
 
 {
-   "articleID": 5204112153863387571,
-   "categoryID": 3277283968518300319,
-   "itemID": 84049361214932410,
-   "userID": 5237862712694794659
+   "articleID": 8532953536156760124,
+   "categoryID": 6471299888191151867,
+   "itemID": 1669332431050590010,
+   "userID": 2635275144162310034
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp9.Run(c, args) },
 	}
@@ -373,7 +373,7 @@ Payload example:
 Payload example:
 
 {
-   "middlecategoryID": 4139854141937181432
+   "middlecategoryID": 3810909278989152544
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp10.Run(c, args) },
 	}
@@ -398,10 +398,11 @@ Payload example:
 Payload example:
 
 {
-   "categoryID": 3344590660917123859,
-   "itemID": 2677898061761096803,
-   "placeID": 2869750814759589857,
-   "userID": 7084961679603754358
+   "categoryID": 3331498699296998073,
+   "cityID": "Sunt dolore et rem facere.",
+   "itemID": 3269019218688121558,
+   "placeID": 7476786596887748196,
+   "userID": 6696380311335609304
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp12.Run(c, args) },
 	}
@@ -426,7 +427,7 @@ Payload example:
 Payload example:
 
 {
-   "largecategoryID": 1616402674843742933
+   "largecategoryID": 9124079572993051893
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp14.Run(c, args) },
 	}
@@ -539,7 +540,7 @@ Payload example:
    "image2": "http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg",
    "image3": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N",
    "image4": "http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg",
-   "itemID": 8355947628609087187,
+   "itemID": 6060079572208835562,
    "name": "Bond vehicles",
    "place_id": 1,
    "price": 25000,
@@ -581,10 +582,10 @@ Payload example:
 
 {
    "email": true,
-   "facebook_id": 6060079572208835562,
-   "google_id": 9124079572993051893,
-   "identification": true,
-   "user_id": 433322509505515528
+   "facebook_id": 226824046571244361,
+   "google_id": 7784975497792922246,
+   "identification": false,
+   "user_id": 5171760937975619761
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp23.Run(c, args) },
 	}

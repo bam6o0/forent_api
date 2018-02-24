@@ -99,6 +99,8 @@ var _ = StorageGroup("forent", func() {
 			Field("latitude", gorma.BigDecimal, func() {})
 			Field("longitude", gorma.BigDecimal, func() {})
 			Field("google_place_id", gorma.String, func() {})
+			Field("city_id", gorma.String, func() {})
+			Field("city_name", gorma.String, func() {})
 			Field("type", gorma.Integer, func() {})
 			Field("created_at", gorma.Timestamp, func() {})
 			Field("updated_at", gorma.Timestamp, func() {})

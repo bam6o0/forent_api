@@ -43,6 +43,8 @@ func (m *PlaceDB) ListPlace(ctx context.Context) []*app.Place {
 // PlaceToPlace loads a Place and builds the default view of media type Place.
 func (m *Place) PlaceToPlace() *app.Place {
 	place := &app.Place{}
+	place.CityID = m.CityID
+	place.CityName = m.CityName
 	place.GooglePlaceID = m.GooglePlaceID
 	place.ID = m.ID
 	place.Latitude = m.Latitude

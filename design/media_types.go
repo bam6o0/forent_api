@@ -413,10 +413,12 @@ var Place = MediaType("application/vnd.place+json", func() {
 		Attribute("name", String, "place name")
 		Attribute("latitude", Number, "place latitude")
 		Attribute("longitude", Number, "place longitude")
+		Attribute("city_id", String, "google place city id")
+		Attribute("city_name", String, "city name")
 		Attribute("google_place_id", String, "google place id")
 		Attribute("type", Integer, "receive type")
 
-		Required("id", "name", "latitude", "longitude", "google_place_id", "type")
+		Required("id", "name", "latitude", "longitude", "google_place_id", "city_id", "city_name", "type")
 	})
 	View("default", func() { // View defines a rendering of the media type.
 		Attribute("id") // Media types may have multiple views and must have a "default" view.
@@ -424,6 +426,8 @@ var Place = MediaType("application/vnd.place+json", func() {
 		Attribute("latitude")
 		Attribute("longitude")
 		Attribute("google_place_id")
+		Attribute("city_id")
+		Attribute("city_name")
 		Attribute("type")
 	})
 })

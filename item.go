@@ -109,14 +109,22 @@ func (c *ItemController) Delete(ctx *app.DeleteItemContext) error {
 
 // List runs the list action.
 func (c *ItemController) List(ctx *app.ListItemContext) error {
-	if *ctx.Payload.ItemID != 0 {
+	pay := *ctx.Payload
+	if *pay.ItemID != 0 {
 		var objs []*app.Item
-		pay := *ctx.Payload
 		item, _ := ItemDB.OneItem(ctx.Context, *pay.ItemID, 0, 0, 0)
 		objs = append(objs, item)
 		return ctx.OK(objs)
+	} else if *ctx.Payload.CityID != "" {
+		places := PlaceDB.ListPlaceOnCity(ctx.Context, *pay.CityID)
+		placeIDs := []int64{}
+		for _, place := range places {
+			placeIDs = append(placeIDs, int64(place.ID))
+		}
+		items := ItemDB.ListItemOnCity(ctx.Context, placeIDs)
+		return ctx.OK(items)
 	}
-	pay := *ctx.Payload
+
 	items := ItemDB.ListItem(ctx.Context, *pay.CategoryID, *pay.PlaceID, *pay.UserID)
 	return ctx.OK(items)
 

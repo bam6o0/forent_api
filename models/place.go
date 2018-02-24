@@ -21,6 +21,8 @@ import (
 // Place Model
 type Place struct {
 	ID            int `gorm:"primary_key"` // This is the place Model PK field
+	CityID        string
+	CityName      string
 	GooglePlaceID string
 	Latitude      float64
 	Longitude     float64

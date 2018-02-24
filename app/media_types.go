@@ -452,6 +452,10 @@ func (mt *Offer) Validate() (err error) {
 //
 // Identifier: application/vnd.place+json; view=default
 type Place struct {
+	// google place city id
+	CityID string `form:"city_id" json:"city_id" xml:"city_id"`
+	// city name
+	CityName string `form:"city_name" json:"city_name" xml:"city_name"`
 	// google place id
 	GooglePlaceID string `form:"google_place_id" json:"google_place_id" xml:"google_place_id"`
 	// Unique place ID
@@ -475,6 +479,12 @@ func (mt *Place) Validate() (err error) {
 
 	if mt.GooglePlaceID == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "google_place_id"))
+	}
+	if mt.CityID == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "city_id"))
+	}
+	if mt.CityName == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "city_name"))
 	}
 
 	return
