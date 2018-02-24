@@ -448,6 +448,23 @@ func (mt *Offer) Validate() (err error) {
 	return
 }
 
+// OfferCollection is the media type for an array of Offer (default view)
+//
+// Identifier: application/vnd.offer+json; type=collection; view=default
+type OfferCollection []*Offer
+
+// Validate validates the OfferCollection media type instance.
+func (mt OfferCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
 // Place (default view)
 //
 // Identifier: application/vnd.place+json; view=default

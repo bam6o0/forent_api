@@ -16,9 +16,64 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"strconv"
 	"time"
 )
+
+// AcceptOfferPayload is the offer accept action payload.
+type AcceptOfferPayload struct {
+	// offer ID
+	OfferID int `form:"offer_id" json:"offer_id" xml:"offer_id"`
+	// owner ID
+	OwnerID int `form:"owner_id" json:"owner_id" xml:"owner_id"`
+}
+
+// AcceptOfferPath computes a request path to the accept action of offer.
+func AcceptOfferPath() string {
+
+	return fmt.Sprintf("/offers")
+}
+
+// accepted offer
+func (c *Client) AcceptOffer(ctx context.Context, path string, payload *AcceptOfferPayload, contentType string) (*http.Response, error) {
+	req, err := c.NewAcceptOfferRequest(ctx, path, payload, contentType)
+	if err != nil {
+		return nil, err
+	}
+	return c.Client.Do(ctx, req)
+}
+
+// NewAcceptOfferRequest create the request corresponding to the accept action endpoint of the offer resource.
+func (c *Client) NewAcceptOfferRequest(ctx context.Context, path string, payload *AcceptOfferPayload, contentType string) (*http.Request, error) {
+	var body bytes.Buffer
+	if contentType == "" {
+		contentType = "*/*" // Use default encoder
+	}
+	err := c.Encoder.Encode(payload, &body, contentType)
+	if err != nil {
+		return nil, fmt.Errorf("failed to encode body: %s", err)
+	}
+	scheme := c.Scheme
+	if scheme == "" {
+		scheme = "http"
+	}
+	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
+	req, err := http.NewRequest("PUT", u.String(), &body)
+	if err != nil {
+		return nil, err
+	}
+	header := req.Header
+	if contentType == "*/*" {
+		header.Set("Content-Type", "application/json")
+	} else {
+		header.Set("Content-Type", contentType)
+	}
+	if c.JWTSigner != nil {
+		if err := c.JWTSigner.Sign(req); err != nil {
+			return nil, err
+		}
+	}
+	return req, nil
+}
 
 // CreateOfferPayload is the offer create action payload.
 type CreateOfferPayload struct {
@@ -26,8 +81,6 @@ type CreateOfferPayload struct {
 	EndAt time.Time `form:"end_at" json:"end_at" xml:"end_at"`
 	// item id
 	ItemID int `form:"item_id" json:"item_id" xml:"item_id"`
-	// item id
-	OwnerID *int `form:"owner_id,omitempty" json:"owner_id,omitempty" xml:"owner_id,omitempty"`
 	// offer price
 	Price int `form:"price" json:"price" xml:"price"`
 	// rental start at
@@ -76,35 +129,68 @@ func (c *Client) NewCreateOfferRequest(ctx context.Context, path string, payload
 	} else {
 		header.Set("Content-Type", contentType)
 	}
+	if c.JWTSigner != nil {
+		if err := c.JWTSigner.Sign(req); err != nil {
+			return nil, err
+		}
+	}
 	return req, nil
 }
 
-// ShowOfferPath computes a request path to the show action of offer.
-func ShowOfferPath(ownerID int) string {
-	param0 := strconv.Itoa(ownerID)
-
-	return fmt.Sprintf("/offers/%s", param0)
+// ListOfferPayload is the offer list action payload.
+type ListOfferPayload struct {
+	// item ID
+	ItemID *int `form:"item_id,omitempty" json:"item_id,omitempty" xml:"item_id,omitempty"`
+	// owner ID
+	OwnerID *int `form:"owner_id,omitempty" json:"owner_id,omitempty" xml:"owner_id,omitempty"`
+	// user ID
+	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 }
 
-// Get owner by id
-func (c *Client) ShowOffer(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewShowOfferRequest(ctx, path)
+// ListOfferPath computes a request path to the list action of offer.
+func ListOfferPath() string {
+
+	return fmt.Sprintf("/offers")
+}
+
+// Retrieve all offers.
+func (c *Client) ListOffer(ctx context.Context, path string, payload *ListOfferPayload, contentType string) (*http.Response, error) {
+	req, err := c.NewListOfferRequest(ctx, path, payload, contentType)
 	if err != nil {
 		return nil, err
 	}
 	return c.Client.Do(ctx, req)
 }
 
-// NewShowOfferRequest create the request corresponding to the show action endpoint of the offer resource.
-func (c *Client) NewShowOfferRequest(ctx context.Context, path string) (*http.Request, error) {
+// NewListOfferRequest create the request corresponding to the list action endpoint of the offer resource.
+func (c *Client) NewListOfferRequest(ctx context.Context, path string, payload *ListOfferPayload, contentType string) (*http.Request, error) {
+	var body bytes.Buffer
+	if contentType == "" {
+		contentType = "*/*" // Use default encoder
+	}
+	err := c.Encoder.Encode(payload, &body, contentType)
+	if err != nil {
+		return nil, fmt.Errorf("failed to encode body: %s", err)
+	}
 	scheme := c.Scheme
 	if scheme == "" {
 		scheme = "http"
 	}
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
+	req, err := http.NewRequest("GET", u.String(), &body)
 	if err != nil {
 		return nil, err
+	}
+	header := req.Header
+	if contentType == "*/*" {
+		header.Set("Content-Type", "application/json")
+	} else {
+		header.Set("Content-Type", contentType)
+	}
+	if c.JWTSigner != nil {
+		if err := c.JWTSigner.Sign(req); err != nil {
+			return nil, err
+		}
 	}
 	return req, nil
 }

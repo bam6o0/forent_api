@@ -554,6 +554,30 @@ func (c *Client) DecodeOffer(resp *http.Response) (*Offer, error) {
 	return &decoded, err
 }
 
+// OfferCollection is the media type for an array of Offer (default view)
+//
+// Identifier: application/vnd.offer+json; type=collection; view=default
+type OfferCollection []*Offer
+
+// Validate validates the OfferCollection media type instance.
+func (mt OfferCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
+// DecodeOfferCollection decodes the OfferCollection instance encoded in resp body.
+func (c *Client) DecodeOfferCollection(resp *http.Response) (OfferCollection, error) {
+	var decoded OfferCollection
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return decoded, err
+}
+
 // Place (default view)
 //
 // Identifier: application/vnd.place+json; view=default
