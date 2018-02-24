@@ -187,27 +187,6 @@ definitions:
       title4: Accusamus modi qui debitis temporibus.
       title5: Corrupti iure dolores voluptatem.
       user_id: 4.723771e+18
-    - body1: Veniam magnam.
-      body2: Cum eius.
-      body3: Officia sunt ut sequi saepe.
-      body4: At accusantium repudiandae.
-      body5: Temporibus et culpa voluptate voluptas omnis.
-      category_id: 8.2652296e+18
-      id: 8.2080077e+18
-      image1: Pariatur ut id explicabo velit.
-      image2: Consequatur reiciendis eius ipsum.
-      image3: Facere id consequuntur ipsum reprehenderit.
-      image4: Sequi voluptas sed harum vel ut.
-      image5: Dolorum labore nulla.
-      introduction: Incidunt aut et fugiat.
-      item_description: Autem non.
-      item_id: 7.160447e+18
-      title1: Numquam incidunt qui aut excepturi doloremque optio.
-      title2: Eum qui.
-      title3: Et sed impedit enim enim aliquam culpa.
-      title4: Accusamus modi qui debitis temporibus.
-      title5: Corrupti iure dolores voluptatem.
-      user_id: 4.723771e+18
     items:
       $ref: '#/definitions/Article'
     title: 'Mediatype identifier: application/vnd.article+json; type=collection; view=default'
@@ -331,28 +310,28 @@ definitions:
     type: array
   CreateCommentPayload:
     example:
-      item_id: 1.1411894e+18
-      reply_to: 5.26222e+18
-      text: Non nemo nostrum alias.
-      user_id: 1.6164026e+18
+      item_id: 7.0849616e+18
+      reply_to: 8.3559475e+18
+      text: Neque officia architecto.
+      user_id: 3.105161e+18
     properties:
       item_id:
         description: item id
-        example: 1.1411894e+18
+        example: 7.0849616e+18
         format: int64
         type: integer
       reply_to:
         description: comment_id or null
-        example: 5.26222e+18
+        example: 8.3559475e+18
         format: int64
         type: integer
       text:
         description: comment text
-        example: Non nemo nostrum alias.
+        example: Neque officia architecto.
         type: string
       user_id:
         description: comment user id
-        example: 1.6164026e+18
+        example: 3.105161e+18
         format: int64
         type: integer
     required:
@@ -438,36 +417,36 @@ definitions:
     type: object
   CreateOfferPayload:
     example:
-      end_at: 1978-09-14T20:57:06Z
-      item_id: 4.333225e+17
-      owner_id: 7.1437607e+18
-      price: 5.129071e+18
-      start_at: 2012-04-07T17:42:11Z
+      end_at: 2006-08-01T08:05:28Z
+      item_id: 7.1437607e+18
+      owner_id: 5.129071e+18
+      price: 6.1975574e+17
+      start_at: 1976-10-23T07:13:19Z
       user_id: 1
     properties:
       end_at:
         description: rental end at
-        example: 1978-09-14T20:57:06Z
+        example: 2006-08-01T08:05:28Z
         format: date-time
         type: string
       item_id:
         description: item id
-        example: 4.333225e+17
+        example: 7.1437607e+18
         format: int64
         type: integer
       owner_id:
         description: item id
-        example: 7.1437607e+18
+        example: 5.129071e+18
         format: int64
         type: integer
       price:
         description: offer price
-        example: 5.129071e+18
+        example: 6.1975574e+17
         format: int64
         type: integer
       start_at:
         description: rental start at
-        example: 2012-04-07T17:42:11Z
+        example: 1976-10-23T07:13:19Z
         format: date-time
         type: string
       user_id:
@@ -511,10 +490,10 @@ definitions:
   CreateVerificationPayload:
     example:
       email: false
-      facebook_id: 1.930066e+18
-      google_id: 5.437151e+17
-      identification: true
-      user_id: 5.619602e+18
+      facebook_id: 5.437151e+17
+      google_id: 8.203252e+18
+      identification: false
+      user_id: 5.504897e+18
     properties:
       email:
         description: address flag
@@ -522,21 +501,21 @@ definitions:
         type: boolean
       facebook_id:
         description: Unique facebook ID
-        example: 1.930066e+18
+        example: 5.437151e+17
         format: int64
         type: integer
       google_id:
         description: Unique google ID
-        example: 5.437151e+17
+        example: 8.203252e+18
         format: int64
         type: integer
       identification:
         description: identification flag
-        example: true
+        example: false
         type: boolean
       user_id:
         description: user id
-        example: 5.619602e+18
+        example: 5.504897e+18
         format: int64
         type: integer
     required:
@@ -549,12 +528,12 @@ definitions:
     type: object
   DeleteItemPayload:
     example:
-      itemID: 6.1650436e+18
+      itemID: 8.3184476e+18
       user_id: 1
     properties:
       itemID:
         description: item ID
-        example: 6.1650436e+18
+        example: 8.3184476e+18
         format: int64
         type: integer
       user_id:
@@ -667,18 +646,6 @@ definitions:
       place_id: 1
       price: 25000
       user_id: 1
-    - category_id: 1
-      compensation: 1.5e+06
-      description: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
-      id: 1
-      image1: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
-      image2: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
-      image3: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
-      image4: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
-      name: Bond vehicles
-      place_id: 1
-      price: 25000
-      user_id: 1
     items:
       $ref: '#/definitions/Item'
     title: 'Mediatype identifier: application/vnd.item+json; type=collection; view=default'
@@ -723,6 +690,10 @@ definitions:
       name: Saepe quo.
       name_base: Nemo explicabo.
       name_en: Minus est atque ut mollitia.
+    - id: 2.440823e+18
+      name: Saepe quo.
+      name_base: Nemo explicabo.
+      name_en: Minus est atque ut mollitia.
     items:
       $ref: '#/definitions/Largecategory'
     title: 'Mediatype identifier: application/vnd.largecategory+json; type=collection;
@@ -730,85 +701,85 @@ definitions:
     type: array
   ListArticlePayload:
     example:
-      articleID: 8.5329535e+18
-      categoryID: 6.4713e+18
-      itemID: 1.6693324e+18
-      userID: 2.635275e+18
+      articleID: 1.1411894e+18
+      categoryID: 5.26222e+18
+      itemID: 3.3445907e+18
+      userID: 2.677898e+18
     properties:
       articleID:
         description: article ID
-        example: 8.5329535e+18
+        example: 1.1411894e+18
         format: int64
         type: integer
       categoryID:
         description: category id
-        example: 6.4713e+18
+        example: 5.26222e+18
         format: int64
         type: integer
       itemID:
         description: item ID
-        example: 1.6693324e+18
+        example: 3.3445907e+18
         format: int64
         type: integer
       userID:
         description: user id
-        example: 2.635275e+18
+        example: 2.677898e+18
         format: int64
         type: integer
     title: ListArticlePayload
     type: object
   ListCategoryPayload:
     example:
-      middlecategoryID: 3.8109092e+18
+      middlecategoryID: 2.869751e+18
     properties:
       middlecategoryID:
         description: middlecategory id
-        example: 3.8109092e+18
+        example: 2.869751e+18
         format: int64
         type: integer
     title: ListCategoryPayload
     type: object
   ListItemPayload:
     example:
-      categoryID: 3.3314988e+18
-      cityID: Sunt dolore et rem facere.
-      itemID: 3.2690193e+18
-      placeID: 7.476787e+18
-      userID: 6.6963804e+18
+      categoryID: 7.619687e+17
+      cityID: Facere ut.
+      itemID: 7.476787e+18
+      placeID: 6.6963804e+18
+      userID: 6.06008e+18
     properties:
       categoryID:
         description: category id
-        example: 3.3314988e+18
+        example: 7.619687e+17
         format: int64
         type: integer
       cityID:
         description: city id
-        example: Sunt dolore et rem facere.
+        example: Facere ut.
         type: string
       itemID:
         description: item ID
-        example: 3.2690193e+18
+        example: 7.476787e+18
         format: int64
         type: integer
       placeID:
         description: place id
-        example: 7.476787e+18
+        example: 6.6963804e+18
         format: int64
         type: integer
       userID:
         description: user id
-        example: 6.6963804e+18
+        example: 6.06008e+18
         format: int64
         type: integer
     title: ListItemPayload
     type: object
   ListMiddlecategoryPayload:
     example:
-      largecategoryID: 9.1240795e+18
+      largecategoryID: 8.20594e+18
     properties:
       largecategoryID:
         description: largecategory id
-        example: 9.1240795e+18
+        example: 8.20594e+18
         format: int64
         type: integer
     title: ListMiddlecategoryPayload
@@ -866,10 +837,98 @@ definitions:
       name: Modi ex.
       name_base: Dolore rem et.
       name_en: Non nihil minus sed earum repudiandae.
+    - id: 5.740637e+18
+      large_category_id: 8.063472e+18
+      name: Modi ex.
+      name_base: Dolore rem et.
+      name_en: Non nihil minus sed earum repudiandae.
     items:
       $ref: '#/definitions/Middlecategory'
     title: 'Mediatype identifier: application/vnd.middlecategory+json; type=collection;
       view=default'
+    type: array
+  Place:
+    description: Place (default view)
+    example:
+      city_id: Nisi eaque odio voluptatem culpa ut.
+      city_name: Est ab ea dolorem.
+      google_place_id: Error enim ut.
+      id: 1.0651655e+18
+      latitude: 0.55506164
+      longitude: 0.9812413
+      name: In temporibus aut facere omnis.
+      type: 6.4620827e+18
+    properties:
+      city_id:
+        description: google place city id
+        example: Nisi eaque odio voluptatem culpa ut.
+        type: string
+      city_name:
+        description: city name
+        example: Est ab ea dolorem.
+        type: string
+      google_place_id:
+        description: google place id
+        example: Error enim ut.
+        type: string
+      id:
+        description: Unique place ID
+        example: 1.0651655e+18
+        format: int64
+        type: integer
+      latitude:
+        description: place latitude
+        example: 0.55506164
+        format: double
+        type: number
+      longitude:
+        description: place longitude
+        example: 0.9812413
+        format: double
+        type: number
+      name:
+        description: place name
+        example: In temporibus aut facere omnis.
+        type: string
+      type:
+        description: receive type
+        example: 6.4620827e+18
+        format: int64
+        type: integer
+    required:
+    - id
+    - name
+    - latitude
+    - longitude
+    - google_place_id
+    - city_id
+    - city_name
+    - type
+    title: 'Mediatype identifier: application/vnd.place+json; view=default'
+    type: object
+  PlaceCollection:
+    description: PlaceCollection is the media type for an array of Place (default
+      view)
+    example:
+    - city_id: Nisi eaque odio voluptatem culpa ut.
+      city_name: Est ab ea dolorem.
+      google_place_id: Error enim ut.
+      id: 1.0651655e+18
+      latitude: 0.55506164
+      longitude: 0.9812413
+      name: In temporibus aut facere omnis.
+      type: 6.4620827e+18
+    - city_id: Nisi eaque odio voluptatem culpa ut.
+      city_name: Est ab ea dolorem.
+      google_place_id: Error enim ut.
+      id: 1.0651655e+18
+      latitude: 0.55506164
+      longitude: 0.9812413
+      name: In temporibus aut facere omnis.
+      type: 6.4620827e+18
+    items:
+      $ref: '#/definitions/Place'
+    title: 'Mediatype identifier: application/vnd.place+json; type=collection; view=default'
     type: array
   Profile:
     description: profile (default view)
@@ -944,11 +1003,11 @@ definitions:
     description: The common media type to all request responses for this example (default
       view)
     example:
-      id: 3.277284e+18
+      id: 5.285402e+18
     properties:
       id:
         description: Unique user ID
-        example: 3.277284e+18
+        example: 5.285402e+18
         format: int64
         type: integer
     required:
@@ -964,7 +1023,7 @@ definitions:
       image2: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
       image3: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
       image4: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
-      itemID: 6.06008e+18
+      itemID: 9.1240795e+18
       name: Bond vehicles
       place_id: 1
       price: 25000
@@ -1002,7 +1061,7 @@ definitions:
         type: string
       itemID:
         description: item ID
-        example: 6.06008e+18
+        example: 9.1240795e+18
         format: int64
         type: integer
       name:
@@ -1069,24 +1128,24 @@ definitions:
     type: object
   UpdateVerificationPayload:
     example:
-      email: true
-      facebook_id: 2.2682404e+17
-      google_id: 7.7849755e+18
+      email: false
+      facebook_id: 7.7849755e+18
+      google_id: 6.061644e+18
       identification: false
-      user_id: 5.171761e+18
+      user_id: 6.44637e+17
     properties:
       email:
         description: address flag
-        example: true
+        example: false
         type: boolean
       facebook_id:
         description: Unique facebook ID
-        example: 2.2682404e+17
+        example: 7.7849755e+18
         format: int64
         type: integer
       google_id:
         description: Unique google ID
-        example: 7.7849755e+18
+        example: 6.061644e+18
         format: int64
         type: integer
       identification:
@@ -1095,7 +1154,7 @@ definitions:
         type: boolean
       user_id:
         description: user id
-        example: 5.171761e+18
+        example: 6.44637e+17
         format: int64
         type: integer
     required:
@@ -1106,11 +1165,11 @@ definitions:
     description: Verification (default view)
     example:
       email: false
-      facebook_id: 4.1398542e+18
-      google_id: 1.7504328e+18
-      id: 5.285402e+18
+      facebook_id: 8.5329535e+18
+      google_id: 6.4713e+18
+      id: 1.6693324e+18
       identification: true
-      user_id: 6.1428923e+18
+      user_id: 3.8109092e+18
     properties:
       email:
         description: address flag
@@ -1118,17 +1177,17 @@ definitions:
         type: boolean
       facebook_id:
         description: Unique facebook ID
-        example: 4.1398542e+18
+        example: 8.5329535e+18
         format: int64
         type: integer
       google_id:
         description: Unique google ID
-        example: 1.7504328e+18
+        example: 6.4713e+18
         format: int64
         type: integer
       id:
         description: Unique auth ID
-        example: 5.285402e+18
+        example: 1.6693324e+18
         format: int64
         type: integer
       identification:
@@ -1137,7 +1196,7 @@ definitions:
         type: boolean
       user_id:
         description: user id
-        example: 6.1428923e+18
+        example: 3.8109092e+18
         format: int64
         type: integer
     required:
@@ -1514,6 +1573,22 @@ paths:
       summary: show offer
       tags:
       - offer
+  /places:
+    get:
+      description: Retrieve all places.
+      operationId: place#list
+      produces:
+      - application/vnd.place+json; type=collection
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/PlaceCollection'
+      schemes:
+      - http
+      summary: list place
+      tags:
+      - place
   /profiles:
     post:
       description: |-

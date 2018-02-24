@@ -150,6 +150,9 @@ func main() {
 	// Mount "verification" controller
 	c10 := NewVerificationController(service)
 	app.MountVerificationController(service, c10)
+	// Mount "place" controller
+	c11 := NewPlaceController(service)
+	app.MountPlaceController(service, c11)
 
 	// Start service
 	if err := service.ListenAndServe(":8080"); err != nil {

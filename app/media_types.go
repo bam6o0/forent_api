@@ -490,6 +490,23 @@ func (mt *Place) Validate() (err error) {
 	return
 }
 
+// PlaceCollection is the media type for an array of Place (default view)
+//
+// Identifier: application/vnd.place+json; type=collection; view=default
+type PlaceCollection []*Place
+
+// Validate validates the PlaceCollection media type instance.
+func (mt PlaceCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e != nil {
+			if err2 := e.Validate(); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	return
+}
+
 // profile (default view)
 //
 // Identifier: application/vnd.profile+json; view=default
