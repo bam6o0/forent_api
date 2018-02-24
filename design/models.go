@@ -161,6 +161,22 @@ var _ = StorageGroup("forent", func() {
 			HasOne("Rental")
 		})
 
+		// Message Model
+		Model("Message", func() {
+			RendersTo(Message)
+			Description("Message Model")
+			Field("id", gorma.Integer, func() {
+				PrimaryKey()
+				Description("This is the message Model PK field")
+			})
+			BelongsTo("User")
+			BelongsTo("Offer")
+			Field("text", gorma.String, func() {})
+			Field("created_at", gorma.Timestamp, func() {})
+			Field("updated_at", gorma.Timestamp, func() {})
+			Field("deleted_at", gorma.NullableTimestamp, func() {})
+		})
+
 		// Rental Model
 		Model("Rental", func() {
 			RendersTo(Rental)

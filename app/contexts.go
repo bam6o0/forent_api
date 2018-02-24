@@ -372,49 +372,6 @@ func (ctx *ListCommentContext) OK(r CommentCollection) error {
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
 }
 
-// ShowCommentContext provides the comment show action context.
-type ShowCommentContext struct {
-	context.Context
-	*goa.ResponseData
-	*goa.RequestData
-	ItemID int
-}
-
-// NewShowCommentContext parses the incoming request URL and body, performs validations and creates the
-// context used by the comment controller show action.
-func NewShowCommentContext(ctx context.Context, r *http.Request, service *goa.Service) (*ShowCommentContext, error) {
-	var err error
-	resp := goa.ContextResponse(ctx)
-	resp.Service = service
-	req := goa.ContextRequest(ctx)
-	req.Request = r
-	rctx := ShowCommentContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramItemID := req.Params["itemID"]
-	if len(paramItemID) > 0 {
-		rawItemID := paramItemID[0]
-		if itemID, err2 := strconv.Atoi(rawItemID); err2 == nil {
-			rctx.ItemID = itemID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("itemID", rawItemID, "integer"))
-		}
-	}
-	return &rctx, err
-}
-
-// OK sends a HTTP response with status code 200.
-func (ctx *ShowCommentContext) OK(r *Comment) error {
-	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.comment+json")
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *ShowCommentContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
-}
-
 // CreateItemContext provides the item create action context.
 type CreateItemContext struct {
 	context.Context
@@ -940,6 +897,162 @@ func (ctx *ListLargecategoryContext) OK(r LargecategoryCollection) error {
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
 }
 
+// CreateMessageContext provides the message create action context.
+type CreateMessageContext struct {
+	context.Context
+	*goa.ResponseData
+	*goa.RequestData
+	Payload *CreateMessagePayload
+}
+
+// NewCreateMessageContext parses the incoming request URL and body, performs validations and creates the
+// context used by the message controller create action.
+func NewCreateMessageContext(ctx context.Context, r *http.Request, service *goa.Service) (*CreateMessageContext, error) {
+	var err error
+	resp := goa.ContextResponse(ctx)
+	resp.Service = service
+	req := goa.ContextRequest(ctx)
+	req.Request = r
+	rctx := CreateMessageContext{Context: ctx, ResponseData: resp, RequestData: req}
+	return &rctx, err
+}
+
+// createMessagePayload is the message create action payload.
+type createMessagePayload struct {
+	// offer id
+	OfferID *int `form:"offer_id,omitempty" json:"offer_id,omitempty" xml:"offer_id,omitempty"`
+	// comment text
+	Text *string `form:"text,omitempty" json:"text,omitempty" xml:"text,omitempty"`
+}
+
+// Validate runs the validation rules defined in the design.
+func (payload *createMessagePayload) Validate() (err error) {
+	if payload.OfferID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "offer_id"))
+	}
+	if payload.Text == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "text"))
+	}
+	return
+}
+
+// Publicize creates CreateMessagePayload from createMessagePayload
+func (payload *createMessagePayload) Publicize() *CreateMessagePayload {
+	var pub CreateMessagePayload
+	if payload.OfferID != nil {
+		pub.OfferID = *payload.OfferID
+	}
+	if payload.Text != nil {
+		pub.Text = *payload.Text
+	}
+	return &pub
+}
+
+// CreateMessagePayload is the message create action payload.
+type CreateMessagePayload struct {
+	// offer id
+	OfferID int `form:"offer_id" json:"offer_id" xml:"offer_id"`
+	// comment text
+	Text string `form:"text" json:"text" xml:"text"`
+}
+
+// Validate runs the validation rules defined in the design.
+func (payload *CreateMessagePayload) Validate() (err error) {
+
+	if payload.Text == "" {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "text"))
+	}
+	return
+}
+
+// Created sends a HTTP response with status code 201.
+func (ctx *CreateMessageContext) Created() error {
+	ctx.ResponseData.WriteHeader(201)
+	return nil
+}
+
+// BadRequest sends a HTTP response with status code 400.
+func (ctx *CreateMessageContext) BadRequest(r error) error {
+	if ctx.ResponseData.Header().Get("Content-Type") == "" {
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	}
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
+}
+
+// ListMessageContext provides the message list action context.
+type ListMessageContext struct {
+	context.Context
+	*goa.ResponseData
+	*goa.RequestData
+	Payload *ListMessagePayload
+}
+
+// NewListMessageContext parses the incoming request URL and body, performs validations and creates the
+// context used by the message controller list action.
+func NewListMessageContext(ctx context.Context, r *http.Request, service *goa.Service) (*ListMessageContext, error) {
+	var err error
+	resp := goa.ContextResponse(ctx)
+	resp.Service = service
+	req := goa.ContextRequest(ctx)
+	req.Request = r
+	rctx := ListMessageContext{Context: ctx, ResponseData: resp, RequestData: req}
+	return &rctx, err
+}
+
+// listMessagePayload is the message list action payload.
+type listMessagePayload struct {
+	// offer id
+	OfferID *int `form:"offer_id,omitempty" json:"offer_id,omitempty" xml:"offer_id,omitempty"`
+}
+
+// Validate runs the validation rules defined in the design.
+func (payload *listMessagePayload) Validate() (err error) {
+	if payload.OfferID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "offer_id"))
+	}
+	return
+}
+
+// Publicize creates ListMessagePayload from listMessagePayload
+func (payload *listMessagePayload) Publicize() *ListMessagePayload {
+	var pub ListMessagePayload
+	if payload.OfferID != nil {
+		pub.OfferID = *payload.OfferID
+	}
+	return &pub
+}
+
+// ListMessagePayload is the message list action payload.
+type ListMessagePayload struct {
+	// offer id
+	OfferID int `form:"offer_id" json:"offer_id" xml:"offer_id"`
+}
+
+// OK sends a HTTP response with status code 200.
+func (ctx *ListMessageContext) OK(r MessageCollection) error {
+	if ctx.ResponseData.Header().Get("Content-Type") == "" {
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.message+json; type=collection")
+	}
+	if r == nil {
+		r = MessageCollection{}
+	}
+	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
+}
+
+// BadRequest sends a HTTP response with status code 400.
+func (ctx *ListMessageContext) BadRequest(r error) error {
+	if ctx.ResponseData.Header().Get("Content-Type") == "" {
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	}
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
+}
+
+// NotFound sends a HTTP response with status code 404.
+func (ctx *ListMessageContext) NotFound() error {
+	ctx.ResponseData.WriteHeader(404)
+	return nil
+}
+
 // ListMiddlecategoryContext provides the middlecategory list action context.
 type ListMiddlecategoryContext struct {
 	context.Context
@@ -1435,9 +1548,9 @@ func NewDeleteProfileContext(ctx context.Context, r *http.Request, service *goa.
 	if len(paramProfileID) > 0 {
 		rawProfileID := paramProfileID[0]
 		if profileID, err2 := strconv.Atoi(rawProfileID); err2 == nil {
-			tmp3 := profileID
-			tmp2 := &tmp3
-			rctx.ProfileID = tmp2
+			tmp2 := profileID
+			tmp1 := &tmp2
+			rctx.ProfileID = tmp1
 		} else {
 			err = goa.MergeErrors(err, goa.InvalidParamTypeError("profileID", rawProfileID, "integer"))
 		}
@@ -1558,9 +1671,9 @@ func NewUpdateProfileContext(ctx context.Context, r *http.Request, service *goa.
 	if len(paramProfileID) > 0 {
 		rawProfileID := paramProfileID[0]
 		if profileID, err2 := strconv.Atoi(rawProfileID); err2 == nil {
-			tmp5 := profileID
-			tmp4 := &tmp5
-			rctx.ProfileID = tmp4
+			tmp4 := profileID
+			tmp3 := &tmp4
+			rctx.ProfileID = tmp3
 		} else {
 			err = goa.MergeErrors(err, goa.InvalidParamTypeError("profileID", rawProfileID, "integer"))
 		}

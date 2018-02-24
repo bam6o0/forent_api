@@ -101,8 +101,8 @@ func (c *Client) NewDeleteProfileRequest(ctx context.Context, path string, profi
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
 	values := u.Query()
 	if profileID != nil {
-		tmp26 := strconv.Itoa(*profileID)
-		values.Set("profileID", tmp26)
+		tmp27 := strconv.Itoa(*profileID)
+		values.Set("profileID", tmp27)
 	}
 	u.RawQuery = values.Encode()
 	req, err := http.NewRequest("DELETE", u.String(), nil)
@@ -214,8 +214,8 @@ func (c *Client) NewUpdateProfileRequest(ctx context.Context, path string, paylo
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
 	values := u.Query()
 	if profileID != nil {
-		tmp27 := strconv.Itoa(*profileID)
-		values.Set("profileID", tmp27)
+		tmp28 := strconv.Itoa(*profileID)
+		values.Set("profileID", tmp28)
 	}
 	u.RawQuery = values.Encode()
 	req, err := http.NewRequest("PUT", u.String(), &body)

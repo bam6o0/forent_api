@@ -61,6 +61,9 @@ var MiddleCategoryDB *models.MiddleCategoryDB
 // LargeCategoryDB is LargeCategory model
 var LargeCategoryDB *models.LargeCategoryDB
 
+// MessageDB is Message model
+var MessageDB *models.MessageDB
+
 func main() {
 
 	var err error
@@ -85,6 +88,7 @@ func main() {
 	db.AutoMigrate(&models.Category{})
 	db.AutoMigrate(&models.MiddleCategory{})
 	db.AutoMigrate(&models.LargeCategory{})
+	db.AutoMigrate(&models.Message{})
 
 	UserDB = models.NewUserDB(db)
 	ProfileDB = models.NewProfileDB(db)
@@ -100,6 +104,7 @@ func main() {
 	CategoryDB = models.NewCategoryDB(db)
 	MiddleCategoryDB = models.NewMiddleCategoryDB(db)
 	LargeCategoryDB = models.NewLargeCategoryDB(db)
+	MessageDB = models.NewMessageDB(db)
 
 	db.DB().SetMaxOpenConns(50)
 
@@ -154,6 +159,10 @@ func main() {
 	// Mount "place" controller
 	c11 := NewPlaceController(service)
 	app.MountPlaceController(service, c11)
+	// Mount "message" controller
+	c12, err := NewMessageController(service)
+	exitOnFailure(err)
+	app.MountMessageController(service, c12)
 
 	// Start service
 	if err := service.ListenAndServe(":8080"); err != nil {

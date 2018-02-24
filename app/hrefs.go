@@ -15,12 +15,6 @@ import (
 	"strings"
 )
 
-// CommentHref returns the resource href.
-func CommentHref(itemID interface{}) string {
-	paramitemID := strings.TrimLeftFunc(fmt.Sprintf("%v", itemID), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/comments/%v", paramitemID)
-}
-
 // ProfileHref returns the resource href.
 func ProfileHref() string {
 	return "/profiles"

@@ -324,6 +324,47 @@ var _ = Resource("offer", func() { // Resources group related API endpoints
 	})
 })
 
+// Message
+var _ = Resource("message", func() { // Resources group related API endpoints
+	BasePath("/messages") // together. They map to REST resources for REST
+	DefaultMedia(Message) // services.
+
+	Action("list", func() {
+		Security(JWT, func() { // Use JWT to auth requests to this endpoint
+			Scope("api:access") // Enforce presence of "api" scope in JWT claims.
+		})
+		Routing(
+			GET(""),
+		)
+		Payload(func() {
+			Param("offer_id", Integer, "offer id")
+			Required("offer_id")
+		})
+		Description("Retrieve all message in offer.")
+		Response(OK, CollectionOf(Message))
+		Response(BadRequest, ErrorMedia)
+		Response(NotFound)
+	})
+
+	Action("create", func() {
+		Security(JWT, func() { // Use JWT to auth requests to this endpoint
+			Scope("api:access") // Enforce presence of "api" scope in JWT claims.
+		})
+		Routing(
+			POST(""),
+		)
+		Description("Create new message")
+		Payload(func() {
+			Param("offer_id", Integer, "offer id")
+			Param("text", String, "comment text")
+
+			Required("offer_id", "text")
+		})
+		Response(Created, "/messages/[0-9]+")
+		Response(BadRequest, ErrorMedia)
+	})
+})
+
 // Comment
 var _ = Resource("comment", func() { // Resources group related API endpoints
 	BasePath("/comments") // together. They map to REST resources for REST
@@ -335,16 +376,6 @@ var _ = Resource("comment", func() { // Resources group related API endpoints
 		)
 		Description("Retrieve all comments.")
 		Response(OK, CollectionOf(Comment))
-	})
-
-	Action("show", func() { // Actions define a single API endpoint together
-		Description("Get comment by id") // with its path, parameters (both path
-		Routing(GET("/:itemID"))         // parameters and querystring values) and payload
-		Params(func() {                  // (shape of the request body).
-			Param("itemID", Integer, "item ID")
-		})
-		Response(OK)       // Responses define the shape and status code
-		Response(NotFound) // of HTTP responses.
 	})
 
 	Action("create", func() {

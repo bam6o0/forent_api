@@ -294,7 +294,6 @@ type CommentController interface {
 	goa.Muxer
 	Create(*CreateCommentContext) error
 	List(*ListCommentContext) error
-	Show(*ShowCommentContext) error
 }
 
 // MountCommentController "mounts" a Comment resource controller on the given service.
@@ -302,7 +301,6 @@ func MountCommentController(service *goa.Service, ctrl CommentController) {
 	initService(service)
 	var h goa.Handler
 	service.Mux.Handle("OPTIONS", "/comments", ctrl.MuxHandler("preflight", handleCommentOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/comments/:itemID", ctrl.MuxHandler("preflight", handleCommentOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -341,22 +339,6 @@ func MountCommentController(service *goa.Service, ctrl CommentController) {
 	h = handleCommentOrigin(h)
 	service.Mux.Handle("GET", "/comments", ctrl.MuxHandler("list", h, nil))
 	service.LogInfo("mount", "ctrl", "Comment", "action", "List", "route", "GET /comments")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewShowCommentContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		return ctrl.Show(rctx)
-	}
-	h = handleCommentOrigin(h)
-	service.Mux.Handle("GET", "/comments/:itemID", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Comment", "action", "Show", "route", "GET /comments/:itemID")
 }
 
 // handleCommentOrigin applies the CORS response headers corresponding to the origin.
@@ -641,6 +623,122 @@ func handleLargecategoryOrigin(h goa.Handler) goa.Handler {
 
 		return h(ctx, rw, req)
 	}
+}
+
+// MessageController is the controller interface for the Message actions.
+type MessageController interface {
+	goa.Muxer
+	Create(*CreateMessageContext) error
+	List(*ListMessageContext) error
+}
+
+// MountMessageController "mounts" a Message resource controller on the given service.
+func MountMessageController(service *goa.Service, ctrl MessageController) {
+	initService(service)
+	var h goa.Handler
+	service.Mux.Handle("OPTIONS", "/messages", ctrl.MuxHandler("preflight", handleMessageOrigin(cors.HandlePreflight()), nil))
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewCreateMessageContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*CreateMessagePayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
+		return ctrl.Create(rctx)
+	}
+	h = handleSecurity("jwt", h, "api:access")
+	h = handleMessageOrigin(h)
+	service.Mux.Handle("POST", "/messages", ctrl.MuxHandler("create", h, unmarshalCreateMessagePayload))
+	service.LogInfo("mount", "ctrl", "Message", "action", "Create", "route", "POST /messages", "security", "jwt")
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewListMessageContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*ListMessagePayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
+		return ctrl.List(rctx)
+	}
+	h = handleSecurity("jwt", h, "api:access")
+	h = handleMessageOrigin(h)
+	service.Mux.Handle("GET", "/messages", ctrl.MuxHandler("list", h, unmarshalListMessagePayload))
+	service.LogInfo("mount", "ctrl", "Message", "action", "List", "route", "GET /messages", "security", "jwt")
+}
+
+// handleMessageOrigin applies the CORS response headers corresponding to the origin.
+func handleMessageOrigin(h goa.Handler) goa.Handler {
+
+	return func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		origin := req.Header.Get("Origin")
+		if origin == "" {
+			// Not a CORS request
+			return h(ctx, rw, req)
+		}
+		if cors.MatchOrigin(origin, "http://swagger.goa.design") {
+			ctx = goa.WithLogContext(ctx, "origin", origin)
+			rw.Header().Set("Access-Control-Allow-Origin", origin)
+			rw.Header().Set("Vary", "Origin")
+			rw.Header().Set("Access-Control-Max-Age", "600")
+			rw.Header().Set("Access-Control-Allow-Credentials", "true")
+			if acrm := req.Header.Get("Access-Control-Request-Method"); acrm != "" {
+				// We are handling a preflight request
+				rw.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE")
+			}
+			return h(ctx, rw, req)
+		}
+
+		return h(ctx, rw, req)
+	}
+}
+
+// unmarshalCreateMessagePayload unmarshals the request body into the context request data Payload field.
+func unmarshalCreateMessagePayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &createMessagePayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
+		return err
+	}
+	if err := payload.Validate(); err != nil {
+		// Initialize payload with private data structure so it can be logged
+		goa.ContextRequest(ctx).Payload = payload
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
+}
+
+// unmarshalListMessagePayload unmarshals the request body into the context request data Payload field.
+func unmarshalListMessagePayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &listMessagePayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
+		return err
+	}
+	if err := payload.Validate(); err != nil {
+		// Initialize payload with private data structure so it can be logged
+		goa.ContextRequest(ctx).Payload = payload
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
 }
 
 // MiddlecategoryController is the controller interface for the Middlecategory actions.
