@@ -10,12 +10,12 @@ import (
 )
 
 // ListItemOnCity returns an array of view: default.
-func (m *ItemDB) ListItemOnCity(ctx context.Context, placeIDs []int64) []*app.Item {
+func (m *ItemDB) ListItemOnCity(ctx context.Context, placeIDs []int64, categoryID int) []*app.Item {
 	defer goa.MeasureSince([]string{"goa", "db", "item", "listitem"}, time.Now())
 
 	var native []*Item
 	var objs []*app.Item
-	err := m.Db.Scopes(ItemFilterByPlacesOnCity(placeIDs, m.Db)).Table(m.TableName()).Find(&native).Error
+	err := m.Db.Scopes(ItemFilterByPlacesOnCity(placeIDs, m.Db), ItemFilterByCategory(categoryID, m.Db)).Table(m.TableName()).Find(&native).Error
 
 	if err != nil {
 		goa.LogError(ctx, "error listing Item", "error", err.Error())

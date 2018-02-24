@@ -116,7 +116,6 @@ func (c *ItemController) List(ctx *app.ListItemContext) error {
 		objs = append(objs, item)
 		return ctx.OK(objs)
 	} else if *ctx.Payload.CityID != "" {
-		fmt.Println(*pay.CityID)
 		places := PlaceDB.ListPlaceOnCity(ctx.Context, *pay.CityID)
 		placeIDs := []int64{}
 
@@ -126,8 +125,7 @@ func (c *ItemController) List(ctx *app.ListItemContext) error {
 		if len(placeIDs) == 0 {
 			return ctx.NotFound()
 		}
-		fmt.Println(placeIDs)
-		items := ItemDB.ListItemOnCity(ctx.Context, placeIDs)
+		items := ItemDB.ListItemOnCity(ctx.Context, placeIDs, *pay.CategoryID)
 		return ctx.OK(items)
 	}
 
