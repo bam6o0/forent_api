@@ -156,6 +156,7 @@ var _ = Resource("item", func() { // Resources group related API endpoints
 
 	Action("list", func() {
 		NoSecurity()
+		Description("Retrieve all items.")
 		Routing(
 			GET(""),
 		)
@@ -164,8 +165,8 @@ var _ = Resource("item", func() { // Resources group related API endpoints
 			Param("userID", Integer, "user id")
 			Param("placeID", Integer, "place id")
 			Param("categoryID", Integer, "category id")
+			Param("cityID", String, "city id")
 		})
-		Description("Retrieve all items.")
 		Response(OK, CollectionOf(Item))
 	})
 
