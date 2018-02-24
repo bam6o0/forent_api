@@ -384,3 +384,18 @@ var _ = Resource("largecategory", func() { // Resources group related API endpoi
 	})
 
 })
+
+// Place
+var _ = Resource("place", func() { // Resources group related API endpoints
+	BasePath("/places") // together. They map to REST resources for REST
+	DefaultMedia(Place) // services.
+
+	Action("list", func() {
+		Routing(
+			GET(""),
+		)
+		Description("Retrieve all places.")
+		Response(OK, CollectionOf(Place))
+	})
+
+})

@@ -1145,6 +1145,36 @@ func (ctx *ShowOfferContext) NotFound() error {
 	return nil
 }
 
+// ListPlaceContext provides the place list action context.
+type ListPlaceContext struct {
+	context.Context
+	*goa.ResponseData
+	*goa.RequestData
+}
+
+// NewListPlaceContext parses the incoming request URL and body, performs validations and creates the
+// context used by the place controller list action.
+func NewListPlaceContext(ctx context.Context, r *http.Request, service *goa.Service) (*ListPlaceContext, error) {
+	var err error
+	resp := goa.ContextResponse(ctx)
+	resp.Service = service
+	req := goa.ContextRequest(ctx)
+	req.Request = r
+	rctx := ListPlaceContext{Context: ctx, ResponseData: resp, RequestData: req}
+	return &rctx, err
+}
+
+// OK sends a HTTP response with status code 200.
+func (ctx *ListPlaceContext) OK(r PlaceCollection) error {
+	if ctx.ResponseData.Header().Get("Content-Type") == "" {
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.place+json; type=collection")
+	}
+	if r == nil {
+		r = PlaceCollection{}
+	}
+	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
+}
+
 // CreateProfileContext provides the profile create action context.
 type CreateProfileContext struct {
 	context.Context
