@@ -130,6 +130,8 @@ type (
 
 	// ListPlaceCommand is the command line data structure for the list action of place
 	ListPlaceCommand struct {
+		Payload     string
+		ContentType string
 		PrettyPrint bool
 	}
 
@@ -294,11 +296,11 @@ Payload example:
 Payload example:
 
 {
-   "email": false,
-   "facebook_id": 543715099071776542,
-   "google_id": 8203251551576041014,
-   "identification": false,
-   "user_id": 5504896578552467112
+   "email": true,
+   "facebook_id": 8203251551576041014,
+   "google_id": 5619601623335078089,
+   "identification": true,
+   "user_id": 226824046571244361
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp5.Run(c, args) },
 	}
@@ -443,7 +445,14 @@ Payload example:
 	sub = &cobra.Command{
 		Use:   `place ["/places"]`,
 		Short: ``,
-		RunE:  func(cmd *cobra.Command, args []string) error { return tmp15.Run(c, args) },
+		Long: `
+
+Payload example:
+
+{
+   "PlaceID": 1930065895424453287
+}`,
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp15.Run(c, args) },
 	}
 	tmp15.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp15.PrettyPrint, "pp", false, "Pretty print response body")
@@ -595,11 +604,11 @@ Payload example:
 Payload example:
 
 {
-   "email": false,
-   "facebook_id": 7784975497792922246,
-   "google_id": 6061643935137804473,
+   "email": true,
+   "facebook_id": 6061643935137804473,
+   "google_id": 5171760937975619761,
    "identification": false,
-   "user_id": 644636976096073763
+   "user_id": 6706611070992568975
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp24.Run(c, args) },
 	}
@@ -1233,9 +1242,16 @@ func (cmd *ListPlaceCommand) Run(c *client.Client, args []string) error {
 	} else {
 		path = "/places"
 	}
+	var payload client.ListPlacePayload
+	if cmd.Payload != "" {
+		err := json.Unmarshal([]byte(cmd.Payload), &payload)
+		if err != nil {
+			return fmt.Errorf("failed to deserialize payload: %s", err)
+		}
+	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
-	resp, err := c.ListPlace(ctx, path)
+	resp, err := c.ListPlace(ctx, path, &payload, cmd.ContentType)
 	if err != nil {
 		goa.LogError(ctx, "failed", "err", err)
 		return err
@@ -1247,6 +1263,8 @@ func (cmd *ListPlaceCommand) Run(c *client.Client, args []string) error {
 
 // RegisterFlags registers the command flags with the command line.
 func (cmd *ListPlaceCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+	cc.Flags().StringVar(&cmd.Payload, "payload", "", "Request body encoded in JSON")
+	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
 }
 
 // Run makes the HTTP request corresponding to the CreateProfileCommand command.

@@ -299,11 +299,6 @@ definitions:
       reply_to: 6.31096e+18
       text: Repellendus alias voluptas molestiae harum.
       user_id: 9.158695e+18
-    - id: 2.788934e+17
-      item_id: 5.88309e+17
-      reply_to: 6.31096e+18
-      text: Repellendus alias voluptas molestiae harum.
-      user_id: 9.158695e+18
     items:
       $ref: '#/definitions/Comment'
     title: 'Mediatype identifier: application/vnd.comment+json; type=collection; view=default'
@@ -489,33 +484,33 @@ definitions:
     type: object
   CreateVerificationPayload:
     example:
-      email: false
-      facebook_id: 5.437151e+17
-      google_id: 8.203252e+18
-      identification: false
-      user_id: 5.504897e+18
+      email: true
+      facebook_id: 8.203252e+18
+      google_id: 5.619602e+18
+      identification: true
+      user_id: 2.2682404e+17
     properties:
       email:
         description: address flag
-        example: false
+        example: true
         type: boolean
       facebook_id:
         description: Unique facebook ID
-        example: 5.437151e+17
+        example: 8.203252e+18
         format: int64
         type: integer
       google_id:
         description: Unique google ID
-        example: 8.203252e+18
+        example: 5.619602e+18
         format: int64
         type: integer
       identification:
         description: identification flag
-        example: false
+        example: true
         type: boolean
       user_id:
         description: user id
-        example: 5.504897e+18
+        example: 2.2682404e+17
         format: int64
         type: integer
     required:
@@ -646,6 +641,18 @@ definitions:
       place_id: 1
       price: 25000
       user_id: 1
+    - category_id: 1
+      compensation: 1.5e+06
+      description: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
+      id: 1
+      image1: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
+      image2: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
+      image3: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
+      image4: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
+      name: Bond vehicles
+      place_id: 1
+      price: 25000
+      user_id: 1
     items:
       $ref: '#/definitions/Item'
     title: 'Mediatype identifier: application/vnd.item+json; type=collection; view=default'
@@ -686,6 +693,10 @@ definitions:
     description: LargecategoryCollection is the media type for an array of Largecategory
       (default view)
     example:
+    - id: 2.440823e+18
+      name: Saepe quo.
+      name_base: Nemo explicabo.
+      name_en: Minus est atque ut mollitia.
     - id: 2.440823e+18
       name: Saepe quo.
       name_base: Nemo explicabo.
@@ -784,6 +795,17 @@ definitions:
         type: integer
     title: ListMiddlecategoryPayload
     type: object
+  ListPlacePayload:
+    example:
+      PlaceID: 1.930066e+18
+    properties:
+      PlaceID:
+        description: place id
+        example: 1.930066e+18
+        format: int64
+        type: integer
+    title: ListPlacePayload
+    type: object
   Middlecategory:
     description: Middle Category (default view)
     example:
@@ -827,11 +849,6 @@ definitions:
     description: MiddlecategoryCollection is the media type for an array of Middlecategory
       (default view)
     example:
-    - id: 5.740637e+18
-      large_category_id: 8.063472e+18
-      name: Modi ex.
-      name_base: Dolore rem et.
-      name_en: Non nihil minus sed earum repudiandae.
     - id: 5.740637e+18
       large_category_id: 8.063472e+18
       name: Modi ex.
@@ -910,6 +927,14 @@ definitions:
     description: PlaceCollection is the media type for an array of Place (default
       view)
     example:
+    - city_id: Nisi eaque odio voluptatem culpa ut.
+      city_name: Est ab ea dolorem.
+      google_place_id: Error enim ut.
+      id: 1.0651655e+18
+      latitude: 0.55506164
+      longitude: 0.9812413
+      name: In temporibus aut facere omnis.
+      type: 6.4620827e+18
     - city_id: Nisi eaque odio voluptatem culpa ut.
       city_name: Est ab ea dolorem.
       google_place_id: Error enim ut.
@@ -1128,24 +1153,24 @@ definitions:
     type: object
   UpdateVerificationPayload:
     example:
-      email: false
-      facebook_id: 7.7849755e+18
-      google_id: 6.061644e+18
+      email: true
+      facebook_id: 6.061644e+18
+      google_id: 5.171761e+18
       identification: false
-      user_id: 6.44637e+17
+      user_id: 6.706611e+18
     properties:
       email:
         description: address flag
-        example: false
+        example: true
         type: boolean
       facebook_id:
         description: Unique facebook ID
-        example: 7.7849755e+18
+        example: 6.061644e+18
         format: int64
         type: integer
       google_id:
         description: Unique google ID
-        example: 6.061644e+18
+        example: 5.171761e+18
         format: int64
         type: integer
       identification:
@@ -1154,7 +1179,7 @@ definitions:
         type: boolean
       user_id:
         description: user id
-        example: 6.44637e+17
+        example: 6.706611e+18
         format: int64
         type: integer
     required:
@@ -1577,6 +1602,12 @@ paths:
     get:
       description: Retrieve all places.
       operationId: place#list
+      parameters:
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/ListPlacePayload'
       produces:
       - application/vnd.place+json; type=collection
       responses:

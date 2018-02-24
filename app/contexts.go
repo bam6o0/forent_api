@@ -1150,6 +1150,7 @@ type ListPlaceContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
+	Payload *ListPlacePayload
 }
 
 // NewListPlaceContext parses the incoming request URL and body, performs validations and creates the
@@ -1162,6 +1163,27 @@ func NewListPlaceContext(ctx context.Context, r *http.Request, service *goa.Serv
 	req.Request = r
 	rctx := ListPlaceContext{Context: ctx, ResponseData: resp, RequestData: req}
 	return &rctx, err
+}
+
+// listPlacePayload is the place list action payload.
+type listPlacePayload struct {
+	// place id
+	PlaceID *int `form:"PlaceID,omitempty" json:"PlaceID,omitempty" xml:"PlaceID,omitempty"`
+}
+
+// Publicize creates ListPlacePayload from listPlacePayload
+func (payload *listPlacePayload) Publicize() *ListPlacePayload {
+	var pub ListPlacePayload
+	if payload.PlaceID != nil {
+		pub.PlaceID = payload.PlaceID
+	}
+	return &pub
+}
+
+// ListPlacePayload is the place list action payload.
+type ListPlacePayload struct {
+	// place id
+	PlaceID *int `form:"PlaceID,omitempty" json:"PlaceID,omitempty" xml:"PlaceID,omitempty"`
 }
 
 // OK sends a HTTP response with status code 200.

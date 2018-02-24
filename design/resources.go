@@ -394,6 +394,9 @@ var _ = Resource("place", func() { // Resources group related API endpoints
 		Routing(
 			GET(""),
 		)
+		Payload(func() {
+			Param("PlaceID", Integer, "place id")
+		})
 		Description("Retrieve all places.")
 		Response(OK, CollectionOf(Place))
 	})
