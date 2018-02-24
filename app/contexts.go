@@ -749,6 +749,12 @@ func (ctx *ListItemContext) OK(r ItemCollection) error {
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
 }
 
+// NotFound sends a HTTP response with status code 404.
+func (ctx *ListItemContext) NotFound() error {
+	ctx.ResponseData.WriteHeader(404)
+	return nil
+}
+
 // UpdateItemContext provides the item update action context.
 type UpdateItemContext struct {
 	context.Context
@@ -986,6 +992,91 @@ func (ctx *ListMiddlecategoryContext) OK(r MiddlecategoryCollection) error {
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
 }
 
+// AcceptOfferContext provides the offer accept action context.
+type AcceptOfferContext struct {
+	context.Context
+	*goa.ResponseData
+	*goa.RequestData
+	Payload *AcceptOfferPayload
+}
+
+// NewAcceptOfferContext parses the incoming request URL and body, performs validations and creates the
+// context used by the offer controller accept action.
+func NewAcceptOfferContext(ctx context.Context, r *http.Request, service *goa.Service) (*AcceptOfferContext, error) {
+	var err error
+	resp := goa.ContextResponse(ctx)
+	resp.Service = service
+	req := goa.ContextRequest(ctx)
+	req.Request = r
+	rctx := AcceptOfferContext{Context: ctx, ResponseData: resp, RequestData: req}
+	return &rctx, err
+}
+
+// acceptOfferPayload is the offer accept action payload.
+type acceptOfferPayload struct {
+	// offer ID
+	OfferID *int `form:"offer_id,omitempty" json:"offer_id,omitempty" xml:"offer_id,omitempty"`
+	// owner ID
+	OwnerID *int `form:"owner_id,omitempty" json:"owner_id,omitempty" xml:"owner_id,omitempty"`
+}
+
+// Validate runs the validation rules defined in the design.
+func (payload *acceptOfferPayload) Validate() (err error) {
+	if payload.OfferID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "offer_id"))
+	}
+	if payload.OwnerID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "owner_id"))
+	}
+	return
+}
+
+// Publicize creates AcceptOfferPayload from acceptOfferPayload
+func (payload *acceptOfferPayload) Publicize() *AcceptOfferPayload {
+	var pub AcceptOfferPayload
+	if payload.OfferID != nil {
+		pub.OfferID = *payload.OfferID
+	}
+	if payload.OwnerID != nil {
+		pub.OwnerID = *payload.OwnerID
+	}
+	return &pub
+}
+
+// AcceptOfferPayload is the offer accept action payload.
+type AcceptOfferPayload struct {
+	// offer ID
+	OfferID int `form:"offer_id" json:"offer_id" xml:"offer_id"`
+	// owner ID
+	OwnerID int `form:"owner_id" json:"owner_id" xml:"owner_id"`
+}
+
+// Validate runs the validation rules defined in the design.
+func (payload *AcceptOfferPayload) Validate() (err error) {
+
+	return
+}
+
+// NoContent sends a HTTP response with status code 204.
+func (ctx *AcceptOfferContext) NoContent() error {
+	ctx.ResponseData.WriteHeader(204)
+	return nil
+}
+
+// BadRequest sends a HTTP response with status code 400.
+func (ctx *AcceptOfferContext) BadRequest(r error) error {
+	if ctx.ResponseData.Header().Get("Content-Type") == "" {
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	}
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
+}
+
+// NotFound sends a HTTP response with status code 404.
+func (ctx *AcceptOfferContext) NotFound() error {
+	ctx.ResponseData.WriteHeader(404)
+	return nil
+}
+
 // CreateOfferContext provides the offer create action context.
 type CreateOfferContext struct {
 	context.Context
@@ -1012,8 +1103,6 @@ type createOfferPayload struct {
 	EndAt *time.Time `form:"end_at,omitempty" json:"end_at,omitempty" xml:"end_at,omitempty"`
 	// item id
 	ItemID *int `form:"item_id,omitempty" json:"item_id,omitempty" xml:"item_id,omitempty"`
-	// item id
-	OwnerID *int `form:"owner_id,omitempty" json:"owner_id,omitempty" xml:"owner_id,omitempty"`
 	// offer price
 	Price *int `form:"price,omitempty" json:"price,omitempty" xml:"price,omitempty"`
 	// rental start at
@@ -1051,9 +1140,6 @@ func (payload *createOfferPayload) Publicize() *CreateOfferPayload {
 	if payload.ItemID != nil {
 		pub.ItemID = *payload.ItemID
 	}
-	if payload.OwnerID != nil {
-		pub.OwnerID = payload.OwnerID
-	}
 	if payload.Price != nil {
 		pub.Price = *payload.Price
 	}
@@ -1072,8 +1158,6 @@ type CreateOfferPayload struct {
 	EndAt time.Time `form:"end_at" json:"end_at" xml:"end_at"`
 	// item id
 	ItemID int `form:"item_id" json:"item_id" xml:"item_id"`
-	// item id
-	OwnerID *int `form:"owner_id,omitempty" json:"owner_id,omitempty" xml:"owner_id,omitempty"`
 	// offer price
 	Price int `form:"price" json:"price" xml:"price"`
 	// rental start at
@@ -1102,45 +1186,82 @@ func (ctx *CreateOfferContext) BadRequest(r error) error {
 	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
-// ShowOfferContext provides the offer show action context.
-type ShowOfferContext struct {
+// ListOfferContext provides the offer list action context.
+type ListOfferContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	OwnerID int
+	Payload *ListOfferPayload
 }
 
-// NewShowOfferContext parses the incoming request URL and body, performs validations and creates the
-// context used by the offer controller show action.
-func NewShowOfferContext(ctx context.Context, r *http.Request, service *goa.Service) (*ShowOfferContext, error) {
+// NewListOfferContext parses the incoming request URL and body, performs validations and creates the
+// context used by the offer controller list action.
+func NewListOfferContext(ctx context.Context, r *http.Request, service *goa.Service) (*ListOfferContext, error) {
 	var err error
 	resp := goa.ContextResponse(ctx)
 	resp.Service = service
 	req := goa.ContextRequest(ctx)
 	req.Request = r
-	rctx := ShowOfferContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramOwnerID := req.Params["ownerID"]
-	if len(paramOwnerID) > 0 {
-		rawOwnerID := paramOwnerID[0]
-		if ownerID, err2 := strconv.Atoi(rawOwnerID); err2 == nil {
-			rctx.OwnerID = ownerID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("ownerID", rawOwnerID, "integer"))
-		}
-	}
+	rctx := ListOfferContext{Context: ctx, ResponseData: resp, RequestData: req}
 	return &rctx, err
 }
 
+// listOfferPayload is the offer list action payload.
+type listOfferPayload struct {
+	// item ID
+	ItemID *int `form:"item_id,omitempty" json:"item_id,omitempty" xml:"item_id,omitempty"`
+	// owner ID
+	OwnerID *int `form:"owner_id,omitempty" json:"owner_id,omitempty" xml:"owner_id,omitempty"`
+	// user ID
+	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
+}
+
+// Publicize creates ListOfferPayload from listOfferPayload
+func (payload *listOfferPayload) Publicize() *ListOfferPayload {
+	var pub ListOfferPayload
+	if payload.ItemID != nil {
+		pub.ItemID = payload.ItemID
+	}
+	if payload.OwnerID != nil {
+		pub.OwnerID = payload.OwnerID
+	}
+	if payload.UserID != nil {
+		pub.UserID = payload.UserID
+	}
+	return &pub
+}
+
+// ListOfferPayload is the offer list action payload.
+type ListOfferPayload struct {
+	// item ID
+	ItemID *int `form:"item_id,omitempty" json:"item_id,omitempty" xml:"item_id,omitempty"`
+	// owner ID
+	OwnerID *int `form:"owner_id,omitempty" json:"owner_id,omitempty" xml:"owner_id,omitempty"`
+	// user ID
+	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
+}
+
 // OK sends a HTTP response with status code 200.
-func (ctx *ShowOfferContext) OK(r *Profile) error {
+func (ctx *ListOfferContext) OK(r OfferCollection) error {
 	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.profile+json")
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.offer+json; type=collection")
+	}
+	if r == nil {
+		r = OfferCollection{}
 	}
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
 }
 
+// BadRequest sends a HTTP response with status code 400.
+func (ctx *ListOfferContext) BadRequest(r error) error {
+	if ctx.ResponseData.Header().Get("Content-Type") == "" {
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	}
+	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
+}
+
 // NotFound sends a HTTP response with status code 404.
-func (ctx *ShowOfferContext) NotFound() error {
+func (ctx *ListOfferContext) NotFound() error {
 	ctx.ResponseData.WriteHeader(404)
 	return nil
 }
@@ -1313,9 +1434,9 @@ func NewDeleteProfileContext(ctx context.Context, r *http.Request, service *goa.
 	if len(paramProfileID) > 0 {
 		rawProfileID := paramProfileID[0]
 		if profileID, err2 := strconv.Atoi(rawProfileID); err2 == nil {
-			tmp4 := profileID
-			tmp3 := &tmp4
-			rctx.ProfileID = tmp3
+			tmp3 := profileID
+			tmp2 := &tmp3
+			rctx.ProfileID = tmp2
 		} else {
 			err = goa.MergeErrors(err, goa.InvalidParamTypeError("profileID", rawProfileID, "integer"))
 		}
@@ -1436,9 +1557,9 @@ func NewUpdateProfileContext(ctx context.Context, r *http.Request, service *goa.
 	if len(paramProfileID) > 0 {
 		rawProfileID := paramProfileID[0]
 		if profileID, err2 := strconv.Atoi(rawProfileID); err2 == nil {
-			tmp6 := profileID
-			tmp5 := &tmp6
-			rctx.ProfileID = tmp5
+			tmp5 := profileID
+			tmp4 := &tmp5
+			rctx.ProfileID = tmp4
 		} else {
 			err = goa.MergeErrors(err, goa.InvalidParamTypeError("profileID", rawProfileID, "integer"))
 		}

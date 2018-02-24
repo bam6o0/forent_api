@@ -25,7 +25,7 @@ type Offer struct {
 	ItemID    int // Belongs To Item
 	OwnerID   int
 	Price     int
-	RentalID  int        // has one Offer
+	Rental    Rental     // has one Rental
 	UserID    int        // Belongs To User
 	CreatedAt time.Time  // timestamp
 	DeletedAt *time.Time // nullable timestamp (soft delete)

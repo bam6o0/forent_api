@@ -45,6 +45,7 @@ func (m *Rental) RentalToRental() *app.Rental {
 	rental := &app.Rental{}
 	rental.DeliveredAt = m.DeliveredAt
 	rental.ID = m.ID
+	rental.OfferID = m.OfferID
 	rental.ReturnedAt = m.ReturnedAt
 
 	return rental

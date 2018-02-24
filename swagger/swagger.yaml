@@ -4,6 +4,26 @@ consumes:
 - application/gob
 - application/x-gob
 definitions:
+  AcceptOfferPayload:
+    example:
+      offer_id: 4.333225e+17
+      owner_id: 7.1437607e+18
+    properties:
+      offer_id:
+        description: offer ID
+        example: 4.333225e+17
+        format: int64
+        type: integer
+      owner_id:
+        description: owner ID
+        example: 7.1437607e+18
+        format: int64
+        type: integer
+    required:
+    - offer_id
+    - owner_id
+    title: AcceptOfferPayload
+    type: object
   Article:
     description: article (default view)
     example:
@@ -244,6 +264,11 @@ definitions:
       name: Consequatur molestias.
       name_base: Culpa repellat tenetur eaque dolorem eius.
       name_en: Iure eaque rem alias quia ex.
+    - id: 7.5318943e+18
+      middle_category_id: 1.4066062e+18
+      name: Consequatur molestias.
+      name_base: Culpa repellat tenetur eaque dolorem eius.
+      name_en: Iure eaque rem alias quia ex.
     items:
       $ref: '#/definitions/Category'
     title: 'Mediatype identifier: application/vnd.category+json; type=collection;
@@ -294,6 +319,11 @@ definitions:
     description: CommentCollection is the media type for an array of Comment (default
       view)
     example:
+    - id: 2.788934e+17
+      item_id: 5.88309e+17
+      reply_to: 6.31096e+18
+      text: Repellendus alias voluptas molestiae harum.
+      user_id: 9.158695e+18
     - id: 2.788934e+17
       item_id: 5.88309e+17
       reply_to: 6.31096e+18
@@ -412,36 +442,30 @@ definitions:
     type: object
   CreateOfferPayload:
     example:
-      end_at: 2006-08-01T08:05:28Z
-      item_id: 7.1437607e+18
-      owner_id: 5.129071e+18
-      price: 6.1975574e+17
-      start_at: 1976-10-23T07:13:19Z
+      end_at: 1970-07-03T03:02:52Z
+      item_id: 6.1975574e+17
+      price: 4.4740085e+18
+      start_at: 1983-03-30T12:28:07Z
       user_id: 1
     properties:
       end_at:
         description: rental end at
-        example: 2006-08-01T08:05:28Z
+        example: 1970-07-03T03:02:52Z
         format: date-time
         type: string
       item_id:
         description: item id
-        example: 7.1437607e+18
-        format: int64
-        type: integer
-      owner_id:
-        description: item id
-        example: 5.129071e+18
+        example: 6.1975574e+17
         format: int64
         type: integer
       price:
         description: offer price
-        example: 6.1975574e+17
+        example: 4.4740085e+18
         format: int64
         type: integer
       start_at:
         description: rental start at
-        example: 1976-10-23T07:13:19Z
+        example: 1983-03-30T12:28:07Z
         format: date-time
         type: string
       user_id:
@@ -485,10 +509,10 @@ definitions:
   CreateVerificationPayload:
     example:
       email: true
-      facebook_id: 8.203252e+18
-      google_id: 5.619602e+18
-      identification: true
-      user_id: 2.2682404e+17
+      facebook_id: 2.2682404e+17
+      google_id: 7.7849755e+18
+      identification: false
+      user_id: 5.171761e+18
     properties:
       email:
         description: address flag
@@ -496,21 +520,21 @@ definitions:
         type: boolean
       facebook_id:
         description: Unique facebook ID
-        example: 8.203252e+18
+        example: 2.2682404e+17
         format: int64
         type: integer
       google_id:
         description: Unique google ID
-        example: 5.619602e+18
+        example: 7.7849755e+18
         format: int64
         type: integer
       identification:
         description: identification flag
-        example: true
+        example: false
         type: boolean
       user_id:
         description: user id
-        example: 2.2682404e+17
+        example: 5.171761e+18
         format: int64
         type: integer
     required:
@@ -653,6 +677,18 @@ definitions:
       place_id: 1
       price: 25000
       user_id: 1
+    - category_id: 1
+      compensation: 1.5e+06
+      description: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
+      id: 1
+      image1: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
+      image2: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
+      image3: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
+      image4: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
+      name: Bond vehicles
+      place_id: 1
+      price: 25000
+      user_id: 1
     items:
       $ref: '#/definitions/Item'
     title: 'Mediatype identifier: application/vnd.item+json; type=collection; view=default'
@@ -693,10 +729,6 @@ definitions:
     description: LargecategoryCollection is the media type for an array of Largecategory
       (default view)
     example:
-    - id: 2.440823e+18
-      name: Saepe quo.
-      name_base: Nemo explicabo.
-      name_en: Minus est atque ut mollitia.
     - id: 2.440823e+18
       name: Saepe quo.
       name_base: Nemo explicabo.
@@ -795,13 +827,36 @@ definitions:
         type: integer
     title: ListMiddlecategoryPayload
     type: object
+  ListOfferPayload:
+    example:
+      item_id: 5.437151e+17
+      owner_id: 8.203252e+18
+      user_id: 1
+    properties:
+      item_id:
+        description: item ID
+        example: 5.437151e+17
+        format: int64
+        type: integer
+      owner_id:
+        description: owner ID
+        example: 8.203252e+18
+        format: int64
+        type: integer
+      user_id:
+        description: user ID
+        example: 1
+        format: int64
+        type: integer
+    title: ListOfferPayload
+    type: object
   ListPlacePayload:
     example:
-      PlaceID: 1.930066e+18
+      PlaceID: 5.619602e+18
     properties:
       PlaceID:
         description: place id
-        example: 1.930066e+18
+        example: 5.619602e+18
         format: int64
         type: integer
     title: ListPlacePayload
@@ -854,62 +909,135 @@ definitions:
       name: Modi ex.
       name_base: Dolore rem et.
       name_en: Non nihil minus sed earum repudiandae.
-    - id: 5.740637e+18
-      large_category_id: 8.063472e+18
-      name: Modi ex.
-      name_base: Dolore rem et.
-      name_en: Non nihil minus sed earum repudiandae.
     items:
       $ref: '#/definitions/Middlecategory'
     title: 'Mediatype identifier: application/vnd.middlecategory+json; type=collection;
       view=default'
     type: array
+  Offer:
+    description: Offer (default view)
+    example:
+      accepted: false
+      end_at: 1986-02-09T16:21:08Z
+      id: 1.0519993e+18
+      item_id: 4.3150507e+18
+      owner_id: 8.349494e+17
+      price: 4.826041e+18
+      start_at: 2013-03-22T03:00:03Z
+      user_id: 9.0968523e+18
+    properties:
+      accepted:
+        description: offer accept
+        example: false
+        type: boolean
+      end_at:
+        description: rental end at
+        example: 1986-02-09T16:21:08Z
+        format: date-time
+        type: string
+      id:
+        description: Unique offer ID
+        example: 1.0519993e+18
+        format: int64
+        type: integer
+      item_id:
+        description: item id
+        example: 4.3150507e+18
+        format: int64
+        type: integer
+      owner_id:
+        description: item id
+        example: 8.349494e+17
+        format: int64
+        type: integer
+      price:
+        description: offer price
+        example: 4.826041e+18
+        format: int64
+        type: integer
+      start_at:
+        description: rental start at
+        example: 2013-03-22T03:00:03Z
+        format: date-time
+        type: string
+      user_id:
+        description: offer user id
+        example: 9.0968523e+18
+        format: int64
+        type: integer
+    required:
+    - id
+    - user_id
+    - item_id
+    - owner_id
+    - price
+    - start_at
+    - end_at
+    - accepted
+    title: 'Mediatype identifier: application/vnd.offer+json; view=default'
+    type: object
+  OfferCollection:
+    description: OfferCollection is the media type for an array of Offer (default
+      view)
+    example:
+    - accepted: false
+      end_at: 1986-02-09T16:21:08Z
+      id: 1.0519993e+18
+      item_id: 4.3150507e+18
+      owner_id: 8.349494e+17
+      price: 4.826041e+18
+      start_at: 2013-03-22T03:00:03Z
+      user_id: 9.0968523e+18
+    items:
+      $ref: '#/definitions/Offer'
+    title: 'Mediatype identifier: application/vnd.offer+json; type=collection; view=default'
+    type: array
   Place:
     description: Place (default view)
     example:
-      city_id: Nisi eaque odio voluptatem culpa ut.
-      city_name: Est ab ea dolorem.
-      google_place_id: Error enim ut.
-      id: 1.0651655e+18
-      latitude: 0.55506164
-      longitude: 0.9812413
-      name: In temporibus aut facere omnis.
-      type: 6.4620827e+18
+      city_id: Eaque odio voluptatem.
+      city_name: Ut magnam.
+      google_place_id: Ab ea dolorem ut error enim.
+      id: 3.7307518e+18
+      latitude: 0.115485474
+      longitude: 0.55506164
+      name: Et in temporibus aut facere omnis labore.
+      type: 5.280955e+18
     properties:
       city_id:
         description: google place city id
-        example: Nisi eaque odio voluptatem culpa ut.
+        example: Eaque odio voluptatem.
         type: string
       city_name:
         description: city name
-        example: Est ab ea dolorem.
+        example: Ut magnam.
         type: string
       google_place_id:
         description: google place id
-        example: Error enim ut.
+        example: Ab ea dolorem ut error enim.
         type: string
       id:
         description: Unique place ID
-        example: 1.0651655e+18
+        example: 3.7307518e+18
         format: int64
         type: integer
       latitude:
         description: place latitude
-        example: 0.55506164
+        example: 0.115485474
         format: double
         type: number
       longitude:
         description: place longitude
-        example: 0.9812413
+        example: 0.55506164
         format: double
         type: number
       name:
         description: place name
-        example: In temporibus aut facere omnis.
+        example: Et in temporibus aut facere omnis labore.
         type: string
       type:
         description: receive type
-        example: 6.4620827e+18
+        example: 5.280955e+18
         format: int64
         type: integer
     required:
@@ -927,30 +1055,14 @@ definitions:
     description: PlaceCollection is the media type for an array of Place (default
       view)
     example:
-    - city_id: Nisi eaque odio voluptatem culpa ut.
-      city_name: Est ab ea dolorem.
-      google_place_id: Error enim ut.
-      id: 1.0651655e+18
-      latitude: 0.55506164
-      longitude: 0.9812413
-      name: In temporibus aut facere omnis.
-      type: 6.4620827e+18
-    - city_id: Nisi eaque odio voluptatem culpa ut.
-      city_name: Est ab ea dolorem.
-      google_place_id: Error enim ut.
-      id: 1.0651655e+18
-      latitude: 0.55506164
-      longitude: 0.9812413
-      name: In temporibus aut facere omnis.
-      type: 6.4620827e+18
-    - city_id: Nisi eaque odio voluptatem culpa ut.
-      city_name: Est ab ea dolorem.
-      google_place_id: Error enim ut.
-      id: 1.0651655e+18
-      latitude: 0.55506164
-      longitude: 0.9812413
-      name: In temporibus aut facere omnis.
-      type: 6.4620827e+18
+    - city_id: Eaque odio voluptatem.
+      city_name: Ut magnam.
+      google_place_id: Ab ea dolorem ut error enim.
+      id: 3.7307518e+18
+      latitude: 0.115485474
+      longitude: 0.55506164
+      name: Et in temporibus aut facere omnis labore.
+      type: 5.280955e+18
     items:
       $ref: '#/definitions/Place'
     title: 'Mediatype identifier: application/vnd.place+json; type=collection; view=default'
@@ -1166,24 +1278,24 @@ definitions:
     type: object
   UpdateVerificationPayload:
     example:
-      email: true
-      facebook_id: 6.061644e+18
-      google_id: 5.171761e+18
+      email: false
+      facebook_id: 6.706611e+18
+      google_id: 7.9670376e+18
       identification: false
-      user_id: 6.706611e+18
+      user_id: 8.110422e+18
     properties:
       email:
         description: address flag
-        example: true
+        example: false
         type: boolean
       facebook_id:
         description: Unique facebook ID
-        example: 6.061644e+18
+        example: 6.706611e+18
         format: int64
         type: integer
       google_id:
         description: Unique google ID
-        example: 5.171761e+18
+        example: 7.9670376e+18
         format: int64
         type: integer
       identification:
@@ -1192,7 +1304,7 @@ definitions:
         type: boolean
       user_id:
         description: user id
-        example: 6.706611e+18
+        example: 8.110422e+18
         format: int64
         type: integer
     required:
@@ -1448,6 +1560,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/ItemCollection'
+        "404":
+          description: Not Found
       schemes:
       - http
       summary: list item
@@ -1559,8 +1673,47 @@ paths:
       tags:
       - middlecategory
   /offers:
+    get:
+      description: |-
+        Retrieve all offers.
+
+        Required security scopes:
+          * `api:access`
+      operationId: offer#list
+      parameters:
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/ListOfferPayload'
+      produces:
+      - application/vnd.goa.error
+      - application/vnd.offer+json; type=collection
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/OfferCollection'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      security:
+      - jwt:
+        - api:access
+      summary: list offer
+      tags:
+      - offer
     post:
-      description: Create new offer
+      description: |-
+        Create new offer
+
+        Required security scopes:
+          * `api:access`
       operationId: offer#create
       parameters:
       - in: body
@@ -1584,31 +1737,42 @@ paths:
             $ref: '#/definitions/error'
       schemes:
       - http
+      security:
+      - jwt:
+        - api:access
       summary: create offer
       tags:
       - offer
-  /offers/{ownerID}:
-    get:
-      description: Get owner by id
-      operationId: offer#show
+    put:
+      description: |-
+        accepted offer
+
+        Required security scopes:
+          * `api:access`
+      operationId: offer#accept
       parameters:
-      - description: owner ID
-        in: path
-        name: ownerID
+      - in: body
+        name: payload
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/AcceptOfferPayload'
       produces:
-      - application/vnd.profile+json
+      - application/vnd.goa.error
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
           schema:
-            $ref: '#/definitions/Profile'
+            $ref: '#/definitions/error'
         "404":
           description: Not Found
       schemes:
       - http
-      summary: show offer
+      security:
+      - jwt:
+        - api:access
+      summary: accept offer
       tags:
       - offer
   /places:

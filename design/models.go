@@ -158,6 +158,7 @@ var _ = StorageGroup("forent", func() {
 			Field("created_at", gorma.Timestamp, func() {})
 			Field("updated_at", gorma.Timestamp, func() {})
 			Field("deleted_at", gorma.NullableTimestamp, func() {})
+			HasOne("Rental")
 		})
 
 		// Rental Model
@@ -168,7 +169,6 @@ var _ = StorageGroup("forent", func() {
 				PrimaryKey()
 				Description("This is the rental Model PK field")
 			})
-			HasOne("Offer")
 			Field("delivered_at", gorma.Timestamp, func() {})
 			Field("returned_at", gorma.Timestamp, func() {})
 			Field("created_at", gorma.Timestamp, func() {})

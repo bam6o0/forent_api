@@ -717,8 +717,9 @@ func unmarshalListMiddlecategoryPayload(ctx context.Context, service *goa.Servic
 // OfferController is the controller interface for the Offer actions.
 type OfferController interface {
 	goa.Muxer
+	Accept(*AcceptOfferContext) error
 	Create(*CreateOfferContext) error
-	Show(*ShowOfferContext) error
+	List(*ListOfferContext) error
 }
 
 // MountOfferController "mounts" a Offer resource controller on the given service.
@@ -726,7 +727,29 @@ func MountOfferController(service *goa.Service, ctrl OfferController) {
 	initService(service)
 	var h goa.Handler
 	service.Mux.Handle("OPTIONS", "/offers", ctrl.MuxHandler("preflight", handleOfferOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/offers/:ownerID", ctrl.MuxHandler("preflight", handleOfferOrigin(cors.HandlePreflight()), nil))
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewAcceptOfferContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*AcceptOfferPayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
+		return ctrl.Accept(rctx)
+	}
+	h = handleSecurity("jwt", h, "api:access")
+	h = handleOfferOrigin(h)
+	service.Mux.Handle("PUT", "/offers", ctrl.MuxHandler("accept", h, unmarshalAcceptOfferPayload))
+	service.LogInfo("mount", "ctrl", "Offer", "action", "Accept", "route", "PUT /offers", "security", "jwt")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -746,9 +769,10 @@ func MountOfferController(service *goa.Service, ctrl OfferController) {
 		}
 		return ctrl.Create(rctx)
 	}
+	h = handleSecurity("jwt", h, "api:access")
 	h = handleOfferOrigin(h)
 	service.Mux.Handle("POST", "/offers", ctrl.MuxHandler("create", h, unmarshalCreateOfferPayload))
-	service.LogInfo("mount", "ctrl", "Offer", "action", "Create", "route", "POST /offers")
+	service.LogInfo("mount", "ctrl", "Offer", "action", "Create", "route", "POST /offers", "security", "jwt")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -756,15 +780,22 @@ func MountOfferController(service *goa.Service, ctrl OfferController) {
 			return err
 		}
 		// Build the context
-		rctx, err := NewShowOfferContext(ctx, req, service)
+		rctx, err := NewListOfferContext(ctx, req, service)
 		if err != nil {
 			return err
 		}
-		return ctrl.Show(rctx)
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*ListOfferPayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
+		return ctrl.List(rctx)
 	}
+	h = handleSecurity("jwt", h, "api:access")
 	h = handleOfferOrigin(h)
-	service.Mux.Handle("GET", "/offers/:ownerID", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Offer", "action", "Show", "route", "GET /offers/:ownerID")
+	service.Mux.Handle("GET", "/offers", ctrl.MuxHandler("list", h, unmarshalListOfferPayload))
+	service.LogInfo("mount", "ctrl", "Offer", "action", "List", "route", "GET /offers", "security", "jwt")
 }
 
 // handleOfferOrigin applies the CORS response headers corresponding to the origin.
@@ -793,6 +824,21 @@ func handleOfferOrigin(h goa.Handler) goa.Handler {
 	}
 }
 
+// unmarshalAcceptOfferPayload unmarshals the request body into the context request data Payload field.
+func unmarshalAcceptOfferPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &acceptOfferPayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
+		return err
+	}
+	if err := payload.Validate(); err != nil {
+		// Initialize payload with private data structure so it can be logged
+		goa.ContextRequest(ctx).Payload = payload
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
+}
+
 // unmarshalCreateOfferPayload unmarshals the request body into the context request data Payload field.
 func unmarshalCreateOfferPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
 	payload := &createOfferPayload{}
@@ -802,6 +848,16 @@ func unmarshalCreateOfferPayload(ctx context.Context, service *goa.Service, req 
 	if err := payload.Validate(); err != nil {
 		// Initialize payload with private data structure so it can be logged
 		goa.ContextRequest(ctx).Payload = payload
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
+}
+
+// unmarshalListOfferPayload unmarshals the request body into the context request data Payload field.
+func unmarshalListOfferPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &listOfferPayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
 		return err
 	}
 	goa.ContextRequest(ctx).Payload = payload.Publicize()

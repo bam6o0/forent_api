@@ -170,6 +170,7 @@ var _ = Resource("item", func() { // Resources group related API endpoints
 			Param("cityID", String, "city id")
 		})
 		Response(OK, CollectionOf(Item))
+		Response(NotFound)
 	})
 
 	Action("create", func() {
@@ -265,17 +266,28 @@ var _ = Resource("offer", func() { // Resources group related API endpoints
 	BasePath("/offers")   // together. They map to REST resources for REST
 	DefaultMedia(Profile) // services.
 
-	Action("show", func() { // Actions define a single API endpoint together
-		Description("Get owner by id") // with its path, parameters (both path
-		Routing(GET("/:ownerID"))      // parameters and querystring values) and payload
-		Params(func() {                // (shape of the request body).
-			Param("ownerID", Integer, "owner ID")
+	Action("list", func() {
+		Security(JWT, func() { // Use JWT to auth requests to this endpoint
+			Scope("api:access") // Enforce presence of "api" scope in JWT claims.
 		})
-		Response(OK)       // Responses define the shape and status code
+		Description("Retrieve all offers.")
+		Routing(
+			GET(""),
+		)
+		Payload(func() {
+			Param("item_id", Integer, "item ID")
+			Param("user_id", Integer, "user ID")
+			Param("owner_id", Integer, "owner ID")
+		})
+		Response(OK, CollectionOf(Offer))
 		Response(NotFound) // of HTTP responses.
+		Response(BadRequest, ErrorMedia)
 	})
 
 	Action("create", func() {
+		Security(JWT, func() { // Use JWT to auth requests to this endpoint
+			Scope("api:access") // Enforce presence of "api" scope in JWT claims.
+		})
 		Routing(
 			POST(""),
 		)
@@ -283,7 +295,6 @@ var _ = Resource("offer", func() { // Resources group related API endpoints
 		Payload(func() {
 			Param("user_id", Integer, "offer user id")
 			Param("item_id", Integer, "item id")
-			Param("owner_id", Integer, "item id")
 			Param("price", Integer, "offer price")
 			Param("start_at", DateTime, "rental start at")
 			Param("end_at", DateTime, "rental end at")
@@ -291,6 +302,24 @@ var _ = Resource("offer", func() { // Resources group related API endpoints
 			Required("user_id", "item_id", "price", "start_at", "end_at")
 		})
 		Response(Created, "/offers/[0-9]+")
+		Response(BadRequest, ErrorMedia)
+	})
+
+	Action("accept", func() {
+		Security(JWT, func() { // Use JWT to auth requests to this endpoint
+			Scope("api:access") // Enforce presence of "api" scope in JWT claims.
+		})
+		Routing(
+			PUT(""),
+		)
+		Description("accepted offer")
+		Payload(func() {
+			Param("offer_id", Integer, "offer ID")
+			Param("owner_id", Integer, "owner ID")
+			Required("offer_id", "owner_id")
+		})
+		Response(NoContent)
+		Response(NotFound)
 		Response(BadRequest, ErrorMedia)
 	})
 })

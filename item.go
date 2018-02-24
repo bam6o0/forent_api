@@ -116,11 +116,17 @@ func (c *ItemController) List(ctx *app.ListItemContext) error {
 		objs = append(objs, item)
 		return ctx.OK(objs)
 	} else if *ctx.Payload.CityID != "" {
+		fmt.Println(*pay.CityID)
 		places := PlaceDB.ListPlaceOnCity(ctx.Context, *pay.CityID)
 		placeIDs := []int64{}
+
 		for _, place := range places {
 			placeIDs = append(placeIDs, int64(place.ID))
 		}
+		if len(placeIDs) == 0 {
+			return ctx.NotFound()
+		}
+		fmt.Println(placeIDs)
 		items := ItemDB.ListItemOnCity(ctx.Context, placeIDs)
 		return ctx.OK(items)
 	}

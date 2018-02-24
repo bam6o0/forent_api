@@ -141,7 +141,8 @@ func main() {
 	c7 := NewMiddlecategoryController(service)
 	app.MountMiddlecategoryController(service, c7)
 	// Mount "offer" controller
-	c8 := NewOfferController(service)
+	c8, err := NewOfferController(service)
+	exitOnFailure(err)
 	app.MountOfferController(service, c8)
 	// Mount "profile" controller
 	c9, err := NewProfileController(service)
