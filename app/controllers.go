@@ -893,7 +893,6 @@ func MountProfileController(service *goa.Service, ctrl ProfileController) {
 	initService(service)
 	var h goa.Handler
 	service.Mux.Handle("OPTIONS", "/profiles", ctrl.MuxHandler("preflight", handleProfileOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/profiles/:profileID", ctrl.MuxHandler("preflight", handleProfileOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -932,8 +931,8 @@ func MountProfileController(service *goa.Service, ctrl ProfileController) {
 	}
 	h = handleSecurity("jwt", h, "api:access")
 	h = handleProfileOrigin(h)
-	service.Mux.Handle("DELETE", "/profiles/:profileID", ctrl.MuxHandler("delete", h, nil))
-	service.LogInfo("mount", "ctrl", "Profile", "action", "Delete", "route", "DELETE /profiles/:profileID", "security", "jwt")
+	service.Mux.Handle("DELETE", "/profiles", ctrl.MuxHandler("delete", h, nil))
+	service.LogInfo("mount", "ctrl", "Profile", "action", "Delete", "route", "DELETE /profiles", "security", "jwt")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -945,11 +944,17 @@ func MountProfileController(service *goa.Service, ctrl ProfileController) {
 		if err != nil {
 			return err
 		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*ShowProfilePayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
 		return ctrl.Show(rctx)
 	}
 	h = handleProfileOrigin(h)
-	service.Mux.Handle("GET", "/profiles/:profileID", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Profile", "action", "Show", "route", "GET /profiles/:profileID")
+	service.Mux.Handle("GET", "/profiles", ctrl.MuxHandler("show", h, unmarshalShowProfilePayload))
+	service.LogInfo("mount", "ctrl", "Profile", "action", "Show", "route", "GET /profiles")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -971,8 +976,8 @@ func MountProfileController(service *goa.Service, ctrl ProfileController) {
 	}
 	h = handleSecurity("jwt", h, "api:access")
 	h = handleProfileOrigin(h)
-	service.Mux.Handle("PUT", "/profiles/:profileID", ctrl.MuxHandler("update", h, unmarshalUpdateProfilePayload))
-	service.LogInfo("mount", "ctrl", "Profile", "action", "Update", "route", "PUT /profiles/:profileID", "security", "jwt")
+	service.Mux.Handle("PUT", "/profiles", ctrl.MuxHandler("update", h, unmarshalUpdateProfilePayload))
+	service.LogInfo("mount", "ctrl", "Profile", "action", "Update", "route", "PUT /profiles", "security", "jwt")
 }
 
 // handleProfileOrigin applies the CORS response headers corresponding to the origin.
@@ -1004,6 +1009,21 @@ func handleProfileOrigin(h goa.Handler) goa.Handler {
 // unmarshalCreateProfilePayload unmarshals the request body into the context request data Payload field.
 func unmarshalCreateProfilePayload(ctx context.Context, service *goa.Service, req *http.Request) error {
 	payload := &createProfilePayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
+		return err
+	}
+	if err := payload.Validate(); err != nil {
+		// Initialize payload with private data structure so it can be logged
+		goa.ContextRequest(ctx).Payload = payload
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
+}
+
+// unmarshalShowProfilePayload unmarshals the request body into the context request data Payload field.
+func unmarshalShowProfilePayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &showProfilePayload{}
 	if err := service.DecodeRequest(req, payload); err != nil {
 		return err
 	}

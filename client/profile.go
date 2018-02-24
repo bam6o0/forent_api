@@ -78,15 +78,14 @@ func (c *Client) NewCreateProfileRequest(ctx context.Context, path string, paylo
 }
 
 // DeleteProfilePath computes a request path to the delete action of profile.
-func DeleteProfilePath(profileID int) string {
-	param0 := strconv.Itoa(profileID)
+func DeleteProfilePath() string {
 
-	return fmt.Sprintf("/profiles/%s", param0)
+	return fmt.Sprintf("/profiles")
 }
 
 // DeleteProfile makes a request to the delete action endpoint of the profile resource
-func (c *Client) DeleteProfile(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewDeleteProfileRequest(ctx, path)
+func (c *Client) DeleteProfile(ctx context.Context, path string, profileID *int) (*http.Response, error) {
+	req, err := c.NewDeleteProfileRequest(ctx, path, profileID)
 	if err != nil {
 		return nil, err
 	}
@@ -94,12 +93,18 @@ func (c *Client) DeleteProfile(ctx context.Context, path string) (*http.Response
 }
 
 // NewDeleteProfileRequest create the request corresponding to the delete action endpoint of the profile resource.
-func (c *Client) NewDeleteProfileRequest(ctx context.Context, path string) (*http.Request, error) {
+func (c *Client) NewDeleteProfileRequest(ctx context.Context, path string, profileID *int) (*http.Request, error) {
 	scheme := c.Scheme
 	if scheme == "" {
 		scheme = "http"
 	}
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
+	values := u.Query()
+	if profileID != nil {
+		tmp25 := strconv.Itoa(*profileID)
+		values.Set("profileID", tmp25)
+	}
+	u.RawQuery = values.Encode()
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
 		return nil, err
@@ -112,16 +117,21 @@ func (c *Client) NewDeleteProfileRequest(ctx context.Context, path string) (*htt
 	return req, nil
 }
 
-// ShowProfilePath computes a request path to the show action of profile.
-func ShowProfilePath(profileID int) string {
-	param0 := strconv.Itoa(profileID)
+// ShowProfilePayload is the profile show action payload.
+type ShowProfilePayload struct {
+	// user ID
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
+}
 
-	return fmt.Sprintf("/profiles/%s", param0)
+// ShowProfilePath computes a request path to the show action of profile.
+func ShowProfilePath() string {
+
+	return fmt.Sprintf("/profiles")
 }
 
 // Get profile by id
-func (c *Client) ShowProfile(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewShowProfileRequest(ctx, path)
+func (c *Client) ShowProfile(ctx context.Context, path string, payload *ShowProfilePayload, contentType string) (*http.Response, error) {
+	req, err := c.NewShowProfileRequest(ctx, path, payload, contentType)
 	if err != nil {
 		return nil, err
 	}
@@ -129,15 +139,29 @@ func (c *Client) ShowProfile(ctx context.Context, path string) (*http.Response, 
 }
 
 // NewShowProfileRequest create the request corresponding to the show action endpoint of the profile resource.
-func (c *Client) NewShowProfileRequest(ctx context.Context, path string) (*http.Request, error) {
+func (c *Client) NewShowProfileRequest(ctx context.Context, path string, payload *ShowProfilePayload, contentType string) (*http.Request, error) {
+	var body bytes.Buffer
+	if contentType == "" {
+		contentType = "*/*" // Use default encoder
+	}
+	err := c.Encoder.Encode(payload, &body, contentType)
+	if err != nil {
+		return nil, fmt.Errorf("failed to encode body: %s", err)
+	}
 	scheme := c.Scheme
 	if scheme == "" {
 		scheme = "http"
 	}
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
+	req, err := http.NewRequest("GET", u.String(), &body)
 	if err != nil {
 		return nil, err
+	}
+	header := req.Header
+	if contentType == "*/*" {
+		header.Set("Content-Type", "application/json")
+	} else {
+		header.Set("Content-Type", contentType)
 	}
 	return req, nil
 }
@@ -159,15 +183,14 @@ type UpdateProfilePayload struct {
 }
 
 // UpdateProfilePath computes a request path to the update action of profile.
-func UpdateProfilePath(profileID int) string {
-	param0 := strconv.Itoa(profileID)
+func UpdateProfilePath() string {
 
-	return fmt.Sprintf("/profiles/%s", param0)
+	return fmt.Sprintf("/profiles")
 }
 
 // Change profile data
-func (c *Client) UpdateProfile(ctx context.Context, path string, payload *UpdateProfilePayload, contentType string) (*http.Response, error) {
-	req, err := c.NewUpdateProfileRequest(ctx, path, payload, contentType)
+func (c *Client) UpdateProfile(ctx context.Context, path string, payload *UpdateProfilePayload, profileID *int, contentType string) (*http.Response, error) {
+	req, err := c.NewUpdateProfileRequest(ctx, path, payload, profileID, contentType)
 	if err != nil {
 		return nil, err
 	}
@@ -175,7 +198,7 @@ func (c *Client) UpdateProfile(ctx context.Context, path string, payload *Update
 }
 
 // NewUpdateProfileRequest create the request corresponding to the update action endpoint of the profile resource.
-func (c *Client) NewUpdateProfileRequest(ctx context.Context, path string, payload *UpdateProfilePayload, contentType string) (*http.Request, error) {
+func (c *Client) NewUpdateProfileRequest(ctx context.Context, path string, payload *UpdateProfilePayload, profileID *int, contentType string) (*http.Request, error) {
 	var body bytes.Buffer
 	if contentType == "" {
 		contentType = "*/*" // Use default encoder
@@ -189,6 +212,12 @@ func (c *Client) NewUpdateProfileRequest(ctx context.Context, path string, paylo
 		scheme = "http"
 	}
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
+	values := u.Query()
+	if profileID != nil {
+		tmp26 := strconv.Itoa(*profileID)
+		values.Set("profileID", tmp26)
+	}
+	u.RawQuery = values.Encode()
 	req, err := http.NewRequest("PUT", u.String(), &body)
 	if err != nil {
 		return nil, err

@@ -14,6 +14,7 @@ import (
 	jwtgo "github.com/dgrijalva/jwt-go"
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/middleware/security/jwt"
+	"github.com/jinzhu/gorm"
 )
 
 // NewJWTMiddleware is JWT auth
@@ -106,20 +107,38 @@ func (c *ProfileController) Delete(ctx *app.DeleteProfileContext) error {
 
 // Show runs the show action.
 func (c *ProfileController) Show(ctx *app.ShowProfileContext) error {
-	// ProfileController_Show: start_implement
+	payload := ctx.Payload
 
-	// Put your logic here
+	profile, err := ProfileDB.OneProfilebyUseID(ctx.Context, payload.UserID)
+	if err == gorm.ErrRecordNotFound {
+		return ctx.NotFound()
+	} else if err != nil {
+		return ErrDatabaseError(err)
+	}
 
-	res := &app.Profile{}
-	return ctx.OK(res)
-	// ProfileController_Show: end_implement
+	return ctx.OK(profile)
+
 }
 
 // Update runs the update action.
 func (c *ProfileController) Update(ctx *app.UpdateProfileContext) error {
-	// ProfileController_Update: start_implement
+	payload := ctx.Payload
+	// Retrieve the token claims
+	token := jwt.ContextJWT(ctx)
+	if token == nil {
+		return fmt.Errorf("JWT token is missing from context") // internal error
+	}
 
-	// Put your logic here
+	if claims, ok := token.Claims.(jwtgo.MapClaims); ok && token.Valid {
+		//var authID = float64(payload.UserID)
+		if claims["user_id"] != float64(payload.UserID) {
+			errID := errors.New("id error")
+			return ctx.BadRequest(errID)
+		}
+	} else {
+		errID := errors.New("id error")
+		return ctx.BadRequest(errID)
+	}
 
 	return nil
 	// ProfileController_Update: end_implement

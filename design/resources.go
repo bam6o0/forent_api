@@ -16,12 +16,14 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 	Action("show", func() { // Actions define a single API endpoint together
 		NoSecurity()
 		Description("Get profile by id") // with its path, parameters (both path
-		Routing(GET("/:profileID"))      // parameters and querystring values) and payload
-		Params(func() {                  // (shape of the request body).
-			Param("profileID", Integer, "profile ID")
+		Routing(GET(""))                 // parameters and querystring values) and payload
+		Payload(func() {                 // (shape of the request body).
+			Param("user_id", Integer, "user ID")
+			Required("user_id")
 		})
 		Response(OK)       // Responses define the shape and status code
 		Response(NotFound) // of HTTP responses.
+		Response(BadRequest, ErrorMedia)
 	})
 
 	Action("create", func() {
@@ -42,7 +44,7 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 
 	Action("update", func() {
 		Routing(
-			PUT("/:profileID"),
+			PUT(""),
 		)
 		Description("Change profile data")
 		Params(func() {
@@ -65,7 +67,7 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 
 	Action("delete", func() {
 		Routing(
-			DELETE("/:profileID"),
+			DELETE(""),
 		)
 		Params(func() {
 			Param("profileID", Integer, "profile ID")

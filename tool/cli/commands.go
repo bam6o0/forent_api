@@ -151,8 +151,8 @@ type (
 
 	// ShowProfileCommand is the command line data structure for the show action of profile
 	ShowProfileCommand struct {
-		// profile ID
-		ProfileID   int
+		Payload     string
+		ContentType string
 		PrettyPrint bool
 	}
 
@@ -331,7 +331,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp7 := new(DeleteProfileCommand)
 	sub = &cobra.Command{
-		Use:   `profile ["/profiles/PROFILEID"]`,
+		Use:   `profile ["/profiles"]`,
 		Short: ``,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp7.Run(c, args) },
 	}
@@ -482,9 +482,16 @@ Payload example:
 	command.AddCommand(sub)
 	tmp18 := new(ShowProfileCommand)
 	sub = &cobra.Command{
-		Use:   `profile ["/profiles/PROFILEID"]`,
+		Use:   `profile ["/profiles"]`,
 		Short: ``,
-		RunE:  func(cmd *cobra.Command, args []string) error { return tmp18.Run(c, args) },
+		Long: `
+
+Payload example:
+
+{
+   "user_id": 1
+}`,
+		RunE: func(cmd *cobra.Command, args []string) error { return tmp18.Run(c, args) },
 	}
 	tmp18.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp18.PrettyPrint, "pp", false, "Pretty print response body")
@@ -576,7 +583,7 @@ Payload example:
 	command.AddCommand(sub)
 	tmp23 := new(UpdateProfileCommand)
 	sub = &cobra.Command{
-		Use:   `profile ["/profiles/PROFILEID"]`,
+		Use:   `profile ["/profiles"]`,
 		Short: ``,
 		Long: `
 
@@ -1306,11 +1313,11 @@ func (cmd *DeleteProfileCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/profiles/%v", cmd.ProfileID)
+		path = "/profiles"
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
-	resp, err := c.DeleteProfile(ctx, path)
+	resp, err := c.DeleteProfile(ctx, path, intFlagVal("profileID", cmd.ProfileID))
 	if err != nil {
 		goa.LogError(ctx, "failed", "err", err)
 		return err
@@ -1332,11 +1339,18 @@ func (cmd *ShowProfileCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/profiles/%v", cmd.ProfileID)
+		path = "/profiles"
+	}
+	var payload client.ShowProfilePayload
+	if cmd.Payload != "" {
+		err := json.Unmarshal([]byte(cmd.Payload), &payload)
+		if err != nil {
+			return fmt.Errorf("failed to deserialize payload: %s", err)
+		}
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
-	resp, err := c.ShowProfile(ctx, path)
+	resp, err := c.ShowProfile(ctx, path, &payload, cmd.ContentType)
 	if err != nil {
 		goa.LogError(ctx, "failed", "err", err)
 		return err
@@ -1348,8 +1362,8 @@ func (cmd *ShowProfileCommand) Run(c *client.Client, args []string) error {
 
 // RegisterFlags registers the command flags with the command line.
 func (cmd *ShowProfileCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
-	var profileID int
-	cc.Flags().IntVar(&cmd.ProfileID, "profileID", profileID, `profile ID`)
+	cc.Flags().StringVar(&cmd.Payload, "payload", "", "Request body encoded in JSON")
+	cc.Flags().StringVar(&cmd.ContentType, "content", "", "Request content type override, e.g. 'application/x-www-form-urlencoded'")
 }
 
 // Run makes the HTTP request corresponding to the UpdateProfileCommand command.
@@ -1358,7 +1372,7 @@ func (cmd *UpdateProfileCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = fmt.Sprintf("/profiles/%v", cmd.ProfileID)
+		path = "/profiles"
 	}
 	var payload client.UpdateProfilePayload
 	if cmd.Payload != "" {
@@ -1369,7 +1383,7 @@ func (cmd *UpdateProfileCommand) Run(c *client.Client, args []string) error {
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
-	resp, err := c.UpdateProfile(ctx, path, &payload, cmd.ContentType)
+	resp, err := c.UpdateProfile(ctx, path, &payload, intFlagVal("profileID", cmd.ProfileID), cmd.ContentType)
 	if err != nil {
 		goa.LogError(ctx, "failed", "err", err)
 		return err
