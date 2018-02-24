@@ -275,9 +275,9 @@ var _ = Resource("offer", func() { // Resources group related API endpoints
 			GET(""),
 		)
 		Payload(func() {
-			Param("item_id", Integer, "item ID")
+			Param("offer_id", Integer, "offer ID")
 			Param("user_id", Integer, "user ID")
-			Param("owner_id", Integer, "owner ID")
+			Required("user_id")
 		})
 		Response(OK, CollectionOf(Offer))
 		Response(NotFound) // of HTTP responses.

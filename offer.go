@@ -61,7 +61,7 @@ func (c *OfferController) Create(ctx *app.CreateOfferContext) error {
 	offer := models.Offer{}
 	offer.UserID = payload.UserID
 	offer.ItemID = payload.ItemID
-	offer.OwnerID = item.ID
+	offer.OwnerID = item.UserID
 	offer.Price = payload.Price
 	offer.StartAt = payload.StartAt
 	offer.EndAt = payload.EndAt
@@ -77,13 +77,37 @@ func (c *OfferController) Create(ctx *app.CreateOfferContext) error {
 // List runs the list action.
 func (c *OfferController) List(ctx *app.ListOfferContext) error {
 	payload := ctx.Payload
-
-	if *payload.UserID != 0 {
-		offeres := OfferDB.ListOfferByOwner(ctx.Context, *payload.OwnerID)
-		return ctx.OK(offeres)
+	// Retrieve the token claims
+	token := jwt.ContextJWT(ctx)
+	if token == nil {
+		return fmt.Errorf("JWT token is missing from context") // internal error
+	}
+	if claims, ok := token.Claims.(jwtgo.MapClaims); ok && token.Valid {
+		//var authID = float64(payload.UserID)
+		if claims["user_id"] != float64(payload.UserID) {
+			errID := errors.New("id error")
+			return ctx.BadRequest(errID)
+		}
+	} else {
+		errID := errors.New("id error")
+		return ctx.BadRequest(errID)
 	}
 
-	offeres := OfferDB.ListOffer(ctx.Context, *payload.ItemID, *payload.UserID)
+	if *payload.OfferID != 0 {
+		var objs []*app.Offer
+		offer, _ := OfferDB.OneOffer(ctx.Context, *payload.OfferID, 0, 0)
+
+		if offer.UserID != payload.UserID && offer.OwnerID != payload.UserID {
+			errID := errors.New("id error")
+			return ctx.BadRequest(errID)
+		}
+		objs = append(objs, offer)
+		return ctx.OK(objs)
+	}
+	if *payload.OfferID == 0 && payload.UserID == 0 {
+		return ctx.NotFound()
+	}
+	offeres := OfferDB.ListOffer(ctx.Context, 0, payload.UserID)
 	return ctx.OK(offeres)
 }
 

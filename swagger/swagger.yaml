@@ -186,27 +186,6 @@ definitions:
       title4: Accusamus modi qui debitis temporibus.
       title5: Corrupti iure dolores voluptatem.
       user_id: 4.723771e+18
-    - body1: Veniam magnam.
-      body2: Cum eius.
-      body3: Officia sunt ut sequi saepe.
-      body4: At accusantium repudiandae.
-      body5: Temporibus et culpa voluptate voluptas omnis.
-      category_id: 8.2652296e+18
-      id: 8.2080077e+18
-      image1: Pariatur ut id explicabo velit.
-      image2: Consequatur reiciendis eius ipsum.
-      image3: Facere id consequuntur ipsum reprehenderit.
-      image4: Sequi voluptas sed harum vel ut.
-      image5: Dolorum labore nulla.
-      introduction: Incidunt aut et fugiat.
-      item_description: Autem non.
-      item_id: 7.160447e+18
-      title1: Numquam incidunt qui aut excepturi doloremque optio.
-      title2: Eum qui.
-      title3: Et sed impedit enim enim aliquam culpa.
-      title4: Accusamus modi qui debitis temporibus.
-      title5: Corrupti iure dolores voluptatem.
-      user_id: 4.723771e+18
     items:
       $ref: '#/definitions/Article'
     title: 'Mediatype identifier: application/vnd.article+json; type=collection; view=default'
@@ -254,11 +233,6 @@ definitions:
     description: CategoryCollection is the media type for an array of Category (default
       view)
     example:
-    - id: 7.5318943e+18
-      middle_category_id: 1.4066062e+18
-      name: Consequatur molestias.
-      name_base: Culpa repellat tenetur eaque dolorem eius.
-      name_en: Iure eaque rem alias quia ex.
     - id: 7.5318943e+18
       middle_category_id: 1.4066062e+18
       name: Consequatur molestias.
@@ -319,6 +293,11 @@ definitions:
     description: CommentCollection is the media type for an array of Comment (default
       view)
     example:
+    - id: 2.788934e+17
+      item_id: 5.88309e+17
+      reply_to: 6.31096e+18
+      text: Repellendus alias voluptas molestiae harum.
+      user_id: 9.158695e+18
     - id: 2.788934e+17
       item_id: 5.88309e+17
       reply_to: 6.31096e+18
@@ -508,33 +487,33 @@ definitions:
     type: object
   CreateVerificationPayload:
     example:
-      email: true
-      facebook_id: 2.2682404e+17
-      google_id: 7.7849755e+18
-      identification: false
-      user_id: 5.171761e+18
+      email: false
+      facebook_id: 5.504897e+18
+      google_id: 2.2682404e+17
+      identification: true
+      user_id: 6.061644e+18
     properties:
       email:
         description: address flag
-        example: true
+        example: false
         type: boolean
       facebook_id:
         description: Unique facebook ID
-        example: 2.2682404e+17
+        example: 5.504897e+18
         format: int64
         type: integer
       google_id:
         description: Unique google ID
-        example: 7.7849755e+18
+        example: 2.2682404e+17
         format: int64
         type: integer
       identification:
         description: identification flag
-        example: false
+        example: true
         type: boolean
       user_id:
         description: user id
-        example: 5.171761e+18
+        example: 6.061644e+18
         format: int64
         type: integer
     required:
@@ -677,18 +656,6 @@ definitions:
       place_id: 1
       price: 25000
       user_id: 1
-    - category_id: 1
-      compensation: 1.5e+06
-      description: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
-      id: 1
-      image1: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
-      image2: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
-      image3: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
-      image4: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
-      name: Bond vehicles
-      place_id: 1
-      price: 25000
-      user_id: 1
     items:
       $ref: '#/definitions/Item'
     title: 'Mediatype identifier: application/vnd.item+json; type=collection; view=default'
@@ -729,6 +696,10 @@ definitions:
     description: LargecategoryCollection is the media type for an array of Largecategory
       (default view)
     example:
+    - id: 2.440823e+18
+      name: Saepe quo.
+      name_base: Nemo explicabo.
+      name_en: Minus est atque ut mollitia.
     - id: 2.440823e+18
       name: Saepe quo.
       name_base: Nemo explicabo.
@@ -829,18 +800,12 @@ definitions:
     type: object
   ListOfferPayload:
     example:
-      item_id: 5.437151e+17
-      owner_id: 8.203252e+18
+      offer_id: 5.437151e+17
       user_id: 1
     properties:
-      item_id:
-        description: item ID
+      offer_id:
+        description: offer ID
         example: 5.437151e+17
-        format: int64
-        type: integer
-      owner_id:
-        description: owner ID
-        example: 8.203252e+18
         format: int64
         type: integer
       user_id:
@@ -848,15 +813,17 @@ definitions:
         example: 1
         format: int64
         type: integer
+    required:
+    - user_id
     title: ListOfferPayload
     type: object
   ListPlacePayload:
     example:
-      PlaceID: 5.619602e+18
+      PlaceID: 8.203252e+18
     properties:
       PlaceID:
         description: place id
-        example: 5.619602e+18
+        example: 8.203252e+18
         format: int64
         type: integer
     title: ListPlacePayload
@@ -904,6 +871,11 @@ definitions:
     description: MiddlecategoryCollection is the media type for an array of Middlecategory
       (default view)
     example:
+    - id: 5.740637e+18
+      large_category_id: 8.063472e+18
+      name: Modi ex.
+      name_base: Dolore rem et.
+      name_en: Non nihil minus sed earum repudiandae.
     - id: 5.740637e+18
       large_category_id: 8.063472e+18
       name: Modi ex.
@@ -1279,10 +1251,10 @@ definitions:
   UpdateVerificationPayload:
     example:
       email: false
-      facebook_id: 6.706611e+18
-      google_id: 7.9670376e+18
-      identification: false
-      user_id: 8.110422e+18
+      facebook_id: 6.44637e+17
+      google_id: 6.706611e+18
+      identification: true
+      user_id: 8.1193497e+18
     properties:
       email:
         description: address flag
@@ -1290,21 +1262,21 @@ definitions:
         type: boolean
       facebook_id:
         description: Unique facebook ID
-        example: 6.706611e+18
+        example: 6.44637e+17
         format: int64
         type: integer
       google_id:
         description: Unique google ID
-        example: 7.9670376e+18
+        example: 6.706611e+18
         format: int64
         type: integer
       identification:
         description: identification flag
-        example: false
+        example: true
         type: boolean
       user_id:
         description: user id
-        example: 8.110422e+18
+        example: 8.1193497e+18
         format: int64
         type: integer
     required:

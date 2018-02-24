@@ -139,12 +139,10 @@ func (c *Client) NewCreateOfferRequest(ctx context.Context, path string, payload
 
 // ListOfferPayload is the offer list action payload.
 type ListOfferPayload struct {
-	// item ID
-	ItemID *int `form:"item_id,omitempty" json:"item_id,omitempty" xml:"item_id,omitempty"`
-	// owner ID
-	OwnerID *int `form:"owner_id,omitempty" json:"owner_id,omitempty" xml:"owner_id,omitempty"`
+	// offer ID
+	OfferID *int `form:"offer_id,omitempty" json:"offer_id,omitempty" xml:"offer_id,omitempty"`
 	// user ID
-	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // ListOfferPath computes a request path to the list action of offer.
