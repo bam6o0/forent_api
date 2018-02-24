@@ -11,11 +11,18 @@
 package client
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"net/http"
 	"net/url"
 )
+
+// ListPlacePayload is the place list action payload.
+type ListPlacePayload struct {
+	// place id
+	PlaceID *int `form:"PlaceID,omitempty" json:"PlaceID,omitempty" xml:"PlaceID,omitempty"`
+}
 
 // ListPlacePath computes a request path to the list action of place.
 func ListPlacePath() string {
@@ -24,8 +31,8 @@ func ListPlacePath() string {
 }
 
 // Retrieve all places.
-func (c *Client) ListPlace(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewListPlaceRequest(ctx, path)
+func (c *Client) ListPlace(ctx context.Context, path string, payload *ListPlacePayload, contentType string) (*http.Response, error) {
+	req, err := c.NewListPlaceRequest(ctx, path, payload, contentType)
 	if err != nil {
 		return nil, err
 	}
@@ -33,15 +40,29 @@ func (c *Client) ListPlace(ctx context.Context, path string) (*http.Response, er
 }
 
 // NewListPlaceRequest create the request corresponding to the list action endpoint of the place resource.
-func (c *Client) NewListPlaceRequest(ctx context.Context, path string) (*http.Request, error) {
+func (c *Client) NewListPlaceRequest(ctx context.Context, path string, payload *ListPlacePayload, contentType string) (*http.Request, error) {
+	var body bytes.Buffer
+	if contentType == "" {
+		contentType = "*/*" // Use default encoder
+	}
+	err := c.Encoder.Encode(payload, &body, contentType)
+	if err != nil {
+		return nil, fmt.Errorf("failed to encode body: %s", err)
+	}
 	scheme := c.Scheme
 	if scheme == "" {
 		scheme = "http"
 	}
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
+	req, err := http.NewRequest("GET", u.String(), &body)
 	if err != nil {
 		return nil, err
+	}
+	header := req.Header
+	if contentType == "*/*" {
+		header.Set("Content-Type", "application/json")
+	} else {
+		header.Set("Content-Type", contentType)
 	}
 	return req, nil
 }

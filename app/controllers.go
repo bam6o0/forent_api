@@ -830,10 +830,16 @@ func MountPlaceController(service *goa.Service, ctrl PlaceController) {
 		if err != nil {
 			return err
 		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*ListPlacePayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
 		return ctrl.List(rctx)
 	}
 	h = handlePlaceOrigin(h)
-	service.Mux.Handle("GET", "/places", ctrl.MuxHandler("list", h, nil))
+	service.Mux.Handle("GET", "/places", ctrl.MuxHandler("list", h, unmarshalListPlacePayload))
 	service.LogInfo("mount", "ctrl", "Place", "action", "List", "route", "GET /places")
 }
 
@@ -861,6 +867,16 @@ func handlePlaceOrigin(h goa.Handler) goa.Handler {
 
 		return h(ctx, rw, req)
 	}
+}
+
+// unmarshalListPlacePayload unmarshals the request body into the context request data Payload field.
+func unmarshalListPlacePayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &listPlacePayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
 }
 
 // ProfileController is the controller interface for the Profile actions.

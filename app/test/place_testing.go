@@ -24,11 +24,11 @@ import (
 	"net/url"
 )
 
-// ListPlaceOK runs the method List of the given controller with the given parameters.
+// ListPlaceOK runs the method List of the given controller with the given parameters and payload.
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ListPlaceOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.PlaceController) (http.ResponseWriter, app.PlaceCollection) {
+func ListPlaceOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.PlaceController, payload *app.ListPlacePayload) (http.ResponseWriter, app.PlaceCollection) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -69,6 +69,7 @@ func ListPlaceOK(t goatest.TInterface, ctx context.Context, service *goa.Service
 		t.Errorf("unexpected parameter validation error: %+v", e)
 		return nil, nil
 	}
+	listCtx.Payload = payload
 
 	// Perform action
 	_err = ctrl.List(listCtx)
