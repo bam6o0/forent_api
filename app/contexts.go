@@ -1208,37 +1208,38 @@ func NewListOfferContext(ctx context.Context, r *http.Request, service *goa.Serv
 
 // listOfferPayload is the offer list action payload.
 type listOfferPayload struct {
-	// item ID
-	ItemID *int `form:"item_id,omitempty" json:"item_id,omitempty" xml:"item_id,omitempty"`
-	// owner ID
-	OwnerID *int `form:"owner_id,omitempty" json:"owner_id,omitempty" xml:"owner_id,omitempty"`
+	// offer ID
+	OfferID *int `form:"offer_id,omitempty" json:"offer_id,omitempty" xml:"offer_id,omitempty"`
 	// user ID
 	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
+}
+
+// Validate runs the validation rules defined in the design.
+func (payload *listOfferPayload) Validate() (err error) {
+	if payload.UserID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
+	}
+	return
 }
 
 // Publicize creates ListOfferPayload from listOfferPayload
 func (payload *listOfferPayload) Publicize() *ListOfferPayload {
 	var pub ListOfferPayload
-	if payload.ItemID != nil {
-		pub.ItemID = payload.ItemID
-	}
-	if payload.OwnerID != nil {
-		pub.OwnerID = payload.OwnerID
+	if payload.OfferID != nil {
+		pub.OfferID = payload.OfferID
 	}
 	if payload.UserID != nil {
-		pub.UserID = payload.UserID
+		pub.UserID = *payload.UserID
 	}
 	return &pub
 }
 
 // ListOfferPayload is the offer list action payload.
 type ListOfferPayload struct {
-	// item ID
-	ItemID *int `form:"item_id,omitempty" json:"item_id,omitempty" xml:"item_id,omitempty"`
-	// owner ID
-	OwnerID *int `form:"owner_id,omitempty" json:"owner_id,omitempty" xml:"owner_id,omitempty"`
+	// offer ID
+	OfferID *int `form:"offer_id,omitempty" json:"offer_id,omitempty" xml:"offer_id,omitempty"`
 	// user ID
-	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // OK sends a HTTP response with status code 200.

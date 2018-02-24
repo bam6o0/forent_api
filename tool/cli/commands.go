@@ -324,11 +324,11 @@ Payload example:
 Payload example:
 
 {
-   "email": true,
-   "facebook_id": 226824046571244361,
-   "google_id": 7784975497792922246,
-   "identification": false,
-   "user_id": 5171760937975619761
+   "email": false,
+   "facebook_id": 5504896578552467112,
+   "google_id": 226824046571244361,
+   "identification": true,
+   "user_id": 6061643935137804473
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp6.Run(c, args) },
 	}
@@ -478,8 +478,7 @@ Payload example:
 Payload example:
 
 {
-   "item_id": 543715099071776542,
-   "owner_id": 8203251551576041014,
+   "offer_id": 543715099071776542,
    "user_id": 1
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp16.Run(c, args) },
@@ -496,7 +495,7 @@ Payload example:
 Payload example:
 
 {
-   "PlaceID": 5619601623335078089
+   "PlaceID": 8203251551576041014
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp17.Run(c, args) },
 	}
@@ -649,10 +648,10 @@ Payload example:
 
 {
    "email": false,
-   "facebook_id": 6706611070992568975,
-   "google_id": 7967037676512441826,
-   "identification": false,
-   "user_id": 8110422177098958717
+   "facebook_id": 644636976096073763,
+   "google_id": 6706611070992568975,
+   "identification": true,
+   "user_id": 8119349467455531973
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp25.Run(c, args) },
 	}

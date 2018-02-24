@@ -9,13 +9,13 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// ListOfferByOwner returns an array of view: default.
-func (m *OfferDB) ListOfferByOwner(ctx context.Context, ownerID int) []*app.Offer {
+// ListOfferes returns an array of view: default.
+func (m *OfferDB) ListOfferes(ctx context.Context, itemID int, userID int, ownerID int) []*app.Offer {
 	defer goa.MeasureSince([]string{"goa", "db", "offer", "listoffer"}, time.Now())
 
 	var native []*Offer
 	var objs []*app.Offer
-	err := m.Db.Scopes(OfferFilterByOwner(ownerID, m.Db)).Table(m.TableName()).Find(&native).Error
+	err := m.Db.Scopes(OfferFilterByItem(itemID, m.Db), OfferFilterByUser(userID, m.Db), OfferFilterByOwner(ownerID, m.Db)).Table(m.TableName()).Find(&native).Error
 
 	if err != nil {
 		goa.LogError(ctx, "error listing Offer", "error", err.Error())
