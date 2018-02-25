@@ -49,7 +49,7 @@ func ListCategoryOK(t goatest.TInterface, ctx context.Context, service *goa.Serv
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/categories"),
+		Path: fmt.Sprintf("/v1/categories"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {

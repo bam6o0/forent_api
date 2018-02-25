@@ -42,7 +42,7 @@ type ArticleController interface {
 func MountArticleController(service *goa.Service, ctrl ArticleController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/articles", ctrl.MuxHandler("preflight", handleArticleOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/v1/articles", ctrl.MuxHandler("preflight", handleArticleOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -63,8 +63,8 @@ func MountArticleController(service *goa.Service, ctrl ArticleController) {
 		return ctrl.List(rctx)
 	}
 	h = handleArticleOrigin(h)
-	service.Mux.Handle("GET", "/articles", ctrl.MuxHandler("list", h, unmarshalListArticlePayload))
-	service.LogInfo("mount", "ctrl", "Article", "action", "List", "route", "GET /articles")
+	service.Mux.Handle("GET", "/v1/articles", ctrl.MuxHandler("list", h, unmarshalListArticlePayload))
+	service.LogInfo("mount", "ctrl", "Article", "action", "List", "route", "GET /v1/articles")
 }
 
 // handleArticleOrigin applies the CORS response headers corresponding to the origin.
@@ -114,8 +114,8 @@ type AuthenticationController interface {
 func MountAuthenticationController(service *goa.Service, ctrl AuthenticationController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/signin", ctrl.MuxHandler("preflight", handleAuthenticationOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/signup", ctrl.MuxHandler("preflight", handleAuthenticationOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/v1/signin", ctrl.MuxHandler("preflight", handleAuthenticationOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/v1/signup", ctrl.MuxHandler("preflight", handleAuthenticationOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -136,8 +136,8 @@ func MountAuthenticationController(service *goa.Service, ctrl AuthenticationCont
 		return ctrl.Sigin(rctx)
 	}
 	h = handleAuthenticationOrigin(h)
-	service.Mux.Handle("GET", "/signin", ctrl.MuxHandler("sigin", h, unmarshalSiginAuthenticationPayload))
-	service.LogInfo("mount", "ctrl", "Authentication", "action", "Sigin", "route", "GET /signin")
+	service.Mux.Handle("GET", "/v1/signin", ctrl.MuxHandler("sigin", h, unmarshalSiginAuthenticationPayload))
+	service.LogInfo("mount", "ctrl", "Authentication", "action", "Sigin", "route", "GET /v1/signin")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -158,8 +158,8 @@ func MountAuthenticationController(service *goa.Service, ctrl AuthenticationCont
 		return ctrl.Signup(rctx)
 	}
 	h = handleAuthenticationOrigin(h)
-	service.Mux.Handle("POST", "/signup", ctrl.MuxHandler("signup", h, unmarshalSignupAuthenticationPayload))
-	service.LogInfo("mount", "ctrl", "Authentication", "action", "Signup", "route", "POST /signup")
+	service.Mux.Handle("POST", "/v1/signup", ctrl.MuxHandler("signup", h, unmarshalSignupAuthenticationPayload))
+	service.LogInfo("mount", "ctrl", "Authentication", "action", "Signup", "route", "POST /v1/signup")
 }
 
 // handleAuthenticationOrigin applies the CORS response headers corresponding to the origin.
@@ -228,7 +228,7 @@ type CategoryController interface {
 func MountCategoryController(service *goa.Service, ctrl CategoryController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/categories", ctrl.MuxHandler("preflight", handleCategoryOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/v1/categories", ctrl.MuxHandler("preflight", handleCategoryOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -249,8 +249,8 @@ func MountCategoryController(service *goa.Service, ctrl CategoryController) {
 		return ctrl.List(rctx)
 	}
 	h = handleCategoryOrigin(h)
-	service.Mux.Handle("GET", "/categories", ctrl.MuxHandler("list", h, unmarshalListCategoryPayload))
-	service.LogInfo("mount", "ctrl", "Category", "action", "List", "route", "GET /categories")
+	service.Mux.Handle("GET", "/v1/categories", ctrl.MuxHandler("list", h, unmarshalListCategoryPayload))
+	service.LogInfo("mount", "ctrl", "Category", "action", "List", "route", "GET /v1/categories")
 }
 
 // handleCategoryOrigin applies the CORS response headers corresponding to the origin.
@@ -300,7 +300,7 @@ type CommentController interface {
 func MountCommentController(service *goa.Service, ctrl CommentController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/comments", ctrl.MuxHandler("preflight", handleCommentOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/v1/comments", ctrl.MuxHandler("preflight", handleCommentOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -321,8 +321,8 @@ func MountCommentController(service *goa.Service, ctrl CommentController) {
 		return ctrl.Create(rctx)
 	}
 	h = handleCommentOrigin(h)
-	service.Mux.Handle("POST", "/comments", ctrl.MuxHandler("create", h, unmarshalCreateCommentPayload))
-	service.LogInfo("mount", "ctrl", "Comment", "action", "Create", "route", "POST /comments")
+	service.Mux.Handle("POST", "/v1/comments", ctrl.MuxHandler("create", h, unmarshalCreateCommentPayload))
+	service.LogInfo("mount", "ctrl", "Comment", "action", "Create", "route", "POST /v1/comments")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -334,11 +334,17 @@ func MountCommentController(service *goa.Service, ctrl CommentController) {
 		if err != nil {
 			return err
 		}
+		// Build the payload
+		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
+			rctx.Payload = rawPayload.(*ListCommentPayload)
+		} else {
+			return goa.MissingPayloadError()
+		}
 		return ctrl.List(rctx)
 	}
 	h = handleCommentOrigin(h)
-	service.Mux.Handle("GET", "/comments", ctrl.MuxHandler("list", h, nil))
-	service.LogInfo("mount", "ctrl", "Comment", "action", "List", "route", "GET /comments")
+	service.Mux.Handle("GET", "/v1/comments", ctrl.MuxHandler("list", h, unmarshalListCommentPayload))
+	service.LogInfo("mount", "ctrl", "Comment", "action", "List", "route", "GET /v1/comments")
 }
 
 // handleCommentOrigin applies the CORS response headers corresponding to the origin.
@@ -382,20 +388,33 @@ func unmarshalCreateCommentPayload(ctx context.Context, service *goa.Service, re
 	return nil
 }
 
+// unmarshalListCommentPayload unmarshals the request body into the context request data Payload field.
+func unmarshalListCommentPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &listCommentPayload{}
+	if err := service.DecodeRequest(req, payload); err != nil {
+		return err
+	}
+	if err := payload.Validate(); err != nil {
+		// Initialize payload with private data structure so it can be logged
+		goa.ContextRequest(ctx).Payload = payload
+		return err
+	}
+	goa.ContextRequest(ctx).Payload = payload.Publicize()
+	return nil
+}
+
 // ItemController is the controller interface for the Item actions.
 type ItemController interface {
 	goa.Muxer
 	Create(*CreateItemContext) error
-	Delete(*DeleteItemContext) error
 	List(*ListItemContext) error
-	Update(*UpdateItemContext) error
 }
 
 // MountItemController "mounts" a Item resource controller on the given service.
 func MountItemController(service *goa.Service, ctrl ItemController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/items", ctrl.MuxHandler("preflight", handleItemOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/v1/items", ctrl.MuxHandler("preflight", handleItemOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -417,31 +436,8 @@ func MountItemController(service *goa.Service, ctrl ItemController) {
 	}
 	h = handleSecurity("jwt", h, "api:access")
 	h = handleItemOrigin(h)
-	service.Mux.Handle("POST", "/items", ctrl.MuxHandler("create", h, unmarshalCreateItemPayload))
-	service.LogInfo("mount", "ctrl", "Item", "action", "Create", "route", "POST /items", "security", "jwt")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewDeleteItemContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		// Build the payload
-		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
-			rctx.Payload = rawPayload.(*DeleteItemPayload)
-		} else {
-			return goa.MissingPayloadError()
-		}
-		return ctrl.Delete(rctx)
-	}
-	h = handleSecurity("jwt", h, "api:access")
-	h = handleItemOrigin(h)
-	service.Mux.Handle("DELETE", "/items", ctrl.MuxHandler("delete", h, unmarshalDeleteItemPayload))
-	service.LogInfo("mount", "ctrl", "Item", "action", "Delete", "route", "DELETE /items", "security", "jwt")
+	service.Mux.Handle("POST", "/v1/items", ctrl.MuxHandler("create", h, unmarshalCreateItemPayload))
+	service.LogInfo("mount", "ctrl", "Item", "action", "Create", "route", "POST /v1/items", "security", "jwt")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -462,31 +458,8 @@ func MountItemController(service *goa.Service, ctrl ItemController) {
 		return ctrl.List(rctx)
 	}
 	h = handleItemOrigin(h)
-	service.Mux.Handle("GET", "/items", ctrl.MuxHandler("list", h, unmarshalListItemPayload))
-	service.LogInfo("mount", "ctrl", "Item", "action", "List", "route", "GET /items")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewUpdateItemContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		// Build the payload
-		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
-			rctx.Payload = rawPayload.(*UpdateItemPayload)
-		} else {
-			return goa.MissingPayloadError()
-		}
-		return ctrl.Update(rctx)
-	}
-	h = handleSecurity("jwt", h, "api:access")
-	h = handleItemOrigin(h)
-	service.Mux.Handle("PUT", "/items", ctrl.MuxHandler("update", h, unmarshalUpdateItemPayload))
-	service.LogInfo("mount", "ctrl", "Item", "action", "Update", "route", "PUT /items", "security", "jwt")
+	service.Mux.Handle("GET", "/v1/items", ctrl.MuxHandler("list", h, unmarshalListItemPayload))
+	service.LogInfo("mount", "ctrl", "Item", "action", "List", "route", "GET /v1/items")
 }
 
 // handleItemOrigin applies the CORS response headers corresponding to the origin.
@@ -530,40 +503,10 @@ func unmarshalCreateItemPayload(ctx context.Context, service *goa.Service, req *
 	return nil
 }
 
-// unmarshalDeleteItemPayload unmarshals the request body into the context request data Payload field.
-func unmarshalDeleteItemPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
-	payload := &deleteItemPayload{}
-	if err := service.DecodeRequest(req, payload); err != nil {
-		return err
-	}
-	if err := payload.Validate(); err != nil {
-		// Initialize payload with private data structure so it can be logged
-		goa.ContextRequest(ctx).Payload = payload
-		return err
-	}
-	goa.ContextRequest(ctx).Payload = payload.Publicize()
-	return nil
-}
-
 // unmarshalListItemPayload unmarshals the request body into the context request data Payload field.
 func unmarshalListItemPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
 	payload := &listItemPayload{}
 	if err := service.DecodeRequest(req, payload); err != nil {
-		return err
-	}
-	goa.ContextRequest(ctx).Payload = payload.Publicize()
-	return nil
-}
-
-// unmarshalUpdateItemPayload unmarshals the request body into the context request data Payload field.
-func unmarshalUpdateItemPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
-	payload := &updateItemPayload{}
-	if err := service.DecodeRequest(req, payload); err != nil {
-		return err
-	}
-	if err := payload.Validate(); err != nil {
-		// Initialize payload with private data structure so it can be logged
-		goa.ContextRequest(ctx).Payload = payload
 		return err
 	}
 	goa.ContextRequest(ctx).Payload = payload.Publicize()
@@ -580,7 +523,7 @@ type LargecategoryController interface {
 func MountLargecategoryController(service *goa.Service, ctrl LargecategoryController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/largecategories", ctrl.MuxHandler("preflight", handleLargecategoryOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/v1/largecategories", ctrl.MuxHandler("preflight", handleLargecategoryOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -595,8 +538,8 @@ func MountLargecategoryController(service *goa.Service, ctrl LargecategoryContro
 		return ctrl.List(rctx)
 	}
 	h = handleLargecategoryOrigin(h)
-	service.Mux.Handle("GET", "/largecategories", ctrl.MuxHandler("list", h, nil))
-	service.LogInfo("mount", "ctrl", "Largecategory", "action", "List", "route", "GET /largecategories")
+	service.Mux.Handle("GET", "/v1/largecategories", ctrl.MuxHandler("list", h, nil))
+	service.LogInfo("mount", "ctrl", "Largecategory", "action", "List", "route", "GET /v1/largecategories")
 }
 
 // handleLargecategoryOrigin applies the CORS response headers corresponding to the origin.
@@ -636,7 +579,7 @@ type MessageController interface {
 func MountMessageController(service *goa.Service, ctrl MessageController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/messages", ctrl.MuxHandler("preflight", handleMessageOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/v1/messages", ctrl.MuxHandler("preflight", handleMessageOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -658,8 +601,8 @@ func MountMessageController(service *goa.Service, ctrl MessageController) {
 	}
 	h = handleSecurity("jwt", h, "api:access")
 	h = handleMessageOrigin(h)
-	service.Mux.Handle("POST", "/messages", ctrl.MuxHandler("create", h, unmarshalCreateMessagePayload))
-	service.LogInfo("mount", "ctrl", "Message", "action", "Create", "route", "POST /messages", "security", "jwt")
+	service.Mux.Handle("POST", "/v1/messages", ctrl.MuxHandler("create", h, unmarshalCreateMessagePayload))
+	service.LogInfo("mount", "ctrl", "Message", "action", "Create", "route", "POST /v1/messages", "security", "jwt")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -681,8 +624,8 @@ func MountMessageController(service *goa.Service, ctrl MessageController) {
 	}
 	h = handleSecurity("jwt", h, "api:access")
 	h = handleMessageOrigin(h)
-	service.Mux.Handle("GET", "/messages", ctrl.MuxHandler("list", h, unmarshalListMessagePayload))
-	service.LogInfo("mount", "ctrl", "Message", "action", "List", "route", "GET /messages", "security", "jwt")
+	service.Mux.Handle("GET", "/v1/messages", ctrl.MuxHandler("list", h, unmarshalListMessagePayload))
+	service.LogInfo("mount", "ctrl", "Message", "action", "List", "route", "GET /v1/messages", "security", "jwt")
 }
 
 // handleMessageOrigin applies the CORS response headers corresponding to the origin.
@@ -751,7 +694,7 @@ type MiddlecategoryController interface {
 func MountMiddlecategoryController(service *goa.Service, ctrl MiddlecategoryController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/middlecategories", ctrl.MuxHandler("preflight", handleMiddlecategoryOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/v1/middlecategories", ctrl.MuxHandler("preflight", handleMiddlecategoryOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -772,8 +715,8 @@ func MountMiddlecategoryController(service *goa.Service, ctrl MiddlecategoryCont
 		return ctrl.List(rctx)
 	}
 	h = handleMiddlecategoryOrigin(h)
-	service.Mux.Handle("GET", "/middlecategories", ctrl.MuxHandler("list", h, unmarshalListMiddlecategoryPayload))
-	service.LogInfo("mount", "ctrl", "Middlecategory", "action", "List", "route", "GET /middlecategories")
+	service.Mux.Handle("GET", "/v1/middlecategories", ctrl.MuxHandler("list", h, unmarshalListMiddlecategoryPayload))
+	service.LogInfo("mount", "ctrl", "Middlecategory", "action", "List", "route", "GET /v1/middlecategories")
 }
 
 // handleMiddlecategoryOrigin applies the CORS response headers corresponding to the origin.
@@ -824,7 +767,7 @@ type OfferController interface {
 func MountOfferController(service *goa.Service, ctrl OfferController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/offers", ctrl.MuxHandler("preflight", handleOfferOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/v1/offers", ctrl.MuxHandler("preflight", handleOfferOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -846,8 +789,8 @@ func MountOfferController(service *goa.Service, ctrl OfferController) {
 	}
 	h = handleSecurity("jwt", h, "api:access")
 	h = handleOfferOrigin(h)
-	service.Mux.Handle("PUT", "/offers", ctrl.MuxHandler("accept", h, unmarshalAcceptOfferPayload))
-	service.LogInfo("mount", "ctrl", "Offer", "action", "Accept", "route", "PUT /offers", "security", "jwt")
+	service.Mux.Handle("PUT", "/v1/offers", ctrl.MuxHandler("accept", h, unmarshalAcceptOfferPayload))
+	service.LogInfo("mount", "ctrl", "Offer", "action", "Accept", "route", "PUT /v1/offers", "security", "jwt")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -869,8 +812,8 @@ func MountOfferController(service *goa.Service, ctrl OfferController) {
 	}
 	h = handleSecurity("jwt", h, "api:access")
 	h = handleOfferOrigin(h)
-	service.Mux.Handle("POST", "/offers", ctrl.MuxHandler("create", h, unmarshalCreateOfferPayload))
-	service.LogInfo("mount", "ctrl", "Offer", "action", "Create", "route", "POST /offers", "security", "jwt")
+	service.Mux.Handle("POST", "/v1/offers", ctrl.MuxHandler("create", h, unmarshalCreateOfferPayload))
+	service.LogInfo("mount", "ctrl", "Offer", "action", "Create", "route", "POST /v1/offers", "security", "jwt")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -892,8 +835,8 @@ func MountOfferController(service *goa.Service, ctrl OfferController) {
 	}
 	h = handleSecurity("jwt", h, "api:access")
 	h = handleOfferOrigin(h)
-	service.Mux.Handle("GET", "/offers", ctrl.MuxHandler("list", h, unmarshalListOfferPayload))
-	service.LogInfo("mount", "ctrl", "Offer", "action", "List", "route", "GET /offers", "security", "jwt")
+	service.Mux.Handle("GET", "/v1/offers", ctrl.MuxHandler("list", h, unmarshalListOfferPayload))
+	service.LogInfo("mount", "ctrl", "Offer", "action", "List", "route", "GET /v1/offers", "security", "jwt")
 }
 
 // handleOfferOrigin applies the CORS response headers corresponding to the origin.
@@ -977,7 +920,7 @@ type PlaceController interface {
 func MountPlaceController(service *goa.Service, ctrl PlaceController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/places", ctrl.MuxHandler("preflight", handlePlaceOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/v1/places", ctrl.MuxHandler("preflight", handlePlaceOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -998,8 +941,8 @@ func MountPlaceController(service *goa.Service, ctrl PlaceController) {
 		return ctrl.List(rctx)
 	}
 	h = handlePlaceOrigin(h)
-	service.Mux.Handle("GET", "/places", ctrl.MuxHandler("list", h, unmarshalListPlacePayload))
-	service.LogInfo("mount", "ctrl", "Place", "action", "List", "route", "GET /places")
+	service.Mux.Handle("GET", "/v1/places", ctrl.MuxHandler("list", h, unmarshalListPlacePayload))
+	service.LogInfo("mount", "ctrl", "Place", "action", "List", "route", "GET /v1/places")
 }
 
 // handlePlaceOrigin applies the CORS response headers corresponding to the origin.
@@ -1042,16 +985,14 @@ func unmarshalListPlacePayload(ctx context.Context, service *goa.Service, req *h
 type ProfileController interface {
 	goa.Muxer
 	Create(*CreateProfileContext) error
-	Delete(*DeleteProfileContext) error
 	Show(*ShowProfileContext) error
-	Update(*UpdateProfileContext) error
 }
 
 // MountProfileController "mounts" a Profile resource controller on the given service.
 func MountProfileController(service *goa.Service, ctrl ProfileController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/profiles", ctrl.MuxHandler("preflight", handleProfileOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/v1/profiles", ctrl.MuxHandler("preflight", handleProfileOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -1073,25 +1014,8 @@ func MountProfileController(service *goa.Service, ctrl ProfileController) {
 	}
 	h = handleSecurity("jwt", h, "api:access")
 	h = handleProfileOrigin(h)
-	service.Mux.Handle("POST", "/profiles", ctrl.MuxHandler("create", h, unmarshalCreateProfilePayload))
-	service.LogInfo("mount", "ctrl", "Profile", "action", "Create", "route", "POST /profiles", "security", "jwt")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewDeleteProfileContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		return ctrl.Delete(rctx)
-	}
-	h = handleSecurity("jwt", h, "api:access")
-	h = handleProfileOrigin(h)
-	service.Mux.Handle("DELETE", "/profiles", ctrl.MuxHandler("delete", h, nil))
-	service.LogInfo("mount", "ctrl", "Profile", "action", "Delete", "route", "DELETE /profiles", "security", "jwt")
+	service.Mux.Handle("POST", "/v1/profiles", ctrl.MuxHandler("create", h, unmarshalCreateProfilePayload))
+	service.LogInfo("mount", "ctrl", "Profile", "action", "Create", "route", "POST /v1/profiles", "security", "jwt")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -1112,31 +1036,8 @@ func MountProfileController(service *goa.Service, ctrl ProfileController) {
 		return ctrl.Show(rctx)
 	}
 	h = handleProfileOrigin(h)
-	service.Mux.Handle("GET", "/profiles", ctrl.MuxHandler("show", h, unmarshalShowProfilePayload))
-	service.LogInfo("mount", "ctrl", "Profile", "action", "Show", "route", "GET /profiles")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewUpdateProfileContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		// Build the payload
-		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
-			rctx.Payload = rawPayload.(*UpdateProfilePayload)
-		} else {
-			return goa.MissingPayloadError()
-		}
-		return ctrl.Update(rctx)
-	}
-	h = handleSecurity("jwt", h, "api:access")
-	h = handleProfileOrigin(h)
-	service.Mux.Handle("PUT", "/profiles", ctrl.MuxHandler("update", h, unmarshalUpdateProfilePayload))
-	service.LogInfo("mount", "ctrl", "Profile", "action", "Update", "route", "PUT /profiles", "security", "jwt")
+	service.Mux.Handle("GET", "/v1/profiles", ctrl.MuxHandler("show", h, unmarshalShowProfilePayload))
+	service.LogInfo("mount", "ctrl", "Profile", "action", "Show", "route", "GET /v1/profiles")
 }
 
 // handleProfileOrigin applies the CORS response headers corresponding to the origin.
@@ -1195,36 +1096,18 @@ func unmarshalShowProfilePayload(ctx context.Context, service *goa.Service, req 
 	return nil
 }
 
-// unmarshalUpdateProfilePayload unmarshals the request body into the context request data Payload field.
-func unmarshalUpdateProfilePayload(ctx context.Context, service *goa.Service, req *http.Request) error {
-	payload := &updateProfilePayload{}
-	if err := service.DecodeRequest(req, payload); err != nil {
-		return err
-	}
-	if err := payload.Validate(); err != nil {
-		// Initialize payload with private data structure so it can be logged
-		goa.ContextRequest(ctx).Payload = payload
-		return err
-	}
-	goa.ContextRequest(ctx).Payload = payload.Publicize()
-	return nil
-}
-
 // VerificationController is the controller interface for the Verification actions.
 type VerificationController interface {
 	goa.Muxer
 	Create(*CreateVerificationContext) error
-	Delete(*DeleteVerificationContext) error
 	Show(*ShowVerificationContext) error
-	Update(*UpdateVerificationContext) error
 }
 
 // MountVerificationController "mounts" a Verification resource controller on the given service.
 func MountVerificationController(service *goa.Service, ctrl VerificationController) {
 	initService(service)
 	var h goa.Handler
-	service.Mux.Handle("OPTIONS", "/verifications", ctrl.MuxHandler("preflight", handleVerificationOrigin(cors.HandlePreflight()), nil))
-	service.Mux.Handle("OPTIONS", "/verifications/:verificationID", ctrl.MuxHandler("preflight", handleVerificationOrigin(cors.HandlePreflight()), nil))
+	service.Mux.Handle("OPTIONS", "/v1/verifications", ctrl.MuxHandler("preflight", handleVerificationOrigin(cors.HandlePreflight()), nil))
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -1245,24 +1128,8 @@ func MountVerificationController(service *goa.Service, ctrl VerificationControll
 		return ctrl.Create(rctx)
 	}
 	h = handleVerificationOrigin(h)
-	service.Mux.Handle("POST", "/verifications", ctrl.MuxHandler("create", h, unmarshalCreateVerificationPayload))
-	service.LogInfo("mount", "ctrl", "Verification", "action", "Create", "route", "POST /verifications")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewDeleteVerificationContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
-		return ctrl.Delete(rctx)
-	}
-	h = handleVerificationOrigin(h)
-	service.Mux.Handle("DELETE", "/verifications/:verificationID", ctrl.MuxHandler("delete", h, nil))
-	service.LogInfo("mount", "ctrl", "Verification", "action", "Delete", "route", "DELETE /verifications/:verificationID")
+	service.Mux.Handle("POST", "/v1/verifications", ctrl.MuxHandler("create", h, unmarshalCreateVerificationPayload))
+	service.LogInfo("mount", "ctrl", "Verification", "action", "Create", "route", "POST /v1/verifications")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -1274,33 +1141,17 @@ func MountVerificationController(service *goa.Service, ctrl VerificationControll
 		if err != nil {
 			return err
 		}
-		return ctrl.Show(rctx)
-	}
-	h = handleVerificationOrigin(h)
-	service.Mux.Handle("GET", "/verifications/:verificationID", ctrl.MuxHandler("show", h, nil))
-	service.LogInfo("mount", "ctrl", "Verification", "action", "Show", "route", "GET /verifications/:verificationID")
-
-	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
-		// Check if there was an error loading the request
-		if err := goa.ContextError(ctx); err != nil {
-			return err
-		}
-		// Build the context
-		rctx, err := NewUpdateVerificationContext(ctx, req, service)
-		if err != nil {
-			return err
-		}
 		// Build the payload
 		if rawPayload := goa.ContextRequest(ctx).Payload; rawPayload != nil {
-			rctx.Payload = rawPayload.(*UpdateVerificationPayload)
+			rctx.Payload = rawPayload.(*ShowVerificationPayload)
 		} else {
 			return goa.MissingPayloadError()
 		}
-		return ctrl.Update(rctx)
+		return ctrl.Show(rctx)
 	}
 	h = handleVerificationOrigin(h)
-	service.Mux.Handle("PUT", "/verifications/:verificationID", ctrl.MuxHandler("update", h, unmarshalUpdateVerificationPayload))
-	service.LogInfo("mount", "ctrl", "Verification", "action", "Update", "route", "PUT /verifications/:verificationID")
+	service.Mux.Handle("GET", "/v1/verifications", ctrl.MuxHandler("show", h, unmarshalShowVerificationPayload))
+	service.LogInfo("mount", "ctrl", "Verification", "action", "Show", "route", "GET /v1/verifications")
 }
 
 // handleVerificationOrigin applies the CORS response headers corresponding to the origin.
@@ -1344,9 +1195,9 @@ func unmarshalCreateVerificationPayload(ctx context.Context, service *goa.Servic
 	return nil
 }
 
-// unmarshalUpdateVerificationPayload unmarshals the request body into the context request data Payload field.
-func unmarshalUpdateVerificationPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
-	payload := &updateVerificationPayload{}
+// unmarshalShowVerificationPayload unmarshals the request body into the context request data Payload field.
+func unmarshalShowVerificationPayload(ctx context.Context, service *goa.Service, req *http.Request) error {
+	payload := &showVerificationPayload{}
 	if err := service.DecodeRequest(req, payload); err != nil {
 		return err
 	}

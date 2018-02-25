@@ -30,7 +30,7 @@ type AcceptOfferPayload struct {
 // AcceptOfferPath computes a request path to the accept action of offer.
 func AcceptOfferPath() string {
 
-	return fmt.Sprintf("/offers")
+	return fmt.Sprintf("/v1/offers")
 }
 
 // accepted offer
@@ -92,7 +92,7 @@ type CreateOfferPayload struct {
 // CreateOfferPath computes a request path to the create action of offer.
 func CreateOfferPath() string {
 
-	return fmt.Sprintf("/offers")
+	return fmt.Sprintf("/v1/offers")
 }
 
 // Create new offer
@@ -148,7 +148,7 @@ type ListOfferPayload struct {
 // ListOfferPath computes a request path to the list action of offer.
 func ListOfferPath() string {
 
-	return fmt.Sprintf("/offers")
+	return fmt.Sprintf("/v1/offers")
 }
 
 // Retrieve all offers.

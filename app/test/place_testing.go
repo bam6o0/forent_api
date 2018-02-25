@@ -49,7 +49,7 @@ func ListPlaceOK(t goatest.TInterface, ctx context.Context, service *goa.Service
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/places"),
+		Path: fmt.Sprintf("/v1/places"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {

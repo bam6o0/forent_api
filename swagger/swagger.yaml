@@ -1,3 +1,4 @@
+basePath: /v1
 consumes:
 - application/json
 - application/xml
@@ -238,11 +239,6 @@ definitions:
       name: Consequatur molestias.
       name_base: Culpa repellat tenetur eaque dolorem eius.
       name_en: Iure eaque rem alias quia ex.
-    - id: 7.5318943e+18
-      middle_category_id: 1.4066062e+18
-      name: Consequatur molestias.
-      name_base: Culpa repellat tenetur eaque dolorem eius.
-      name_en: Iure eaque rem alias quia ex.
     items:
       $ref: '#/definitions/Category'
     title: 'Mediatype identifier: application/vnd.category+json; type=collection;
@@ -317,7 +313,6 @@ definitions:
       item_id: 3.7269277e+18
       reply_to: 2.3829028e+18
       text: Sed ullam magni et.
-      user_id: 8.20594e+18
     properties:
       item_id:
         description: item id
@@ -333,13 +328,7 @@ definitions:
         description: comment text
         example: Sed ullam magni et.
         type: string
-      user_id:
-        description: comment user id
-        example: 8.20594e+18
-        format: int64
-        type: integer
     required:
-    - user_id
     - item_id
     - text
     - reply_to
@@ -357,7 +346,6 @@ definitions:
       name: Bond vehicles
       place_id: 1
       price: 25000
-      user_id: 1
     properties:
       category_id:
         description: category ID
@@ -403,17 +391,11 @@ definitions:
         example: 25000
         format: int64
         type: integer
-      user_id:
-        description: user ID
-        example: 1
-        format: int64
-        type: integer
     required:
     - name
     - description
     - price
     - compensation
-    - user_id
     - category_id
     - place_id
     - image1
@@ -421,17 +403,17 @@ definitions:
     type: object
   CreateMessagePayload:
     example:
-      offer_id: 2.2682404e+17
-      text: Voluptates in architecto.
+      offer_id: 5.504897e+18
+      text: Amet voluptates in architecto.
     properties:
       offer_id:
         description: offer id
-        example: 2.2682404e+17
+        example: 5.504897e+18
         format: int64
         type: integer
       text:
         description: comment text
-        example: Voluptates in architecto.
+        example: Amet voluptates in architecto.
         type: string
     required:
     - offer_id
@@ -483,7 +465,6 @@ definitions:
     example:
       first_name: James
       last_name: Bond
-      user_id: 1
     properties:
       first_name:
         description: first name
@@ -493,15 +474,9 @@ definitions:
         description: last_name
         example: Bond
         type: string
-      user_id:
-        description: user id
-        example: 1
-        format: int64
-        type: integer
     required:
     - first_name
     - last_name
-    - user_id
     title: CreateProfilePayload
     type: object
   CreateVerificationPayload:
@@ -510,7 +485,6 @@ definitions:
       facebook_id: 7.676466e+17
       google_id: 7.9860344e+18
       identification: true
-      user_id: 8.801699e+18
     properties:
       email:
         description: address flag
@@ -530,38 +504,12 @@ definitions:
         description: identification flag
         example: true
         type: boolean
-      user_id:
-        description: user id
-        example: 8.801699e+18
-        format: int64
-        type: integer
     required:
-    - user_id
     - identification
     - email
     - facebook_id
     - google_id
     title: CreateVerificationPayload
-    type: object
-  DeleteItemPayload:
-    example:
-      itemID: 4.333225e+17
-      user_id: 1
-    properties:
-      itemID:
-        description: item ID
-        example: 4.333225e+17
-        format: int64
-        type: integer
-      user_id:
-        description: user ID
-        example: 1
-        format: int64
-        type: integer
-    required:
-    - itemID
-    - user_id
-    title: DeleteItemPayload
     type: object
   Item:
     description: A item of user (default view)
@@ -663,30 +611,6 @@ definitions:
       place_id: 1
       price: 25000
       user_id: 1
-    - category_id: 1
-      compensation: 1.5e+06
-      description: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
-      id: 1
-      image1: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
-      image2: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
-      image3: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
-      image4: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
-      name: Bond vehicles
-      place_id: 1
-      price: 25000
-      user_id: 1
-    - category_id: 1
-      compensation: 1.5e+06
-      description: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
-      id: 1
-      image1: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
-      image2: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
-      image3: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
-      image4: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
-      name: Bond vehicles
-      place_id: 1
-      price: 25000
-      user_id: 1
     items:
       $ref: '#/definitions/Item'
     title: 'Mediatype identifier: application/vnd.item+json; type=collection; view=default'
@@ -776,22 +700,35 @@ definitions:
         type: integer
     title: ListCategoryPayload
     type: object
+  ListCommentPayload:
+    example:
+      item_id: 8.20594e+18
+    properties:
+      item_id:
+        description: item id
+        example: 8.20594e+18
+        format: int64
+        type: integer
+    required:
+    - item_id
+    title: ListCommentPayload
+    type: object
   ListItemPayload:
     example:
-      categoryID: 7.1437607e+18
-      cityID: Iste dicta accusamus.
+      categoryID: 4.333225e+17
+      cityID: Vel iste dicta accusamus.
       itemID: 5.437151e+17
       placeID: 8.203252e+18
       userID: 5.619602e+18
     properties:
       categoryID:
         description: category id
-        example: 7.1437607e+18
+        example: 4.333225e+17
         format: int64
         type: integer
       cityID:
         description: city id
-        example: Iste dicta accusamus.
+        example: Vel iste dicta accusamus.
         type: string
       itemID:
         description: item ID
@@ -906,10 +843,6 @@ definitions:
       offer_id: 8.063472e+18
       text: Modi ex.
       user_id: 8.130688e+16
-    - id: 5.740637e+18
-      offer_id: 8.063472e+18
-      text: Modi ex.
-      user_id: 8.130688e+16
     items:
       $ref: '#/definitions/Message'
     title: 'Mediatype identifier: application/vnd.message+json; type=collection; view=default'
@@ -957,6 +890,11 @@ definitions:
     description: MiddlecategoryCollection is the media type for an array of Middlecategory
       (default view)
     example:
+    - id: 5.157254e+18
+      large_category_id: 3.1513812e+18
+      name: Non nihil minus sed earum repudiandae.
+      name_base: Animi nulla iusto voluptate ratione.
+      name_en: Recusandae deserunt et nisi.
     - id: 5.157254e+18
       large_category_id: 3.1513812e+18
       name: Non nihil minus sed earum repudiandae.
@@ -1033,6 +971,14 @@ definitions:
     description: OfferCollection is the media type for an array of Offer (default
       view)
     example:
+    - accepted: false
+      end_at: 1973-06-05T23:13:15Z
+      id: 6.6031484e+18
+      item_id: 5.9687467e+18
+      owner_id: 3.9001832e+18
+      price: 1.10424626e+18
+      start_at: 1976-10-04T22:20:24Z
+      user_id: 6.9933755e+18
     - accepted: false
       end_at: 1973-06-05T23:13:15Z
       id: 6.6031484e+18
@@ -1132,6 +1078,14 @@ definitions:
       longitude: 0.33859777
       name: Suscipit consequatur doloribus aspernatur.
       type: 1.4071854e+18
+    - city_id: Error enim ut.
+      city_name: Quis odit et in.
+      google_place_id: Aut facere omnis labore at iure.
+      id: 6.482945e+18
+      latitude: 0.83251494
+      longitude: 0.33859777
+      name: Suscipit consequatur doloribus aspernatur.
+      type: 1.4071854e+18
     items:
       $ref: '#/definitions/Place'
     title: 'Mediatype identifier: application/vnd.place+json; type=collection; view=default'
@@ -1197,6 +1151,19 @@ definitions:
     - user_id
     title: ShowProfilePayload
     type: object
+  ShowVerificationPayload:
+    example:
+      user_id: 8.801699e+18
+    properties:
+      user_id:
+        description: user id
+        example: 8.801699e+18
+        format: int64
+        type: integer
+    required:
+    - user_id
+    title: ShowVerificationPayload
+    type: object
   SignupPayload:
     example:
       email: jamesbond@gmail.com
@@ -1232,153 +1199,6 @@ definitions:
     required:
     - id
     title: 'Mediatype identifier: application/vnd.security.success; view=default'
-    type: object
-  UpdateItemPayload:
-    example:
-      category_id: 1
-      compensation: 1.5e+06
-      description: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
-      image1: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
-      image2: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
-      image3: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
-      image4: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
-      itemID: 5.504897e+18
-      name: Bond vehicles
-      place_id: 1
-      price: 25000
-      user_id: 1
-    properties:
-      category_id:
-        description: Category ID
-        example: 1
-        format: int64
-        type: integer
-      compensation:
-        description: compensation of item
-        example: 1.5e+06
-        format: int64
-        type: integer
-      description:
-        description: description of item
-        example: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
-        type: string
-      image1:
-        description: item image 1
-        example: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
-        type: string
-      image2:
-        description: item image 2
-        example: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
-        type: string
-      image3:
-        description: item image 3
-        example: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
-        type: string
-      image4:
-        description: item image 4
-        example: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
-        type: string
-      itemID:
-        description: item ID
-        example: 5.504897e+18
-        format: int64
-        type: integer
-      name:
-        description: Name of item
-        example: Bond vehicles
-        type: string
-      place_id:
-        description: Place ID
-        example: 1
-        format: int64
-        type: integer
-      price:
-        description: price of item
-        example: 25000
-        format: int64
-        type: integer
-      user_id:
-        description: user ID
-        example: 1
-        format: int64
-        type: integer
-    required:
-    - itemID
-    - user_id
-    title: UpdateItemPayload
-    type: object
-  UpdateProfilePayload:
-    example:
-      avatar_image: https://img.cinematoday.jp/a/N0091767/_size_640x/_v_1495600154/main.jpg
-      cover_image: http://www.007.com/wp-content/uploads/2013/03/rgb_logo_650.jpg
-      first_name: James
-      introduction: i am KGB
-      last_name: Bond
-      user_id: 1
-    properties:
-      avatar_image:
-        description: avatar image url
-        example: https://img.cinematoday.jp/a/N0091767/_size_640x/_v_1495600154/main.jpg
-        type: string
-      cover_image:
-        description: cover image url
-        example: http://www.007.com/wp-content/uploads/2013/03/rgb_logo_650.jpg
-        type: string
-      first_name:
-        description: first name
-        example: James
-        type: string
-      introduction:
-        description: user introduciton
-        example: i am KGB
-        type: string
-      last_name:
-        description: last_name
-        example: Bond
-        type: string
-      user_id:
-        description: user id
-        example: 1
-        format: int64
-        type: integer
-    required:
-    - user_id
-    title: UpdateProfilePayload
-    type: object
-  UpdateVerificationPayload:
-    example:
-      email: false
-      facebook_id: 1.8158035e+18
-      google_id: 8.220868e+18
-      identification: false
-      user_id: 3.1737714e+18
-    properties:
-      email:
-        description: address flag
-        example: false
-        type: boolean
-      facebook_id:
-        description: Unique facebook ID
-        example: 1.8158035e+18
-        format: int64
-        type: integer
-      google_id:
-        description: Unique google ID
-        example: 8.220868e+18
-        format: int64
-        type: integer
-      identification:
-        description: identification flag
-        example: false
-        type: boolean
-      user_id:
-        description: user id
-        example: 3.1737714e+18
-        format: int64
-        type: integer
-    required:
-    - user_id
-    title: UpdateVerificationPayload
     type: object
   Verification:
     description: Verification (default view)
@@ -1518,6 +1338,12 @@ paths:
     get:
       description: Retrieve all comments.
       operationId: comment#list
+      parameters:
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/ListCommentPayload'
       produces:
       - application/vnd.comment+json; type=collection
       responses:
@@ -1559,36 +1385,6 @@ paths:
       tags:
       - comment
   /items:
-    delete:
-      description: |-
-        Required security scopes:
-          * `api:access`
-      operationId: item#delete
-      parameters:
-      - in: body
-        name: payload
-        required: true
-        schema:
-          $ref: '#/definitions/DeleteItemPayload'
-      produces:
-      - application/vnd.goa.error
-      responses:
-        "204":
-          description: No Content
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/error'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      security:
-      - jwt:
-        - api:access
-      summary: delete item
-      tags:
-      - item
     get:
       description: Retrieve all items.
       operationId: item#list
@@ -1645,38 +1441,6 @@ paths:
       - jwt:
         - api:access
       summary: create item
-      tags:
-      - item
-    put:
-      description: |-
-        Change item data
-
-        Required security scopes:
-          * `api:access`
-      operationId: item#update
-      parameters:
-      - in: body
-        name: payload
-        required: true
-        schema:
-          $ref: '#/definitions/UpdateItemPayload'
-      produces:
-      - application/vnd.goa.error
-      responses:
-        "204":
-          description: No Content
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/error'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      security:
-      - jwt:
-        - api:access
-      summary: update item
       tags:
       - item
   /largecategories:
@@ -1914,36 +1678,6 @@ paths:
       tags:
       - place
   /profiles:
-    delete:
-      description: |-
-        Required security scopes:
-          * `api:access`
-      operationId: profile#delete
-      parameters:
-      - description: profile ID
-        in: query
-        name: profileID
-        required: false
-        type: integer
-      produces:
-      - application/vnd.goa.error
-      responses:
-        "204":
-          description: No Content
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/error'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      security:
-      - jwt:
-        - api:access
-      summary: delete profile
-      tags:
-      - profile
     get:
       description: Get profile by id
       operationId: profile#show
@@ -2005,43 +1739,6 @@ paths:
       - jwt:
         - api:access
       summary: create profile
-      tags:
-      - profile
-    put:
-      description: |-
-        Change profile data
-
-        Required security scopes:
-          * `api:access`
-      operationId: profile#update
-      parameters:
-      - description: profile ID
-        in: query
-        name: profileID
-        required: false
-        type: integer
-      - in: body
-        name: payload
-        required: true
-        schema:
-          $ref: '#/definitions/UpdateProfilePayload'
-      produces:
-      - application/vnd.goa.error
-      responses:
-        "204":
-          description: No Content
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/error'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      security:
-      - jwt:
-        - api:access
-      summary: update profile
       tags:
       - profile
   /signin:
@@ -2115,6 +1812,29 @@ paths:
       tags:
       - authentication
   /verifications:
+    get:
+      description: Get verification by id
+      operationId: verification#show
+      parameters:
+      - in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/ShowVerificationPayload'
+      produces:
+      - application/vnd.verification+json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Verification'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: show verification
+      tags:
+      - verification
     post:
       description: Create new verification
       operationId: verification#create
@@ -2141,84 +1861,6 @@ paths:
       schemes:
       - http
       summary: create verification
-      tags:
-      - verification
-  /verifications/{verificationID}:
-    delete:
-      operationId: verification#delete
-      parameters:
-      - description: verification ID
-        in: path
-        name: verificationID
-        required: true
-        type: integer
-      produces:
-      - application/vnd.goa.error
-      responses:
-        "204":
-          description: No Content
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/error'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      summary: delete verification
-      tags:
-      - verification
-    get:
-      description: Get verification by id
-      operationId: verification#show
-      parameters:
-      - description: verification ID
-        in: path
-        name: verificationID
-        required: true
-        type: integer
-      produces:
-      - application/vnd.verification+json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/Verification'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      summary: show verification
-      tags:
-      - verification
-    put:
-      description: Change verification data
-      operationId: verification#update
-      parameters:
-      - description: verification ID
-        in: path
-        name: verificationID
-        required: true
-        type: integer
-      - in: body
-        name: payload
-        required: true
-        schema:
-          $ref: '#/definitions/UpdateVerificationPayload'
-      produces:
-      - application/vnd.goa.error
-      responses:
-        "204":
-          description: No Content
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/error'
-        "404":
-          description: Not Found
-      schemes:
-      - http
-      summary: update verification
       tags:
       - verification
 produces:

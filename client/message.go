@@ -29,7 +29,7 @@ type CreateMessagePayload struct {
 // CreateMessagePath computes a request path to the create action of message.
 func CreateMessagePath() string {
 
-	return fmt.Sprintf("/messages")
+	return fmt.Sprintf("/v1/messages")
 }
 
 // Create new message
@@ -83,7 +83,7 @@ type ListMessagePayload struct {
 // ListMessagePath computes a request path to the list action of message.
 func ListMessagePath() string {
 
-	return fmt.Sprintf("/messages")
+	return fmt.Sprintf("/v1/messages")
 }
 
 // Retrieve all message in offer.

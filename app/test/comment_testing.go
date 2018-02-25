@@ -59,7 +59,7 @@ func CreateCommentBadRequest(t goatest.TInterface, ctx context.Context, service 
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/comments"),
+		Path: fmt.Sprintf("/v1/comments"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -139,7 +139,7 @@ func CreateCommentCreated(t goatest.TInterface, ctx context.Context, service *go
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/comments"),
+		Path: fmt.Sprintf("/v1/comments"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -176,11 +176,11 @@ func CreateCommentCreated(t goatest.TInterface, ctx context.Context, service *go
 	return rw
 }
 
-// ListCommentOK runs the method List of the given controller with the given parameters.
+// ListCommentOK runs the method List of the given controller with the given parameters and payload.
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ListCommentOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.CommentController) (http.ResponseWriter, app.CommentCollection) {
+func ListCommentOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.CommentController, payload *app.ListCommentPayload) (http.ResponseWriter, app.CommentCollection) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -201,7 +201,7 @@ func ListCommentOK(t goatest.TInterface, ctx context.Context, service *goa.Servi
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/comments"),
+		Path: fmt.Sprintf("/v1/comments"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -221,6 +221,7 @@ func ListCommentOK(t goatest.TInterface, ctx context.Context, service *goa.Servi
 		t.Errorf("unexpected parameter validation error: %+v", e)
 		return nil, nil
 	}
+	listCtx.Payload = payload
 
 	// Perform action
 	_err = ctrl.List(listCtx)

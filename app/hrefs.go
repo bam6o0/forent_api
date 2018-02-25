@@ -10,18 +10,12 @@
 
 package app
 
-import (
-	"fmt"
-	"strings"
-)
-
 // ProfileHref returns the resource href.
 func ProfileHref() string {
-	return "/profiles"
+	return "/v1/profiles"
 }
 
 // VerificationHref returns the resource href.
-func VerificationHref(verificationID interface{}) string {
-	paramverificationID := strings.TrimLeftFunc(fmt.Sprintf("%v", verificationID), func(r rune) bool { return r == '/' })
-	return fmt.Sprintf("/verifications/%v", paramverificationID)
+func VerificationHref() string {
+	return "/v1/verifications"
 }

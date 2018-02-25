@@ -59,7 +59,7 @@ func SiginAuthenticationBadRequest(t goatest.TInterface, ctx context.Context, se
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/signin"),
+		Path: fmt.Sprintf("/v1/signin"),
 	}
 	req, _err := http.NewRequest("GET", u.String(), nil)
 	if _err != nil {
@@ -139,7 +139,7 @@ func SiginAuthenticationInternalServerError(t goatest.TInterface, ctx context.Co
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/signin"),
+		Path: fmt.Sprintf("/v1/signin"),
 	}
 	req, _err := http.NewRequest("GET", u.String(), nil)
 	if _err != nil {
@@ -212,7 +212,7 @@ func SiginAuthenticationOK(t goatest.TInterface, ctx context.Context, service *g
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/signin"),
+		Path: fmt.Sprintf("/v1/signin"),
 	}
 	req, _err := http.NewRequest("GET", u.String(), nil)
 	if _err != nil {
@@ -293,7 +293,7 @@ func SiginAuthenticationUnauthorized(t goatest.TInterface, ctx context.Context, 
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/signin"),
+		Path: fmt.Sprintf("/v1/signin"),
 	}
 	req, _err := http.NewRequest("GET", u.String(), nil)
 	if _err != nil {
@@ -365,7 +365,7 @@ func SignupAuthenticationBadRequest(t goatest.TInterface, ctx context.Context, s
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/signup"),
+		Path: fmt.Sprintf("/v1/signup"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -445,7 +445,7 @@ func SignupAuthenticationInternalServerError(t goatest.TInterface, ctx context.C
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/signup"),
+		Path: fmt.Sprintf("/v1/signup"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -518,7 +518,7 @@ func SignupAuthenticationOK(t goatest.TInterface, ctx context.Context, service *
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/signup"),
+		Path: fmt.Sprintf("/v1/signup"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -599,7 +599,7 @@ func SignupAuthenticationUnauthorized(t goatest.TInterface, ctx context.Context,
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/signup"),
+		Path: fmt.Sprintf("/v1/signup"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {

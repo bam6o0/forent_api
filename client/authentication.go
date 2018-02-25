@@ -21,7 +21,7 @@ import (
 // SiginAuthenticationPath computes a request path to the sigin action of authentication.
 func SiginAuthenticationPath() string {
 
-	return fmt.Sprintf("/signin")
+	return fmt.Sprintf("/v1/signin")
 }
 
 // signup
@@ -64,7 +64,7 @@ func (c *Client) NewSiginAuthenticationRequest(ctx context.Context, path string,
 // SignupAuthenticationPath computes a request path to the signup action of authentication.
 func SignupAuthenticationPath() string {
 
-	return fmt.Sprintf("/signup")
+	return fmt.Sprintf("/v1/signup")
 }
 
 // signup and Creates a valid JWT

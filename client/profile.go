@@ -16,7 +16,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"strconv"
 )
 
 // CreateProfilePayload is the profile create action payload.
@@ -25,14 +24,12 @@ type CreateProfilePayload struct {
 	FirstName string `form:"first_name" json:"first_name" xml:"first_name"`
 	// last_name
 	LastName string `form:"last_name" json:"last_name" xml:"last_name"`
-	// user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // CreateProfilePath computes a request path to the create action of profile.
 func CreateProfilePath() string {
 
-	return fmt.Sprintf("/profiles")
+	return fmt.Sprintf("/v1/profiles")
 }
 
 // Create new profile
@@ -77,46 +74,6 @@ func (c *Client) NewCreateProfileRequest(ctx context.Context, path string, paylo
 	return req, nil
 }
 
-// DeleteProfilePath computes a request path to the delete action of profile.
-func DeleteProfilePath() string {
-
-	return fmt.Sprintf("/profiles")
-}
-
-// DeleteProfile makes a request to the delete action endpoint of the profile resource
-func (c *Client) DeleteProfile(ctx context.Context, path string, profileID *int) (*http.Response, error) {
-	req, err := c.NewDeleteProfileRequest(ctx, path, profileID)
-	if err != nil {
-		return nil, err
-	}
-	return c.Client.Do(ctx, req)
-}
-
-// NewDeleteProfileRequest create the request corresponding to the delete action endpoint of the profile resource.
-func (c *Client) NewDeleteProfileRequest(ctx context.Context, path string, profileID *int) (*http.Request, error) {
-	scheme := c.Scheme
-	if scheme == "" {
-		scheme = "http"
-	}
-	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	values := u.Query()
-	if profileID != nil {
-		tmp27 := strconv.Itoa(*profileID)
-		values.Set("profileID", tmp27)
-	}
-	u.RawQuery = values.Encode()
-	req, err := http.NewRequest("DELETE", u.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-	if c.JWTSigner != nil {
-		if err := c.JWTSigner.Sign(req); err != nil {
-			return nil, err
-		}
-	}
-	return req, nil
-}
-
 // ShowProfilePayload is the profile show action payload.
 type ShowProfilePayload struct {
 	// user ID
@@ -126,7 +83,7 @@ type ShowProfilePayload struct {
 // ShowProfilePath computes a request path to the show action of profile.
 func ShowProfilePath() string {
 
-	return fmt.Sprintf("/profiles")
+	return fmt.Sprintf("/v1/profiles")
 }
 
 // Get profile by id
@@ -162,76 +119,6 @@ func (c *Client) NewShowProfileRequest(ctx context.Context, path string, payload
 		header.Set("Content-Type", "application/json")
 	} else {
 		header.Set("Content-Type", contentType)
-	}
-	return req, nil
-}
-
-// UpdateProfilePayload is the profile update action payload.
-type UpdateProfilePayload struct {
-	// avatar image url
-	AvatarImage *string `form:"avatar_image,omitempty" json:"avatar_image,omitempty" xml:"avatar_image,omitempty"`
-	// cover image url
-	CoverImage *string `form:"cover_image,omitempty" json:"cover_image,omitempty" xml:"cover_image,omitempty"`
-	// first name
-	FirstName *string `form:"first_name,omitempty" json:"first_name,omitempty" xml:"first_name,omitempty"`
-	// user introduciton
-	Introduction *string `form:"introduction,omitempty" json:"introduction,omitempty" xml:"introduction,omitempty"`
-	// last_name
-	LastName *string `form:"last_name,omitempty" json:"last_name,omitempty" xml:"last_name,omitempty"`
-	// user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
-}
-
-// UpdateProfilePath computes a request path to the update action of profile.
-func UpdateProfilePath() string {
-
-	return fmt.Sprintf("/profiles")
-}
-
-// Change profile data
-func (c *Client) UpdateProfile(ctx context.Context, path string, payload *UpdateProfilePayload, profileID *int, contentType string) (*http.Response, error) {
-	req, err := c.NewUpdateProfileRequest(ctx, path, payload, profileID, contentType)
-	if err != nil {
-		return nil, err
-	}
-	return c.Client.Do(ctx, req)
-}
-
-// NewUpdateProfileRequest create the request corresponding to the update action endpoint of the profile resource.
-func (c *Client) NewUpdateProfileRequest(ctx context.Context, path string, payload *UpdateProfilePayload, profileID *int, contentType string) (*http.Request, error) {
-	var body bytes.Buffer
-	if contentType == "" {
-		contentType = "*/*" // Use default encoder
-	}
-	err := c.Encoder.Encode(payload, &body, contentType)
-	if err != nil {
-		return nil, fmt.Errorf("failed to encode body: %s", err)
-	}
-	scheme := c.Scheme
-	if scheme == "" {
-		scheme = "http"
-	}
-	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	values := u.Query()
-	if profileID != nil {
-		tmp28 := strconv.Itoa(*profileID)
-		values.Set("profileID", tmp28)
-	}
-	u.RawQuery = values.Encode()
-	req, err := http.NewRequest("PUT", u.String(), &body)
-	if err != nil {
-		return nil, err
-	}
-	header := req.Header
-	if contentType == "*/*" {
-		header.Set("Content-Type", "application/json")
-	} else {
-		header.Set("Content-Type", contentType)
-	}
-	if c.JWTSigner != nil {
-		if err := c.JWTSigner.Sign(req); err != nil {
-			return nil, err
-		}
 	}
 	return req, nil
 }

@@ -34,46 +34,10 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 		Payload(func() {
 			Param("first_name", String, "first name")
 			Param("last_name", String, "last_name")
-			Param("user_id", Integer, "user id")
 
-			Required("first_name", "last_name", "user_id")
+			Required("first_name", "last_name")
 		})
 		Response(Created, "/profiles/[0-9]+")
-		Response(BadRequest, ErrorMedia)
-	})
-
-	Action("update", func() {
-		Routing(
-			PUT(""),
-		)
-		Description("Change profile data")
-		Params(func() {
-			Param("profileID", Integer, "profile ID")
-		})
-		Payload(func() {
-			Param("user_id", Integer, "user id")
-			Param("first_name", String, "first name")
-			Param("last_name", String, "last_name")
-			Param("introduction", String, "user introduciton")
-			Param("avatar_image", String, "avatar image url")
-			Param("cover_image", String, "cover image url")
-
-			Required("user_id")
-		})
-		Response(NoContent)
-		Response(NotFound)
-		Response(BadRequest, ErrorMedia)
-	})
-
-	Action("delete", func() {
-		Routing(
-			DELETE(""),
-		)
-		Params(func() {
-			Param("profileID", Integer, "profile ID")
-		})
-		Response(NoContent)
-		Response(NotFound)
 		Response(BadRequest, ErrorMedia)
 	})
 
@@ -86,9 +50,10 @@ var _ = Resource("verification", func() { // Resources group related API endpoin
 
 	Action("show", func() { // Actions define a single API endpoint together
 		Description("Get verification by id") // with its path, parameters (both path
-		Routing(GET("/:verificationID"))      // parameters and querystring values) and payload
-		Params(func() {                       // (shape of the request body).
-			Param("verificationID", Integer, "verification ID")
+		Routing(GET(""))                      // parameters and querystring values) and payload
+		Payload(func() {                      // (shape of the request body).
+			Param("user_id", Integer, "user id")
+			Required("user_id")
 		})
 		Response(OK)       // Responses define the shape and status code
 		Response(NotFound) // of HTTP responses.
@@ -100,49 +65,14 @@ var _ = Resource("verification", func() { // Resources group related API endpoin
 		)
 		Description("Create new verification")
 		Payload(func() {
-			Param("user_id", Integer, "user id")
 			Param("identification", Boolean, "identification flag")
 			Param("email", Boolean, "address flag")
 			Param("facebook_id", Integer, "Unique facebook ID")
 			Param("google_id", Integer, "Unique google ID")
 
-			Required("user_id", "identification", "email", "facebook_id", "google_id")
+			Required("identification", "email", "facebook_id", "google_id")
 		})
 		Response(Created, "/verifications/[0-9]+")
-		Response(BadRequest, ErrorMedia)
-	})
-
-	Action("update", func() {
-		Routing(
-			PUT("/:verificationID"),
-		)
-		Description("Change verification data")
-		Params(func() {
-			Param("verificationID", Integer, "verification ID")
-		})
-		Payload(func() {
-			Param("user_id", Integer, "user id")
-			Param("identification", Boolean, "identification flag")
-			Param("email", Boolean, "address flag")
-			Param("facebook_id", Integer, "Unique facebook ID")
-			Param("google_id", Integer, "Unique google ID")
-
-			Required("user_id")
-		})
-		Response(NoContent)
-		Response(NotFound)
-		Response(BadRequest, ErrorMedia)
-	})
-
-	Action("delete", func() {
-		Routing(
-			DELETE("/:verificationID"),
-		)
-		Params(func() {
-			Param("verificationID", Integer, "verification ID")
-		})
-		Response(NoContent)
-		Response(NotFound)
 		Response(BadRequest, ErrorMedia)
 	})
 
@@ -183,7 +113,6 @@ var _ = Resource("item", func() { // Resources group related API endpoints
 			Param("description", String, "description of item")
 			Param("price", Integer, "price of item")
 			Param("compensation", Integer, "compensation of item")
-			Param("user_id", Integer, "user ID")
 			Param("category_id", Integer, "category ID")
 			Param("place_id", Integer, "category ID")
 			Param("image1", String, "item image 1")
@@ -191,53 +120,11 @@ var _ = Resource("item", func() { // Resources group related API endpoints
 			Param("image3", String, "item image 3")
 			Param("image4", String, "item image 4")
 
-			Required("name", "description", "price", "compensation", "user_id", "category_id", "place_id", "image1")
+			Required("name", "description", "price", "compensation", "category_id", "place_id", "image1")
 		})
 		Response(Created, "/items/[0-9]+")
 		Response(BadRequest, ErrorMedia)
 	})
-
-	Action("update", func() {
-		Routing(
-			PUT(""),
-		)
-		Description("Change item data")
-		Payload(func() {
-			Param("itemID", Integer, "item ID")
-			Param("name", String, "Name of item")
-			Param("description", String, "description of item")
-			Param("price", Integer, "price of item")
-			Param("compensation", Integer, "compensation of item")
-			Param("user_id", Integer, "user ID")
-			Param("category_id", Integer, "Category ID")
-			Param("place_id", Integer, "Place ID")
-			Param("image1", String, "item image 1")
-			Param("image2", String, "item image 2")
-			Param("image3", String, "item image 3")
-			Param("image4", String, "item image 4")
-
-			Required("itemID", "user_id")
-		})
-		Response(NoContent)
-		Response(NotFound)
-		Response(BadRequest, ErrorMedia)
-	})
-
-	Action("delete", func() {
-		Routing(
-			DELETE(""),
-		)
-		Payload(func() {
-			Param("itemID", Integer, "item ID")
-			Param("user_id", Integer, "user ID")
-			Required("itemID", "user_id")
-		})
-
-		Response(NoContent)
-		Response(NotFound)
-		Response(BadRequest, ErrorMedia)
-	})
-
 })
 
 // Article
@@ -374,6 +261,10 @@ var _ = Resource("comment", func() { // Resources group related API endpoints
 		Routing(
 			GET(""),
 		)
+		Payload(func() {
+			Param("item_id", Integer, "item id")
+			Required("item_id")
+		})
 		Description("Retrieve all comments.")
 		Response(OK, CollectionOf(Comment))
 	})
@@ -384,12 +275,11 @@ var _ = Resource("comment", func() { // Resources group related API endpoints
 		)
 		Description("Create new comment")
 		Payload(func() {
-			Param("user_id", Integer, "comment user id")
 			Param("item_id", Integer, "item id")
 			Param("text", String, "comment text")
 			Param("reply_to", Integer, "comment_id or null")
 
-			Required("user_id", "item_id", "text", "reply_to")
+			Required("item_id", "text", "reply_to")
 		})
 		Response(Created, "/items/[0-9]+")
 		Response(BadRequest, ErrorMedia)

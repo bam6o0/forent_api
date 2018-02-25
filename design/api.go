@@ -10,6 +10,7 @@ var _ = API("forent", func() { // API defines the microservice endpoint and
 	Description("rental service")    // and exactly one API definition appearing in
 	Scheme("http")                   // the design.
 	Host("localhost:8080")
+	BasePath("/v1")
 
 	Origin("http://swagger.goa.design", func() {
 		Methods("GET", "POST", "PUT", "PATCH", "DELETE")

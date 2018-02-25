@@ -20,7 +20,7 @@ import (
 // ListLargecategoryPath computes a request path to the list action of largecategory.
 func ListLargecategoryPath() string {
 
-	return fmt.Sprintf("/largecategories")
+	return fmt.Sprintf("/v1/largecategories")
 }
 
 // Retrieve all largecategories.
