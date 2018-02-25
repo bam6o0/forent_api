@@ -220,7 +220,6 @@ func NewAPIKeyMiddleware() goa.Middleware {
 	scheme := app.NewAPIKeySecurity()
 
 	apikey, _ := ioutil.ReadFile("./jwtkey/api.key")
-	fmt.Println(apikey)
 
 	// Middleware
 	return func(h goa.Handler) goa.Handler {
