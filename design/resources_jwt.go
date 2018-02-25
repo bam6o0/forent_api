@@ -49,10 +49,7 @@ var _ = Resource("authentication", func() {
 
 //Profile
 var _ = Resource("profile", func() { // Resources group related API endpoints
-	BasePath("/profiles")  // together. They map to REST resources for REST
-	Security(JWT, func() { // Use JWT to auth requests to this endpoint
-		Scope("api:access") // Enforce presence of "api" scope in JWT claims.
-	})
+	BasePath("/profiles") // together. They map to REST resources for REST
 	DefaultMedia(Profile) // services.
 
 	Action("show", func() { // Actions define a single API endpoint together
@@ -68,6 +65,9 @@ var _ = Resource("profile", func() { // Resources group related API endpoints
 	})
 
 	Action("create", func() {
+		Security(JWT, func() { // Use JWT to auth requests to this endpoint
+			Scope("api:access") // Enforce presence of "api" scope in JWT claims.
+		})
 		Routing(
 			POST(""),
 		)

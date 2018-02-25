@@ -1045,10 +1045,10 @@ func MountProfileController(service *goa.Service, ctrl ProfileController) {
 		}
 		return ctrl.Show(rctx)
 	}
-	h = handleSecurity("jwt", h, "api:access")
+	h = handleSecurity("api_key", h)
 	h = handleProfileOrigin(h)
 	service.Mux.Handle("GET", "/v1/profiles", ctrl.MuxHandler("show", h, unmarshalShowProfilePayload))
-	service.LogInfo("mount", "ctrl", "Profile", "action", "Show", "route", "GET /v1/profiles", "security", "jwt")
+	service.LogInfo("mount", "ctrl", "Profile", "action", "Show", "route", "GET /v1/profiles", "security", "api_key")
 }
 
 // handleProfileOrigin applies the CORS response headers corresponding to the origin.
