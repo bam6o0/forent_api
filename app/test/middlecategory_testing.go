@@ -49,7 +49,7 @@ func ListMiddlecategoryOK(t goatest.TInterface, ctx context.Context, service *go
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/middlecategories"),
+		Path: fmt.Sprintf("/v1/middlecategories"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {

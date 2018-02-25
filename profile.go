@@ -70,39 +70,25 @@ func (c *ProfileController) Create(ctx *app.CreateProfileContext) error {
 	}
 
 	if claims, ok := token.Claims.(jwtgo.MapClaims); ok && token.Valid {
-		//var authID = float64(payload.UserID)
-		if claims["user_id"] != float64(payload.UserID) {
-			errID := errors.New("id error")
-			return ctx.BadRequest(errID)
+
+		// cast
+		if userID, ok := claims["user_id"].(float64); ok {
+			profile := models.Profile{}
+			profile.UserID = int(userID)
+			profile.FirstName = payload.FirstName
+			profile.LastName = payload.LastName
+
+			err := ProfileDB.Add(ctx.Context, &profile)
+			if err != nil {
+				return ErrDatabaseError(err)
+			}
+			return ctx.Created()
 		}
-	} else {
-		errID := errors.New("id error")
-		return ctx.BadRequest(errID)
+
 	}
+	errID := errors.New("id error")
+	return ctx.BadRequest(errID)
 
-	profile := models.Profile{}
-	profile.UserID = payload.UserID
-	profile.FirstName = payload.FirstName
-	profile.LastName = payload.LastName
-	profile.Introduction = ""
-	profile.AvatarImage = ""
-	profile.CoverImage = ""
-
-	err := ProfileDB.Add(ctx.Context, &profile)
-	if err != nil {
-		return ErrDatabaseError(err)
-	}
-	return ctx.Created()
-}
-
-// Delete runs the delete action.
-func (c *ProfileController) Delete(ctx *app.DeleteProfileContext) error {
-	// ProfileController_Delete: start_implement
-
-	// Put your logic here
-
-	return nil
-	// ProfileController_Delete: end_implement
 }
 
 // Show runs the show action.
@@ -118,30 +104,6 @@ func (c *ProfileController) Show(ctx *app.ShowProfileContext) error {
 
 	return ctx.OK(profile)
 
-}
-
-// Update runs the update action.
-func (c *ProfileController) Update(ctx *app.UpdateProfileContext) error {
-	payload := ctx.Payload
-	// Retrieve the token claims
-	token := jwt.ContextJWT(ctx)
-	if token == nil {
-		return fmt.Errorf("JWT token is missing from context") // internal error
-	}
-
-	if claims, ok := token.Claims.(jwtgo.MapClaims); ok && token.Valid {
-		//var authID = float64(payload.UserID)
-		if claims["user_id"] != float64(payload.UserID) {
-			errID := errors.New("id error")
-			return ctx.BadRequest(errID)
-		}
-	} else {
-		errID := errors.New("id error")
-		return ctx.BadRequest(errID)
-	}
-
-	return nil
-	// ProfileController_Update: end_implement
 }
 
 // LoadJWTPublicKeys loads PEM encoded RSA public keys used to validata and decrypt the JWT.

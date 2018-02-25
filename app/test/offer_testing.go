@@ -59,7 +59,7 @@ func AcceptOfferBadRequest(t goatest.TInterface, ctx context.Context, service *g
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/offers"),
+		Path: fmt.Sprintf("/v1/offers"),
 	}
 	req, _err := http.NewRequest("PUT", u.String(), nil)
 	if _err != nil {
@@ -139,7 +139,7 @@ func AcceptOfferNoContent(t goatest.TInterface, ctx context.Context, service *go
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/offers"),
+		Path: fmt.Sprintf("/v1/offers"),
 	}
 	req, _err := http.NewRequest("PUT", u.String(), nil)
 	if _err != nil {
@@ -212,7 +212,7 @@ func AcceptOfferNotFound(t goatest.TInterface, ctx context.Context, service *goa
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/offers"),
+		Path: fmt.Sprintf("/v1/offers"),
 	}
 	req, _err := http.NewRequest("PUT", u.String(), nil)
 	if _err != nil {
@@ -284,7 +284,7 @@ func CreateOfferBadRequest(t goatest.TInterface, ctx context.Context, service *g
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/offers"),
+		Path: fmt.Sprintf("/v1/offers"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -364,7 +364,7 @@ func CreateOfferCreated(t goatest.TInterface, ctx context.Context, service *goa.
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/offers"),
+		Path: fmt.Sprintf("/v1/offers"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -426,7 +426,7 @@ func ListOfferBadRequest(t goatest.TInterface, ctx context.Context, service *goa
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/offers"),
+		Path: fmt.Sprintf("/v1/offers"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -495,7 +495,7 @@ func ListOfferNotFound(t goatest.TInterface, ctx context.Context, service *goa.S
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/offers"),
+		Path: fmt.Sprintf("/v1/offers"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -557,7 +557,7 @@ func ListOfferOK(t goatest.TInterface, ctx context.Context, service *goa.Service
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/offers"),
+		Path: fmt.Sprintf("/v1/offers"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {

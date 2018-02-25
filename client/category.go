@@ -27,7 +27,7 @@ type ListCategoryPayload struct {
 // ListCategoryPath computes a request path to the list action of category.
 func ListCategoryPath() string {
 
-	return fmt.Sprintf("/categories")
+	return fmt.Sprintf("/v1/categories")
 }
 
 // Retrieve all categories.

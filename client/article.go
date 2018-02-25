@@ -33,7 +33,7 @@ type ListArticlePayload struct {
 // ListArticlePath computes a request path to the list action of article.
 func ListArticlePath() string {
 
-	return fmt.Sprintf("/articles")
+	return fmt.Sprintf("/v1/articles")
 }
 
 // Retrieve all items.

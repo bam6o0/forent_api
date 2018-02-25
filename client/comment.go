@@ -26,14 +26,12 @@ type CreateCommentPayload struct {
 	ReplyTo int `form:"reply_to" json:"reply_to" xml:"reply_to"`
 	// comment text
 	Text string `form:"text" json:"text" xml:"text"`
-	// comment user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // CreateCommentPath computes a request path to the create action of comment.
 func CreateCommentPath() string {
 
-	return fmt.Sprintf("/comments")
+	return fmt.Sprintf("/v1/comments")
 }
 
 // Create new comment
@@ -73,15 +71,21 @@ func (c *Client) NewCreateCommentRequest(ctx context.Context, path string, paylo
 	return req, nil
 }
 
+// ListCommentPayload is the comment list action payload.
+type ListCommentPayload struct {
+	// item id
+	ItemID int `form:"item_id" json:"item_id" xml:"item_id"`
+}
+
 // ListCommentPath computes a request path to the list action of comment.
 func ListCommentPath() string {
 
-	return fmt.Sprintf("/comments")
+	return fmt.Sprintf("/v1/comments")
 }
 
 // Retrieve all comments.
-func (c *Client) ListComment(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewListCommentRequest(ctx, path)
+func (c *Client) ListComment(ctx context.Context, path string, payload *ListCommentPayload, contentType string) (*http.Response, error) {
+	req, err := c.NewListCommentRequest(ctx, path, payload, contentType)
 	if err != nil {
 		return nil, err
 	}
@@ -89,15 +93,29 @@ func (c *Client) ListComment(ctx context.Context, path string) (*http.Response, 
 }
 
 // NewListCommentRequest create the request corresponding to the list action endpoint of the comment resource.
-func (c *Client) NewListCommentRequest(ctx context.Context, path string) (*http.Request, error) {
+func (c *Client) NewListCommentRequest(ctx context.Context, path string, payload *ListCommentPayload, contentType string) (*http.Request, error) {
+	var body bytes.Buffer
+	if contentType == "" {
+		contentType = "*/*" // Use default encoder
+	}
+	err := c.Encoder.Encode(payload, &body, contentType)
+	if err != nil {
+		return nil, fmt.Errorf("failed to encode body: %s", err)
+	}
 	scheme := c.Scheme
 	if scheme == "" {
 		scheme = "http"
 	}
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
+	req, err := http.NewRequest("GET", u.String(), &body)
 	if err != nil {
 		return nil, err
+	}
+	header := req.Header
+	if contentType == "*/*" {
+		header.Set("Content-Type", "application/json")
+	} else {
+		header.Set("Content-Type", contentType)
 	}
 	return req, nil
 }

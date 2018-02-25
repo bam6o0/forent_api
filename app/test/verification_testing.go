@@ -59,7 +59,7 @@ func CreateVerificationBadRequest(t goatest.TInterface, ctx context.Context, ser
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/verifications"),
+		Path: fmt.Sprintf("/v1/verifications"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -139,7 +139,7 @@ func CreateVerificationCreated(t goatest.TInterface, ctx context.Context, servic
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/verifications"),
+		Path: fmt.Sprintf("/v1/verifications"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -176,80 +176,11 @@ func CreateVerificationCreated(t goatest.TInterface, ctx context.Context, servic
 	return rw
 }
 
-// DeleteVerificationBadRequest runs the method Delete of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
-// If ctx is nil then context.Background() is used.
-// If service is nil then a default service is created.
-func DeleteVerificationBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.VerificationController, verificationID int) (http.ResponseWriter, error) {
-	// Setup service
-	var (
-		logBuf bytes.Buffer
-		resp   interface{}
-
-		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
-	)
-	if service == nil {
-		service = goatest.Service(&logBuf, respSetter)
-	} else {
-		logger := log.New(&logBuf, "", log.Ltime)
-		service.WithLogger(goa.NewLogger(logger))
-		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
-		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
-		service.Encoder.Register(newEncoder, "*/*")
-	}
-
-	// Setup request context
-	rw := httptest.NewRecorder()
-	u := &url.URL{
-		Path: fmt.Sprintf("/verifications/%v", verificationID),
-	}
-	req, err := http.NewRequest("DELETE", u.String(), nil)
-	if err != nil {
-		panic("invalid test " + err.Error()) // bug
-	}
-	prms := url.Values{}
-	prms["verificationID"] = []string{fmt.Sprintf("%v", verificationID)}
-	if ctx == nil {
-		ctx = context.Background()
-	}
-	goaCtx := goa.NewContext(goa.WithAction(ctx, "VerificationTest"), rw, req, prms)
-	deleteCtx, _err := app.NewDeleteVerificationContext(goaCtx, req, service)
-	if _err != nil {
-		e, ok := _err.(goa.ServiceError)
-		if !ok {
-			panic("invalid test data " + _err.Error()) // bug
-		}
-		return nil, e
-	}
-
-	// Perform action
-	_err = ctrl.Delete(deleteCtx)
-
-	// Validate response
-	if _err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
-	}
-	if rw.Code != 400 {
-		t.Errorf("invalid response status code: got %+v, expected 400", rw.Code)
-	}
-	var mt error
-	if resp != nil {
-		var _ok bool
-		mt, _ok = resp.(error)
-		if !_ok {
-			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of error", resp, resp)
-		}
-	}
-
-	// Return results
-	return rw, mt
-}
-
-// DeleteVerificationNoContent runs the method Delete of the given controller with the given parameters.
+// ShowVerificationNotFound runs the method Show of the given controller with the given parameters and payload.
 // It returns the response writer so it's possible to inspect the response headers.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func DeleteVerificationNoContent(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.VerificationController, verificationID int) http.ResponseWriter {
+func ShowVerificationNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.VerificationController, payload *app.ShowVerificationPayload) http.ResponseWriter {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -270,138 +201,13 @@ func DeleteVerificationNoContent(t goatest.TInterface, ctx context.Context, serv
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/verifications/%v", verificationID),
-	}
-	req, err := http.NewRequest("DELETE", u.String(), nil)
-	if err != nil {
-		panic("invalid test " + err.Error()) // bug
-	}
-	prms := url.Values{}
-	prms["verificationID"] = []string{fmt.Sprintf("%v", verificationID)}
-	if ctx == nil {
-		ctx = context.Background()
-	}
-	goaCtx := goa.NewContext(goa.WithAction(ctx, "VerificationTest"), rw, req, prms)
-	deleteCtx, _err := app.NewDeleteVerificationContext(goaCtx, req, service)
-	if _err != nil {
-		e, ok := _err.(goa.ServiceError)
-		if !ok {
-			panic("invalid test data " + _err.Error()) // bug
-		}
-		t.Errorf("unexpected parameter validation error: %+v", e)
-		return nil
-	}
-
-	// Perform action
-	_err = ctrl.Delete(deleteCtx)
-
-	// Validate response
-	if _err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
-	}
-	if rw.Code != 204 {
-		t.Errorf("invalid response status code: got %+v, expected 204", rw.Code)
-	}
-
-	// Return results
-	return rw
-}
-
-// DeleteVerificationNotFound runs the method Delete of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers.
-// If ctx is nil then context.Background() is used.
-// If service is nil then a default service is created.
-func DeleteVerificationNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.VerificationController, verificationID int) http.ResponseWriter {
-	// Setup service
-	var (
-		logBuf bytes.Buffer
-		resp   interface{}
-
-		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
-	)
-	if service == nil {
-		service = goatest.Service(&logBuf, respSetter)
-	} else {
-		logger := log.New(&logBuf, "", log.Ltime)
-		service.WithLogger(goa.NewLogger(logger))
-		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
-		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
-		service.Encoder.Register(newEncoder, "*/*")
-	}
-
-	// Setup request context
-	rw := httptest.NewRecorder()
-	u := &url.URL{
-		Path: fmt.Sprintf("/verifications/%v", verificationID),
-	}
-	req, err := http.NewRequest("DELETE", u.String(), nil)
-	if err != nil {
-		panic("invalid test " + err.Error()) // bug
-	}
-	prms := url.Values{}
-	prms["verificationID"] = []string{fmt.Sprintf("%v", verificationID)}
-	if ctx == nil {
-		ctx = context.Background()
-	}
-	goaCtx := goa.NewContext(goa.WithAction(ctx, "VerificationTest"), rw, req, prms)
-	deleteCtx, _err := app.NewDeleteVerificationContext(goaCtx, req, service)
-	if _err != nil {
-		e, ok := _err.(goa.ServiceError)
-		if !ok {
-			panic("invalid test data " + _err.Error()) // bug
-		}
-		t.Errorf("unexpected parameter validation error: %+v", e)
-		return nil
-	}
-
-	// Perform action
-	_err = ctrl.Delete(deleteCtx)
-
-	// Validate response
-	if _err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
-	}
-	if rw.Code != 404 {
-		t.Errorf("invalid response status code: got %+v, expected 404", rw.Code)
-	}
-
-	// Return results
-	return rw
-}
-
-// ShowVerificationNotFound runs the method Show of the given controller with the given parameters.
-// It returns the response writer so it's possible to inspect the response headers.
-// If ctx is nil then context.Background() is used.
-// If service is nil then a default service is created.
-func ShowVerificationNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.VerificationController, verificationID int) http.ResponseWriter {
-	// Setup service
-	var (
-		logBuf bytes.Buffer
-		resp   interface{}
-
-		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
-	)
-	if service == nil {
-		service = goatest.Service(&logBuf, respSetter)
-	} else {
-		logger := log.New(&logBuf, "", log.Ltime)
-		service.WithLogger(goa.NewLogger(logger))
-		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
-		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
-		service.Encoder.Register(newEncoder, "*/*")
-	}
-
-	// Setup request context
-	rw := httptest.NewRecorder()
-	u := &url.URL{
-		Path: fmt.Sprintf("/verifications/%v", verificationID),
+		Path: fmt.Sprintf("/v1/verifications"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["verificationID"] = []string{fmt.Sprintf("%v", verificationID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -415,6 +221,7 @@ func ShowVerificationNotFound(t goatest.TInterface, ctx context.Context, service
 		t.Errorf("unexpected parameter validation error: %+v", e)
 		return nil
 	}
+	showCtx.Payload = payload
 
 	// Perform action
 	_err = ctrl.Show(showCtx)
@@ -431,11 +238,11 @@ func ShowVerificationNotFound(t goatest.TInterface, ctx context.Context, service
 	return rw
 }
 
-// ShowVerificationOK runs the method Show of the given controller with the given parameters.
+// ShowVerificationOK runs the method Show of the given controller with the given parameters and payload.
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowVerificationOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.VerificationController, verificationID int) (http.ResponseWriter, *app.Verification) {
+func ShowVerificationOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.VerificationController, payload *app.ShowVerificationPayload) (http.ResponseWriter, *app.Verification) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -456,14 +263,13 @@ func ShowVerificationOK(t goatest.TInterface, ctx context.Context, service *goa.
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/verifications/%v", verificationID),
+		Path: fmt.Sprintf("/v1/verifications"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
-	prms["verificationID"] = []string{fmt.Sprintf("%v", verificationID)}
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -477,6 +283,7 @@ func ShowVerificationOK(t goatest.TInterface, ctx context.Context, service *goa.
 		t.Errorf("unexpected parameter validation error: %+v", e)
 		return nil, nil
 	}
+	showCtx.Payload = payload
 
 	// Perform action
 	_err = ctrl.Show(showCtx)
@@ -503,200 +310,4 @@ func ShowVerificationOK(t goatest.TInterface, ctx context.Context, service *goa.
 
 	// Return results
 	return rw, mt
-}
-
-// UpdateVerificationBadRequest runs the method Update of the given controller with the given parameters and payload.
-// It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
-// If ctx is nil then context.Background() is used.
-// If service is nil then a default service is created.
-func UpdateVerificationBadRequest(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.VerificationController, verificationID int, payload *app.UpdateVerificationPayload) (http.ResponseWriter, error) {
-	// Setup service
-	var (
-		logBuf bytes.Buffer
-		resp   interface{}
-
-		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
-	)
-	if service == nil {
-		service = goatest.Service(&logBuf, respSetter)
-	} else {
-		logger := log.New(&logBuf, "", log.Ltime)
-		service.WithLogger(goa.NewLogger(logger))
-		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
-		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
-		service.Encoder.Register(newEncoder, "*/*")
-	}
-
-	// Setup request context
-	rw := httptest.NewRecorder()
-	u := &url.URL{
-		Path: fmt.Sprintf("/verifications/%v", verificationID),
-	}
-	req, err := http.NewRequest("PUT", u.String(), nil)
-	if err != nil {
-		panic("invalid test " + err.Error()) // bug
-	}
-	prms := url.Values{}
-	prms["verificationID"] = []string{fmt.Sprintf("%v", verificationID)}
-	if ctx == nil {
-		ctx = context.Background()
-	}
-	goaCtx := goa.NewContext(goa.WithAction(ctx, "VerificationTest"), rw, req, prms)
-	updateCtx, _err := app.NewUpdateVerificationContext(goaCtx, req, service)
-	if _err != nil {
-		e, ok := _err.(goa.ServiceError)
-		if !ok {
-			panic("invalid test data " + _err.Error()) // bug
-		}
-		return nil, e
-	}
-	updateCtx.Payload = payload
-
-	// Perform action
-	_err = ctrl.Update(updateCtx)
-
-	// Validate response
-	if _err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
-	}
-	if rw.Code != 400 {
-		t.Errorf("invalid response status code: got %+v, expected 400", rw.Code)
-	}
-	var mt error
-	if resp != nil {
-		var _ok bool
-		mt, _ok = resp.(error)
-		if !_ok {
-			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of error", resp, resp)
-		}
-	}
-
-	// Return results
-	return rw, mt
-}
-
-// UpdateVerificationNoContent runs the method Update of the given controller with the given parameters and payload.
-// It returns the response writer so it's possible to inspect the response headers.
-// If ctx is nil then context.Background() is used.
-// If service is nil then a default service is created.
-func UpdateVerificationNoContent(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.VerificationController, verificationID int, payload *app.UpdateVerificationPayload) http.ResponseWriter {
-	// Setup service
-	var (
-		logBuf bytes.Buffer
-		resp   interface{}
-
-		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
-	)
-	if service == nil {
-		service = goatest.Service(&logBuf, respSetter)
-	} else {
-		logger := log.New(&logBuf, "", log.Ltime)
-		service.WithLogger(goa.NewLogger(logger))
-		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
-		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
-		service.Encoder.Register(newEncoder, "*/*")
-	}
-
-	// Setup request context
-	rw := httptest.NewRecorder()
-	u := &url.URL{
-		Path: fmt.Sprintf("/verifications/%v", verificationID),
-	}
-	req, err := http.NewRequest("PUT", u.String(), nil)
-	if err != nil {
-		panic("invalid test " + err.Error()) // bug
-	}
-	prms := url.Values{}
-	prms["verificationID"] = []string{fmt.Sprintf("%v", verificationID)}
-	if ctx == nil {
-		ctx = context.Background()
-	}
-	goaCtx := goa.NewContext(goa.WithAction(ctx, "VerificationTest"), rw, req, prms)
-	updateCtx, _err := app.NewUpdateVerificationContext(goaCtx, req, service)
-	if _err != nil {
-		e, ok := _err.(goa.ServiceError)
-		if !ok {
-			panic("invalid test data " + _err.Error()) // bug
-		}
-		t.Errorf("unexpected parameter validation error: %+v", e)
-		return nil
-	}
-	updateCtx.Payload = payload
-
-	// Perform action
-	_err = ctrl.Update(updateCtx)
-
-	// Validate response
-	if _err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
-	}
-	if rw.Code != 204 {
-		t.Errorf("invalid response status code: got %+v, expected 204", rw.Code)
-	}
-
-	// Return results
-	return rw
-}
-
-// UpdateVerificationNotFound runs the method Update of the given controller with the given parameters and payload.
-// It returns the response writer so it's possible to inspect the response headers.
-// If ctx is nil then context.Background() is used.
-// If service is nil then a default service is created.
-func UpdateVerificationNotFound(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.VerificationController, verificationID int, payload *app.UpdateVerificationPayload) http.ResponseWriter {
-	// Setup service
-	var (
-		logBuf bytes.Buffer
-		resp   interface{}
-
-		respSetter goatest.ResponseSetterFunc = func(r interface{}) { resp = r }
-	)
-	if service == nil {
-		service = goatest.Service(&logBuf, respSetter)
-	} else {
-		logger := log.New(&logBuf, "", log.Ltime)
-		service.WithLogger(goa.NewLogger(logger))
-		newEncoder := func(io.Writer) goa.Encoder { return respSetter }
-		service.Encoder = goa.NewHTTPEncoder() // Make sure the code ends up using this decoder
-		service.Encoder.Register(newEncoder, "*/*")
-	}
-
-	// Setup request context
-	rw := httptest.NewRecorder()
-	u := &url.URL{
-		Path: fmt.Sprintf("/verifications/%v", verificationID),
-	}
-	req, err := http.NewRequest("PUT", u.String(), nil)
-	if err != nil {
-		panic("invalid test " + err.Error()) // bug
-	}
-	prms := url.Values{}
-	prms["verificationID"] = []string{fmt.Sprintf("%v", verificationID)}
-	if ctx == nil {
-		ctx = context.Background()
-	}
-	goaCtx := goa.NewContext(goa.WithAction(ctx, "VerificationTest"), rw, req, prms)
-	updateCtx, _err := app.NewUpdateVerificationContext(goaCtx, req, service)
-	if _err != nil {
-		e, ok := _err.(goa.ServiceError)
-		if !ok {
-			panic("invalid test data " + _err.Error()) // bug
-		}
-		t.Errorf("unexpected parameter validation error: %+v", e)
-		return nil
-	}
-	updateCtx.Payload = payload
-
-	// Perform action
-	_err = ctrl.Update(updateCtx)
-
-	// Validate response
-	if _err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
-	}
-	if rw.Code != 404 {
-		t.Errorf("invalid response status code: got %+v, expected 404", rw.Code)
-	}
-
-	// Return results
-	return rw
 }

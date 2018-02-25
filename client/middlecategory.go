@@ -27,7 +27,7 @@ type ListMiddlecategoryPayload struct {
 // ListMiddlecategoryPath computes a request path to the list action of middlecategory.
 func ListMiddlecategoryPath() string {
 
-	return fmt.Sprintf("/middlecategories")
+	return fmt.Sprintf("/v1/middlecategories")
 }
 
 // Retrieve all middlecategories.

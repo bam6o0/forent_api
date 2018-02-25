@@ -27,7 +27,7 @@ type ListPlacePayload struct {
 // ListPlacePath computes a request path to the list action of place.
 func ListPlacePath() string {
 
-	return fmt.Sprintf("/places")
+	return fmt.Sprintf("/v1/places")
 }
 
 // Retrieve all places.

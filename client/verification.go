@@ -16,7 +16,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"strconv"
 )
 
 // CreateVerificationPayload is the verification create action payload.
@@ -29,14 +28,12 @@ type CreateVerificationPayload struct {
 	GoogleID int `form:"google_id" json:"google_id" xml:"google_id"`
 	// identification flag
 	Identification bool `form:"identification" json:"identification" xml:"identification"`
-	// user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // CreateVerificationPath computes a request path to the create action of verification.
 func CreateVerificationPath() string {
 
-	return fmt.Sprintf("/verifications")
+	return fmt.Sprintf("/v1/verifications")
 }
 
 // Create new verification
@@ -76,46 +73,21 @@ func (c *Client) NewCreateVerificationRequest(ctx context.Context, path string, 
 	return req, nil
 }
 
-// DeleteVerificationPath computes a request path to the delete action of verification.
-func DeleteVerificationPath(verificationID int) string {
-	param0 := strconv.Itoa(verificationID)
-
-	return fmt.Sprintf("/verifications/%s", param0)
-}
-
-// DeleteVerification makes a request to the delete action endpoint of the verification resource
-func (c *Client) DeleteVerification(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewDeleteVerificationRequest(ctx, path)
-	if err != nil {
-		return nil, err
-	}
-	return c.Client.Do(ctx, req)
-}
-
-// NewDeleteVerificationRequest create the request corresponding to the delete action endpoint of the verification resource.
-func (c *Client) NewDeleteVerificationRequest(ctx context.Context, path string) (*http.Request, error) {
-	scheme := c.Scheme
-	if scheme == "" {
-		scheme = "http"
-	}
-	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("DELETE", u.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-	return req, nil
+// ShowVerificationPayload is the verification show action payload.
+type ShowVerificationPayload struct {
+	// user id
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // ShowVerificationPath computes a request path to the show action of verification.
-func ShowVerificationPath(verificationID int) string {
-	param0 := strconv.Itoa(verificationID)
+func ShowVerificationPath() string {
 
-	return fmt.Sprintf("/verifications/%s", param0)
+	return fmt.Sprintf("/v1/verifications")
 }
 
 // Get verification by id
-func (c *Client) ShowVerification(ctx context.Context, path string) (*http.Response, error) {
-	req, err := c.NewShowVerificationRequest(ctx, path)
+func (c *Client) ShowVerification(ctx context.Context, path string, payload *ShowVerificationPayload, contentType string) (*http.Response, error) {
+	req, err := c.NewShowVerificationRequest(ctx, path, payload, contentType)
 	if err != nil {
 		return nil, err
 	}
@@ -123,51 +95,7 @@ func (c *Client) ShowVerification(ctx context.Context, path string) (*http.Respo
 }
 
 // NewShowVerificationRequest create the request corresponding to the show action endpoint of the verification resource.
-func (c *Client) NewShowVerificationRequest(ctx context.Context, path string) (*http.Request, error) {
-	scheme := c.Scheme
-	if scheme == "" {
-		scheme = "http"
-	}
-	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("GET", u.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-	return req, nil
-}
-
-// UpdateVerificationPayload is the verification update action payload.
-type UpdateVerificationPayload struct {
-	// address flag
-	Email *bool `form:"email,omitempty" json:"email,omitempty" xml:"email,omitempty"`
-	// Unique facebook ID
-	FacebookID *int `form:"facebook_id,omitempty" json:"facebook_id,omitempty" xml:"facebook_id,omitempty"`
-	// Unique google ID
-	GoogleID *int `form:"google_id,omitempty" json:"google_id,omitempty" xml:"google_id,omitempty"`
-	// identification flag
-	Identification *bool `form:"identification,omitempty" json:"identification,omitempty" xml:"identification,omitempty"`
-	// user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
-}
-
-// UpdateVerificationPath computes a request path to the update action of verification.
-func UpdateVerificationPath(verificationID int) string {
-	param0 := strconv.Itoa(verificationID)
-
-	return fmt.Sprintf("/verifications/%s", param0)
-}
-
-// Change verification data
-func (c *Client) UpdateVerification(ctx context.Context, path string, payload *UpdateVerificationPayload, contentType string) (*http.Response, error) {
-	req, err := c.NewUpdateVerificationRequest(ctx, path, payload, contentType)
-	if err != nil {
-		return nil, err
-	}
-	return c.Client.Do(ctx, req)
-}
-
-// NewUpdateVerificationRequest create the request corresponding to the update action endpoint of the verification resource.
-func (c *Client) NewUpdateVerificationRequest(ctx context.Context, path string, payload *UpdateVerificationPayload, contentType string) (*http.Request, error) {
+func (c *Client) NewShowVerificationRequest(ctx context.Context, path string, payload *ShowVerificationPayload, contentType string) (*http.Request, error) {
 	var body bytes.Buffer
 	if contentType == "" {
 		contentType = "*/*" // Use default encoder
@@ -181,7 +109,7 @@ func (c *Client) NewUpdateVerificationRequest(ctx context.Context, path string, 
 		scheme = "http"
 	}
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
-	req, err := http.NewRequest("PUT", u.String(), &body)
+	req, err := http.NewRequest("GET", u.String(), &body)
 	if err != nil {
 		return nil, err
 	}

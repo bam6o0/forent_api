@@ -14,7 +14,6 @@ import (
 	"context"
 	"github.com/goadesign/goa"
 	"net/http"
-	"strconv"
 	"time"
 )
 
@@ -267,15 +266,10 @@ type createCommentPayload struct {
 	ReplyTo *int `form:"reply_to,omitempty" json:"reply_to,omitempty" xml:"reply_to,omitempty"`
 	// comment text
 	Text *string `form:"text,omitempty" json:"text,omitempty" xml:"text,omitempty"`
-	// comment user id
-	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 }
 
 // Validate runs the validation rules defined in the design.
 func (payload *createCommentPayload) Validate() (err error) {
-	if payload.UserID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
-	}
 	if payload.ItemID == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "item_id"))
 	}
@@ -300,9 +294,6 @@ func (payload *createCommentPayload) Publicize() *CreateCommentPayload {
 	if payload.Text != nil {
 		pub.Text = *payload.Text
 	}
-	if payload.UserID != nil {
-		pub.UserID = *payload.UserID
-	}
 	return &pub
 }
 
@@ -314,8 +305,6 @@ type CreateCommentPayload struct {
 	ReplyTo int `form:"reply_to" json:"reply_to" xml:"reply_to"`
 	// comment text
 	Text string `form:"text" json:"text" xml:"text"`
-	// comment user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // Validate runs the validation rules defined in the design.
@@ -347,6 +336,7 @@ type ListCommentContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
+	Payload *ListCommentPayload
 }
 
 // NewListCommentContext parses the incoming request URL and body, performs validations and creates the
@@ -359,6 +349,35 @@ func NewListCommentContext(ctx context.Context, r *http.Request, service *goa.Se
 	req.Request = r
 	rctx := ListCommentContext{Context: ctx, ResponseData: resp, RequestData: req}
 	return &rctx, err
+}
+
+// listCommentPayload is the comment list action payload.
+type listCommentPayload struct {
+	// item id
+	ItemID *int `form:"item_id,omitempty" json:"item_id,omitempty" xml:"item_id,omitempty"`
+}
+
+// Validate runs the validation rules defined in the design.
+func (payload *listCommentPayload) Validate() (err error) {
+	if payload.ItemID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "item_id"))
+	}
+	return
+}
+
+// Publicize creates ListCommentPayload from listCommentPayload
+func (payload *listCommentPayload) Publicize() *ListCommentPayload {
+	var pub ListCommentPayload
+	if payload.ItemID != nil {
+		pub.ItemID = *payload.ItemID
+	}
+	return &pub
+}
+
+// ListCommentPayload is the comment list action payload.
+type ListCommentPayload struct {
+	// item id
+	ItemID int `form:"item_id" json:"item_id" xml:"item_id"`
 }
 
 // OK sends a HTTP response with status code 200.
@@ -414,8 +433,6 @@ type createItemPayload struct {
 	PlaceID *int `form:"place_id,omitempty" json:"place_id,omitempty" xml:"place_id,omitempty"`
 	// price of item
 	Price *int `form:"price,omitempty" json:"price,omitempty" xml:"price,omitempty"`
-	// user ID
-	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 }
 
 // Validate runs the validation rules defined in the design.
@@ -431,9 +448,6 @@ func (payload *createItemPayload) Validate() (err error) {
 	}
 	if payload.Compensation == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "compensation"))
-	}
-	if payload.UserID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
 	}
 	if payload.CategoryID == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "category_id"))
@@ -480,9 +494,6 @@ func (payload *createItemPayload) Publicize() *CreateItemPayload {
 	if payload.Price != nil {
 		pub.Price = *payload.Price
 	}
-	if payload.UserID != nil {
-		pub.UserID = *payload.UserID
-	}
 	return &pub
 }
 
@@ -508,8 +519,6 @@ type CreateItemPayload struct {
 	PlaceID int `form:"place_id" json:"place_id" xml:"place_id"`
 	// price of item
 	Price int `form:"price" json:"price" xml:"price"`
-	// user ID
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // Validate runs the validation rules defined in the design.
@@ -539,91 +548,6 @@ func (ctx *CreateItemContext) BadRequest(r error) error {
 		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
 	}
 	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// DeleteItemContext provides the item delete action context.
-type DeleteItemContext struct {
-	context.Context
-	*goa.ResponseData
-	*goa.RequestData
-	Payload *DeleteItemPayload
-}
-
-// NewDeleteItemContext parses the incoming request URL and body, performs validations and creates the
-// context used by the item controller delete action.
-func NewDeleteItemContext(ctx context.Context, r *http.Request, service *goa.Service) (*DeleteItemContext, error) {
-	var err error
-	resp := goa.ContextResponse(ctx)
-	resp.Service = service
-	req := goa.ContextRequest(ctx)
-	req.Request = r
-	rctx := DeleteItemContext{Context: ctx, ResponseData: resp, RequestData: req}
-	return &rctx, err
-}
-
-// deleteItemPayload is the item delete action payload.
-type deleteItemPayload struct {
-	// item ID
-	ItemID *int `form:"itemID,omitempty" json:"itemID,omitempty" xml:"itemID,omitempty"`
-	// user ID
-	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
-}
-
-// Validate runs the validation rules defined in the design.
-func (payload *deleteItemPayload) Validate() (err error) {
-	if payload.ItemID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "itemID"))
-	}
-	if payload.UserID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
-	}
-	return
-}
-
-// Publicize creates DeleteItemPayload from deleteItemPayload
-func (payload *deleteItemPayload) Publicize() *DeleteItemPayload {
-	var pub DeleteItemPayload
-	if payload.ItemID != nil {
-		pub.ItemID = *payload.ItemID
-	}
-	if payload.UserID != nil {
-		pub.UserID = *payload.UserID
-	}
-	return &pub
-}
-
-// DeleteItemPayload is the item delete action payload.
-type DeleteItemPayload struct {
-	// item ID
-	ItemID int `form:"itemID" json:"itemID" xml:"itemID"`
-	// user ID
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
-}
-
-// Validate runs the validation rules defined in the design.
-func (payload *DeleteItemPayload) Validate() (err error) {
-
-	return
-}
-
-// NoContent sends a HTTP response with status code 204.
-func (ctx *DeleteItemContext) NoContent() error {
-	ctx.ResponseData.WriteHeader(204)
-	return nil
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *DeleteItemContext) BadRequest(r error) error {
-	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *DeleteItemContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
 }
 
 // ListItemContext provides the item list action context.
@@ -708,161 +632,6 @@ func (ctx *ListItemContext) OK(r ItemCollection) error {
 
 // NotFound sends a HTTP response with status code 404.
 func (ctx *ListItemContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
-}
-
-// UpdateItemContext provides the item update action context.
-type UpdateItemContext struct {
-	context.Context
-	*goa.ResponseData
-	*goa.RequestData
-	Payload *UpdateItemPayload
-}
-
-// NewUpdateItemContext parses the incoming request URL and body, performs validations and creates the
-// context used by the item controller update action.
-func NewUpdateItemContext(ctx context.Context, r *http.Request, service *goa.Service) (*UpdateItemContext, error) {
-	var err error
-	resp := goa.ContextResponse(ctx)
-	resp.Service = service
-	req := goa.ContextRequest(ctx)
-	req.Request = r
-	rctx := UpdateItemContext{Context: ctx, ResponseData: resp, RequestData: req}
-	return &rctx, err
-}
-
-// updateItemPayload is the item update action payload.
-type updateItemPayload struct {
-	// Category ID
-	CategoryID *int `form:"category_id,omitempty" json:"category_id,omitempty" xml:"category_id,omitempty"`
-	// compensation of item
-	Compensation *int `form:"compensation,omitempty" json:"compensation,omitempty" xml:"compensation,omitempty"`
-	// description of item
-	Description *string `form:"description,omitempty" json:"description,omitempty" xml:"description,omitempty"`
-	// item image 1
-	Image1 *string `form:"image1,omitempty" json:"image1,omitempty" xml:"image1,omitempty"`
-	// item image 2
-	Image2 *string `form:"image2,omitempty" json:"image2,omitempty" xml:"image2,omitempty"`
-	// item image 3
-	Image3 *string `form:"image3,omitempty" json:"image3,omitempty" xml:"image3,omitempty"`
-	// item image 4
-	Image4 *string `form:"image4,omitempty" json:"image4,omitempty" xml:"image4,omitempty"`
-	// item ID
-	ItemID *int `form:"itemID,omitempty" json:"itemID,omitempty" xml:"itemID,omitempty"`
-	// Name of item
-	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
-	// Place ID
-	PlaceID *int `form:"place_id,omitempty" json:"place_id,omitempty" xml:"place_id,omitempty"`
-	// price of item
-	Price *int `form:"price,omitempty" json:"price,omitempty" xml:"price,omitempty"`
-	// user ID
-	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
-}
-
-// Validate runs the validation rules defined in the design.
-func (payload *updateItemPayload) Validate() (err error) {
-	if payload.ItemID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "itemID"))
-	}
-	if payload.UserID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
-	}
-	return
-}
-
-// Publicize creates UpdateItemPayload from updateItemPayload
-func (payload *updateItemPayload) Publicize() *UpdateItemPayload {
-	var pub UpdateItemPayload
-	if payload.CategoryID != nil {
-		pub.CategoryID = payload.CategoryID
-	}
-	if payload.Compensation != nil {
-		pub.Compensation = payload.Compensation
-	}
-	if payload.Description != nil {
-		pub.Description = payload.Description
-	}
-	if payload.Image1 != nil {
-		pub.Image1 = payload.Image1
-	}
-	if payload.Image2 != nil {
-		pub.Image2 = payload.Image2
-	}
-	if payload.Image3 != nil {
-		pub.Image3 = payload.Image3
-	}
-	if payload.Image4 != nil {
-		pub.Image4 = payload.Image4
-	}
-	if payload.ItemID != nil {
-		pub.ItemID = *payload.ItemID
-	}
-	if payload.Name != nil {
-		pub.Name = payload.Name
-	}
-	if payload.PlaceID != nil {
-		pub.PlaceID = payload.PlaceID
-	}
-	if payload.Price != nil {
-		pub.Price = payload.Price
-	}
-	if payload.UserID != nil {
-		pub.UserID = *payload.UserID
-	}
-	return &pub
-}
-
-// UpdateItemPayload is the item update action payload.
-type UpdateItemPayload struct {
-	// Category ID
-	CategoryID *int `form:"category_id,omitempty" json:"category_id,omitempty" xml:"category_id,omitempty"`
-	// compensation of item
-	Compensation *int `form:"compensation,omitempty" json:"compensation,omitempty" xml:"compensation,omitempty"`
-	// description of item
-	Description *string `form:"description,omitempty" json:"description,omitempty" xml:"description,omitempty"`
-	// item image 1
-	Image1 *string `form:"image1,omitempty" json:"image1,omitempty" xml:"image1,omitempty"`
-	// item image 2
-	Image2 *string `form:"image2,omitempty" json:"image2,omitempty" xml:"image2,omitempty"`
-	// item image 3
-	Image3 *string `form:"image3,omitempty" json:"image3,omitempty" xml:"image3,omitempty"`
-	// item image 4
-	Image4 *string `form:"image4,omitempty" json:"image4,omitempty" xml:"image4,omitempty"`
-	// item ID
-	ItemID int `form:"itemID" json:"itemID" xml:"itemID"`
-	// Name of item
-	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
-	// Place ID
-	PlaceID *int `form:"place_id,omitempty" json:"place_id,omitempty" xml:"place_id,omitempty"`
-	// price of item
-	Price *int `form:"price,omitempty" json:"price,omitempty" xml:"price,omitempty"`
-	// user ID
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
-}
-
-// Validate runs the validation rules defined in the design.
-func (payload *UpdateItemPayload) Validate() (err error) {
-
-	return
-}
-
-// NoContent sends a HTTP response with status code 204.
-func (ctx *UpdateItemContext) NoContent() error {
-	ctx.ResponseData.WriteHeader(204)
-	return nil
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *UpdateItemContext) BadRequest(r error) error {
-	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *UpdateItemContext) NotFound() error {
 	ctx.ResponseData.WriteHeader(404)
 	return nil
 }
@@ -1458,8 +1227,6 @@ type createProfilePayload struct {
 	FirstName *string `form:"first_name,omitempty" json:"first_name,omitempty" xml:"first_name,omitempty"`
 	// last_name
 	LastName *string `form:"last_name,omitempty" json:"last_name,omitempty" xml:"last_name,omitempty"`
-	// user id
-	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 }
 
 // Validate runs the validation rules defined in the design.
@@ -1469,9 +1236,6 @@ func (payload *createProfilePayload) Validate() (err error) {
 	}
 	if payload.LastName == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "last_name"))
-	}
-	if payload.UserID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
 	}
 	return
 }
@@ -1485,9 +1249,6 @@ func (payload *createProfilePayload) Publicize() *CreateProfilePayload {
 	if payload.LastName != nil {
 		pub.LastName = *payload.LastName
 	}
-	if payload.UserID != nil {
-		pub.UserID = *payload.UserID
-	}
 	return &pub
 }
 
@@ -1497,8 +1258,6 @@ type CreateProfilePayload struct {
 	FirstName string `form:"first_name" json:"first_name" xml:"first_name"`
 	// last_name
 	LastName string `form:"last_name" json:"last_name" xml:"last_name"`
-	// user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // Validate runs the validation rules defined in the design.
@@ -1509,7 +1268,6 @@ func (payload *CreateProfilePayload) Validate() (err error) {
 	if payload.LastName == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "last_name"))
 	}
-
 	return
 }
 
@@ -1525,57 +1283,6 @@ func (ctx *CreateProfileContext) BadRequest(r error) error {
 		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
 	}
 	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// DeleteProfileContext provides the profile delete action context.
-type DeleteProfileContext struct {
-	context.Context
-	*goa.ResponseData
-	*goa.RequestData
-	ProfileID *int
-}
-
-// NewDeleteProfileContext parses the incoming request URL and body, performs validations and creates the
-// context used by the profile controller delete action.
-func NewDeleteProfileContext(ctx context.Context, r *http.Request, service *goa.Service) (*DeleteProfileContext, error) {
-	var err error
-	resp := goa.ContextResponse(ctx)
-	resp.Service = service
-	req := goa.ContextRequest(ctx)
-	req.Request = r
-	rctx := DeleteProfileContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramProfileID := req.Params["profileID"]
-	if len(paramProfileID) > 0 {
-		rawProfileID := paramProfileID[0]
-		if profileID, err2 := strconv.Atoi(rawProfileID); err2 == nil {
-			tmp2 := profileID
-			tmp1 := &tmp2
-			rctx.ProfileID = tmp1
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("profileID", rawProfileID, "integer"))
-		}
-	}
-	return &rctx, err
-}
-
-// NoContent sends a HTTP response with status code 204.
-func (ctx *DeleteProfileContext) NoContent() error {
-	ctx.ResponseData.WriteHeader(204)
-	return nil
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *DeleteProfileContext) BadRequest(r error) error {
-	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *DeleteProfileContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
 }
 
 // ShowProfileContext provides the profile show action context.
@@ -1649,122 +1356,6 @@ func (ctx *ShowProfileContext) NotFound() error {
 	return nil
 }
 
-// UpdateProfileContext provides the profile update action context.
-type UpdateProfileContext struct {
-	context.Context
-	*goa.ResponseData
-	*goa.RequestData
-	ProfileID *int
-	Payload   *UpdateProfilePayload
-}
-
-// NewUpdateProfileContext parses the incoming request URL and body, performs validations and creates the
-// context used by the profile controller update action.
-func NewUpdateProfileContext(ctx context.Context, r *http.Request, service *goa.Service) (*UpdateProfileContext, error) {
-	var err error
-	resp := goa.ContextResponse(ctx)
-	resp.Service = service
-	req := goa.ContextRequest(ctx)
-	req.Request = r
-	rctx := UpdateProfileContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramProfileID := req.Params["profileID"]
-	if len(paramProfileID) > 0 {
-		rawProfileID := paramProfileID[0]
-		if profileID, err2 := strconv.Atoi(rawProfileID); err2 == nil {
-			tmp4 := profileID
-			tmp3 := &tmp4
-			rctx.ProfileID = tmp3
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("profileID", rawProfileID, "integer"))
-		}
-	}
-	return &rctx, err
-}
-
-// updateProfilePayload is the profile update action payload.
-type updateProfilePayload struct {
-	// avatar image url
-	AvatarImage *string `form:"avatar_image,omitempty" json:"avatar_image,omitempty" xml:"avatar_image,omitempty"`
-	// cover image url
-	CoverImage *string `form:"cover_image,omitempty" json:"cover_image,omitempty" xml:"cover_image,omitempty"`
-	// first name
-	FirstName *string `form:"first_name,omitempty" json:"first_name,omitempty" xml:"first_name,omitempty"`
-	// user introduciton
-	Introduction *string `form:"introduction,omitempty" json:"introduction,omitempty" xml:"introduction,omitempty"`
-	// last_name
-	LastName *string `form:"last_name,omitempty" json:"last_name,omitempty" xml:"last_name,omitempty"`
-	// user id
-	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
-}
-
-// Validate runs the validation rules defined in the design.
-func (payload *updateProfilePayload) Validate() (err error) {
-	if payload.UserID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
-	}
-	return
-}
-
-// Publicize creates UpdateProfilePayload from updateProfilePayload
-func (payload *updateProfilePayload) Publicize() *UpdateProfilePayload {
-	var pub UpdateProfilePayload
-	if payload.AvatarImage != nil {
-		pub.AvatarImage = payload.AvatarImage
-	}
-	if payload.CoverImage != nil {
-		pub.CoverImage = payload.CoverImage
-	}
-	if payload.FirstName != nil {
-		pub.FirstName = payload.FirstName
-	}
-	if payload.Introduction != nil {
-		pub.Introduction = payload.Introduction
-	}
-	if payload.LastName != nil {
-		pub.LastName = payload.LastName
-	}
-	if payload.UserID != nil {
-		pub.UserID = *payload.UserID
-	}
-	return &pub
-}
-
-// UpdateProfilePayload is the profile update action payload.
-type UpdateProfilePayload struct {
-	// avatar image url
-	AvatarImage *string `form:"avatar_image,omitempty" json:"avatar_image,omitempty" xml:"avatar_image,omitempty"`
-	// cover image url
-	CoverImage *string `form:"cover_image,omitempty" json:"cover_image,omitempty" xml:"cover_image,omitempty"`
-	// first name
-	FirstName *string `form:"first_name,omitempty" json:"first_name,omitempty" xml:"first_name,omitempty"`
-	// user introduciton
-	Introduction *string `form:"introduction,omitempty" json:"introduction,omitempty" xml:"introduction,omitempty"`
-	// last_name
-	LastName *string `form:"last_name,omitempty" json:"last_name,omitempty" xml:"last_name,omitempty"`
-	// user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
-}
-
-// NoContent sends a HTTP response with status code 204.
-func (ctx *UpdateProfileContext) NoContent() error {
-	ctx.ResponseData.WriteHeader(204)
-	return nil
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *UpdateProfileContext) BadRequest(r error) error {
-	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *UpdateProfileContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
-}
-
 // CreateVerificationContext provides the verification create action context.
 type CreateVerificationContext struct {
 	context.Context
@@ -1795,15 +1386,10 @@ type createVerificationPayload struct {
 	GoogleID *int `form:"google_id,omitempty" json:"google_id,omitempty" xml:"google_id,omitempty"`
 	// identification flag
 	Identification *bool `form:"identification,omitempty" json:"identification,omitempty" xml:"identification,omitempty"`
-	// user id
-	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 }
 
 // Validate runs the validation rules defined in the design.
 func (payload *createVerificationPayload) Validate() (err error) {
-	if payload.UserID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
-	}
 	if payload.Identification == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "identification"))
 	}
@@ -1834,9 +1420,6 @@ func (payload *createVerificationPayload) Publicize() *CreateVerificationPayload
 	if payload.Identification != nil {
 		pub.Identification = *payload.Identification
 	}
-	if payload.UserID != nil {
-		pub.UserID = *payload.UserID
-	}
 	return &pub
 }
 
@@ -1850,8 +1433,6 @@ type CreateVerificationPayload struct {
 	GoogleID int `form:"google_id" json:"google_id" xml:"google_id"`
 	// identification flag
 	Identification bool `form:"identification" json:"identification" xml:"identification"`
-	// user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // Validate runs the validation rules defined in the design.
@@ -1874,61 +1455,12 @@ func (ctx *CreateVerificationContext) BadRequest(r error) error {
 	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
 }
 
-// DeleteVerificationContext provides the verification delete action context.
-type DeleteVerificationContext struct {
-	context.Context
-	*goa.ResponseData
-	*goa.RequestData
-	VerificationID int
-}
-
-// NewDeleteVerificationContext parses the incoming request URL and body, performs validations and creates the
-// context used by the verification controller delete action.
-func NewDeleteVerificationContext(ctx context.Context, r *http.Request, service *goa.Service) (*DeleteVerificationContext, error) {
-	var err error
-	resp := goa.ContextResponse(ctx)
-	resp.Service = service
-	req := goa.ContextRequest(ctx)
-	req.Request = r
-	rctx := DeleteVerificationContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramVerificationID := req.Params["verificationID"]
-	if len(paramVerificationID) > 0 {
-		rawVerificationID := paramVerificationID[0]
-		if verificationID, err2 := strconv.Atoi(rawVerificationID); err2 == nil {
-			rctx.VerificationID = verificationID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("verificationID", rawVerificationID, "integer"))
-		}
-	}
-	return &rctx, err
-}
-
-// NoContent sends a HTTP response with status code 204.
-func (ctx *DeleteVerificationContext) NoContent() error {
-	ctx.ResponseData.WriteHeader(204)
-	return nil
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *DeleteVerificationContext) BadRequest(r error) error {
-	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *DeleteVerificationContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
-}
-
 // ShowVerificationContext provides the verification show action context.
 type ShowVerificationContext struct {
 	context.Context
 	*goa.ResponseData
 	*goa.RequestData
-	VerificationID int
+	Payload *ShowVerificationPayload
 }
 
 // NewShowVerificationContext parses the incoming request URL and body, performs validations and creates the
@@ -1940,16 +1472,36 @@ func NewShowVerificationContext(ctx context.Context, r *http.Request, service *g
 	req := goa.ContextRequest(ctx)
 	req.Request = r
 	rctx := ShowVerificationContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramVerificationID := req.Params["verificationID"]
-	if len(paramVerificationID) > 0 {
-		rawVerificationID := paramVerificationID[0]
-		if verificationID, err2 := strconv.Atoi(rawVerificationID); err2 == nil {
-			rctx.VerificationID = verificationID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("verificationID", rawVerificationID, "integer"))
-		}
-	}
 	return &rctx, err
+}
+
+// showVerificationPayload is the verification show action payload.
+type showVerificationPayload struct {
+	// user id
+	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
+}
+
+// Validate runs the validation rules defined in the design.
+func (payload *showVerificationPayload) Validate() (err error) {
+	if payload.UserID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
+	}
+	return
+}
+
+// Publicize creates ShowVerificationPayload from showVerificationPayload
+func (payload *showVerificationPayload) Publicize() *ShowVerificationPayload {
+	var pub ShowVerificationPayload
+	if payload.UserID != nil {
+		pub.UserID = *payload.UserID
+	}
+	return &pub
+}
+
+// ShowVerificationPayload is the verification show action payload.
+type ShowVerificationPayload struct {
+	// user id
+	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // OK sends a HTTP response with status code 200.
@@ -1962,113 +1514,6 @@ func (ctx *ShowVerificationContext) OK(r *Verification) error {
 
 // NotFound sends a HTTP response with status code 404.
 func (ctx *ShowVerificationContext) NotFound() error {
-	ctx.ResponseData.WriteHeader(404)
-	return nil
-}
-
-// UpdateVerificationContext provides the verification update action context.
-type UpdateVerificationContext struct {
-	context.Context
-	*goa.ResponseData
-	*goa.RequestData
-	VerificationID int
-	Payload        *UpdateVerificationPayload
-}
-
-// NewUpdateVerificationContext parses the incoming request URL and body, performs validations and creates the
-// context used by the verification controller update action.
-func NewUpdateVerificationContext(ctx context.Context, r *http.Request, service *goa.Service) (*UpdateVerificationContext, error) {
-	var err error
-	resp := goa.ContextResponse(ctx)
-	resp.Service = service
-	req := goa.ContextRequest(ctx)
-	req.Request = r
-	rctx := UpdateVerificationContext{Context: ctx, ResponseData: resp, RequestData: req}
-	paramVerificationID := req.Params["verificationID"]
-	if len(paramVerificationID) > 0 {
-		rawVerificationID := paramVerificationID[0]
-		if verificationID, err2 := strconv.Atoi(rawVerificationID); err2 == nil {
-			rctx.VerificationID = verificationID
-		} else {
-			err = goa.MergeErrors(err, goa.InvalidParamTypeError("verificationID", rawVerificationID, "integer"))
-		}
-	}
-	return &rctx, err
-}
-
-// updateVerificationPayload is the verification update action payload.
-type updateVerificationPayload struct {
-	// address flag
-	Email *bool `form:"email,omitempty" json:"email,omitempty" xml:"email,omitempty"`
-	// Unique facebook ID
-	FacebookID *int `form:"facebook_id,omitempty" json:"facebook_id,omitempty" xml:"facebook_id,omitempty"`
-	// Unique google ID
-	GoogleID *int `form:"google_id,omitempty" json:"google_id,omitempty" xml:"google_id,omitempty"`
-	// identification flag
-	Identification *bool `form:"identification,omitempty" json:"identification,omitempty" xml:"identification,omitempty"`
-	// user id
-	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
-}
-
-// Validate runs the validation rules defined in the design.
-func (payload *updateVerificationPayload) Validate() (err error) {
-	if payload.UserID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
-	}
-	return
-}
-
-// Publicize creates UpdateVerificationPayload from updateVerificationPayload
-func (payload *updateVerificationPayload) Publicize() *UpdateVerificationPayload {
-	var pub UpdateVerificationPayload
-	if payload.Email != nil {
-		pub.Email = payload.Email
-	}
-	if payload.FacebookID != nil {
-		pub.FacebookID = payload.FacebookID
-	}
-	if payload.GoogleID != nil {
-		pub.GoogleID = payload.GoogleID
-	}
-	if payload.Identification != nil {
-		pub.Identification = payload.Identification
-	}
-	if payload.UserID != nil {
-		pub.UserID = *payload.UserID
-	}
-	return &pub
-}
-
-// UpdateVerificationPayload is the verification update action payload.
-type UpdateVerificationPayload struct {
-	// address flag
-	Email *bool `form:"email,omitempty" json:"email,omitempty" xml:"email,omitempty"`
-	// Unique facebook ID
-	FacebookID *int `form:"facebook_id,omitempty" json:"facebook_id,omitempty" xml:"facebook_id,omitempty"`
-	// Unique google ID
-	GoogleID *int `form:"google_id,omitempty" json:"google_id,omitempty" xml:"google_id,omitempty"`
-	// identification flag
-	Identification *bool `form:"identification,omitempty" json:"identification,omitempty" xml:"identification,omitempty"`
-	// user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
-}
-
-// NoContent sends a HTTP response with status code 204.
-func (ctx *UpdateVerificationContext) NoContent() error {
-	ctx.ResponseData.WriteHeader(204)
-	return nil
-}
-
-// BadRequest sends a HTTP response with status code 400.
-func (ctx *UpdateVerificationContext) BadRequest(r error) error {
-	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
-	}
-	return ctx.ResponseData.Service.Send(ctx.Context, 400, r)
-}
-
-// NotFound sends a HTTP response with status code 404.
-func (ctx *UpdateVerificationContext) NotFound() error {
 	ctx.ResponseData.WriteHeader(404)
 	return nil
 }

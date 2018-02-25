@@ -49,7 +49,7 @@ func ListLargecategoryOK(t goatest.TInterface, ctx context.Context, service *goa
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/largecategories"),
+		Path: fmt.Sprintf("/v1/largecategories"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {

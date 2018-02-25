@@ -59,7 +59,7 @@ func CreateMessageBadRequest(t goatest.TInterface, ctx context.Context, service 
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/messages"),
+		Path: fmt.Sprintf("/v1/messages"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -139,7 +139,7 @@ func CreateMessageCreated(t goatest.TInterface, ctx context.Context, service *go
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/messages"),
+		Path: fmt.Sprintf("/v1/messages"),
 	}
 	req, _err := http.NewRequest("POST", u.String(), nil)
 	if _err != nil {
@@ -201,7 +201,7 @@ func ListMessageBadRequest(t goatest.TInterface, ctx context.Context, service *g
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/messages"),
+		Path: fmt.Sprintf("/v1/messages"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -270,7 +270,7 @@ func ListMessageNotFound(t goatest.TInterface, ctx context.Context, service *goa
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/messages"),
+		Path: fmt.Sprintf("/v1/messages"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -332,7 +332,7 @@ func ListMessageOK(t goatest.TInterface, ctx context.Context, service *goa.Servi
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/messages"),
+		Path: fmt.Sprintf("/v1/messages"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {

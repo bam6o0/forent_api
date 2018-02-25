@@ -2,6 +2,7 @@ package main
 
 import (
 	"forent_api/app"
+
 	"github.com/goadesign/goa"
 )
 
@@ -25,16 +26,6 @@ func (c *VerificationController) Create(ctx *app.CreateVerificationContext) erro
 	// VerificationController_Create: end_implement
 }
 
-// Delete runs the delete action.
-func (c *VerificationController) Delete(ctx *app.DeleteVerificationContext) error {
-	// VerificationController_Delete: start_implement
-
-	// Put your logic here
-
-	return nil
-	// VerificationController_Delete: end_implement
-}
-
 // Show runs the show action.
 func (c *VerificationController) Show(ctx *app.ShowVerificationContext) error {
 	// VerificationController_Show: start_implement
@@ -44,14 +35,4 @@ func (c *VerificationController) Show(ctx *app.ShowVerificationContext) error {
 	res := &app.Verification{}
 	return ctx.OK(res)
 	// VerificationController_Show: end_implement
-}
-
-// Update runs the update action.
-func (c *VerificationController) Update(ctx *app.UpdateVerificationContext) error {
-	// VerificationController_Update: start_implement
-
-	// Put your logic here
-
-	return nil
-	// VerificationController_Update: end_implement
 }
