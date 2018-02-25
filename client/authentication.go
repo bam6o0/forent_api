@@ -58,8 +58,8 @@ func (c *Client) NewSiginAuthenticationRequest(ctx context.Context, path string,
 	} else {
 		header.Set("Content-Type", contentType)
 	}
-	if c.JWTSigner != nil {
-		if err := c.JWTSigner.Sign(req); err != nil {
+	if c.APIKeySigner != nil {
+		if err := c.APIKeySigner.Sign(req); err != nil {
 			return nil, err
 		}
 	}
@@ -106,8 +106,8 @@ func (c *Client) NewSignupAuthenticationRequest(ctx context.Context, path string
 	} else {
 		header.Set("Content-Type", contentType)
 	}
-	if c.JWTSigner != nil {
-		if err := c.JWTSigner.Sign(req); err != nil {
+	if c.APIKeySigner != nil {
+		if err := c.APIKeySigner.Sign(req); err != nil {
 			return nil, err
 		}
 	}

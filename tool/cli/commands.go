@@ -182,8 +182,7 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 Payload example:
 
 {
-   "offer_id": 8119349467455531973,
-   "owner_id": 8110422177098958717
+   "offer_id": 8119349467455531973
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp1.Run(c, args) },
 	}
@@ -264,11 +263,10 @@ Payload example:
 Payload example:
 
 {
-   "end_at": "1991-09-17T03:48:07Z",
-   "item_id": 8420691674901599033,
-   "price": 5753931511725779113,
-   "start_at": "2006-05-24T15:53:02Z",
-   "user_id": 1
+   "end_at": "2007-09-20T16:11:57Z",
+   "item_id": 2744588840566121287,
+   "price": 8420691674901599033,
+   "start_at": "2005-06-14T04:25:13Z"
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp5.Run(c, args) },
 	}
@@ -302,9 +300,9 @@ Payload example:
 
 {
    "email": false,
-   "facebook_id": 767646562571720034,
-   "google_id": 7986034355572599953,
-   "identification": true
+   "facebook_id": 5781004681014948879,
+   "google_id": 767646562571720034,
+   "identification": false
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp7.Run(c, args) },
 	}
@@ -437,8 +435,7 @@ Payload example:
 Payload example:
 
 {
-   "offer_id": 3135659496125920402,
-   "user_id": 1
+   "offer_id": 8282300642426029982
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp15.Run(c, args) },
 	}
@@ -454,7 +451,7 @@ Payload example:
 Payload example:
 
 {
-   "PlaceID": 6665931482238019815
+   "PlaceID": 3135659496125920402
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp16.Run(c, args) },
 	}
@@ -491,7 +488,7 @@ Payload example:
 Payload example:
 
 {
-   "user_id": 8801698629180464080
+   "user_id": 4438760119269285016
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp18.Run(c, args) },
 	}

@@ -17,10 +17,6 @@ var _ = Resource("authentication", func() {
 	Description("This resource uses auth to secure its endpoints")
 	DefaultMedia(SuccessMedia)
 
-	Security(JWT, func() { // Use JWT to auth requests to this endpoint
-		Scope("api:access") // Enforce presence of "api" scope in JWT claims.
-	})
-
 	Action("signup", func() {
 		Description("signup and Creates a valid JWT")
 		Routing(POST("/signup"))
@@ -186,8 +182,7 @@ var _ = Resource("offer", func() { // Resources group related API endpoints
 		)
 		Payload(func() {
 			Param("offer_id", Integer, "offer ID")
-			Param("user_id", Integer, "user ID")
-			Required("user_id")
+			Required("offer_id")
 		})
 		Response(OK, CollectionOf(Offer))
 		Response(NotFound) // of HTTP responses.
@@ -203,13 +198,12 @@ var _ = Resource("offer", func() { // Resources group related API endpoints
 		)
 		Description("Create new offer")
 		Payload(func() {
-			Param("user_id", Integer, "offer user id")
 			Param("item_id", Integer, "item id")
 			Param("price", Integer, "offer price")
 			Param("start_at", DateTime, "rental start at")
 			Param("end_at", DateTime, "rental end at")
 
-			Required("user_id", "item_id", "price", "start_at", "end_at")
+			Required("item_id", "price", "start_at", "end_at")
 		})
 		Response(Created, "/offers/[0-9]+")
 		Response(BadRequest, ErrorMedia)
@@ -225,8 +219,7 @@ var _ = Resource("offer", func() { // Resources group related API endpoints
 		Description("accepted offer")
 		Payload(func() {
 			Param("offer_id", Integer, "offer ID")
-			Param("owner_id", Integer, "owner ID")
-			Required("offer_id", "owner_id")
+			Required("offer_id")
 		})
 		Response(NoContent)
 		Response(NotFound)
