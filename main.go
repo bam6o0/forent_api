@@ -3,14 +3,20 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"forent_api/app"
+	"io/ioutil"
+	"net/http"
 	"os"
+	"path/filepath"
 
 	"forent_api/models"
 
+	jwtgo "github.com/dgrijalva/jwt-go"
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/middleware"
+	"github.com/goadesign/goa/middleware/security/jwt"
 	"github.com/inconshreveable/log15"
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
@@ -63,6 +69,11 @@ var LargeCategoryDB *models.LargeCategoryDB
 
 // MessageDB is Message model
 var MessageDB *models.MessageDB
+
+var (
+	// ErrUnauthorized is the error returned for unauthorized requests.
+	ErrUnauthorized = goa.NewErrorClass("unauthorized", 401)
+)
 
 func main() {
 
@@ -121,6 +132,7 @@ func main() {
 	jwtMiddleware, err := NewJWTMiddleware()
 	exitOnFailure(err)
 	app.UseJWTMiddleware(service, jwtMiddleware)
+	app.UseAPIKeyMiddleware(service, NewAPIKeyMiddleware())
 
 	// Mount "article" controller
 	c := NewArticleController(service)
@@ -178,4 +190,81 @@ func exitOnFailure(err error) {
 	}
 	fmt.Fprintf(os.Stderr, "[CRIT] %s", err.Error())
 	os.Exit(1)
+}
+
+// NewJWTMiddleware is JWT auth
+func NewJWTMiddleware() (goa.Middleware, error) {
+
+	validationHandler, _ := goa.NewMiddleware(func(ctx context.Context, w http.ResponseWriter, r *http.Request) error {
+		token := jwt.ContextJWT(ctx)
+		claims, ok := token.Claims.(jwtgo.MapClaims)
+		if !ok {
+			return jwt.ErrJWTError("unsupported claims shape")
+		}
+		if val, ok := claims["iss"].(string); !ok || val != "forent" {
+			return jwt.ErrJWTError("this is not forent api!")
+		}
+		return nil
+	})
+	keys, err := LoadJWTPublicKeys()
+	if err != nil {
+		return nil, err
+	}
+	return jwt.New(jwt.NewSimpleResolver(keys), validationHandler, app.NewJWTSecurity()), nil
+}
+
+// NewAPIKeyMiddleware creates a middleware that checks for the presence of an authorization header
+// and validates its content.
+func NewAPIKeyMiddleware() goa.Middleware {
+	// Instantiate API Key security scheme details generated from design
+	scheme := app.NewAPIKeySecurity()
+
+	apikey, _ := ioutil.ReadFile("./jwtkey/api.key")
+	fmt.Println(apikey)
+
+	// Middleware
+	return func(h goa.Handler) goa.Handler {
+		return func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+			// Retrieve and log header specified by scheme
+
+			key := req.Header.Get(scheme.Name)
+			if string(apikey) != key {
+				goa.LogInfo(ctx, "failed api key auth")
+				return ErrUnauthorized("missing auth")
+			}
+			// A real app would do something more interesting here
+			if len(key) == 0 || key == "Bearer" {
+				goa.LogInfo(ctx, "failed api key auth")
+				return ErrUnauthorized("missing auth")
+			}
+			// Proceed.
+			goa.LogInfo(ctx, "auth", "apikey", "key", key)
+			return h(ctx, rw, req)
+		}
+	}
+}
+
+// LoadJWTPublicKeys loads PEM encoded RSA public keys used to validata and decrypt the JWT.
+func LoadJWTPublicKeys() ([]jwt.Key, error) {
+	keyFiles, err := filepath.Glob("./jwtkey/*.pub")
+	if err != nil {
+		return nil, err
+	}
+	keys := make([]jwt.Key, len(keyFiles))
+	for i, keyFile := range keyFiles {
+		pem, err := ioutil.ReadFile(keyFile)
+		if err != nil {
+			return nil, err
+		}
+		key, err := jwtgo.ParseRSAPublicKeyFromPEM([]byte(pem))
+		if err != nil {
+			return nil, fmt.Errorf("failed to load key %s: %s", keyFile, err)
+		}
+		keys[i] = key
+	}
+	if len(keys) == 0 {
+		return nil, fmt.Errorf("couldn't load public keys for JWT security")
+	}
+
+	return keys, nil
 }

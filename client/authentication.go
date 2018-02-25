@@ -58,6 +58,11 @@ func (c *Client) NewSiginAuthenticationRequest(ctx context.Context, path string,
 	} else {
 		header.Set("Content-Type", contentType)
 	}
+	if c.JWTSigner != nil {
+		if err := c.JWTSigner.Sign(req); err != nil {
+			return nil, err
+		}
+	}
 	return req, nil
 }
 
@@ -100,6 +105,11 @@ func (c *Client) NewSignupAuthenticationRequest(ctx context.Context, path string
 		header.Set("Content-Type", "application/json")
 	} else {
 		header.Set("Content-Type", contentType)
+	}
+	if c.JWTSigner != nil {
+		if err := c.JWTSigner.Sign(req); err != nil {
+			return nil, err
+		}
 	}
 	return req, nil
 }

@@ -144,5 +144,10 @@ func (c *Client) NewListItemRequest(ctx context.Context, path string, payload *L
 	} else {
 		header.Set("Content-Type", contentType)
 	}
+	if c.APIKeySigner != nil {
+		if err := c.APIKeySigner.Sign(req); err != nil {
+			return nil, err
+		}
+	}
 	return req, nil
 }

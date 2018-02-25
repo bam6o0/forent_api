@@ -1309,6 +1309,8 @@ paths:
             $ref: '#/definitions/ArticleCollection'
       schemes:
       - http
+      security:
+      - api_key: []
       summary: list article
       tags:
       - article
@@ -1331,6 +1333,8 @@ paths:
             $ref: '#/definitions/CategoryCollection'
       schemes:
       - http
+      security:
+      - api_key: []
       summary: list category
       tags:
       - category
@@ -1353,6 +1357,8 @@ paths:
             $ref: '#/definitions/CommentCollection'
       schemes:
       - http
+      security:
+      - api_key: []
       summary: list comment
       tags:
       - comment
@@ -1381,6 +1387,8 @@ paths:
             $ref: '#/definitions/error'
       schemes:
       - http
+      security:
+      - api_key: []
       summary: create comment
       tags:
       - comment
@@ -1405,6 +1413,8 @@ paths:
           description: Not Found
       schemes:
       - http
+      security:
+      - api_key: []
       summary: list item
       tags:
       - item
@@ -1456,6 +1466,8 @@ paths:
             $ref: '#/definitions/LargecategoryCollection'
       schemes:
       - http
+      security:
+      - api_key: []
       summary: list largecategory
       tags:
       - largecategory
@@ -1549,6 +1561,8 @@ paths:
             $ref: '#/definitions/MiddlecategoryCollection'
       schemes:
       - http
+      security:
+      - api_key: []
       summary: list middlecategory
       tags:
       - middlecategory
@@ -1674,12 +1688,18 @@ paths:
             $ref: '#/definitions/PlaceCollection'
       schemes:
       - http
+      security:
+      - api_key: []
       summary: list place
       tags:
       - place
   /profiles:
     get:
-      description: Get profile by id
+      description: |-
+        Get profile by id
+
+        Required security scopes:
+          * `api:access`
       operationId: profile#show
       parameters:
       - in: body
@@ -1703,6 +1723,9 @@ paths:
           description: Not Found
       schemes:
       - http
+      security:
+      - jwt:
+        - api:access
       summary: show profile
       tags:
       - profile
@@ -1743,7 +1766,11 @@ paths:
       - profile
   /signin:
     get:
-      description: signup
+      description: |-
+        signup
+
+        Required security scopes:
+          * `api:access`
       operationId: authentication#sigin
       parameters:
       - in: body
@@ -1773,12 +1800,19 @@ paths:
           description: Internal Server Error
       schemes:
       - http
+      security:
+      - jwt:
+        - api:access
       summary: sigin authentication
       tags:
       - authentication
   /signup:
     post:
-      description: signup and Creates a valid JWT
+      description: |-
+        signup and Creates a valid JWT
+
+        Required security scopes:
+          * `api:access`
       operationId: authentication#signup
       parameters:
       - in: body
@@ -1808,6 +1842,9 @@ paths:
           description: Internal Server Error
       schemes:
       - http
+      security:
+      - jwt:
+        - api:access
       summary: signup authentication
       tags:
       - authentication
@@ -1832,6 +1869,8 @@ paths:
           description: Not Found
       schemes:
       - http
+      security:
+      - api_key: []
       summary: show verification
       tags:
       - verification
@@ -1860,6 +1899,8 @@ paths:
             $ref: '#/definitions/error'
       schemes:
       - http
+      security:
+      - api_key: []
       summary: create verification
       tags:
       - verification
@@ -1884,6 +1925,10 @@ responses:
 schemes:
 - http
 securityDefinitions:
+  api_key:
+    in: header
+    name: X-Shared-Secret
+    type: apiKey
   jwt:
     description: |2-
 
