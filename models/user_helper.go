@@ -45,8 +45,6 @@ func (m *User) UserToUser() *app.User {
 	user := &app.User{}
 	user.Email = m.Email
 	user.ID = m.ID
-	user.Password = m.Password
-	user.Salt = m.Salt
 
 	return user
 }

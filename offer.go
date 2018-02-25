@@ -79,20 +79,41 @@ func (c *OfferController) List(ctx *app.ListOfferContext) error {
 	if claims, ok := token.Claims.(jwtgo.MapClaims); ok && token.Valid {
 		if userID, ok := claims["user_id"].(float64); ok {
 			// input offer id
+			var objs []*app.Offer
 			if payload.OfferID != 0 {
-				var objs []*app.Offer
 				offer, _ := OfferDB.OneOffer(ctx.Context, payload.OfferID, 0, 0)
 
-				if offer.UserID != int(userID) && offer.OwnerID != int(userID) {
-					errID := errors.New("id error")
-					return ctx.BadRequest(errID)
+				if offer.UserID == int(userID) {
+					profile, _ := ProfileDB.OneProfilebyUseID(ctx.Context, offer.OwnerID)
+					offer.Profile = profile
+					objs = append(objs, offer)
+					return ctx.OK(objs)
 				}
-				objs = append(objs, offer)
-				return ctx.OK(objs)
+				if offer.OwnerID == int(userID) {
+					profile, _ := ProfileDB.OneProfilebyUseID(ctx.Context, offer.UserID)
+					offer.Profile = profile
+					objs = append(objs, offer)
+					return ctx.OK(objs)
+				}
+				errID := errors.New("id error")
+				return ctx.BadRequest(errID)
 			}
 
-			offeres := OfferDB.ListOffer(ctx.Context, 0, int(userID))
-			return ctx.OK(offeres)
+			offeres := OfferDB.ListOfferPreload(ctx.Context, 0, int(userID))
+
+			for _, offer := range offeres {
+				if offer.UserID == int(userID) {
+					profile, _ := ProfileDB.OneProfilebyUseID(ctx.Context, offer.OwnerID)
+					offer.Profile = profile
+				}
+				if offer.OwnerID == int(userID) {
+					profile, _ := ProfileDB.OneProfilebyUseID(ctx.Context, offer.UserID)
+					offer.Profile = profile
+				}
+				objs = append(objs, offer)
+			}
+
+			return ctx.OK(objs)
 		}
 	}
 	errID := errors.New("id error")

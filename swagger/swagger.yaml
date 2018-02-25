@@ -919,51 +919,82 @@ definitions:
     description: Offer (default view)
     example:
       accepted: false
-      end_at: 1973-06-05T23:13:15Z
-      id: 6.6031484e+18
-      item_id: 5.9687467e+18
-      owner_id: 3.9001832e+18
-      price: 1.10424626e+18
-      start_at: 1976-10-04T22:20:24Z
-      user_id: 6.9933755e+18
+      created_at: 1973-06-05T23:13:15Z
+      end_at: 1992-10-15T19:16:06Z
+      id: 5.9687467e+18
+      item:
+        category_id: 1
+        compensation: 1.5e+06
+        description: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
+        id: 1
+        image1: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
+        image2: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
+        image3: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
+        image4: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
+        name: Bond vehicles
+        place_id: 1
+        price: 25000
+        user_id: 1
+      item_id: 3.9001832e+18
+      owner_id: 1.10424626e+18
+      price: 5.829956e+18
+      profile:
+        avatar_image: https://img.cinematoday.jp/a/N0091767/_size_640x/_v_1495600154/main.jpg
+        cover_image: http://www.007.com/wp-content/uploads/2013/03/rgb_logo_650.jpg
+        first_name: James
+        id: 1
+        introduction: i am KGB
+        last_name: Bond
+        user_id: 1
+      start_at: 1994-09-06T03:57:33Z
+      user_id: 8.055477e+18
     properties:
       accepted:
         description: offer accept
         example: false
         type: boolean
+      created_at:
+        description: offer created at
+        example: 1973-06-05T23:13:15Z
+        format: date-time
+        type: string
       end_at:
         description: rental end at
-        example: 1973-06-05T23:13:15Z
+        example: 1992-10-15T19:16:06Z
         format: date-time
         type: string
       id:
         description: Unique offer ID
-        example: 6.6031484e+18
-        format: int64
-        type: integer
-      item_id:
-        description: item id
         example: 5.9687467e+18
         format: int64
         type: integer
-      owner_id:
+      item:
+        $ref: '#/definitions/Item'
+      item_id:
         description: item id
         example: 3.9001832e+18
         format: int64
         type: integer
-      price:
-        description: offer price
+      owner_id:
+        description: item id
         example: 1.10424626e+18
         format: int64
         type: integer
+      price:
+        description: offer price
+        example: 5.829956e+18
+        format: int64
+        type: integer
+      profile:
+        $ref: '#/definitions/Profile'
       start_at:
         description: rental start at
-        example: 1976-10-04T22:20:24Z
+        example: 1994-09-06T03:57:33Z
         format: date-time
         type: string
       user_id:
         description: offer user id
-        example: 6.9933755e+18
+        example: 8.055477e+18
         format: int64
         type: integer
     required:
@@ -975,6 +1006,9 @@ definitions:
     - start_at
     - end_at
     - accepted
+    - item
+    - profile
+    - created_at
     title: 'Mediatype identifier: application/vnd.offer+json; view=default'
     type: object
   OfferCollection:
@@ -982,21 +1016,65 @@ definitions:
       view)
     example:
     - accepted: false
-      end_at: 1973-06-05T23:13:15Z
-      id: 6.6031484e+18
-      item_id: 5.9687467e+18
-      owner_id: 3.9001832e+18
-      price: 1.10424626e+18
-      start_at: 1976-10-04T22:20:24Z
-      user_id: 6.9933755e+18
+      created_at: 1973-06-05T23:13:15Z
+      end_at: 1992-10-15T19:16:06Z
+      id: 5.9687467e+18
+      item:
+        category_id: 1
+        compensation: 1.5e+06
+        description: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
+        id: 1
+        image1: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
+        image2: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
+        image3: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
+        image4: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
+        name: Bond vehicles
+        place_id: 1
+        price: 25000
+        user_id: 1
+      item_id: 3.9001832e+18
+      owner_id: 1.10424626e+18
+      price: 5.829956e+18
+      profile:
+        avatar_image: https://img.cinematoday.jp/a/N0091767/_size_640x/_v_1495600154/main.jpg
+        cover_image: http://www.007.com/wp-content/uploads/2013/03/rgb_logo_650.jpg
+        first_name: James
+        id: 1
+        introduction: i am KGB
+        last_name: Bond
+        user_id: 1
+      start_at: 1994-09-06T03:57:33Z
+      user_id: 8.055477e+18
     - accepted: false
-      end_at: 1973-06-05T23:13:15Z
-      id: 6.6031484e+18
-      item_id: 5.9687467e+18
-      owner_id: 3.9001832e+18
-      price: 1.10424626e+18
-      start_at: 1976-10-04T22:20:24Z
-      user_id: 6.9933755e+18
+      created_at: 1973-06-05T23:13:15Z
+      end_at: 1992-10-15T19:16:06Z
+      id: 5.9687467e+18
+      item:
+        category_id: 1
+        compensation: 1.5e+06
+        description: MI6の秘密兵器開発主任である「Q」により開発された色々な秘密兵器が搭載された車
+        id: 1
+        image1: https://s3.caradvice.com.au/wp-content/uploads/2015/07/Bond-in-Motion-17.jpg
+        image2: http://78.media.tumblr.com/397187688c2cac93a28b5175952f0f2c/tumblr_inline_nfikf1al1S1rxytdk.jpg
+        image3: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTlw2HMgTVuA2mC15REw5j_yY_NVBWF0LKbTuvjZAYtEYqd21N
+        image4: http://image.news.livedoor.com/newsimage/f/c/fcc76_103_d1d2ff23bb5343778ffef814e05f81cd.jpg
+        name: Bond vehicles
+        place_id: 1
+        price: 25000
+        user_id: 1
+      item_id: 3.9001832e+18
+      owner_id: 1.10424626e+18
+      price: 5.829956e+18
+      profile:
+        avatar_image: https://img.cinematoday.jp/a/N0091767/_size_640x/_v_1495600154/main.jpg
+        cover_image: http://www.007.com/wp-content/uploads/2013/03/rgb_logo_650.jpg
+        first_name: James
+        id: 1
+        introduction: i am KGB
+        last_name: Bond
+        user_id: 1
+      start_at: 1994-09-06T03:57:33Z
+      user_id: 8.055477e+18
     items:
       $ref: '#/definitions/Offer'
     title: 'Mediatype identifier: application/vnd.offer+json; type=collection; view=default'
@@ -1004,49 +1082,49 @@ definitions:
   Place:
     description: Place (default view)
     example:
-      city_id: Error enim ut.
-      city_name: Quis odit et in.
-      google_place_id: Aut facere omnis labore at iure.
-      id: 6.482945e+18
-      latitude: 0.83251494
-      longitude: 0.33859777
-      name: Suscipit consequatur doloribus aspernatur.
-      type: 1.4071854e+18
+      city_id: Enim ut distinctio quis.
+      city_name: Et in temporibus aut facere omnis labore.
+      google_place_id: Iure omnis quo rem.
+      id: 9.3703755e+17
+      latitude: 0.043848142
+      longitude: 0.16887712
+      name: Aspernatur libero velit voluptas eum.
+      type: 2.2924651e+18
     properties:
       city_id:
         description: google place city id
-        example: Error enim ut.
+        example: Enim ut distinctio quis.
         type: string
       city_name:
         description: city name
-        example: Quis odit et in.
+        example: Et in temporibus aut facere omnis labore.
         type: string
       google_place_id:
         description: google place id
-        example: Aut facere omnis labore at iure.
+        example: Iure omnis quo rem.
         type: string
       id:
         description: Unique place ID
-        example: 6.482945e+18
+        example: 9.3703755e+17
         format: int64
         type: integer
       latitude:
         description: place latitude
-        example: 0.83251494
+        example: 0.043848142
         format: double
         type: number
       longitude:
         description: place longitude
-        example: 0.33859777
+        example: 0.16887712
         format: double
         type: number
       name:
         description: place name
-        example: Suscipit consequatur doloribus aspernatur.
+        example: Aspernatur libero velit voluptas eum.
         type: string
       type:
         description: receive type
-        example: 1.4071854e+18
+        example: 2.2924651e+18
         format: int64
         type: integer
     required:
@@ -1064,30 +1142,30 @@ definitions:
     description: PlaceCollection is the media type for an array of Place (default
       view)
     example:
-    - city_id: Error enim ut.
-      city_name: Quis odit et in.
-      google_place_id: Aut facere omnis labore at iure.
-      id: 6.482945e+18
-      latitude: 0.83251494
-      longitude: 0.33859777
-      name: Suscipit consequatur doloribus aspernatur.
-      type: 1.4071854e+18
-    - city_id: Error enim ut.
-      city_name: Quis odit et in.
-      google_place_id: Aut facere omnis labore at iure.
-      id: 6.482945e+18
-      latitude: 0.83251494
-      longitude: 0.33859777
-      name: Suscipit consequatur doloribus aspernatur.
-      type: 1.4071854e+18
-    - city_id: Error enim ut.
-      city_name: Quis odit et in.
-      google_place_id: Aut facere omnis labore at iure.
-      id: 6.482945e+18
-      latitude: 0.83251494
-      longitude: 0.33859777
-      name: Suscipit consequatur doloribus aspernatur.
-      type: 1.4071854e+18
+    - city_id: Enim ut distinctio quis.
+      city_name: Et in temporibus aut facere omnis labore.
+      google_place_id: Iure omnis quo rem.
+      id: 9.3703755e+17
+      latitude: 0.043848142
+      longitude: 0.16887712
+      name: Aspernatur libero velit voluptas eum.
+      type: 2.2924651e+18
+    - city_id: Enim ut distinctio quis.
+      city_name: Et in temporibus aut facere omnis labore.
+      google_place_id: Iure omnis quo rem.
+      id: 9.3703755e+17
+      latitude: 0.043848142
+      longitude: 0.16887712
+      name: Aspernatur libero velit voluptas eum.
+      type: 2.2924651e+18
+    - city_id: Enim ut distinctio quis.
+      city_name: Et in temporibus aut facere omnis labore.
+      google_place_id: Iure omnis quo rem.
+      id: 9.3703755e+17
+      latitude: 0.043848142
+      longitude: 0.16887712
+      name: Aspernatur libero velit voluptas eum.
+      type: 2.2924651e+18
     items:
       $ref: '#/definitions/Place'
     title: 'Mediatype identifier: application/vnd.place+json; type=collection; view=default'
@@ -1697,11 +1775,7 @@ paths:
       - place
   /profiles:
     get:
-      description: |-
-        Get profile by id
-
-        Required security scopes:
-          * `api:access`
+      description: Get profile by id
       operationId: profile#show
       parameters:
       - in: body
@@ -1726,8 +1800,7 @@ paths:
       schemes:
       - http
       security:
-      - jwt:
-        - api:access
+      - api_key: []
       summary: show profile
       tags:
       - profile

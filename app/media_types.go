@@ -466,16 +466,20 @@ func (mt MiddlecategoryCollection) Validate() (err error) {
 type Offer struct {
 	// offer accept
 	Accepted bool `form:"accepted" json:"accepted" xml:"accepted"`
+	// offer created at
+	CreatedAt time.Time `form:"created_at" json:"created_at" xml:"created_at"`
 	// rental end at
 	EndAt time.Time `form:"end_at" json:"end_at" xml:"end_at"`
 	// Unique offer ID
-	ID int `form:"id" json:"id" xml:"id"`
+	ID   int   `form:"id" json:"id" xml:"id"`
+	Item *Item `form:"item" json:"item" xml:"item"`
 	// item id
 	ItemID int `form:"item_id" json:"item_id" xml:"item_id"`
 	// item id
 	OwnerID int `form:"owner_id" json:"owner_id" xml:"owner_id"`
 	// offer price
-	Price int `form:"price" json:"price" xml:"price"`
+	Price   int      `form:"price" json:"price" xml:"price"`
+	Profile *Profile `form:"profile" json:"profile" xml:"profile"`
 	// rental start at
 	StartAt time.Time `form:"start_at" json:"start_at" xml:"start_at"`
 	// offer user id
@@ -485,6 +489,23 @@ type Offer struct {
 // Validate validates the Offer media type instance.
 func (mt *Offer) Validate() (err error) {
 
+	if mt.Item == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "item"))
+	}
+	if mt.Profile == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "profile"))
+	}
+
+	if mt.Item != nil {
+		if err2 := mt.Item.Validate(); err2 != nil {
+			err = goa.MergeErrors(err, err2)
+		}
+	}
+	if mt.Profile != nil {
+		if err2 := mt.Profile.Validate(); err2 != nil {
+			err = goa.MergeErrors(err, err2)
+		}
+	}
 	return
 }
 
@@ -663,10 +684,6 @@ type User struct {
 	Email string `form:"email" json:"email" xml:"email"`
 	// Unique user ID
 	ID int `form:"id" json:"id" xml:"id"`
-	// password
-	Password string `form:"password" json:"password" xml:"password"`
-	// Salt of the user
-	Salt string `form:"salt" json:"salt" xml:"salt"`
 }
 
 // Validate validates the User media type instance.
@@ -674,12 +691,6 @@ func (mt *User) Validate() (err error) {
 
 	if mt.Email == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "email"))
-	}
-	if mt.Password == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "password"))
-	}
-	if mt.Salt == "" {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "salt"))
 	}
 	if err2 := goa.ValidateFormat(goa.FormatEmail, mt.Email); err2 != nil {
 		err = goa.MergeErrors(err, goa.InvalidFormatError(`response.email`, mt.Email, goa.FormatEmail, err2))

@@ -44,8 +44,11 @@ func (m *OfferDB) ListOffer(ctx context.Context, itemID int, userID int) []*app.
 func (m *Offer) OfferToOffer() *app.Offer {
 	offer := &app.Offer{}
 	offer.Accepted = m.Accepted
+	offer.CreatedAt = m.CreatedAt
 	offer.EndAt = m.EndAt
 	offer.ID = m.ID
+	tmp1 := &m.Item
+	offer.Item = tmp1.ItemToItem() // %!s(MISSING)
 	offer.ItemID = m.ItemID
 	offer.OwnerID = m.OwnerID
 	offer.Price = m.Price

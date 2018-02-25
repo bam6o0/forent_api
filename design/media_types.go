@@ -27,20 +27,12 @@ var User = MediaType("application/vnd.user+json", func() {
 			Format("email")
 			Example("notify.forent@gmail.com")
 		})
-		Attribute("password", String, "password", func() {
-			Example("password")
-		})
-		Attribute("salt", String, "Salt of the user", func() {
-			Example("salt")
-		})
 
-		Required("id", "email", "password", "salt")
+		Required("id", "email")
 	})
 	View("default", func() { // View defines a rendering of the media type.
 		Attribute("id") // Media types may have multiple views and must have a "default" view.Â¥
 		Attribute("email")
-		Attribute("password")
-		Attribute("salt")
 	})
 })
 
@@ -258,8 +250,11 @@ var Offer = MediaType("application/vnd.offer+json", func() {
 		Attribute("start_at", DateTime, "rental start at")
 		Attribute("end_at", DateTime, "rental end at")
 		Attribute("accepted", Boolean, "offer accept")
+		Attribute("profile", Profile)
+		Attribute("item", Item)
+		Attribute("created_at", DateTime, "offer created at")
 
-		Required("id", "user_id", "item_id", "owner_id", "price", "start_at", "end_at", "accepted")
+		Required("id", "user_id", "item_id", "owner_id", "price", "start_at", "end_at", "accepted", "item", "profile", "created_at")
 	})
 	View("default", func() { // View defines a rendering of the media type.
 		Attribute("id") // Media types may have multiple views and must have a "default" view.
@@ -270,6 +265,9 @@ var Offer = MediaType("application/vnd.offer+json", func() {
 		Attribute("start_at")
 		Attribute("end_at")
 		Attribute("accepted")
+		Attribute("profile")
+		Attribute("item")
+		Attribute("created_at")
 	})
 })
 
