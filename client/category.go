@@ -64,5 +64,10 @@ func (c *Client) NewListCategoryRequest(ctx context.Context, path string, payloa
 	} else {
 		header.Set("Content-Type", contentType)
 	}
+	if c.APIKeySigner != nil {
+		if err := c.APIKeySigner.Sign(req); err != nil {
+			return nil, err
+		}
+	}
 	return req, nil
 }

@@ -18,9 +18,10 @@ import (
 // Client is the forent service client.
 type Client struct {
 	*goaclient.Client
-	JWTSigner goaclient.Signer
-	Encoder   *goa.HTTPEncoder
-	Decoder   *goa.HTTPDecoder
+	APIKeySigner goaclient.Signer
+	JWTSigner    goaclient.Signer
+	Encoder      *goa.HTTPEncoder
+	Decoder      *goa.HTTPDecoder
 }
 
 // New instantiates the client.
@@ -44,6 +45,11 @@ func New(c goaclient.Doer) *Client {
 	client.Decoder.Register(goa.NewJSONDecoder, "*/*")
 
 	return client
+}
+
+// SetAPIKeySigner sets the request signer for the api_key security scheme.
+func (c *Client) SetAPIKeySigner(signer goaclient.Signer) {
+	c.APIKeySigner = signer
 }
 
 // SetJWTSigner sets the request signer for the jwt security scheme.

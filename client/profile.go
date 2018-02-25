@@ -120,5 +120,10 @@ func (c *Client) NewShowProfileRequest(ctx context.Context, path string, payload
 	} else {
 		header.Set("Content-Type", contentType)
 	}
+	if c.JWTSigner != nil {
+		if err := c.JWTSigner.Sign(req); err != nil {
+			return nil, err
+		}
+	}
 	return req, nil
 }

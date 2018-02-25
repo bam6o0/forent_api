@@ -1,42 +1,18 @@
 package main
 
 import (
-	"context"
 	"crypto/rsa"
 	"errors"
 	"fmt"
 	"forent_api/app"
 	"forent_api/models"
 	"io/ioutil"
-	"net/http"
-	"path/filepath"
 
 	jwtgo "github.com/dgrijalva/jwt-go"
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/middleware/security/jwt"
 	"github.com/jinzhu/gorm"
 )
-
-// NewJWTMiddleware is JWT auth
-func NewJWTMiddleware() (goa.Middleware, error) {
-
-	validationHandler, _ := goa.NewMiddleware(func(ctx context.Context, w http.ResponseWriter, r *http.Request) error {
-		token := jwt.ContextJWT(ctx)
-		claims, ok := token.Claims.(jwtgo.MapClaims)
-		if !ok {
-			return jwt.ErrJWTError("unsupported claims shape")
-		}
-		if val, ok := claims["iss"].(string); !ok || val != "forent" {
-			return jwt.ErrJWTError("this is not forent api!")
-		}
-		return nil
-	})
-	keys, err := LoadJWTPublicKeys()
-	if err != nil {
-		return nil, err
-	}
-	return jwt.New(jwt.NewSimpleResolver(keys), validationHandler, app.NewJWTSecurity()), nil
-}
 
 // ProfileController implements the profile resource.
 type ProfileController struct {
@@ -104,29 +80,4 @@ func (c *ProfileController) Show(ctx *app.ShowProfileContext) error {
 
 	return ctx.OK(profile)
 
-}
-
-// LoadJWTPublicKeys loads PEM encoded RSA public keys used to validata and decrypt the JWT.
-func LoadJWTPublicKeys() ([]jwt.Key, error) {
-	keyFiles, err := filepath.Glob("./jwtkey/*.pub")
-	if err != nil {
-		return nil, err
-	}
-	keys := make([]jwt.Key, len(keyFiles))
-	for i, keyFile := range keyFiles {
-		pem, err := ioutil.ReadFile(keyFile)
-		if err != nil {
-			return nil, err
-		}
-		key, err := jwtgo.ParseRSAPublicKeyFromPEM([]byte(pem))
-		if err != nil {
-			return nil, fmt.Errorf("failed to load key %s: %s", keyFile, err)
-		}
-		keys[i] = key
-	}
-	if len(keys) == 0 {
-		return nil, fmt.Errorf("couldn't load public keys for JWT security")
-	}
-
-	return keys, nil
 }

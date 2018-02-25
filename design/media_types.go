@@ -5,6 +5,19 @@ import (
 	. "github.com/goadesign/goa/design/apidsl"
 )
 
+// SuccessMedia use auth
+var SuccessMedia = MediaType("application/vnd.security.success", func() {
+	Description("The common media type to all request responses for this example")
+	TypeName("Success")
+	Attributes(func() {
+		Attribute("id", Integer, "Unique user ID")
+		Required("id")
+	})
+	View("default", func() {
+		Attribute("id")
+	})
+})
+
 // User defines the media type used to render users.
 var User = MediaType("application/vnd.user+json", func() {
 	Description("user")

@@ -43,5 +43,10 @@ func (c *Client) NewListLargecategoryRequest(ctx context.Context, path string) (
 	if err != nil {
 		return nil, err
 	}
+	if c.APIKeySigner != nil {
+		if err := c.APIKeySigner.Sign(req); err != nil {
+			return nil, err
+		}
+	}
 	return req, nil
 }

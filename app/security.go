@@ -21,6 +21,20 @@ type (
 	authMiddlewareKey string
 )
 
+// UseAPIKeyMiddleware mounts the api_key auth middleware onto the service.
+func UseAPIKeyMiddleware(service *goa.Service, middleware goa.Middleware) {
+	service.Context = context.WithValue(service.Context, authMiddlewareKey("api_key"), middleware)
+}
+
+// NewAPIKeySecurity creates a api_key security definition.
+func NewAPIKeySecurity() *goa.APIKeySecurity {
+	def := goa.APIKeySecurity{
+		In:   goa.LocHeader,
+		Name: "X-Shared-Secret",
+	}
+	return &def
+}
+
 // UseJWTMiddleware mounts the jwt auth middleware onto the service.
 func UseJWTMiddleware(service *goa.Service, middleware goa.Middleware) {
 	service.Context = context.WithValue(service.Context, authMiddlewareKey("jwt"), middleware)
