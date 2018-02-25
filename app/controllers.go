@@ -136,10 +136,10 @@ func MountAuthenticationController(service *goa.Service, ctrl AuthenticationCont
 		}
 		return ctrl.Sigin(rctx)
 	}
-	h = handleSecurity("jwt", h, "api:access")
+	h = handleSecurity("api_key", h)
 	h = handleAuthenticationOrigin(h)
 	service.Mux.Handle("GET", "/v1/signin", ctrl.MuxHandler("sigin", h, unmarshalSiginAuthenticationPayload))
-	service.LogInfo("mount", "ctrl", "Authentication", "action", "Sigin", "route", "GET /v1/signin", "security", "jwt")
+	service.LogInfo("mount", "ctrl", "Authentication", "action", "Sigin", "route", "GET /v1/signin", "security", "api_key")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -159,10 +159,10 @@ func MountAuthenticationController(service *goa.Service, ctrl AuthenticationCont
 		}
 		return ctrl.Signup(rctx)
 	}
-	h = handleSecurity("jwt", h, "api:access")
+	h = handleSecurity("api_key", h)
 	h = handleAuthenticationOrigin(h)
 	service.Mux.Handle("POST", "/v1/signup", ctrl.MuxHandler("signup", h, unmarshalSignupAuthenticationPayload))
-	service.LogInfo("mount", "ctrl", "Authentication", "action", "Signup", "route", "POST /v1/signup", "security", "jwt")
+	service.LogInfo("mount", "ctrl", "Authentication", "action", "Signup", "route", "POST /v1/signup", "security", "api_key")
 }
 
 // handleAuthenticationOrigin applies the CORS response headers corresponding to the origin.

@@ -46,55 +46,45 @@ func AcceptOfferBadRequest(t goatest.TInterface, ctx context.Context, service *g
 		service.Encoder.Register(newEncoder, "*/*")
 	}
 
-	// Validate payload
-	err := payload.Validate()
-	if err != nil {
-		e, ok := err.(goa.ServiceError)
-		if !ok {
-			panic(err) // bug
-		}
-		return nil, e
-	}
-
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
 		Path: fmt.Sprintf("/v1/offers"),
 	}
-	req, _err := http.NewRequest("PUT", u.String(), nil)
-	if _err != nil {
-		panic("invalid test " + _err.Error()) // bug
+	req, err := http.NewRequest("PUT", u.String(), nil)
+	if err != nil {
+		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
 	if ctx == nil {
 		ctx = context.Background()
 	}
 	goaCtx := goa.NewContext(goa.WithAction(ctx, "OfferTest"), rw, req, prms)
-	acceptCtx, __err := app.NewAcceptOfferContext(goaCtx, req, service)
-	if __err != nil {
-		_e, _ok := __err.(goa.ServiceError)
-		if !_ok {
-			panic("invalid test data " + __err.Error()) // bug
+	acceptCtx, _err := app.NewAcceptOfferContext(goaCtx, req, service)
+	if _err != nil {
+		e, ok := _err.(goa.ServiceError)
+		if !ok {
+			panic("invalid test data " + _err.Error()) // bug
 		}
-		return nil, _e
+		return nil, e
 	}
 	acceptCtx.Payload = payload
 
 	// Perform action
-	__err = ctrl.Accept(acceptCtx)
+	_err = ctrl.Accept(acceptCtx)
 
 	// Validate response
-	if __err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", __err, logBuf.String())
+	if _err != nil {
+		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
 	}
 	if rw.Code != 400 {
 		t.Errorf("invalid response status code: got %+v, expected 400", rw.Code)
 	}
 	var mt error
 	if resp != nil {
-		var __ok bool
-		mt, __ok = resp.(error)
-		if !__ok {
+		var _ok bool
+		mt, _ok = resp.(error)
+		if !_ok {
 			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of error", resp, resp)
 		}
 	}
@@ -125,48 +115,37 @@ func AcceptOfferNoContent(t goatest.TInterface, ctx context.Context, service *go
 		service.Encoder.Register(newEncoder, "*/*")
 	}
 
-	// Validate payload
-	err := payload.Validate()
-	if err != nil {
-		e, ok := err.(goa.ServiceError)
-		if !ok {
-			panic(err) // bug
-		}
-		t.Errorf("unexpected payload validation error: %+v", e)
-		return nil
-	}
-
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
 		Path: fmt.Sprintf("/v1/offers"),
 	}
-	req, _err := http.NewRequest("PUT", u.String(), nil)
-	if _err != nil {
-		panic("invalid test " + _err.Error()) // bug
+	req, err := http.NewRequest("PUT", u.String(), nil)
+	if err != nil {
+		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
 	if ctx == nil {
 		ctx = context.Background()
 	}
 	goaCtx := goa.NewContext(goa.WithAction(ctx, "OfferTest"), rw, req, prms)
-	acceptCtx, __err := app.NewAcceptOfferContext(goaCtx, req, service)
-	if __err != nil {
-		_e, _ok := __err.(goa.ServiceError)
-		if !_ok {
-			panic("invalid test data " + __err.Error()) // bug
+	acceptCtx, _err := app.NewAcceptOfferContext(goaCtx, req, service)
+	if _err != nil {
+		e, ok := _err.(goa.ServiceError)
+		if !ok {
+			panic("invalid test data " + _err.Error()) // bug
 		}
-		t.Errorf("unexpected parameter validation error: %+v", _e)
+		t.Errorf("unexpected parameter validation error: %+v", e)
 		return nil
 	}
 	acceptCtx.Payload = payload
 
 	// Perform action
-	__err = ctrl.Accept(acceptCtx)
+	_err = ctrl.Accept(acceptCtx)
 
 	// Validate response
-	if __err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", __err, logBuf.String())
+	if _err != nil {
+		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
 	}
 	if rw.Code != 204 {
 		t.Errorf("invalid response status code: got %+v, expected 204", rw.Code)
@@ -198,48 +177,37 @@ func AcceptOfferNotFound(t goatest.TInterface, ctx context.Context, service *goa
 		service.Encoder.Register(newEncoder, "*/*")
 	}
 
-	// Validate payload
-	err := payload.Validate()
-	if err != nil {
-		e, ok := err.(goa.ServiceError)
-		if !ok {
-			panic(err) // bug
-		}
-		t.Errorf("unexpected payload validation error: %+v", e)
-		return nil
-	}
-
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
 		Path: fmt.Sprintf("/v1/offers"),
 	}
-	req, _err := http.NewRequest("PUT", u.String(), nil)
-	if _err != nil {
-		panic("invalid test " + _err.Error()) // bug
+	req, err := http.NewRequest("PUT", u.String(), nil)
+	if err != nil {
+		panic("invalid test " + err.Error()) // bug
 	}
 	prms := url.Values{}
 	if ctx == nil {
 		ctx = context.Background()
 	}
 	goaCtx := goa.NewContext(goa.WithAction(ctx, "OfferTest"), rw, req, prms)
-	acceptCtx, __err := app.NewAcceptOfferContext(goaCtx, req, service)
-	if __err != nil {
-		_e, _ok := __err.(goa.ServiceError)
-		if !_ok {
-			panic("invalid test data " + __err.Error()) // bug
+	acceptCtx, _err := app.NewAcceptOfferContext(goaCtx, req, service)
+	if _err != nil {
+		e, ok := _err.(goa.ServiceError)
+		if !ok {
+			panic("invalid test data " + _err.Error()) // bug
 		}
-		t.Errorf("unexpected parameter validation error: %+v", _e)
+		t.Errorf("unexpected parameter validation error: %+v", e)
 		return nil
 	}
 	acceptCtx.Payload = payload
 
 	// Perform action
-	__err = ctrl.Accept(acceptCtx)
+	_err = ctrl.Accept(acceptCtx)
 
 	// Validate response
-	if __err != nil {
-		t.Fatalf("controller returned %+v, logs:\n%s", __err, logBuf.String())
+	if _err != nil {
+		t.Fatalf("controller returned %+v, logs:\n%s", _err, logBuf.String())
 	}
 	if rw.Code != 404 {
 		t.Errorf("invalid response status code: got %+v, expected 404", rw.Code)

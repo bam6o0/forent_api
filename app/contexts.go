@@ -898,17 +898,12 @@ func NewAcceptOfferContext(ctx context.Context, r *http.Request, service *goa.Se
 type acceptOfferPayload struct {
 	// offer ID
 	OfferID *int `form:"offer_id,omitempty" json:"offer_id,omitempty" xml:"offer_id,omitempty"`
-	// owner ID
-	OwnerID *int `form:"owner_id,omitempty" json:"owner_id,omitempty" xml:"owner_id,omitempty"`
 }
 
 // Validate runs the validation rules defined in the design.
 func (payload *acceptOfferPayload) Validate() (err error) {
 	if payload.OfferID == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "offer_id"))
-	}
-	if payload.OwnerID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "owner_id"))
 	}
 	return
 }
@@ -919,9 +914,6 @@ func (payload *acceptOfferPayload) Publicize() *AcceptOfferPayload {
 	if payload.OfferID != nil {
 		pub.OfferID = *payload.OfferID
 	}
-	if payload.OwnerID != nil {
-		pub.OwnerID = *payload.OwnerID
-	}
 	return &pub
 }
 
@@ -929,14 +921,6 @@ func (payload *acceptOfferPayload) Publicize() *AcceptOfferPayload {
 type AcceptOfferPayload struct {
 	// offer ID
 	OfferID int `form:"offer_id" json:"offer_id" xml:"offer_id"`
-	// owner ID
-	OwnerID int `form:"owner_id" json:"owner_id" xml:"owner_id"`
-}
-
-// Validate runs the validation rules defined in the design.
-func (payload *AcceptOfferPayload) Validate() (err error) {
-
-	return
 }
 
 // NoContent sends a HTTP response with status code 204.
@@ -989,15 +973,10 @@ type createOfferPayload struct {
 	Price *int `form:"price,omitempty" json:"price,omitempty" xml:"price,omitempty"`
 	// rental start at
 	StartAt *time.Time `form:"start_at,omitempty" json:"start_at,omitempty" xml:"start_at,omitempty"`
-	// offer user id
-	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 }
 
 // Validate runs the validation rules defined in the design.
 func (payload *createOfferPayload) Validate() (err error) {
-	if payload.UserID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
-	}
 	if payload.ItemID == nil {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "item_id"))
 	}
@@ -1028,9 +1007,6 @@ func (payload *createOfferPayload) Publicize() *CreateOfferPayload {
 	if payload.StartAt != nil {
 		pub.StartAt = *payload.StartAt
 	}
-	if payload.UserID != nil {
-		pub.UserID = *payload.UserID
-	}
 	return &pub
 }
 
@@ -1044,8 +1020,6 @@ type CreateOfferPayload struct {
 	Price int `form:"price" json:"price" xml:"price"`
 	// rental start at
 	StartAt time.Time `form:"start_at" json:"start_at" xml:"start_at"`
-	// offer user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // Validate runs the validation rules defined in the design.
@@ -1092,14 +1066,12 @@ func NewListOfferContext(ctx context.Context, r *http.Request, service *goa.Serv
 type listOfferPayload struct {
 	// offer ID
 	OfferID *int `form:"offer_id,omitempty" json:"offer_id,omitempty" xml:"offer_id,omitempty"`
-	// user ID
-	UserID *int `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 }
 
 // Validate runs the validation rules defined in the design.
 func (payload *listOfferPayload) Validate() (err error) {
-	if payload.UserID == nil {
-		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "user_id"))
+	if payload.OfferID == nil {
+		err = goa.MergeErrors(err, goa.MissingAttributeError(`raw`, "offer_id"))
 	}
 	return
 }
@@ -1108,10 +1080,7 @@ func (payload *listOfferPayload) Validate() (err error) {
 func (payload *listOfferPayload) Publicize() *ListOfferPayload {
 	var pub ListOfferPayload
 	if payload.OfferID != nil {
-		pub.OfferID = payload.OfferID
-	}
-	if payload.UserID != nil {
-		pub.UserID = *payload.UserID
+		pub.OfferID = *payload.OfferID
 	}
 	return &pub
 }
@@ -1119,9 +1088,7 @@ func (payload *listOfferPayload) Publicize() *ListOfferPayload {
 // ListOfferPayload is the offer list action payload.
 type ListOfferPayload struct {
 	// offer ID
-	OfferID *int `form:"offer_id,omitempty" json:"offer_id,omitempty" xml:"offer_id,omitempty"`
-	// user ID
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
+	OfferID int `form:"offer_id" json:"offer_id" xml:"offer_id"`
 }
 
 // OK sends a HTTP response with status code 200.

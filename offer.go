@@ -46,32 +46,26 @@ func (c *OfferController) Create(ctx *app.CreateOfferContext) error {
 	}
 
 	if claims, ok := token.Claims.(jwtgo.MapClaims); ok && token.Valid {
-		//var authID = float64(payload.UserID)
-		if claims["user_id"] != float64(payload.UserID) {
-			errID := errors.New("id error")
-			return ctx.BadRequest(errID)
+		item, _ := ItemDB.OneItem(ctx.Context, payload.ItemID, 0, 0, 0)
+
+		if userID, ok := claims["user_id"].(float64); ok {
+			offer := models.Offer{}
+			offer.UserID = int(userID)
+			offer.ItemID = payload.ItemID
+			offer.OwnerID = item.UserID
+			offer.Price = payload.Price
+			offer.StartAt = payload.StartAt
+			offer.EndAt = payload.EndAt
+
+			err := OfferDB.Add(ctx.Context, &offer)
+			if err != nil {
+				return ErrDatabaseError(err)
+			}
+			return ctx.Created()
 		}
-	} else {
-		errID := errors.New("id error")
-		return ctx.BadRequest(errID)
 	}
-
-	item, _ := ItemDB.OneItem(ctx.Context, payload.ItemID, 0, 0, 0)
-
-	offer := models.Offer{}
-	offer.UserID = payload.UserID
-	offer.ItemID = payload.ItemID
-	offer.OwnerID = item.UserID
-	offer.Price = payload.Price
-	offer.StartAt = payload.StartAt
-	offer.EndAt = payload.EndAt
-
-	err := OfferDB.Add(ctx.Context, &offer)
-	if err != nil {
-		return ErrDatabaseError(err)
-	}
-	return ctx.Created()
-
+	errID := errors.New("id error")
+	return ctx.BadRequest(errID)
 }
 
 // List runs the list action.
@@ -83,32 +77,27 @@ func (c *OfferController) List(ctx *app.ListOfferContext) error {
 		return fmt.Errorf("JWT token is missing from context") // internal error
 	}
 	if claims, ok := token.Claims.(jwtgo.MapClaims); ok && token.Valid {
-		//var authID = float64(payload.UserID)
-		if claims["user_id"] != float64(payload.UserID) {
-			errID := errors.New("id error")
-			return ctx.BadRequest(errID)
-		}
-	} else {
-		errID := errors.New("id error")
-		return ctx.BadRequest(errID)
-	}
+		if userID, ok := claims["user_id"].(float64); ok {
+			// input offer id
+			if payload.OfferID != 0 {
+				var objs []*app.Offer
+				offer, _ := OfferDB.OneOffer(ctx.Context, payload.OfferID, 0, 0)
 
-	if *payload.OfferID != 0 {
-		var objs []*app.Offer
-		offer, _ := OfferDB.OneOffer(ctx.Context, *payload.OfferID, 0, 0)
+				if offer.UserID != int(userID) && offer.OwnerID != int(userID) {
+					errID := errors.New("id error")
+					return ctx.BadRequest(errID)
+				}
+				objs = append(objs, offer)
+				return ctx.OK(objs)
+			}
 
-		if offer.UserID != payload.UserID && offer.OwnerID != payload.UserID {
-			errID := errors.New("id error")
-			return ctx.BadRequest(errID)
+			offeres := OfferDB.ListOffer(ctx.Context, 0, int(userID))
+			return ctx.OK(offeres)
 		}
-		objs = append(objs, offer)
-		return ctx.OK(objs)
 	}
-	if *payload.OfferID == 0 && payload.UserID == 0 {
-		return ctx.NotFound()
-	}
-	offeres := OfferDB.ListOffer(ctx.Context, 0, payload.UserID)
-	return ctx.OK(offeres)
+	errID := errors.New("id error")
+	return ctx.BadRequest(errID)
+
 }
 
 // Accept runs the accept action.
@@ -121,32 +110,25 @@ func (c *OfferController) Accept(ctx *app.AcceptOfferContext) error {
 	}
 
 	if claims, ok := token.Claims.(jwtgo.MapClaims); ok && token.Valid {
-		//var authID = float64(payload.UserID)
-		if claims["user_id"] != float64(payload.OwnerID) {
-			errID := errors.New("id error")
-			return ctx.BadRequest(errID)
+		if userID, ok := claims["user_id"].(float64); ok {
+
+			offer, err := OfferDB.Get(ctx.Context, payload.OfferID)
+			if err == gorm.ErrRecordNotFound {
+				return ctx.NotFound()
+			}
+			if offer.OwnerID != int(userID) {
+				errID := errors.New("id error")
+				return ctx.BadRequest(errID)
+			}
+
+			offer.Accepted = true
+			err = OfferDB.Update(ctx, offer)
+			if err != nil {
+				return ErrDatabaseError(err)
+			}
+			return ctx.NoContent()
 		}
-	} else {
-		errID := errors.New("id error")
-		return ctx.BadRequest(errID)
 	}
-
-	offer, err := OfferDB.Get(ctx.Context, payload.OfferID)
-	if err == gorm.ErrRecordNotFound {
-		return ctx.NotFound()
-	}
-	if offer.OwnerID != payload.OwnerID {
-		errID := errors.New("id error")
-		return ctx.BadRequest(errID)
-	}
-
-	offer.Accepted = true
-
-	err = OfferDB.Update(ctx, offer)
-	if err != nil {
-		return ErrDatabaseError(err)
-	}
-
-	return ctx.NoContent()
-
+	errID := errors.New("id error")
+	return ctx.BadRequest(errID)
 }

@@ -23,8 +23,6 @@ import (
 type AcceptOfferPayload struct {
 	// offer ID
 	OfferID int `form:"offer_id" json:"offer_id" xml:"offer_id"`
-	// owner ID
-	OwnerID int `form:"owner_id" json:"owner_id" xml:"owner_id"`
 }
 
 // AcceptOfferPath computes a request path to the accept action of offer.
@@ -85,8 +83,6 @@ type CreateOfferPayload struct {
 	Price int `form:"price" json:"price" xml:"price"`
 	// rental start at
 	StartAt time.Time `form:"start_at" json:"start_at" xml:"start_at"`
-	// offer user id
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
 }
 
 // CreateOfferPath computes a request path to the create action of offer.
@@ -140,9 +136,7 @@ func (c *Client) NewCreateOfferRequest(ctx context.Context, path string, payload
 // ListOfferPayload is the offer list action payload.
 type ListOfferPayload struct {
 	// offer ID
-	OfferID *int `form:"offer_id,omitempty" json:"offer_id,omitempty" xml:"offer_id,omitempty"`
-	// user ID
-	UserID int `form:"user_id" json:"user_id" xml:"user_id"`
+	OfferID int `form:"offer_id" json:"offer_id" xml:"offer_id"`
 }
 
 // ListOfferPath computes a request path to the list action of offer.
