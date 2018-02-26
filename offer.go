@@ -81,7 +81,7 @@ func (c *OfferController) List(ctx *app.ListOfferContext) error {
 			// input offer id
 			var objs []*app.Offer
 			if payload.OfferID != 0 {
-				offer, _ := OfferDB.OneOffer(ctx.Context, payload.OfferID, 0, 0)
+				offer, _ := OfferDB.OneOfferByID(ctx.Context, payload.OfferID)
 
 				if offer.UserID == int(userID) {
 					profile, _ := ProfileDB.OneProfilebyUseID(ctx.Context, offer.OwnerID)
@@ -99,7 +99,7 @@ func (c *OfferController) List(ctx *app.ListOfferContext) error {
 				return ctx.BadRequest(errID)
 			}
 
-			offeres := OfferDB.ListOfferPreload(ctx.Context, 0, int(userID))
+			offeres := OfferDB.ListOfferPreload(ctx.Context, int(userID))
 
 			for _, offer := range offeres {
 				if offer.UserID == int(userID) {
