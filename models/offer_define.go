@@ -34,23 +34,15 @@ func (m *OfferDB) ListOfferPreload(ctx context.Context, userID int) []*app.Offer
 
 	var objs []*app.Offer
 	errUser := m.Db.Scopes(OfferFilterByUser(userID, m.Db)).Table(m.TableName()).Preload("Item").Find(&nativeUser).Error
+	errOwner := m.Db.Scopes(OfferFilterByOwner(userID, m.Db)).Table(m.TableName()).Preload("Item").Find(&nativeOwner).Error
 
-	if errUser != nil {
+	if errUser != nil || errOwner != nil {
 		goa.LogError(ctx, "error listing Offer", "error", errUser.Error())
 		return objs
 	}
 
 	for _, t := range nativeUser {
 		objs = append(objs, t.OfferToOffer())
-	}
-
-	errOwner := m.Db.Scopes(OfferFilterByOwner(userID, m.Db)).Table(m.TableName()).Preload("Item").Find(&nativeOwner).Error
-	for _, t := range nativeOwner {
-		objs = append(objs, t.OfferToOffer())
-	}
-	if errOwner != nil {
-		goa.LogError(ctx, "error listing Offer", "error", errOwner.Error())
-		return objs
 	}
 
 	for _, t := range nativeOwner {
